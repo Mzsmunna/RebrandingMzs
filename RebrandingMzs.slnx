@@ -35,7 +35,9 @@
   <Folder Name="/skills/dal/ado.net/" />
   <Folder Name="/skills/dal/dapper/" />
   <Folder Name="/skills/dal/efcore/" />
+  <Folder Name="/skills/dal/elastic_search/" />
   <Folder Name="/skills/dal/mongodb/" />
+  <Folder Name="/skills/dal/redis/" />
   <Folder Name="/skills/dsa/" />
   <Folder Name="/skills/microservices/" />
   <Folder Name="/skills/queues/" />
