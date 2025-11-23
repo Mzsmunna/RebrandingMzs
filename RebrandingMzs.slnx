@@ -1,7 +1,13 @@
 <Solution>
   <Folder Name="/apps/" />
   <Folder Name="/apps/tasker/" />
-  <Folder Name="/apps/tasker/src/" />
+  <Folder Name="/apps/tasker/src/">
+    <Project Path="apps/tasker/src/TaskerApp/TaskerApp.csproj" Id="8ab92a9b-3d15-4a96-94fc-c65e52939b29" />
+    <Project Path="apps/tasker/src/TaskerDomain/TaskerDomain.csproj" Id="e4bad104-44c9-4bda-8820-e0e8743e3be2" />
+    <Project Path="apps/tasker/src/TaskerInfrastructure/TaskerInfrastructure.csproj" Id="b9c6afe4-47ce-404f-9a54-9530302f1e0e" />
+    <Project Path="apps/tasker/src/TaskerPersistence/TaskerPersistence.csproj" Id="d989358f-10f1-429d-ada8-3ed5790a4f65" />
+    <Project Path="apps/tasker/src/TaskerPresentation/TaskerPresentation.csproj" Id="4b77713c-0aa1-4733-a5d6-02fb918c4022" />
+  </Folder>
   <Folder Name="/apps/tasker/tests/" />
   <Folder Name="/knowledge/" />
   <Folder Name="/pocs/" />
