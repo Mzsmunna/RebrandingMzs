@@ -2,7 +2,7 @@
   <Folder Name="/apps/" />
   <Folder Name="/apps/tasker/" />
   <Folder Name="/apps/tasker/src/">
-    <Project Path="apps/tasker/src/Tasker.App/Tasker.App.csproj" Id="b7ed1b75-9698-46b8-aa6a-3e34dfb5221f" />
+    <Project Path="apps/tasker/src/Tasker.Application/Tasker.Application.csproj" Id="5c485197-9466-4345-8fa7-2c9c19fadec0" />
     <Project Path="apps/tasker/src/Tasker.Domain/Tasker.Domain.csproj" Id="e4bad104-44c9-4bda-8820-e0e8743e3be2" />
     <Project Path="apps/tasker/src/Tasker.Infrastructure/Tasker.Infrastructure.csproj" Id="b9c6afe4-47ce-404f-9a54-9530302f1e0e" />
     <Project Path="apps/tasker/src/Tasker.Persistence/Tasker.Persistence.csproj" Id="d989358f-10f1-429d-ada8-3ed5790a4f65" />
