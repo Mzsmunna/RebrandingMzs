@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -8,7 +9,7 @@ namespace TaskerDomain.Models
 {
     public class ModifiedField
     {
-        //[BsonIgnore]
+        [BsonIgnore]
         public required PropertyInfo PropertyInfo { get; set; }
         public required string PropertyType { get; set; }
         public required string EntityName { get; set; }
@@ -16,7 +17,7 @@ namespace TaskerDomain.Models
         public required string CustomPropertyName { get; set; }
         public required string CurrentValue { get; set; }
         public required string PreviousValue { get; set; }
-        public required string CustomCurrentValue { get; set; }
-        public required string CustomPreviousValue { get; set; }
+        public string? CustomCurrentValue { get; set; }
+        public string? CustomPreviousValue { get; set; }
     }
 }
