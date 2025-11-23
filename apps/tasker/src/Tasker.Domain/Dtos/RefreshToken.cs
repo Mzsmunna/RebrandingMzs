@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TaskerDomain.Dtos
+namespace Tasker.Domain.Dtos
 {
     public class RefreshToken
     {

@@ -1,6 +1,6 @@
-﻿using TaskerDomain.Models;
+﻿using Tasker.Domain.Models;
 
-namespace TaskerDomain.Entities
+namespace Tasker.Domain.Entities
 {
     public class IEntity
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TaskerDomain.Entities;
+using Tasker.Domain.Entities;
 
 namespace Tasker.Persistence.DAL.MongoDB.Helper
 {

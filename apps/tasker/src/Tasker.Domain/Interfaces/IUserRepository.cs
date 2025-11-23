@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TaskerDomain.Entities;
-using TaskerDomain.Models;
+using Tasker.Domain.Entities;
+using Tasker.Domain.Models;
 
-namespace TaskerDomain.Interfaces
+namespace Tasker.Domain.Interfaces
 {
     public interface IUserRepository
     {

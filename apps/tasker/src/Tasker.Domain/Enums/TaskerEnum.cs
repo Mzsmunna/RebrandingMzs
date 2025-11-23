@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TaskerDomain.Enums
+namespace Tasker.Domain.Enums
 {
     public enum CasingType
     {

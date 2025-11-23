@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TaskerDomain.Models
+namespace Tasker.Domain.Models
 {
     public class Field
     {

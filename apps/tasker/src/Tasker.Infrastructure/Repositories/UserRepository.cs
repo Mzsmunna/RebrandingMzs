@@ -7,9 +7,9 @@ using System.Text;
 using Tasker.Persistence.DAL.MongoDB;
 using Tasker.Persistence.DAL.MongoDB.Configs;
 using Tasker.Persistence.DAL.MongoDB.Helper;
-using TaskerDomain.Entities;
-using TaskerDomain.Interfaces;
-using TaskerDomain.Models;
+using Tasker.Domain.Entities;
+using Tasker.Domain.Interfaces;
+using Tasker.Domain.Models;
 
 namespace Tasker.Infrastructure.Repositories
 {

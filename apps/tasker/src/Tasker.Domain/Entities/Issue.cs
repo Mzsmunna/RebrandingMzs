@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TaskerDomain.Entities
+namespace Tasker.Domain.Entities
 {
     public class Issue : IEntity
     {

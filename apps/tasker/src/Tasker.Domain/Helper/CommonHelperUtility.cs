@@ -5,8 +5,8 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using TaskerDomain.Enums;
-using TaskerDomain.Models;
+using Tasker.Domain.Enums;
+using Tasker.Domain.Models;
 using Newtonsoft.Json;
 
 namespace Tasker.Domain.Helper

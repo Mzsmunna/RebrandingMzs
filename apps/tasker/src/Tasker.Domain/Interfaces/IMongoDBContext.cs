@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TaskerDomain.Interfaces
+namespace Tasker.Domain.Interfaces
 {
     public interface IMongoDBContext
     {

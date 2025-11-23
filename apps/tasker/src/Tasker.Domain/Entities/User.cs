@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace TaskerDomain.Entities
+namespace Tasker.Domain.Entities
 {
     public class User : IEntity
     {

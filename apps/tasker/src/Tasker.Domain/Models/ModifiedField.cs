@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace TaskerDomain.Models
+namespace Tasker.Domain.Models
 {
     public class ModifiedField
     {

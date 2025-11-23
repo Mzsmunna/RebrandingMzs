@@ -1,4 +1,4 @@
-﻿namespace TaskerPresentation
+﻿namespace Tasker.Presentation
 {
     public abstract class IEntity
     {
