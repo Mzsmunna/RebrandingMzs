@@ -1,0 +1,6 @@
+@Tasker.RestAPI_HostAddress = http://localhost:5287
+
+GET {{Tasker.RestAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -6,7 +6,9 @@
     <Project Path="apps/tasker/src/Tasker.Domain/Tasker.Domain.csproj" Id="e4bad104-44c9-4bda-8820-e0e8743e3be2" />
     <Project Path="apps/tasker/src/Tasker.Infrastructure/Tasker.Infrastructure.csproj" Id="b9c6afe4-47ce-404f-9a54-9530302f1e0e" />
     <Project Path="apps/tasker/src/Tasker.Persistence/Tasker.Persistence.csproj" Id="d989358f-10f1-429d-ada8-3ed5790a4f65" />
-    <Project Path="apps/tasker/src/Tasker.Presentation/Tasker.Presentation.csproj" Id="4b77713c-0aa1-4733-a5d6-02fb918c4022" />
+  </Folder>
+  <Folder Name="/apps/tasker/src/Tasker.Presentation/">
+    <Project Path="apps/tasker/src/Tasker.Presentation/Tasker.RestAPI/Tasker.RestAPI.csproj" />
   </Folder>
   <Folder Name="/apps/tasker/tests/" />
   <Folder Name="/knowledge/" />
@@ -73,4 +75,6 @@
   <Folder Name="/skills/ui/tailwind/" />
   <Folder Name="/skills/ui/winforrms/" />
   <Folder Name="/skills/ui/wpf/" />
+  <Project Path="RebrandingMzs.AppHost/RebrandingMzs.AppHost.csproj" Id="79810ad9-5e92-4e07-83ba-b956c4860c74" />
+  <Project Path="RebrandingMzs.ServiceDefaults/RebrandingMzs.ServiceDefaults.csproj" />
 </Solution>
