@@ -4,11 +4,14 @@
   <Folder Name="/apps/tasker/src/" />
   <Folder Name="/apps/tasker/tests/" />
   <Folder Name="/knowledge/" />
+  <Folder Name="/pocs/" />
   <Folder Name="/skills/" />
   <Folder Name="/skills/ai/" />
   <Folder Name="/skills/ai/agentic_ai/" />
   <Folder Name="/skills/ai/ai_agent/" />
   <Folder Name="/skills/ai/gen_ai/" />
+  <Folder Name="/skills/ai/ml/" />
+  <Folder Name="/skills/ai/nn/" />
   <Folder Name="/skills/ai/rag/" />
   <Folder Name="/skills/api/" />
   <Folder Name="/skills/api/gateway/" />
@@ -40,6 +43,7 @@
   <Folder Name="/skills/dal/redis/" />
   <Folder Name="/skills/dsa/" />
   <Folder Name="/skills/microservices/" />
+  <Folder Name="/skills/nugets/" />
   <Folder Name="/skills/queues/" />
   <Folder Name="/skills/queues/kafka/" />
   <Folder Name="/skills/queues/rabbit_mq/" />
@@ -60,6 +64,7 @@
   <Folder Name="/skills/ui/angular/" />
   <Folder Name="/skills/ui/blazor/" />
   <Folder Name="/skills/ui/flutter/" />
+  <Folder Name="/skills/ui/tailwind/" />
   <Folder Name="/skills/ui/winforrms/" />
   <Folder Name="/skills/ui/wpf/" />
 </Solution>
