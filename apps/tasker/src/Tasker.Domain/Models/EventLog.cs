@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Tasker.Domain.Models
 {
-    public class Event
+    public class EventLog
     {
-        public required string Id { get; set; }
-        public required string By { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string By { get; set; } = string.Empty; // user id, system, etc.
         public DateTime At { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;  
         public string? Name { get; set; }
         public string? Image { get; set; } 
