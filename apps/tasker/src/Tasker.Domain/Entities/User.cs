@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -23,18 +24,18 @@ namespace Tasker.Domain.Entities
         public string Role { get; set; } = string.Empty;
         public bool? IsActive { get; set; } = false;
 
-        //[BsonIgnore]
-        //public byte[]? PasswordHash { get; set; }
+        [BsonIgnore]
+        public byte[]? PasswordHash { get; set; }
 
-        //[BsonIgnore]
-        //public byte[]? PasswordSalt { get; set; }
+        [BsonIgnore]
+        public byte[]? PasswordSalt { get; set; }
 
-        //[BsonIgnore]
-        //public DateTime? TokenCreated { get; set; }
+        [BsonIgnore]
+        public DateTime? TokenCreated { get; set; }
 
-        //[BsonIgnore]
-        //public DateTime? TokenExpires { get; set; }
+        [BsonIgnore]
+        public DateTime? TokenExpires { get; set; }
 
-        //public string RefreshToken { get; set; } = string.Empty;
+        public string RefreshToken { get; set; } = string.Empty;
     }
 }
