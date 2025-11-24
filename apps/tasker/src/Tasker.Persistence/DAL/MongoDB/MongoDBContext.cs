@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tasker.Application.Interfaces;
 using Tasker.Persistence.DAL.MongoDB.Configs;
-using Tasker.Domain.Interfaces;
 
 namespace Tasker.Persistence.DAL.MongoDB
 {

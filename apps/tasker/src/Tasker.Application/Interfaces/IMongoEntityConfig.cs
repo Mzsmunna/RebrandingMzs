@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Domain.Interfaces
+namespace Tasker.Application.Interfaces
 {
     public interface IMongoEntityConfig
     {

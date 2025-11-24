@@ -8,8 +8,8 @@ using Tasker.Persistence.DAL.MongoDB;
 using Tasker.Persistence.DAL.MongoDB.Configs;
 using Tasker.Persistence.DAL.MongoDB.Helper;
 using Tasker.Domain.Entities;
-using Tasker.Domain.Interfaces;
 using Tasker.Domain.Models;
+using Tasker.Application.Interfaces;
 
 namespace Tasker.Infrastructure.Repositories
 {

@@ -6,7 +6,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System.Text;
-using Tasker.Application.Dependencies;
+using Tasker.Application;
+using Tasker.Infrastructure;
+using Tasker.Persistence;
 
 namespace Tasker.RestAPI;
 
@@ -22,7 +24,9 @@ public class Program
 
         builder.Services.AddCors();
         builder.Services.AddHttpContextAccessor();
-        builder.Services.AddTaskerAppDependencies(_configuration);
+        builder.Services.AddTaskerApplication(_configuration)
+            .AddTaskerInfrastructure(_configuration)
+            .AddTaskerPersistence(_configuration);
 
         builder.Services.AddControllers(options =>
         {

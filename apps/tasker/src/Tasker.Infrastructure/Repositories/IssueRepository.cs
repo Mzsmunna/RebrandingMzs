@@ -4,12 +4,12 @@ using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tasker.Application.Interfaces;
+using Tasker.Domain.Entities;
+using Tasker.Domain.Models;
 using Tasker.Persistence.DAL.MongoDB;
 using Tasker.Persistence.DAL.MongoDB.Configs;
 using Tasker.Persistence.DAL.MongoDB.Helper;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Interfaces;
-using Tasker.Domain.Models;
 
 namespace Tasker.Infrastructure.Repositories
 {

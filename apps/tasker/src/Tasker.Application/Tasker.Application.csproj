@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tasker.Infrastructure\Tasker.Infrastructure.csproj" />
-    <ProjectReference Include="..\Tasker.Persistence\Tasker.Persistence.csproj" />
+    <ProjectReference Include="..\Tasker.Domain\Tasker.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,6 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Configs\" />
+    <Folder Include="Aggregates\" />
+    <Folder Include="Events\" />
+    <Folder Include="Logics\" />
+    <Folder Include="Constants\" />
   </ItemGroup>
 
   <ItemGroup>

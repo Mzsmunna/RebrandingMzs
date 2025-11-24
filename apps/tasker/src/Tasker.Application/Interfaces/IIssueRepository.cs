@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Principal;
 using System.Text;
 using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
 
-namespace Tasker.Domain.Interfaces
+namespace Tasker.Application.Interfaces
 {
     public interface IIssueRepository
     {

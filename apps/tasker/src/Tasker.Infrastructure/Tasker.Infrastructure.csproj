@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tasker.Application\Tasker.Application.csproj" />
     <ProjectReference Include="..\Tasker.Persistence\Tasker.Persistence.csproj" />
   </ItemGroup>
 

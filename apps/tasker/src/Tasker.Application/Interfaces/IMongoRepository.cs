@@ -4,7 +4,7 @@ using System.Text;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 
-namespace Tasker.Domain.Interfaces
+namespace Tasker.Application.Interfaces
 {
     internal interface IMongoRepository
     {

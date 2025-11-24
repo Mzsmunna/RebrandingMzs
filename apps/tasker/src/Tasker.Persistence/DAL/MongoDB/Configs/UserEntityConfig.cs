@@ -4,8 +4,8 @@ using MongoDB.Bson.Serialization.Serializers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
-using Tasker.Domain.Interfaces;
 
 namespace Tasker.Persistence.DAL.MongoDB.Configs
 {
