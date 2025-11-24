@@ -13,15 +13,22 @@ namespace Tasker.Application
     {
         public static IServiceCollection AddTaskerApplication(this IServiceCollection services, IConfiguration configuration)
         {
-            AddTaskerAppConfigs(services, configuration);
+            AddTaskerExceptions(services, configuration);
             AddAppRepositories(services);
             AddTaskerAppServices(services);
             return services;
         }
 
-        private static void AddTaskerAppConfigs(IServiceCollection services, IConfiguration configuration)
+        private static void AddTaskerExceptions(IServiceCollection services, IConfiguration configuration)
         {
-            
+            services.AddProblemDetails(conf =>
+            {
+                conf.CustomizeProblemDetails = cntxt =>
+                {
+                    cntxt.ProblemDetails.Extensions.TryAdd("requestId", cntxt.HttpContext.TraceIdentifier);
+                };
+            });
+            services.AddExceptionHandler<GlobalExceptionHandler>();
         }
 
         private static void AddAppRepositories(IServiceCollection services)

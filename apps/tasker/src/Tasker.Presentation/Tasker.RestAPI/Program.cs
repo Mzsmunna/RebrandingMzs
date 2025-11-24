@@ -18,7 +18,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
-
+ 
         // Add services to the container.
         IConfiguration _configuration = builder.Configuration;
 
@@ -76,6 +76,8 @@ public class Program
         {
             app.UseCors();
         }
+
+        app.UseExceptionHandler();
 
         app.UseDefaultFiles();
 
