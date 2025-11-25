@@ -1,10 +1,12 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using Scalar.AspNetCore;
 using System.Text;
 using Tasker.Application;
 using Tasker.Infrastructure;
@@ -66,8 +68,11 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
-            //app.UseSwagger();
-            //app.UseSwaggerUI();
+            app.MapScalarApiReference();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI V1");
+            });
             app.UseCors(options =>
                 options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
             );
