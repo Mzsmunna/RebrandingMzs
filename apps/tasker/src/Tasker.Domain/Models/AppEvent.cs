@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tasker.Domain.Models
 {
-    public class EventLog
+    public class AppEvent
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string By { get; set; } = string.Empty; // user id, system, etc.

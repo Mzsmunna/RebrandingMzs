@@ -62,9 +62,9 @@ namespace Tasker.RestAPI.Controllers
 
         [HttpDelete, Authorize]
         //[ActionName("Issues")]
-        public IActionResult DeleteIssue(string issueId)
+        public IActionResult DeleteIssue(string id)
         {
-            var users = _IssueRepository.DeleteById(issueId);
+            var users = _IssueRepository.DeleteById(id);
             return Ok(users);
         }
 
@@ -155,7 +155,7 @@ namespace Tasker.RestAPI.Controllers
             if (issue != null)
             {
                 if (issue.Created == null)
-                    issue.Created = new EventLog();
+                    issue.Created = new AppEvent();
 
                 if (string.IsNullOrEmpty(issue.Id))
                     issue.Created.At = DateTime.UtcNow;
