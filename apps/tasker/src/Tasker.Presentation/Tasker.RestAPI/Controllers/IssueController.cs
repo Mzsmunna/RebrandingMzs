@@ -9,8 +9,8 @@ namespace Tasker.RestAPI.Controllers
 {
     [Authorize]
     [ApiController]
-    //[Route("[controller]")]
-    [Route("api/[controller]/[action]")]
+    [Route("[controller]")]
+    //[Route("api/[controller]/[action]")]
     public class IssueController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -29,9 +29,128 @@ namespace Tasker.RestAPI.Controllers
             _userRepository = userRepository;
         }
 
+        [HttpGet]
+        //[ActionName("Issues")]
+        public IActionResult AllIssues(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        {
+            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries).Result;
+            return Ok(Issues);
+        }
+
+        [HttpGet("{id}")]
+        //[ActionName("Issues")]
+        public IActionResult GetIssue(string id)
+        {
+            var Issues = _IssueRepository.GetById(id).Result;
+            return Ok(Issues);
+        }
+
         [HttpPost]
-        [ActionName("SaveIssue")]
-        public IActionResult SaveIssue(Issue issue)
+        //[ActionName("Issues")]
+        public IActionResult CreateIssue(Issue issue)
+        {
+            return SaveIssue(issue);
+        }
+
+        [HttpPut]
+        //[ActionName("Issues")]
+        public IActionResult UpdateIssue(Issue issue)
+        {
+            return SaveIssue(issue);
+        }
+
+        [HttpDelete, Authorize]
+        //[ActionName("Issues")]
+        public IActionResult DeleteIssue(string issueId)
+        {
+            var users = _IssueRepository.DeleteById(issueId);
+            return Ok(users);
+        }
+
+        [HttpGet("count/{searchQueries?}")]
+        //[ActionName("Count")]
+        public IActionResult IssuesCount(string searchQueries)
+        {
+            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            var Issues = _IssueRepository.GetAllIssueCount(queries).Result;
+            return Ok(Issues);
+        }
+
+        [HttpGet("status/{userId}")]
+        //[ActionName("Status")]
+        public IActionResult IssuesStatus(string userId)
+        {
+            var Issues = _IssueRepository.GetIssueStatByUserId(userId);
+            return Ok(Issues);
+        }
+
+        [HttpGet("byAssignerCount/{searchQueries?}")]
+        //[ActionName("GetIssuesByAssignerCount")]
+        public IActionResult GetIssuesByAssignerCount(string searchQueries)
+        {
+            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
+            {
+                var issueCount = _IssueRepository.GetAllIssueCount(queries);
+                return Ok(issueCount);
+            }
+            else
+            {
+                return Ok(0);
+            }
+        }
+
+        [HttpGet("byAssigner")]
+        //[ActionName("GetIssuesByAssigner")]
+        public IActionResult GeIssuesByAssigner(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        {
+            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
+            {
+                var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries);
+                return Ok(Issues);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("byAssignedCount/{searchQueries?}")]
+        //[ActionName("GetIssuesByAssignedCount")]
+        public IActionResult GetAllIssuesByAssignedCount(string searchQueries)
+        {
+            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
+            {
+                var issueCount = _IssueRepository.GetAllIssueCount(queries);
+                return Ok(issueCount);
+            }
+            else
+            {
+                return Ok(0);
+            }
+        }
+
+        [HttpGet("byAssigned")]
+        //[ActionName("GetIssuesByAssigned")]
+        public IActionResult GetIssuesByAssigned(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        {
+            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
+            {
+                var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries);
+                return Ok(Issues);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        //---
+        private IActionResult SaveIssue(Issue issue)
         {
             if (issue != null)
             {
@@ -64,110 +183,11 @@ namespace Tasker.RestAPI.Controllers
                 }
 
                 var result = _IssueRepository.Save(issue).Result;
-
                 return Ok(result ?? issue);
             }
             else
             {
                 return BadRequest();
-            }
-        }
-
-        [HttpDelete, Authorize]
-        [ActionName("DeleteIssue")]
-        public IActionResult DeleteIssue(string issueId)
-        {
-            var users = _IssueRepository.DeleteById(issueId);
-            return Ok(users);
-        }
-
-        [HttpGet]
-        [ActionName("GetAllIssueCount")]
-        public IActionResult GetAllIssueCount(string searchQueries)
-        {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
-            var Issues = _IssueRepository.GetAllIssueCount(queries).Result;
-            return Ok(Issues);
-        }
-
-        [HttpGet]
-        [ActionName("GetAllIssues")]
-        public IActionResult GetAllIssues(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
-        {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
-            var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries).Result;
-            return Ok(Issues);
-        }
-
-        [HttpGet]
-        [ActionName("GetIssueStatByUserId")]
-        public IActionResult GetIssueStatByUserId(string userId)
-        {
-            var Issues = _IssueRepository.GetIssueStatByUserId(userId);
-            return Ok(Issues);
-        }
-
-        [HttpGet]
-        [ActionName("GetAllIssuesByAssignerCount")]
-        public IActionResult GetAllIssuesByAssignerCount(string searchQueries)
-        {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
-            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
-            {
-                var issueCount = _IssueRepository.GetAllIssueCount(queries);
-                return Ok(issueCount);
-            }
-            else
-            {
-                return Ok(0);
-            }
-        }
-
-        [HttpGet]
-        [ActionName("GetAllIssuesByAssigner")]
-        public IActionResult GetAllIssuesByAssigner(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
-        {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
-            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
-            {
-                var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries);
-                return Ok(Issues);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
-        [HttpGet]
-        [ActionName("GetAllIssuesByAssignedCount")]
-        public IActionResult GetAllIssuesByAssignedCount(string searchQueries)
-        {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
-            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
-            {
-                var issueCount = _IssueRepository.GetAllIssueCount(queries);
-                return Ok(issueCount);
-            }
-            else
-            {
-                return Ok(0);
-            }
-        }
-
-        [HttpGet]
-        [ActionName("GetAllIssuesByAssigned")]
-        public IActionResult GetAllIssuesByAssigned(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
-        {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
-            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
-            {
-                var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries);
-                return Ok(Issues);
-            }
-            else
-            {
-                return NotFound();
             }
         }
     }
