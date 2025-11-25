@@ -11,15 +11,15 @@ namespace Tasker.RestAPI.Controllers
     [ApiController]
     [Route("[controller]")]
     //[Route("api/[controller]/[action]")]
-    public class IssueController : ControllerBase
+    public class IssuesController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<IssueController> _logger;
+        private readonly ILogger<IssuesController> _logger;
         private readonly IIssueRepository _IssueRepository;
         private readonly IUserRepository _userRepository;
 
-        public IssueController(IConfiguration configuration, 
-            ILogger<IssueController> logger, 
+        public IssuesController(IConfiguration configuration, 
+            ILogger<IssuesController> logger, 
             IIssueRepository IssueRepository, 
             IUserRepository userRepository)
         {
@@ -68,26 +68,26 @@ namespace Tasker.RestAPI.Controllers
             return Ok(users);
         }
 
-        [HttpGet("count/{searchQueries?}")]
+        [HttpGet("Count/{searchQueries?}")]
         //[ActionName("Count")]
-        public IActionResult IssuesCount(string searchQueries)
+        public IActionResult GetIssuesCount(string searchQueries)
         {
             List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             var Issues = _IssueRepository.GetAllIssueCount(queries).Result;
             return Ok(Issues);
         }
 
-        [HttpGet("status/{userId}")]
+        [HttpGet("Status/{userId}")]
         //[ActionName("Status")]
-        public IActionResult IssuesStatus(string userId)
+        public IActionResult GetIssuesStatus(string userId)
         {
             var Issues = _IssueRepository.GetIssueStatByUserId(userId);
             return Ok(Issues);
         }
 
-        [HttpGet("byAssignerCount/{searchQueries?}")]
-        //[ActionName("GetIssuesByAssignerCount")]
-        public IActionResult GetIssuesByAssignerCount(string searchQueries)
+        [HttpGet("CountByAssigner/{searchQueries?}")]
+        //[ActionName("CountByAssigner")]
+        public IActionResult GetIssuesCountByAssigner(string searchQueries)
         {
             List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
@@ -101,9 +101,9 @@ namespace Tasker.RestAPI.Controllers
             }
         }
 
-        [HttpGet("byAssigner")]
-        //[ActionName("GetIssuesByAssigner")]
-        public IActionResult GeIssuesByAssigner(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        [HttpGet("ByAssigner")]
+        //[ActionName("ByAssigner")]
+        public IActionResult GetIssuesByAssigner(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
             List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
@@ -117,9 +117,9 @@ namespace Tasker.RestAPI.Controllers
             }
         }
 
-        [HttpGet("byAssignedCount/{searchQueries?}")]
-        //[ActionName("GetIssuesByAssignedCount")]
-        public IActionResult GetAllIssuesByAssignedCount(string searchQueries)
+        [HttpGet("CountByAssigned/{searchQueries?}")]
+        //[ActionName("CountByAssigned")]
+        public IActionResult GetIssuesCountByAssigned(string searchQueries)
         {
             List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
@@ -133,8 +133,8 @@ namespace Tasker.RestAPI.Controllers
             }
         }
 
-        [HttpGet("byAssigned")]
-        //[ActionName("GetIssuesByAssigned")]
+        [HttpGet("ByAssigned")]
+        //[ActionName("ByAssigned")]
         public IActionResult GetIssuesByAssigned(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
             List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);

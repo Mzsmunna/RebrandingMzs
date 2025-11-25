@@ -18,14 +18,14 @@ namespace Tasker.RestAPI.Controllers
     [ApiController]
     //[Route("[controller]")]
     [Route("api/[controller]/[action]")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<UsersController> _logger;
         private readonly IUserRepository _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserController(IConfiguration configuration, ILogger<UserController> logger, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor)
+        public UsersController(IConfiguration configuration, ILogger<UsersController> logger, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _logger = logger;
