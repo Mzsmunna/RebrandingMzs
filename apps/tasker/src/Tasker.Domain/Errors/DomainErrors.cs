@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Domain.Models;
 
 namespace Tasker.Domain.Errors
 {
     public static class DomainErrors
     {
-        public static readonly Error MissingId = new("ID_Missing", "");
-        public static readonly Error NotFound = new("NOT_Found", "");
-        public static readonly Error InvalidRequest = new("Invalid_Request", "");
+        public static readonly Error MissingId = new(ErrorType.Missing, "ID_Missing", "");
+        public static readonly Error InvalidRequest = new(ErrorType.Invalid, "Invalid_Request", "");
     }
 }

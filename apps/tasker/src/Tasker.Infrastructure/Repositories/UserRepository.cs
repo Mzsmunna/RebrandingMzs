@@ -38,7 +38,7 @@ namespace Tasker.Infrastructure.Repositories
                 filter &= Builders<User>.Filter.Eq(x => x.Email, email.ToLower());
                 filter &= Builders<User>.Filter.Eq(x => x.Password, password);
                 var user = await _collection.Find(filter).FirstOrDefaultAsync();
-                return user is not null ? user : DomainErrors.NotFound;
+                return user is not null ? user : Error.NotFound;
             }
             return DomainErrors.InvalidRequest;
         }
@@ -51,7 +51,7 @@ namespace Tasker.Infrastructure.Repositories
             {
                 filter &= Builders<User>.Filter.Eq(x => x.Email, email.ToLower());
                 var user =  await _collection.Find(filter).FirstOrDefaultAsync();
-                return user is not null ? user : DomainErrors.NotFound;
+                return user is not null ? user : Error.NotFound;
             }
             return DomainErrors.InvalidRequest;
         }
@@ -69,7 +69,7 @@ namespace Tasker.Infrastructure.Repositories
                     user.Password = "?";
                     return user;
                 }
-                return DomainErrors.NotFound;
+                return Error.NotFound;
             }
             return DomainErrors.InvalidRequest;
         }
@@ -79,7 +79,7 @@ namespace Tasker.Infrastructure.Repositories
             var filter = Builders<User>.Filter.Eq(fieldName, fieldValue);
             var response = await _collection.Find(filter).ToListAsync().ConfigureAwait(false);
             //var response = await _collection.Find(filter).FirstOrDefaultAsync().ConfigureAwait(false);
-            return response is not null && response.Count > 0 ? response : DomainErrors.NotFound;
+            return response is not null && response.Count > 0 ? response : Error.NotFound;
         }
 
         public async Task<Result<long>> GetAllUserCount(List<SearchField>? searchQueries = null)
