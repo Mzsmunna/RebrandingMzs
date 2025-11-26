@@ -94,15 +94,8 @@ namespace Tasker.RestAPI.Controllers
         private IActionResult SaveUser(User user)
         {
             var response = _userRepository.GetAllByField("Email", user.Email.ToLower()).Result;
-            var existingUser = response.Map<User?>(
-                Ok: users =>
-                {
-                    if (users != null && users.Count > 0)
-                    {
-                        return users.Where(x => !x.Id.Equals(user.Id)).FirstOrDefault();
-                    }
-                    return null;
-                },
+            var existingUser = response.Map(
+                Ok: users => users.Where(x => !x.Id.Equals(user.Id)).FirstOrDefault(),
                 Err: _ => null
             );
             if (existingUser != null)

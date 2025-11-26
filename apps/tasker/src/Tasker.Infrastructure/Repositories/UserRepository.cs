@@ -77,9 +77,9 @@ namespace Tasker.Infrastructure.Repositories
         public async Task<Result<List<User>>> GetAllByField(string fieldName, string fieldValue)
         {
             var filter = Builders<User>.Filter.Eq(fieldName, fieldValue);
-            var result = await _collection.Find(filter).ToListAsync().ConfigureAwait(false);
-            //var result = await _collection.Find(filter).FirstOrDefaultAsync().ConfigureAwait(false);
-            return result;
+            var response = await _collection.Find(filter).ToListAsync().ConfigureAwait(false);
+            //var response = await _collection.Find(filter).FirstOrDefaultAsync().ConfigureAwait(false);
+            return response is not null && response.Count > 0 ? response : DomainErrors.NotFound;
         }
 
         public async Task<Result<long>> GetAllUserCount(List<SearchField>? searchQueries = null)
