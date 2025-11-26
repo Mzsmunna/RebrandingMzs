@@ -4,9 +4,10 @@ using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tasker.Application.Errors;
 using Tasker.Application.Interfaces;
+using Tasker.Application.Models;
 using Tasker.Domain.Entities;
-using Tasker.Domain.Errors;
 using Tasker.Domain.Models;
 using Tasker.Persistence.DAL.MongoDB;
 using Tasker.Persistence.DAL.MongoDB.Configs;
@@ -38,9 +39,9 @@ namespace Tasker.Infrastructure.Repositories
                 filter &= Builders<User>.Filter.Eq(x => x.Email, email.ToLower());
                 filter &= Builders<User>.Filter.Eq(x => x.Password, password);
                 var user = await _collection.Find(filter).FirstOrDefaultAsync();
-                return user is not null ? user : Error.NotFound;
+                return user is not null ? user : Error.NotFound();
             }
-            return DomainErrors.InvalidRequest;
+            return ClientError.InvalidRequest;
         }
 
         public async Task<Result<User>> LoginUser(string email)
@@ -51,9 +52,9 @@ namespace Tasker.Infrastructure.Repositories
             {
                 filter &= Builders<User>.Filter.Eq(x => x.Email, email.ToLower());
                 var user =  await _collection.Find(filter).FirstOrDefaultAsync();
-                return user is not null ? user : Error.NotFound;
+                return user is not null ? user : Error.NotFound();
             }
-            return DomainErrors.InvalidRequest;
+            return ClientError.InvalidRequest;
         }
 
         public async Task<Result<User>> RegisterUser(string email)
@@ -69,9 +70,9 @@ namespace Tasker.Infrastructure.Repositories
                     user.Password = "?";
                     return user;
                 }
-                return Error.NotFound;
+                return Error.NotFound();
             }
-            return DomainErrors.InvalidRequest;
+            return ClientError.InvalidRequest;
         }
 
         public async Task<Result<List<User>>> GetAllByField(string fieldName, string fieldValue)
@@ -79,7 +80,7 @@ namespace Tasker.Infrastructure.Repositories
             var filter = Builders<User>.Filter.Eq(fieldName, fieldValue);
             var response = await _collection.Find(filter).ToListAsync().ConfigureAwait(false);
             //var response = await _collection.Find(filter).FirstOrDefaultAsync().ConfigureAwait(false);
-            return response is not null && response.Count > 0 ? response : Error.NotFound;
+            return response is not null && response.Count > 0 ? response : Error.NotFound();
         }
 
         public async Task<Result<long>> GetAllUserCount(List<SearchField>? searchQueries = null)
@@ -96,7 +97,7 @@ namespace Tasker.Infrastructure.Repositories
 
         public async Task<Result<User>> GetUser(string id)
         {
-            if (string.IsNullOrEmpty(id)) return DomainErrors.InvalidRequest;
+            if (string.IsNullOrEmpty(id)) return ClientError.InvalidRequest;
             var filter = Builders<User>.Filter.Empty;
             filter &= Builders<User>.Filter.Eq("Id", ObjectId.Parse(id));
             return await _collection.Find(filter).FirstOrDefaultAsync();
@@ -134,7 +135,7 @@ namespace Tasker.Infrastructure.Repositories
         public async Task<Result<User>> Save(IEntity entity)
         {
             var user = entity as User;
-            if (user == null) return DomainErrors.InvalidRequest;
+            if (user == null) return ClientError.InvalidRequest;
             user.Gender = user.Gender.ToLower();
             user.Email = user.Email.ToLower();
             user.Role = user.Role.ToLower();

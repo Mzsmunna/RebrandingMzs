@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Domain.Errors;
+using Tasker.Application.Errors;
 
-namespace Tasker.Domain.Models
+namespace Tasker.Application.Models
 {
     public class Result<T>
     {
-        private readonly T _data;
-        private readonly Error _error;
-        private readonly bool _isSuccess;
+        public readonly T Data;
+        public readonly Error Error;
+        public readonly bool IsSuccess;
 
         private Result(T data)
         {
-            _isSuccess = true; 
-            _data = data;
-            _error = Error.None!;
+            IsSuccess = true; 
+            Data = data;
+            Error = Error.None!;
         }
 
         private Result(Error error)
         {
-            _isSuccess = false; 
-            _data = default!;
-            _error = error;
+            IsSuccess = false; 
+            Data = default!;
+            Error = error;
         }
 
         public static implicit operator Result<T>(T data) => new(data);
@@ -34,7 +34,7 @@ namespace Tasker.Domain.Models
             Func<T, TResult> Ok,
             Func<Error, TResult> Err)
         {
-            return _isSuccess ? Ok(_data) : Err(_error);
+            return IsSuccess ? Ok(Data) : Err(Error);
         }
     }
 }

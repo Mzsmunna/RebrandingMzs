@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Domain.Errors
+namespace Tasker.Application.Errors
 {
-    public static class IssueErrors
+    public static class UserError
     {
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Attributes;
+using Tasker.Application.Models;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 

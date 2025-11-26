@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Domain.Errors;
-using Tasker.Domain.Models;
+using Tasker.Application.Errors;
+using Tasker.Application.Models;
 
 namespace Tasker.Application.Interfaces
 {
@@ -26,7 +26,7 @@ namespace Tasker.Application.Interfaces
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Repository error");
-                return Result<T>.Err(new(ErrorType.Network, ex.GetType().Name, ex.Message, "", ex.InnerException?.Message ?? ""));
+                return Result<T>.Err(new(ErrorType.Network, ex.GetType().Name, ex.Message, 502, "", ex.InnerException?.Message ?? ""));
             }
         }
     }

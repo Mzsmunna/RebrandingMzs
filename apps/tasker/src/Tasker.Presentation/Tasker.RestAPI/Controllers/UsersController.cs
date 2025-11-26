@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using Tasker.Application.Dtos;
 using Tasker.Application.Interfaces;
+using Tasker.Application.Models;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Helper;
 using Tasker.Domain.Models;
@@ -99,7 +100,33 @@ namespace Tasker.RestAPI.Controllers
                 Err: _ => null
             );
             if (existingUser != null)
-                return StatusCode(StatusCodes.Status409Conflict, "This email already exist");
+            {
+                //return StatusCode(StatusCodes.Status409Conflict, "This email already exist");               
+                var problemDetails = Results.Problem(
+                    instance: _httpContextAccessor.HttpContext?.Request.Path,
+                    type: "https://www.rfc-editor.org/rfc/rfc9110#name-409-conflict",
+                    title: "Conflict",
+                    detail:  "This email already exist",
+                    statusCode: StatusCodes.Status409Conflict,
+                    extensions: new Dictionary<string, object?>
+                    {
+                        { "errors", response.Error }
+                    }
+                );
+                return Ok(problemDetails);
+                //var problemDetails = new ProblemDetails
+                //{
+                //    Instance = _httpContextAccessor.HttpContext?.Request.Path,
+                //    Type = "https://www.rfc-editor.org/rfc/rfc9110#name-409-conflict",
+                //    Status = StatusCodes.Status409Conflict,
+                //    Title = "Conflict",
+                //    Detail = "This email already exist",
+                //    Extensions = new Dictionary<string, object?>
+                //    {
+                //        { "errors", response.Error }
+                //    }
+                //};
+            }
             else
             {
                 var result = _userRepository.Save(user).Result;

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Domain.Errors
+namespace Tasker.Application.Errors
 {
-    public static class DomainErrors
+    public static class DomainError
     {
         public static readonly Error MissingId = new(ErrorType.Missing, "ID_Missing", "");
-        public static readonly Error InvalidRequest = new(ErrorType.Invalid, "Invalid_Request", "");
     }
 }
