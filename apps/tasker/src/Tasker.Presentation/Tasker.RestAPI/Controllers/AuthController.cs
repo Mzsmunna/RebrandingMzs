@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Tasker.Application.Dtos;
+using Tasker.Application.Errors;
 using Tasker.Application.Extensions;
 using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
@@ -37,7 +38,7 @@ namespace Tasker.RestAPI.Controllers
             var result = _userRepository.RegisterUser(user).Result;
             return result.Map<IActionResult>(
                 Ok: data => Ok(data),
-                Err: error => Ok(error.ToProblemDetails())
+                Err: error => error.ToProblem(this)
             );
         }
 
@@ -56,7 +57,8 @@ namespace Tasker.RestAPI.Controllers
                         user.PasswordSalt = passwordSalt;
                         if (!VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
                         {
-                            return StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
+                            //return StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
+                            return Error.Validation("Login.Credential.Wrong", "Wrong credential.").ToProblem(this);
                         }
                         else
                         {
@@ -66,12 +68,12 @@ namespace Tasker.RestAPI.Controllers
                             return Ok(token);
                         }
                     },
-                    Err: error => StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.")
+                    Err: error => Error.NotFound("Login.Credential.NotFound", "User doesn't exist.").ToProblem(this) //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.")
                 );
             }
             else
             {
-                return BadRequest();
+                return ClientError.BadRequest.ToProblem(this);
             }
         }
 
@@ -98,7 +100,7 @@ namespace Tasker.RestAPI.Controllers
 
                         if (!VerifyPasswordHash(existingUser.Password, existingUser.PasswordHash, existingUser.PasswordSalt))
                         {
-                            return StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
+                            return Error.Validation("Login.Google.Error", "Wrong credential.").ToProblem(this); //StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
                         }
                         else
                         {
@@ -108,12 +110,12 @@ namespace Tasker.RestAPI.Controllers
                             return Ok(token);
                         }
                     },
-                    Err: error => StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.")
+                    Err: error => Error.NotFound("Login.Google.NotLinkned", "User doesn't exist.").ToProblem(this) //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.")
                 );
             }
             else
             {
-                return BadRequest();
+                return ClientError.BadRequest.ToProblem(this);
             }
         }
 
@@ -128,11 +130,11 @@ namespace Tasker.RestAPI.Controllers
                 {
                     if (!user.RefreshToken.Equals(refreshToken))
                     {
-                        return Unauthorized("Invalid Refresh Token.");
+                        return Error.Unauthorized("Token.Refresh.Invalid", "Invalid Refresh Token.").ToProblem(this); //Unauthorized("Invalid Refresh Token.");
                     }
                     else if (user.TokenExpires < DateTime.UtcNow)
                     {
-                        return Unauthorized("Token expired.");
+                        return Error.Unauthorized("Token.Refresh.Expired", "Token expired.").ToProblem(this); //Unauthorized("Token expired.");
                     }
 
                     string token = CreateToken(user);

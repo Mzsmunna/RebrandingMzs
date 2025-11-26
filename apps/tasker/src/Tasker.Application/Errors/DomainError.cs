@@ -6,6 +6,6 @@ namespace Tasker.Application.Errors
 {
     public static class DomainError
     {
-        public static readonly Error MissingId = new(ErrorType.Missing, "ID_Missing", "");
+        public static readonly Error MissingId = new(ErrorType.Missing, "ID.Missing", "");
     }
 }
