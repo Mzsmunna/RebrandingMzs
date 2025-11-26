@@ -4,7 +4,9 @@ using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tasker.Application.Errors;
 using Tasker.Application.Interfaces;
+using Tasker.Application.Models;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 using Tasker.Persistence.DAL.MongoDB;
@@ -22,14 +24,21 @@ namespace Tasker.Infrastructure.Repositories
             _collection = mongoCollection;
         }
 
-        public async Task<List<Issue>?> GetAllIssues()
+        private FilterDefinition<Issue> BuildFilter(string? _id, List<SearchField>? searchQueries = null)
+        {
+            //var filter = Builders<T>.Filter.Empty;
+            var filter = GenericFilter<Issue>.BuildDynamicFilter(_id, searchQueries);
+            return filter;
+        }
+
+        public async Task<Result<List<Issue>?>> GetAllIssues()
         {
             var filter = Builders<Issue>.Filter.Empty;
             var sort = SortingDefinition.TableSortingFilter<Issue>(); //Builders<Issue>.Sort.Ascending("Title");
             return await _collection.Find(filter).Sort(sort).ToListAsync();
         }
 
-        public async Task<List<dynamic>?> GetIssueStatByUserId(string userId)
+        public async Task<Result<List<dynamic>?>> GetIssueStatByUserId(string userId)
         {
             //var filter = Builders<User>.Filter.Empty;
             var results = await _collection.AsQueryable()
@@ -47,27 +56,27 @@ namespace Tasker.Infrastructure.Repositories
             return results.Cast<dynamic>().ToList();
         }
 
-        public async Task<List<Issue>?> GetAllIssuesByAssigner(string assignerId)
+        public async Task<Result<List<Issue>?>> GetAllIssuesByAssigner(string assignerId)
         {
             var filter = Builders<Issue>.Filter.Empty;
             var sort = SortingDefinition.TableSortingFilter<Issue>();
             return _collection.Find(filter).Sort(sort).ToList();
         }
 
-        public async Task<List<Issue>?> GetAllIssuesByAssigned(string assignedId)
+        public async Task<Result<List<Issue>?>> GetAllIssuesByAssigned(string assignedId)
         {
             var filter = Builders<Issue>.Filter.Empty;
             var sort = SortingDefinition.TableSortingFilter<Issue>();
             return _collection.Find(filter).Sort(sort).ToList();
         }
 
-        public async Task<Issue?> GetIssuesById(string id)
+        public async Task<Result<Issue?>> GetIssuesById(string id)
         {
             var filter = Builders<Issue>.Filter.Eq("Id", id);
             return _collection.Find(filter).FirstOrDefault();
         }
 
-        public async Task<Issue?> GetByTitle(string title)
+        public async Task<Result<Issue?>> GetByTitle(string title)
         {
             var filter = Builders<Issue>.Filter.Empty;
 
@@ -79,11 +88,11 @@ namespace Tasker.Infrastructure.Repositories
             }
             else
             {
-                return null;
+                return IssueError.EmptyTitle;
             }
         }
 
-        public async Task<Issue?> Save(IEntity entity)
+        public async Task<Result<Issue?>> Save(IEntity entity)
         {
             var issue = entity as Issue;
 
@@ -119,10 +128,10 @@ namespace Tasker.Infrastructure.Repositories
                 return issue;
             }
 
-            return null;
+            return ClientError.BadRequest;
         }
 
-        public async Task<bool> DeleteById(string _id)
+        public async Task<Result<bool>> DeleteById(string _id)
         {
             var filter = BuildFilter(_id);
             //var data = _collection.Find(filter).FirstOrDefault();
@@ -132,20 +141,13 @@ namespace Tasker.Infrastructure.Repositories
 
         #region Common_Methods
 
-        private FilterDefinition<Issue> BuildFilter(string? _id, List<SearchField>? searchQueries = null)
-        {
-            //var filter = Builders<T>.Filter.Empty;
-            var filter = GenericFilter<Issue>.BuildDynamicFilter(_id, searchQueries);
-            return filter;
-        }
-
-        public async Task<Issue?> GetById(string _id)
+        public async Task<Result<Issue?>> GetById(string _id)
         {
             var filter = BuildFilter(_id);
             return await _collection.Find(filter).FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public async Task<List<Issue>?> GetAllByField(string fieldName, string fieldValue)
+        public async Task<Result<List<Issue>?>> GetAllByField(string fieldName, string fieldValue)
         {
             var filter = Builders<Issue>.Filter.Eq(fieldName, fieldValue);
             var result = await _collection.Find(filter).ToListAsync().ConfigureAwait(false);
@@ -153,26 +155,26 @@ namespace Tasker.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<long> GetAllIssueCount(List<SearchField>? searchQueries = null)
+        public async Task<Result<long>> GetAllIssueCount(List<SearchField>? searchQueries = null)
         {
             var filter = BuildFilter(null, searchQueries);
             return await _collection.Find(filter).CountDocumentsAsync().ConfigureAwait(false);
         }
 
-        public async Task<List<Issue>?> GetAllIssues(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null)
+        public async Task<Result<List<Issue>?>> GetAllIssues(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null)
         {
             var filter = BuildFilter(null, searchQueries);
             return await _collection.Find(filter).Skip(currentPage * pageSize).Limit(pageSize).ToListAsync().ConfigureAwait(false);
         }
 
-        public async Task<string> SaveMany(IEnumerable<Issue> records)
+        public async Task<Result<string>> SaveMany(IEnumerable<Issue> records)
         {
             var returnVal = string.Empty;
             await _collection.InsertManyAsync(records);
             return returnVal;
         }
 
-        public async Task<int> GetAllCount()
+        public async Task<Result<int>> GetAllCount()
         {
             int count = 0;
             var filter = BuildFilter(null);

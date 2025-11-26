@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Tasker.Application.Errors;
 using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Helper;
 using Tasker.Domain.Models;
-using static Google.Apis.Requests.BatchRequest;
 
 namespace Tasker.RestAPI.Controllers
 {
@@ -192,11 +192,11 @@ namespace Tasker.RestAPI.Controllers
                 }
 
                 var result = _IssueRepository.Save(issue).Result;
-                return Ok(result ?? issue);
+                return Ok(result);
             }
             else
             {
-                return BadRequest();
+                return Ok(ClientError.BadRequest);
             }
         }
     }

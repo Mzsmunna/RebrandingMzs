@@ -6,6 +6,6 @@ namespace Tasker.Application.Errors
 {
     public static class ClientError
     {
-        public static readonly Error InvalidRequest = new(ErrorType.Invalid, "Invalid_Request", "");
+        public static readonly Error BadRequest = new(ErrorType.Bad, "Client.Bad_Request", "", 400);
     }
 }

@@ -41,7 +41,7 @@ namespace Tasker.Infrastructure.Repositories
                 var user = await _collection.Find(filter).FirstOrDefaultAsync();
                 return user is not null ? user : Error.NotFound();
             }
-            return ClientError.InvalidRequest;
+            return ClientError.BadRequest;
         }
 
         public async Task<Result<User>> LoginUser(string email)
@@ -54,7 +54,7 @@ namespace Tasker.Infrastructure.Repositories
                 var user =  await _collection.Find(filter).FirstOrDefaultAsync();
                 return user is not null ? user : Error.NotFound();
             }
-            return ClientError.InvalidRequest;
+            return ClientError.BadRequest;
         }
 
         public async Task<Result<User>> RegisterUser(string email)
@@ -72,7 +72,7 @@ namespace Tasker.Infrastructure.Repositories
                 }
                 return Error.NotFound();
             }
-            return ClientError.InvalidRequest;
+            return ClientError.BadRequest;
         }
 
         public async Task<Result<List<User>>> GetAllByField(string fieldName, string fieldValue)
@@ -97,7 +97,7 @@ namespace Tasker.Infrastructure.Repositories
 
         public async Task<Result<User>> GetUser(string id)
         {
-            if (string.IsNullOrEmpty(id)) return ClientError.InvalidRequest;
+            if (string.IsNullOrEmpty(id)) return ClientError.BadRequest;
             var filter = Builders<User>.Filter.Empty;
             filter &= Builders<User>.Filter.Eq("Id", ObjectId.Parse(id));
             return await _collection.Find(filter).FirstOrDefaultAsync();
@@ -135,7 +135,7 @@ namespace Tasker.Infrastructure.Repositories
         public async Task<Result<User>> Save(IEntity entity)
         {
             var user = entity as User;
-            if (user == null) return ClientError.InvalidRequest;
+            if (user == null) return ClientError.BadRequest;
             user.Gender = user.Gender.ToLower();
             user.Email = user.Email.ToLower();
             user.Role = user.Role.ToLower();

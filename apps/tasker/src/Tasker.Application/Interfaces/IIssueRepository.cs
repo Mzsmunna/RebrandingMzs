@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Text;
+using Tasker.Application.Models;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 
@@ -9,17 +10,17 @@ namespace Tasker.Application.Interfaces
 {
     public interface IIssueRepository //: IMongoRepository
     {
-        Task<Issue?> GetById(string _id);
-        Task<List<Issue>?> GetAllByField(string fieldName, string fieldValue);
-        Task<long> GetAllIssueCount(List<SearchField>? searchQueries = null);
-        Task<List<Issue>?> GetAllIssues(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null);
-        Task<List<Issue>?> GetAllIssues();
-        Task<List<dynamic>?> GetIssueStatByUserId(string userId);
-        Task<List<Issue>?> GetAllIssuesByAssigner(string assignerId);
-        Task<List<Issue>?> GetAllIssuesByAssigned(string assignedId);
-        Task<Issue?> GetIssuesById(string id);
-        Task<Issue?> GetByTitle(string title);
-        Task<Issue?> Save(IEntity entity);
-        Task<bool> DeleteById(string _id);
+        Task<Result<Issue?>> GetById(string _id);
+        Task<Result<List<Issue>?>> GetAllByField(string fieldName, string fieldValue);
+        Task<Result<long>> GetAllIssueCount(List<SearchField>? searchQueries = null);
+        Task<Result<List<Issue>?>> GetAllIssues(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null);
+        Task<Result<List<Issue>?>> GetAllIssues();
+        Task<Result<List<dynamic>?>> GetIssueStatByUserId(string userId);
+        Task<Result<List<Issue>?>> GetAllIssuesByAssigner(string assignerId);
+        Task<Result<List<Issue>?>> GetAllIssuesByAssigned(string assignedId);
+        Task<Result<Issue?>> GetIssuesById(string id);
+        Task<Result<Issue?>> GetByTitle(string title);
+        Task<Result<Issue?>> Save(IEntity entity);
+        Task<Result<bool>> DeleteById(string _id);
     }
 }
