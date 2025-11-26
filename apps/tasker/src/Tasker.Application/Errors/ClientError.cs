@@ -6,6 +6,6 @@ namespace Tasker.Application.Errors
 {
     public static class ClientError
     {
-        public static readonly Error BadRequest = new(ErrorType.Bad, "Client.Bad_Request", "", 400);
+        public static readonly Error BadRequest = new(ErrorType.Bad, "Client.Bad_Request", "", 400, "https://www.rfc-editor.org/rfc/rfc9110#name-400-bad-request");
     }
 }
