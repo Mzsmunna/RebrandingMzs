@@ -1,0 +1,32 @@
+﻿using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Tasker.Domain.Models;
+
+namespace Tasker.Application.Interfaces
+{
+    public abstract class BaseRepo
+    {
+        private readonly ILogger _logger;
+
+        protected BaseRepo(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        protected async Task<Result<T>> TryAsync<T>(Func<Task<T>> action)
+        {
+            try
+            {
+                T result = await action();
+                return Result<T>.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Repository error");
+                return Result<T>.Err(new(ex.GetType().Name, ex.Message, "", ex.InnerException?.Message ?? ""));
+            }
+        }
+    }
+}

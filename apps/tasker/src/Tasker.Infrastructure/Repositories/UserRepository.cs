@@ -4,12 +4,13 @@ using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tasker.Application.Interfaces;
+using Tasker.Domain.Entities;
+using Tasker.Domain.Errors;
+using Tasker.Domain.Models;
 using Tasker.Persistence.DAL.MongoDB;
 using Tasker.Persistence.DAL.MongoDB.Configs;
 using Tasker.Persistence.DAL.MongoDB.Helper;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
-using Tasker.Application.Interfaces;
 
 namespace Tasker.Infrastructure.Repositories
 {
@@ -28,49 +29,52 @@ namespace Tasker.Infrastructure.Repositories
             return filter;
         }
 
-        public async Task<User?> LoginUser(string email, string password)
+        public async Task<Result<User>> LoginUser(string email, string password)
         {
             var filter = Builders<User>.Filter.Empty;
             filter &= Builders<User>.Filter.Eq(x => x.IsActive, true);
-            User? result = null;
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
                 filter &= Builders<User>.Filter.Eq(x => x.Email, email.ToLower());
                 filter &= Builders<User>.Filter.Eq(x => x.Password, password);
-                result = await _collection.Find(filter).FirstOrDefaultAsync();
+                var user = await _collection.Find(filter).FirstOrDefaultAsync();
+                return user is not null ? user : DomainErrors.NotFound;
             }
-            return result;
+            return DomainErrors.InvalidRequest;
         }
 
-        public async Task<User?> LoginUser(string email)
+        public async Task<Result<User>> LoginUser(string email)
         {
             var filter = Builders<User>.Filter.Empty;
             filter &= Builders<User>.Filter.Eq(x => x.IsActive, true);
-            User? result = null;
             if (!string.IsNullOrEmpty(email))
             {
                 filter &= Builders<User>.Filter.Eq(x => x.Email, email.ToLower());
-                result =  await _collection.Find(filter).FirstOrDefaultAsync();
+                var user =  await _collection.Find(filter).FirstOrDefaultAsync();
+                return user is not null ? user : DomainErrors.NotFound;
             }
-            return result;
+            return DomainErrors.InvalidRequest;
         }
 
-        public async Task<User?> RegisterUser(string email)
+        public async Task<Result<User>> RegisterUser(string email)
         {
             var filter = Builders<User>.Filter.Empty;
             //filter &= Builders<User>.Filter.Eq(x => x.IsActive, true);
-            User? result = null;
             if (!string.IsNullOrEmpty(email))
             {
                 filter &= Builders<User>.Filter.Eq(x => x.Email, email.ToLower());
-                result = await _collection.Find(filter).FirstOrDefaultAsync();
-                if (result != null)
-                    result.Password = "?";
+                var user = await _collection.Find(filter).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    user.Password = "?";
+                    return user;
+                }
+                return DomainErrors.NotFound;
             }
-            return result;
+            return DomainErrors.InvalidRequest;
         }
 
-        public async Task<List<User>?> GetAllByField(string fieldName, string fieldValue)
+        public async Task<Result<List<User>>> GetAllByField(string fieldName, string fieldValue)
         {
             var filter = Builders<User>.Filter.Eq(fieldName, fieldValue);
             var result = await _collection.Find(filter).ToListAsync().ConfigureAwait(false);
@@ -78,27 +82,27 @@ namespace Tasker.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<long> GetAllUserCount(List<SearchField>? searchQueries = null)
+        public async Task<Result<long>> GetAllUserCount(List<SearchField>? searchQueries = null)
         {
             var filter = BuildFilter(null, searchQueries);
             return await _collection.Find(filter).CountDocumentsAsync().ConfigureAwait(false);
         }
 
-        public async Task<List<User>?> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null)
+        public async Task<Result<List<User>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null)
         {
             var filter = BuildFilter(null, searchQueries);
             return await _collection.Find(filter).Skip(currentPage * pageSize).Limit(pageSize).ToListAsync().ConfigureAwait(false);
         }
 
-        public async Task<User?> GetUser(string id)
+        public async Task<Result<User>> GetUser(string id)
         {
-            if (string.IsNullOrEmpty(id)) return null;
+            if (string.IsNullOrEmpty(id)) return DomainErrors.InvalidRequest;
             var filter = Builders<User>.Filter.Empty;
             filter &= Builders<User>.Filter.Eq("Id", ObjectId.Parse(id));
             return await _collection.Find(filter).FirstOrDefaultAsync();
         }
 
-        public async Task<List<User>?> GetUsers(string clientId, string adminId)
+        public async Task<Result<List<User>>> GetUsers(string clientId, string adminId)
         {
             var filter = Builders<User>.Filter.Empty;
             if (!string.IsNullOrEmpty(clientId))
@@ -108,7 +112,7 @@ namespace Tasker.Infrastructure.Repositories
             return await _collection.Find(filter).ToListAsync();
         }
 
-        public async Task<List<dynamic>?> GetAllUserToAssign()
+        public async Task<Result<List<dynamic>>> GetAllUserToAssign()
         {
             //var filter = Builders<User>.Filter.Empty;
             var results = await _collection.AsQueryable()
@@ -127,20 +131,19 @@ namespace Tasker.Infrastructure.Repositories
             return results.Cast<dynamic>().ToList();
         }
 
-        public async Task<User?> Save(IEntity entity)
+        public async Task<Result<User>> Save(IEntity entity)
         {
             var user = entity as User;
-            if (user == null) return null;
+            if (user == null) return DomainErrors.InvalidRequest;
             user.Gender = user.Gender.ToLower();
             user.Email = user.Email.ToLower();
             user.Role = user.Role.ToLower();
             entity = user;
             MongoOperation operation = await SaveAsync(entity);
-            user = await GetUser(operation.Id);
-            return user;
+            return await GetUser(operation.Id);
         }
 
-        public async Task<bool> DeleteById(string _id)
+        public async Task<Result<bool>> DeleteById(string _id)
         {
             var filter = BuildFilter(_id);
             //var data = _collection.Find(filter).FirstOrDefault();
@@ -148,7 +151,7 @@ namespace Tasker.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<bool> UpdateUser(User User)
+        public async Task<Result<bool>> UpdateUser(User User)
         {
             ObjectId _id = ObjectId.Parse(User.Id);
             var filter = Builders<User>.Filter.Eq("Id", _id);

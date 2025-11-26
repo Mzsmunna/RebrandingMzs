@@ -6,6 +6,7 @@ using System.Text;
 using Tasker.Persistence.DAL.MongoDB.Configs;
 using Tasker.Domain.Entities;
 using Tasker.Application.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Tasker.Persistence.DAL.MongoDB
 {

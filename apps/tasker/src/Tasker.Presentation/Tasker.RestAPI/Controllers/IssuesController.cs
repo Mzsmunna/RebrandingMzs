@@ -4,6 +4,7 @@ using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Helper;
 using Tasker.Domain.Models;
+using static Google.Apis.Requests.BatchRequest;
 
 namespace Tasker.RestAPI.Controllers
 {
@@ -164,22 +165,30 @@ namespace Tasker.RestAPI.Controllers
 
                 if (!string.IsNullOrEmpty(issue.AssignedId))
                 {
-                    var user = _userRepository.GetUser(issue.AssignedId).Result;
-                    if (user != null)
-                    {
-                        issue.AssignedName = user.FirstName + " " + user.LastName;
-                        issue.AssignedImg = user.Img;
-                    }
+                    var response = _userRepository.GetUser(issue.AssignedId).Result;
+                    issue = response.Map(
+                        Ok: user =>
+                        {
+                            issue.AssignedName = user.FirstName + " " + user.LastName;
+                            issue.AssignedImg = user.Img;
+                            return issue;
+                        },
+                        Err: _ => issue
+                    );
                 }
 
                 if (!string.IsNullOrEmpty(issue.Created.By))
                 {
-                    var user = _userRepository.GetUser(issue.Created.By).Result;
-                    if (user != null)
-                    {
-                        issue.Created.Name = user.FirstName + " " + user.LastName;
-                        issue.Created.Image = user.Img;
-                    }
+                    var response = _userRepository.GetUser(issue.Created.By).Result;
+                    issue = response.Map(
+                        Ok: user =>
+                        {
+                            issue.Created.Name = user.FirstName + " " + user.LastName;
+                            issue.Created.Image = user.Img;
+                            return issue;
+                        },
+                        Err: _ => issue
+                    );
                 }
 
                 var result = _IssueRepository.Save(issue).Result;

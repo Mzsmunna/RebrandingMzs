@@ -93,16 +93,21 @@ namespace Tasker.RestAPI.Controllers
         // ---
         private IActionResult SaveUser(User user)
         {
-            var existingUsers = _userRepository.GetAllByField("Email", user.Email.ToLower()).Result;
-            if (existingUsers != null && existingUsers.Count > 0)
-            {
-                var exist = existingUsers.Where(x => !x.Id.Equals(user.Id)).FirstOrDefault();
-
-                if (exist != null)
-                    return StatusCode(StatusCodes.Status409Conflict, "This email already exist");
-            }
-            var result = _userRepository.Save(user).Result;
-            return Ok(result ?? user);
+            var result = _userRepository.GetAllByField("Email", user.Email.ToLower()).Result;
+            return result.Map<IActionResult>(
+                Ok: existingUsers =>
+                {
+                    if (existingUsers != null && existingUsers.Count > 0)
+                    {
+                        var exist = existingUsers.Where(x => !x.Id.Equals(user.Id)).FirstOrDefault();
+                        if (exist != null)
+                            return StatusCode(StatusCodes.Status409Conflict, "This email already exist");
+                    }
+                    var result = _userRepository.Save(user).Result;
+                    return Ok(result);
+                },
+                Err: error => StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.")
+            );
         }
     }
 }

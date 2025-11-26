@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -60,31 +61,28 @@ namespace Tasker.RestAPI.Controllers
         {
             if (user != null)
             {
-                var existingUser = _userRepository.LoginUser(user.Email, user.Password).Result;
-
-                if (existingUser != null)
-                {
-                    CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-                    user.PasswordHash = passwordHash;
-                    user.PasswordSalt = passwordSalt;
-
-                    if (!VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
+                var result = _userRepository.LoginUser(user.Email, user.Password).Result;
+                return result.Map<IActionResult>(
+                    Ok: existingUser =>
                     {
-                        return StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
-                    }
-                    else
-                    {
-                        string token = CreateToken(existingUser);
-                        var refreshToken = GenerateRefreshToken();
-                        SetRefreshToken(refreshToken, existingUser);
-                        return Ok(token);
-                    }
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
-                }
+                        CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                        user.PasswordHash = passwordHash;
+                        user.PasswordSalt = passwordSalt;
+
+                        if (!VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
+                        {
+                            return StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
+                        }
+                        else
+                        {
+                            string token = CreateToken(existingUser);
+                            var refreshToken = GenerateRefreshToken();
+                            SetRefreshToken(refreshToken, existingUser);
+                            return Ok(token);
+                        }
+                    },
+                    Err: error => StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.")
+                );
             }
             else
             {
@@ -105,31 +103,28 @@ namespace Tasker.RestAPI.Controllers
 
             if (payload != null)
             {
-                var existingUser = _userRepository.LoginUser(payload.Email).Result;
-
-                if (existingUser != null)
-                {
-                    CreatePasswordHash(existingUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-                    existingUser.PasswordHash = passwordHash;
-                    existingUser.PasswordSalt = passwordSalt;
-
-                    if (!VerifyPasswordHash(existingUser.Password, existingUser.PasswordHash, existingUser.PasswordSalt))
+                var result = _userRepository.LoginUser(payload.Email).Result;
+                return result.Map<IActionResult>(
+                    Ok: existingUser =>
                     {
-                        return StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
-                    }
-                    else
-                    {
-                        string token = CreateToken(existingUser);
-                        var refreshToken = GenerateRefreshToken();
-                        SetRefreshToken(refreshToken, existingUser);
-                        return Ok(token);
-                    }
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
-                }
+                        CreatePasswordHash(existingUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                        existingUser.PasswordHash = passwordHash;
+                        existingUser.PasswordSalt = passwordSalt;
+
+                        if (!VerifyPasswordHash(existingUser.Password, existingUser.PasswordHash, existingUser.PasswordSalt))
+                        {
+                            return StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
+                        }
+                        else
+                        {
+                            string token = CreateToken(existingUser);
+                            var refreshToken = GenerateRefreshToken();
+                            SetRefreshToken(refreshToken, existingUser);
+                            return Ok(token);
+                        }
+                    },
+                    Err: error => StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.")
+                );
             }
             else
             {
@@ -142,29 +137,27 @@ namespace Tasker.RestAPI.Controllers
         public IActionResult RefreshToken(string userId)
         {
             var refreshToken = Request.Cookies["refreshToken"];
-            var user = _userRepository.GetUser(userId).Result;
-
-            if (user != null)
-            {
-                if (!user.RefreshToken.Equals(refreshToken))
+            var result = _userRepository.GetUser(userId).Result;
+            return result.Map<IActionResult>(
+                Ok: user =>
                 {
-                    return Unauthorized("Invalid Refresh Token.");
-                }
-                else if (user.TokenExpires < DateTime.UtcNow)
-                {
-                    return Unauthorized("Token expired.");
-                }
+                    if (!user.RefreshToken.Equals(refreshToken))
+                    {
+                        return Unauthorized("Invalid Refresh Token.");
+                    }
+                    else if (user.TokenExpires < DateTime.UtcNow)
+                    {
+                        return Unauthorized("Token expired.");
+                    }
 
-                string token = CreateToken(user);
-                var newRefreshToken = GenerateRefreshToken();
-                SetRefreshToken(newRefreshToken, user);
+                    string token = CreateToken(user);
+                    var newRefreshToken = GenerateRefreshToken();
+                    SetRefreshToken(newRefreshToken, user);
 
-                return Ok(token);
-            }
-            else
-            {
-                return NotFound();
-            }        
+                    return Ok(token);
+                },
+                Err: error => NotFound()
+            );    
         }
 
         /// ---
