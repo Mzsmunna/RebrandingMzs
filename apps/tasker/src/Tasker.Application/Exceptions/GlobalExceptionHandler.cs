@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Tasker.Application
+namespace Tasker.Application.Exceptions
 {
     internal sealed class GlobalExceptionHandler(
         IProblemDetailsService problemDetailsService,
@@ -14,13 +14,13 @@ namespace Tasker.Application
     {
         public async ValueTask<bool> TryHandleAsync(
             HttpContext httpContext, 
-            Exception exception, 
+            Exception ex, 
             CancellationToken cancellationToken)
         {
             // Log the exception details here
-            const string error = "An unhandled error occurred while processing the request!";
-            logger.LogError(exception, error);
-            httpContext.Response.StatusCode = exception switch
+            logger.LogError(ex, "An unhandled exception occurred: {Message}", ex.Message);
+            
+            httpContext.Response.StatusCode = ex switch
             {
                 ApplicationException => StatusCodes.Status400BadRequest,
                 _ => StatusCodes.Status500InternalServerError
@@ -29,14 +29,15 @@ namespace Tasker.Application
             return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
             {
                 HttpContext = httpContext,
-                Exception = exception,
+                Exception = ex,
                 //StatusCode = httpContext.Response.StatusCode,
                 ProblemDetails = new ProblemDetails
                 {
-                    Type = exception.GetType().Name,
-                    Title = error,
-                    Status = httpContext.Response.StatusCode,
-                    Detail = exception.Message
+                    Instance = httpContext.Request.Path.Value,
+                    Type = "https://www.rfc-editor.org/rfc/rfc9110#name-500-internal-server-error",
+                    Title = "Server error",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Detail = ex.Message
                 }
             });
         }

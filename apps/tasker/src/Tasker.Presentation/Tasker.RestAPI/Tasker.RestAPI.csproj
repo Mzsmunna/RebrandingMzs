@@ -28,8 +28,4 @@
     <ProjectReference Include="..\..\Tasker.Persistence\Tasker.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-  </ItemGroup>
-
 </Project>
