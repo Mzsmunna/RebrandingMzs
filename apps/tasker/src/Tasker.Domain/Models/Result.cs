@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tasker.Domain.Models
 {
     public class Result<T>
     {
-        private readonly T _value;
-        private readonly Error _error;
+        private readonly T? _value;
+        private readonly Error? _error;
         private readonly bool _isSuccess;
 
         private Result(T value)
@@ -34,7 +33,7 @@ namespace Tasker.Domain.Models
             Func<T, TResult> success,
             Func<Error, TResult> failure)
         {
-            return _isSuccess ? success(_value) : failure(_error);
+            return _isSuccess ? success(_value!) : failure(_error!);
         }
     }
 }
