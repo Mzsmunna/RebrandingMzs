@@ -13,7 +13,7 @@ namespace Tasker.Application.Interfaces
     {
         Task<Result<User>> LoginUser(string email, string password);
         Task<Result<User>> LoginUser(string email);
-        Task<Result<User>> RegisterUser(string email);
+        Task<Result<User>> RegisterUser(User user);
         Task<Result<List<User>>> GetAllByField(string fieldName, string fieldValue);
         Task<Result<User>> GetUser(string id);
         Task<Result<long>> GetAllUserCount(List<SearchField>? searchQueries = null);

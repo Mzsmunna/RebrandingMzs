@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Tasker.Application.Dtos;
+using Tasker.Application.Extensions;
 using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
@@ -33,26 +34,11 @@ namespace Tasker.RestAPI.Controllers
         public IActionResult Register(User user)
         {
             user.IsActive = true;
-            var existingUser = _userRepository.RegisterUser(user.Email).Result;
-
-            if (user.Created == null)
-                user.Created = new AppEvent();
-
-            if (existingUser == null)
-            {
-                if (string.IsNullOrEmpty(user.Id))
-                    user.Created.At = DateTime.UtcNow;
-                else if  (user.Modified != null)
-                    user.Modified.At = DateTime.UtcNow;
-
-                _userRepository.Save(user);
-
-                return Ok(user);
-            }
-            else
-            {
-                return StatusCode(StatusCodes.Status409Conflict, "This email already exist");
-            }
+            var result = _userRepository.RegisterUser(user).Result;
+            return result.Map<IActionResult>(
+                Ok: data => Ok(data),
+                Err: error => Ok(error.ToProblemDetails())
+            );
         }
 
         [HttpPost]
@@ -68,7 +54,6 @@ namespace Tasker.RestAPI.Controllers
                         CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
                         user.PasswordHash = passwordHash;
                         user.PasswordSalt = passwordSalt;
-
                         if (!VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
                         {
                             return StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");

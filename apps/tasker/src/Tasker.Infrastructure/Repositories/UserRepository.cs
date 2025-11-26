@@ -57,20 +57,23 @@ namespace Tasker.Infrastructure.Repositories
             return ClientError.BadRequest;
         }
 
-        public async Task<Result<User>> RegisterUser(string email)
+        public async Task<Result<User>> RegisterUser(User user)
         {
             var filter = Builders<User>.Filter.Empty;
             //filter &= Builders<User>.Filter.Eq(x => x.IsActive, true);
-            if (!string.IsNullOrEmpty(email))
+            if (user == null) return ClientError.BadRequest;
+            if (!string.IsNullOrEmpty(user.Email))
             {
-                filter &= Builders<User>.Filter.Eq(x => x.Email, email.ToLower());
-                var user = await _collection.Find(filter).FirstOrDefaultAsync();
-                if (user != null)
+                filter &= Builders<User>.Filter.Eq(x => x.Email, user.Email.ToLower());
+                var existingUser = await _collection.Find(filter).FirstOrDefaultAsync();
+                if (existingUser != null)
                 {
-                    user.Password = "?";
-                    return user;
+                    existingUser.Password = "?";
+                    return Error.Conflict("User.Exists", "This email already exists.");
                 }
-                return Error.NotFound();
+                if (user.Created == null)
+                    user.Created = new AppEvent();
+                return await Save(user);
             }
             return ClientError.BadRequest;
         }
@@ -136,6 +139,10 @@ namespace Tasker.Infrastructure.Repositories
         {
             var user = entity as User;
             if (user == null) return ClientError.BadRequest;
+            if (string.IsNullOrEmpty(user.Id))
+                user.Created.At = DateTime.UtcNow;
+            else if  (user.Modified != null)
+                user.Modified.At = DateTime.UtcNow;
             user.Gender = user.Gender.ToLower();
             user.Email = user.Email.ToLower();
             user.Role = user.Role.ToLower();
