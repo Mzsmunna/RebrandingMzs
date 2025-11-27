@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using Tasker.Domain.Helper;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 using Kernel.Drivers.Entities;
 using Kernel.Drivers.Models;
+using Kernel.Helpers;
 
 namespace Tasker.Persistence.DAL.MongoDB.Helper
 {
@@ -47,7 +47,7 @@ namespace Tasker.Persistence.DAL.MongoDB.Helper
                         }
                         else if (query.IsDateTime)
                         {
-                            var date = CommonHelperUtility.GetDateFromString(query.Value);
+                            var date = SharedHelperUtility.GetDateFromString(query.Value);
 
                             if (date.HasValue)
                             {

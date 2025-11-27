@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Auth;
 using Kernel.Drivers.Models;
+using Kernel.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,6 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
-using Tasker.Domain.Helper;
 using Tasker.Domain.Models;
 
 namespace Tasker.RestAPI.Controllers
@@ -37,7 +37,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("GetAllUsers")]
         public IActionResult AllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             var users = _userRepository.GetAllUsers(currentPage, pageSize, sortField, sortDirection, queries).Result;
             return Ok(users);
         }
@@ -85,7 +85,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("Count")]
         public IActionResult UsersCount(string searchQueries)
         {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             var users = _userRepository.GetAllUserCount(queries).Result;
             return Ok(users);
         }

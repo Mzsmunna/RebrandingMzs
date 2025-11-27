@@ -1,11 +1,11 @@
 ﻿using Kernel.Drivers.Errors;
 using Kernel.Drivers.Models;
+using Kernel.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tasker.Application.Errors;
 using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
-using Tasker.Domain.Helper;
 using Tasker.Domain.Models;
 
 namespace Tasker.RestAPI.Controllers
@@ -36,7 +36,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("Issues")]
         public IActionResult AllIssues(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries).Result;
             return Ok(Issues);
         }
@@ -75,7 +75,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("Count")]
         public IActionResult GetIssuesCount(string searchQueries)
         {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             var Issues = _IssueRepository.GetAllIssueCount(queries).Result;
             return Ok(Issues);
         }
@@ -92,7 +92,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("CountByAssigner")]
         public IActionResult GetIssuesCountByAssigner(string searchQueries)
         {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
             {
                 var issueCount = _IssueRepository.GetAllIssueCount(queries);
@@ -108,7 +108,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("ByAssigner")]
         public IActionResult GetIssuesByAssigner(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
             {
                 var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries);
@@ -124,7 +124,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("CountByAssigned")]
         public IActionResult GetIssuesCountByAssigned(string searchQueries)
         {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
             {
                 var issueCount = _IssueRepository.GetAllIssueCount(queries);
@@ -140,7 +140,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("ByAssigned")]
         public IActionResult GetIssuesByAssigned(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
-            List<SearchField>? queries = CommonHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
             if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
             {
                 var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries);
