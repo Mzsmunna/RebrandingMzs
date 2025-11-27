@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Kernel.Drivers.Dtos;
+using Kernel.Drivers.Enums;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Errors;
-using Tasker.Application.Models;
 
 namespace Tasker.Application.Interfaces
 {

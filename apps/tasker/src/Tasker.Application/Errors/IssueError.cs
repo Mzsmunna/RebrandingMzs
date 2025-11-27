@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Kernel.Drivers.Enums;
+using Kernel.Drivers.Errors;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

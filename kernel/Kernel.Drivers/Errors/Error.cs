@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Kernel.Drivers.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Errors
+namespace Kernel.Drivers.Errors
 {
     public record Error(ErrorType Type, string Code, string Message, int StatusCore = 102, string Url = "", string Title = "", string Detail = "")
     {
@@ -17,20 +18,5 @@ namespace Tasker.Application.Errors
         public static Error RateLimit(string code = "", string message = "") => new(ErrorType.RateLimit, code, message, 429, "https://www.rfc-editor.org/rfc/rfc6585#section-4");
         public static Error Server(string code = "", string message = "") => new(ErrorType.Server, code, message, 500, "https://www.rfc-editor.org/rfc/rfc9110#name-500-internal-server-error");
         public static Error Network(string code = "", string message = "") => new(ErrorType.Network, code, message, 502, "https://www.rfc-editor.org/rfc/rfc9110#name-502-bad-gateway"); 
-    }
-
-    public enum ErrorType
-    {
-        None,
-        Bad,
-        Unauthorized,
-        Forbidden,
-        NotFound,
-        Missing,
-        Conflict,
-        Validation,
-        RateLimit,
-        Server,
-        Network
     }
 }

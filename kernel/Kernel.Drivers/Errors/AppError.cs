@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Kernel.Drivers.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Errors
+namespace Kernel.Drivers.Errors
 {
     public static class AppError
     {

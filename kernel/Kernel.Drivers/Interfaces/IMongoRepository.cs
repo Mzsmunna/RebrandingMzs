@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Kernel.Drivers.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
 
-namespace Tasker.Application.Interfaces
+namespace Kernel.Drivers.Interfaces
 {
     public interface IMongoRepository
     {

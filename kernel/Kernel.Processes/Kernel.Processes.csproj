@@ -14,13 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\kernel\Kernel.Processes\Kernel.Processes.csproj" />
-    <ProjectReference Include="..\Tasker.Domain\Tasker.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Extensions\" />
+    <ProjectReference Include="..\Kernel.Drivers\Kernel.Drivers.csproj" />
   </ItemGroup>
 
 </Project>

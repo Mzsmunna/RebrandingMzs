@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using Tasker.Domain.Helper;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
+using Kernel.Drivers.Entities;
+using Kernel.Drivers.Models;
 
 namespace Tasker.Persistence.DAL.MongoDB.Helper
 {

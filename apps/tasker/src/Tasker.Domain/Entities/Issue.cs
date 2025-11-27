@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kernel.Drivers.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

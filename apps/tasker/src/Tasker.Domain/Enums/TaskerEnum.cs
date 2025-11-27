@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Tasker.Domain.Enums
 {
-    public enum CasingType
+    public enum TaskerEntities
     {
-        ToLowerCase,
-        ToUpperCase,
-        ToTitleCase
+        User,
+        Issue
     }
 }

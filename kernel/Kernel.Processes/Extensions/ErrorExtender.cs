@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Kernel.Drivers.Dtos;
+using Kernel.Drivers.Errors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Errors;
-using Tasker.Application.Models;
 
-namespace Tasker.Application.Extensions
+namespace Kernel.Processes.Extensions
 {
     public static class ErrorExtender
     {

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Kernel.Drivers.Errors;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Errors;
 
-namespace Tasker.Application.Models
+namespace Kernel.Drivers.Dtos
 {
     public class Result<T>
     {

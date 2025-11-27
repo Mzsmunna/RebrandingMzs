@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 
-namespace Tasker.Application.Exceptions
+namespace Kernel.Processes.Exceptions
 {
-    internal sealed class GlobalExceptionHandler(
+    public sealed class GlobalExceptionHandler(
         IProblemDetailsService problemDetailsService,
         ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
     {

@@ -1,4 +1,9 @@
-﻿using MongoDB.Bson;
+﻿using Kernel.Drivers.Dtos;
+using Kernel.Drivers.Entities;
+using Kernel.Drivers.Errors;
+using Kernel.Drivers.Interfaces;
+using Kernel.Drivers.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
@@ -6,7 +11,6 @@ using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Errors;
 using Tasker.Application.Interfaces;
-using Tasker.Application.Models;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 using Tasker.Persistence.DAL.MongoDB;

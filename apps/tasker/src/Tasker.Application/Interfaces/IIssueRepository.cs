@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Kernel.Drivers.Dtos;
+using Kernel.Drivers.Entities;
+using Kernel.Drivers.Models;
+using System;
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Text;
-using Tasker.Application.Models;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 

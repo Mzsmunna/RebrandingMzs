@@ -7,6 +7,8 @@ using Tasker.Persistence.DAL.MongoDB.Configs;
 using Tasker.Domain.Entities;
 using Tasker.Application.Interfaces;
 using Microsoft.Extensions.Logging;
+using Kernel.Drivers.Interfaces;
+using Kernel.Drivers.Entities;
 
 namespace Tasker.Persistence.DAL.MongoDB
 {

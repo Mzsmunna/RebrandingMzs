@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Kernel.Drivers.Entities;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;

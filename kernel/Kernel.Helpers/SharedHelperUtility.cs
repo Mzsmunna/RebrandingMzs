@@ -1,19 +1,15 @@
-﻿using System;
+﻿using Kernel.Drivers.Enums;
+using Kernel.Drivers.Models;
+using Newtonsoft.Json;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using Tasker.Domain.Enums;
-using Tasker.Domain.Models;
-using Newtonsoft.Json;
-using Kernel.Drivers.Models;
-using Kernel.Drivers.Enums;
 
-namespace Tasker.Domain.Helper
+namespace Kernel.Helpers
 {
-    public static class CommonHelperUtility
+    public static class SharedHelperUtility
     {
         public static string GenerateSubmitId()
         {

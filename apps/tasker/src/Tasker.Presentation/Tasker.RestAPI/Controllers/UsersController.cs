@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth;
+using Kernel.Drivers.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Tasker.Application.Dtos;
 using Tasker.Application.Interfaces;
-using Tasker.Application.Models;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Helper;
 using Tasker.Domain.Models;

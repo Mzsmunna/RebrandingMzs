@@ -1,6 +1,9 @@
-﻿using Tasker.Domain.Models;
+﻿using Kernel.Drivers.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Tasker.Domain.Entities
+namespace Kernel.Drivers.Entities
 {
     public class IEntity
     {

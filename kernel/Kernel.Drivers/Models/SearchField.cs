@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Domain.Models
+namespace Kernel.Drivers.Models
 {
     public class SearchField
     {
