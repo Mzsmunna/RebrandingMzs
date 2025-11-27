@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder.Extensions;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -22,11 +23,13 @@ namespace Tasker.Application
 
         private static void AddTaskerExceptions(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddProblemDetails(conf =>
+            services.AddProblemDetails(config =>
             {
-                conf.CustomizeProblemDetails = cntxt =>
+                config.CustomizeProblemDetails = context =>
                 {
-                    cntxt.ProblemDetails.Extensions.TryAdd("requestId", cntxt.HttpContext.TraceIdentifier);
+                    context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+                    var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+                    context.ProblemDetails.Extensions.TryAdd("traceId", activity?.TraceId.ToString() ?? string.Empty);
                 };
             });
             services.AddExceptionHandler<GlobalExceptionHandler>();
