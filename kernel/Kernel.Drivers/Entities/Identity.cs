@@ -1,0 +1,27 @@
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Kernel.Drivers.Entities
+{
+    public class Identity : IEntity
+    {
+        public required string Email { get; set; }
+        public required string Role { get; set; }
+        
+        [BsonIgnore]
+        public byte[]? PasswordHash { get; set; }
+
+        [BsonIgnore]
+        public byte[]? PasswordSalt { get; set; }
+
+        [BsonIgnore]
+        public DateTime? TokenCreated { get; set; }
+
+        [BsonIgnore]
+        public DateTime? TokenExpires { get; set; }
+
+        public string RefreshToken { get; set; } = string.Empty;
+    }
+}
