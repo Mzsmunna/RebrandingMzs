@@ -1,4 +1,5 @@
 ﻿using Kernel.Drivers.Interfaces;
+using Kernel.Managers.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -13,19 +14,9 @@ namespace Tasker.Persistence
 {
     public static class DependencyResolver
     {
-        public static Action<TOptions> ToConfigureAction<TOptions>(
-            this IConfigurationSection section)
-            where TOptions : class, new()
+        public static IServiceCollection AddTaskerPersistence(this IServiceCollection services, IConfiguration config)
         {
-            return options => section.Bind(options);
-        }
-
-        public static IServiceCollection AddTaskerPersistence(this IServiceCollection services, IConfiguration configuration)
-        {
-            //builder.Services.Configure<MongoDBConfig>(_configuration.GetSection(nameof(MongoDBConfig)));
-            services.Configure(configuration.GetSection(nameof(MongoDBConfig)).ToConfigureAction<MongoDBConfig>());
-            services.AddScoped<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
-            services.AddScoped<IMongoDBContext, MongoDBContext>();
+            services.AddMongoDB(config);
             services.AddScoped<UserEntityConfig>();
             services.AddScoped<IssueEntityConfig>();
             return services;

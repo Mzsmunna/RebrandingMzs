@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Kernel.Managers.Extensions
 {
-    public static class JwtTokenExtensions
+    public static class JwtTokenExtender
     {
         public static IServiceCollection AddJwtAuth(
             this IServiceCollection services,

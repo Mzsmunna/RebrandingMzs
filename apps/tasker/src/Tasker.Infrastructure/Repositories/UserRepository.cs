@@ -3,6 +3,9 @@ using Kernel.Drivers.Entities;
 using Kernel.Drivers.Errors;
 using Kernel.Drivers.Interfaces;
 using Kernel.Drivers.Models;
+using Kernel.Resources.DAL.MongoDB;
+using Kernel.Resources.DAL.MongoDB.Helpers;
+using Kernel.Resources.DAL.MongoDB.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
@@ -15,7 +18,6 @@ using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 using Tasker.Persistence.DAL.MongoDB;
 using Tasker.Persistence.DAL.MongoDB.Configs;
-using Tasker.Persistence.DAL.MongoDB.Helper;
 
 namespace Tasker.Infrastructure.Repositories
 {

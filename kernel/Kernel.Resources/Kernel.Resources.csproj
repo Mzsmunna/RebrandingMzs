@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kernel.Managers\Kernel.Managers.csproj" />
+    <ProjectReference Include="..\Kernel.Processes\Kernel.Processes.csproj" />
   </ItemGroup>
 
 </Project>
