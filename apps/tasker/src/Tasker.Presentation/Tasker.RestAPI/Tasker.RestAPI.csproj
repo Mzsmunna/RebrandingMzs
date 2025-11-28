@@ -23,9 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\RebrandingMzs.ServiceDefaults\RebrandingMzs.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\..\Tasker.Application\Tasker.Application.csproj" />
     <ProjectReference Include="..\..\Tasker.Infrastructure\Tasker.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Tasker.Persistence\Tasker.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
