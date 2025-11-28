@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tasker.Application\Tasker.Application.csproj" />
-    <ProjectReference Include="..\Tasker.Domain\Tasker.Domain.csproj" />
   </ItemGroup>
 
 </Project>
