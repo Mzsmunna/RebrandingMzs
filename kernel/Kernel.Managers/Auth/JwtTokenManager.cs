@@ -41,7 +41,7 @@ namespace Kernel.Managers.Auth
             user.TokenExpires = newRefreshToken.Expires;
         }
 
-        public string CreateToken(Identity user)
+        public string CreateToken(Identity user, List<Claim>? additionalClaims = null)
         {
             var tokenExpiredOn = DateTime.UtcNow.AddMinutes(15);
 
@@ -52,6 +52,9 @@ namespace Kernel.Managers.Auth
                 new Claim(ClaimTypes.Role, user.Role.ToLower()),
                 new Claim(ClaimTypes.Expiration, tokenExpiredOn.ToString())
             };
+
+            if (additionalClaims is not null && additionalClaims.Any())
+                claims.AddRange(additionalClaims);
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _configuration.GetValue<string>("JWTAuthSecretKey")!));

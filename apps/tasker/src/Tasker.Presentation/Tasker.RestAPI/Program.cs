@@ -1,4 +1,6 @@
 
+using Kernel.Drivers.Enums;
+using Kernel.Processes.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -22,13 +24,13 @@ public class Program
         builder.AddServiceDefaults();
  
         // Add services to the container.
-        IConfiguration _configuration = builder.Configuration;
+        IConfiguration _config = builder.Configuration;
 
         builder.Services.AddCors();
         builder.Services.AddHttpContextAccessor();
-        builder.Services.AddTaskerApplication(_configuration)
-            .AddTaskerInfrastructure(_configuration)
-            .AddTaskerPersistence(_configuration);
+        builder.Services.AddTaskerApplication(_config)
+            .AddTaskerInfrastructure(_config)
+            .AddTaskerPersistence(_config);
 
         builder.Services.AddControllers(options =>
         {
@@ -45,19 +47,27 @@ public class Program
 
         builder.Services.AddEndpointsApiExplorer();
 
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
+        //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        //.AddJwtBearer(options =>
+        //{
+        //    options.TokenValidationParameters = new TokenValidationParameters
+        //    {
+        //        ValidateIssuerSigningKey = true,
+        //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+        //            .GetBytes(_configuration.GetValue<string>("JWTAuthSecretKey")!)),
+        //        ValidateIssuer = false,
+        //        ValidateAudience = false,
+        //        ValidateLifetime = true,
+        //        ClockSkew = TimeSpan.Zero
+        //    };
+        //});
+
+        builder.Services.AddJwtAuth(_config, options =>
         {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                    .GetBytes(_configuration.GetValue<string>("JWTAuthSecretKey")!)),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
+            options
+                //.WithSecretKey("JWTAuthSecretKey")
+                .WithTokenExpiry(30, TimeUnit.Minutes)
+                .WithRefreshTokenExpiry(7, TimeUnit.Days);
         });
 
         var app = builder.Build();
