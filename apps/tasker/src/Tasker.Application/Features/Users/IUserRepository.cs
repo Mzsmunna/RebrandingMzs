@@ -8,9 +8,9 @@ using Tasker.Application.Attributes;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 
-namespace Tasker.Application.Interfaces
+namespace Tasker.Application.Features.Users
 {
-    [EnforceResult]
+    //[EnforceResult]
     public interface IUserRepository
     {
         Task<Result<User>> LoginUser(string email, string password);

@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Tasker.Application.Interfaces;
+using Tasker.Application.Features.Users;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 

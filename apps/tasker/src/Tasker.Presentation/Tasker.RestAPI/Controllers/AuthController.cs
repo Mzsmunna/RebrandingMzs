@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Auth;
 using Kernel.Drivers.Dtos;
 using Kernel.Drivers.Errors;
+using Kernel.Drivers.Interfaces.Auth;
 using Kernel.Managers.Auth;
 using Kernel.Managers.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Tasker.Application.Errors;
-using Tasker.Application.Interfaces;
+using Tasker.Application.Features.Users;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 
@@ -24,16 +25,16 @@ namespace Tasker.RestAPI.Controllers
         private readonly IConfiguration _config;
         private readonly ILogger<UsersController> _logger;
         private readonly IUserRepository _userRepository;
-        private readonly JwtTokenManager _jwtTokenManager;
-        private readonly GoogleAuthManager _googleAuthManager;
+        private readonly IJwtTokenManager _jwtTokenManager;
+        private readonly IGoogleAuthManager _googleAuthManager;
 
-        public AuthController(IConfiguration config, ILogger<UsersController> logger, IUserRepository userRepository, JwtTokenManager jwtTokenManager)
+        public AuthController(IConfiguration config, ILogger<UsersController> logger, IUserRepository userRepository, IJwtTokenManager jwtTokenManager, IGoogleAuthManager googleAuthManager)
         {
             _config = config;
             _logger = logger;
             _userRepository = userRepository;
             _jwtTokenManager = jwtTokenManager;
-            _googleAuthManager = new GoogleAuthManager();
+            _googleAuthManager = googleAuthManager;
         }
 
         [HttpPost]

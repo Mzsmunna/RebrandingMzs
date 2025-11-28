@@ -3,7 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Interfaces;
+using Tasker.Application.Features.Issues;
+using Tasker.Application.Features.Users;
 using Tasker.Infrastructure.Repositories;
 
 namespace Tasker.Infrastructure

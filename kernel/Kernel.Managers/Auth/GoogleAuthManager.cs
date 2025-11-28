@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth;
+using Kernel.Drivers.Interfaces.Auth;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +7,7 @@ using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace Kernel.Managers.Auth
 {
-    public class GoogleAuthManager
+    public class GoogleAuthManager : IGoogleAuthManager
     {
         public async Task<Payload?> ValidateToken(string credential)
         {

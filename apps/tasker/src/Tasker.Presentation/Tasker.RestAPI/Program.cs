@@ -62,13 +62,15 @@ public class Program
         //    };
         //});
 
-        builder.Services.AddJwtAuth(_config, options =>
-        {
-            options
-                //.WithSecretKey("JWTAuthSecretKey")
-                .WithTokenExpiry(30, TimeUnit.Minutes)
-                .WithRefreshTokenExpiry(7, TimeUnit.Days);
-        });
+        builder.Services
+            .AddJwtAuth(_config, options =>
+            {
+                options
+                    //.WithSecretKey("JWTAuthSecretKey")
+                    .WithTokenExpiry(30, TimeUnit.Minutes)
+                    .WithRefreshTokenExpiry(7, TimeUnit.Days);
+            })
+            .AddGoogleSignIn();
 
         var app = builder.Build();
 

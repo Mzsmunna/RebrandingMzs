@@ -4,7 +4,8 @@ using Kernel.Processes.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tasker.Application.Errors;
-using Tasker.Application.Interfaces;
+using Tasker.Application.Features.Issues;
+using Tasker.Application.Features.Users;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 

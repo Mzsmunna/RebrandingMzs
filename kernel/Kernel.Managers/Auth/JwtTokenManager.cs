@@ -1,5 +1,6 @@
 ﻿using Kernel.Drivers.Dtos;
 using Kernel.Drivers.Entities;
+using Kernel.Drivers.Interfaces.Auth;
 using Kernel.Drivers.Models;
 using Kernel.Processes.Helpers;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +17,7 @@ using System.Text;
 
 namespace Kernel.Managers.Auth
 {
-    public class JwtTokenManager
+    public class JwtTokenManager : IJwtTokenManager
     {
         private readonly JwtTokenOptions _options;
         private readonly IConfiguration _config;

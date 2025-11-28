@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" />
+    <PackageReference Include="Google.Apis.Auth" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>

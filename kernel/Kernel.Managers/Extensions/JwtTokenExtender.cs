@@ -1,4 +1,5 @@
 ﻿using Kernel.Drivers.Enums;
+using Kernel.Drivers.Interfaces.Auth;
 using Kernel.Drivers.Models;
 using Kernel.Managers.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -58,7 +59,8 @@ namespace Kernel.Managers.Extensions
                 {
                     options.TokenValidationParameters = validationParams;
                 });
-            services.AddScoped<JwtTokenManager>();
+
+            services.AddScoped<IJwtTokenManager, JwtTokenManager>();
 
             return services;
         }

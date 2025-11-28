@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Kernel.Managers.Extensions
 {
-    public static class MongoDbExtender
+    public static class DbExtender
     {
         public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration configuration)
         {

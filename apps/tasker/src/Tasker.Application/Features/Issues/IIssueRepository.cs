@@ -8,7 +8,7 @@ using System.Text;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 
-namespace Tasker.Application.Interfaces
+namespace Tasker.Application.Features.Issues
 {
     public interface IIssueRepository //: IMongoRepository
     {
