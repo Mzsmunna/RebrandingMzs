@@ -38,6 +38,32 @@ namespace Kernel.Helpers
             return value;
         }
 
+        public static TimeSpan ToTimeSpan(int value, TimeUnit unit)
+        => unit switch
+        {
+            TimeUnit.Seconds => TimeSpan.FromSeconds(value),
+            TimeUnit.Minutes => TimeSpan.FromMinutes(value),
+            TimeUnit.Hours   => TimeSpan.FromHours(value),
+            TimeUnit.Days    => TimeSpan.FromDays(value),
+            TimeUnit.Weeks   => TimeSpan.FromDays(value * 7),
+            TimeUnit.Months  => TimeSpan.FromDays(value * 30),
+            TimeUnit.Years   => TimeSpan.FromDays(value * 365),
+            _ => TimeSpan.FromMinutes(value)
+        };
+
+        public static DateTime ToDateTime(int value, TimeUnit unit)
+        => unit switch
+        {
+            TimeUnit.Seconds => DateTime.UtcNow.AddSeconds(value),
+            TimeUnit.Minutes => DateTime.UtcNow.AddMinutes(value),
+            TimeUnit.Hours   => DateTime.UtcNow.AddHours(value),
+            TimeUnit.Days    => DateTime.UtcNow.AddDays(value),
+            TimeUnit.Weeks   => DateTime.UtcNow.AddDays(value * 7),
+            TimeUnit.Months  => DateTime.UtcNow.AddDays(value * 30),
+            TimeUnit.Years   => DateTime.UtcNow.AddDays(value * 365),
+            _ => DateTime.UtcNow.AddMinutes(value)
+        };
+
         public static double GetUnixTime(DateTime dateTime)
         {
             var value = (dateTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;

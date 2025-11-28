@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kernel.Drivers\Kernel.Drivers.csproj" />
+    <ProjectReference Include="..\Kernel.Managers\Kernel.Managers.csproj" />
   </ItemGroup>
 
 </Project>

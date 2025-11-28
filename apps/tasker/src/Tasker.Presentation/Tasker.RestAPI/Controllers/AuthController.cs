@@ -21,18 +21,18 @@ namespace Tasker.RestAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _config;
         private readonly ILogger<UsersController> _logger;
         private readonly IUserRepository _userRepository;
         private readonly JwtTokenManager _jwtTokenManager;
         private readonly GoogleAuthManager _googleAuthManager;
 
-        public AuthController(IConfiguration configuration, ILogger<UsersController> logger, IUserRepository userRepository)
+        public AuthController(IConfiguration config, ILogger<UsersController> logger, IUserRepository userRepository, JwtTokenManager jwtTokenManager)
         {
-            _configuration = configuration;
+            _config = config;
             _logger = logger;
             _userRepository = userRepository;
-            _jwtTokenManager = new JwtTokenManager(_configuration);
+            _jwtTokenManager = jwtTokenManager;
             _googleAuthManager = new GoogleAuthManager();
         }
 

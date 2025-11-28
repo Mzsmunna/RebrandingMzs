@@ -9,7 +9,7 @@ namespace Kernel.Drivers.Models
     public sealed class JwtTokenOptions
     {
         public string? SecretKey { get; set; }
-        public string? SecretConfigKey { get; set; }
+        public string SecretConfigKey { get; set; } = "JWTAuthSecretKey";
 
         public int TokenExpiryValue { get; set; } = 60;
         public TimeUnit TokenExpiryUnit { get; set; } = TimeUnit.Minutes;
