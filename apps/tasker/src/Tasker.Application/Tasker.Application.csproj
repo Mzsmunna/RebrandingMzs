@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\kernel\Kernel.Helpers\Kernel.Helpers.csproj" />
-    <ProjectReference Include="..\..\..\..\kernel\Kernel.Processes\Kernel.Processes.csproj" />
+    <ProjectReference Include="..\..\..\..\kernel\Kernel.Managers\Kernel.Managers.csproj" />
     <ProjectReference Include="..\Tasker.Domain\Tasker.Domain.csproj" />
   </ItemGroup>
 

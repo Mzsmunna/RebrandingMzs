@@ -1,4 +1,4 @@
-﻿using Kernel.Processes.Exceptions;
+﻿using Kernel.Managers.Exceptions;
 using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;

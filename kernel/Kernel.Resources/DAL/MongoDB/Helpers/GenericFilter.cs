@@ -1,16 +1,17 @@
-﻿using MongoDB.Bson;
+﻿using Kernel.Drivers.Entities;
+using Kernel.Drivers.Models;
+using Kernel.Processes.Helpers;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Security.Principal;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
-using Kernel.Drivers.Entities;
-using Kernel.Drivers.Models;
-using Kernel.Processes.Helpers;
 
-namespace Tasker.Persistence.DAL.MongoDB.Helper
+namespace Kernel.Resources.DAL.MongoDB.Helpers
 {
     public static class GenericFilter<T> where T : IEntity
     {

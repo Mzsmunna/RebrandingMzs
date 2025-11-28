@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
 
-namespace Kernel.Processes.Exceptions
+namespace Kernel.Managers.Exceptions
 {
     public sealed class GlobalExceptionHandler(
         IProblemDetailsService problemDetailsService,

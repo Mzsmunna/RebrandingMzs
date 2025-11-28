@@ -1,6 +1,6 @@
 
 using Kernel.Drivers.Enums;
-using Kernel.Processes.Extensions;
+using Kernel.Managers.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;

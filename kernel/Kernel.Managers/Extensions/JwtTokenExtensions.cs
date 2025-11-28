@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kernel.Processes.Extensions
+namespace Kernel.Managers.Extensions
 {
     public static class JwtTokenExtensions
     {
