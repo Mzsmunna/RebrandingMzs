@@ -15,7 +15,7 @@ namespace Kernel.Drivers.Dtos
         {
             IsSuccess = true; 
             Data = data;
-            Error = Error.None!;
+            Error = Error.None;
         }
 
         private Result(Error error)

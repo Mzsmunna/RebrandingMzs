@@ -1,4 +1,5 @@
 ﻿using Kernel.Drivers.Models;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace Kernel.Drivers.Entities
 {
     public class IEntity
     {
-        public required string Id { get; set; }
-        public required AppEvent Created { get; set; }
+        public string Id { get; set; } = string.Empty; //ObjectId.GenerateNewId().ToString();
+        public AppEvent Created { get; set; } = new AppEvent();
         public AppEvent? Modified { get; set; }
     }
 }

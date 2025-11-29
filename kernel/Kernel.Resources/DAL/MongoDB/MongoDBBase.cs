@@ -1,5 +1,6 @@
 ﻿using Kernel.Drivers.Entities;
 using Kernel.Drivers.Interfaces;
+using Kernel.Drivers.Models;
 using Kernel.Resources.DAL.MongoDB.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -30,45 +31,36 @@ namespace Kernel.Resources.DAL.MongoDB
             ReplaceOneResult? result = null;
             var operation  = new MongoOperation() { Id = string.Empty, IsCompleted = false };
 
-            if (entity.Id != null && !string.IsNullOrEmpty(entity.Id))
-            {
-                BsonDocument query = new BsonDocument {
-                    { "_id" , ObjectId.Parse(entity.Id) }
-                };
-                
-                if (entity.Modified != null)
-                    entity.Modified.At = DateTime.UtcNow; // DateTime.Now
-                
-                var _entity = entity as T;
-                
-                if (_entity != null)
-                {
-                    result = await mongoCollection.ReplaceOneAsync(query, _entity).ConfigureAwait(false);
-                    operation.Id = entity.Id;
-                    operation.IsCompleted = result.IsAcknowledged;
-                }
-                
-                return operation;
-            }
-            else
+            if (entity.Created is null)
+                entity.Created = new AppEvent();
+            entity.Created.At = DateTime.UtcNow; // DateTime.Now
+
+            if (entity.Modified is null)
+                entity.Modified = new AppEvent();
+            entity.Modified.At = DateTime.UtcNow; // DateTime.Now
+
+            var _entity = entity as T;
+            if (string.IsNullOrEmpty(entity.Id))
             {
                 entity.Id = ObjectId.GenerateNewId().ToString();
-
-                if (entity.Created != null)
-                    entity.Created.At = DateTime.UtcNow; // DateTime.Now
-
-                if (entity.Modified != null)
-                    entity.Modified.At = DateTime.UtcNow; // DateTime.Now
-
-                var _entity = entity as T;
-                
                 if (_entity != null)
                 {
                     await mongoCollection.InsertOneAsync(_entity).ConfigureAwait(false);
                     operation.Id = entity.Id;
                     operation.IsCompleted = true;
                 }
-
+                return operation;
+            }
+            else {
+                BsonDocument query = new BsonDocument {
+                    { "_id" , ObjectId.Parse(entity.Id) }
+                };
+                if (_entity != null)
+                {
+                    result = await mongoCollection.ReplaceOneAsync(query, _entity).ConfigureAwait(false);
+                    operation.Id = entity.Id;
+                    operation.IsCompleted = result.IsAcknowledged;
+                }
                 return operation;
             }
         }

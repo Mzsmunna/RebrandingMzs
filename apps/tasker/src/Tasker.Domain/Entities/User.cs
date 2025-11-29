@@ -1,28 +1,29 @@
 ﻿using Kernel.Drivers.Entities;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
+using Tasker.Domain.Dtos;
+using Tasker.Domain.Models;
 
 namespace Tasker.Domain.Entities
 {
     public class User : Identity
     {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Gender { get; set; } = string.Empty;
+        public required string FirstName { get; set; }
+        public required string Password { get; set; }
+        public bool IsActive { get; set; } = true;
+        public string? LastName { get; set; }
+        public string? Gender { get; set; }
         public DateTime? BirthDate { get; set; }
         public int? Age { get; set; }
-        //public string Role { get; set; } = string.Empty;
-        //public string Email { get; set; } = string.Empty;
-        public string Phone { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public string Department { get; set; } = string.Empty;
-        public string Designation { get; set; } = string.Empty;
-        public string Position { get; set; } = string.Empty;
-        public string Img { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public bool? IsActive { get; set; } = false;
+        public string? Phone { get; set; }
+        public string? Address { get; set; }
+        public string? Department { get; set; }
+        public string? Designation { get; set; }
+        public string? Position { get; set; }
+        public string? Img { get; set; }
     }
 }

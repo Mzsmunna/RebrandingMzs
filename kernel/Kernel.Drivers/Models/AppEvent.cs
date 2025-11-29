@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace Kernel.Drivers.Models
 {
     public class AppEvent
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; } = ObjectId.GenerateNewId().ToString(); //Guid.NewGuid().ToString();
         public string By { get; set; } = string.Empty; // user id, system, etc.
         public DateTime At { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;  
         public string? Name { get; set; }
