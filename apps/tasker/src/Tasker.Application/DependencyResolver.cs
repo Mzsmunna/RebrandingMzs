@@ -8,6 +8,8 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tasker.Application.Features.Auth;
+using Tasker.Application.Interfaces;
 
 
 namespace Tasker.Application
@@ -16,10 +18,17 @@ namespace Tasker.Application
     {
         public static IServiceCollection AddTaskerApplication(this IServiceCollection services)
         {
+            AddTaskerFeatures(services);
             AddTaskerValidators(services);
             AddTaskerExceptions(services);
             AddAppRepositories(services);
             AddTaskerAppServices(services);
+            return services;
+        }
+
+        private static IServiceCollection AddTaskerFeatures(IServiceCollection services)
+        {
+            services.AddScoped<IAuthCommand, AuthCommand>();
             return services;
         }
 

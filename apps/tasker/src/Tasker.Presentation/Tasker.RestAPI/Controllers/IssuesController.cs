@@ -173,7 +173,7 @@ namespace Tasker.RestAPI.Controllers
                         Ok: user =>
                         {
                             issue.AssignedName = user.FirstName + " " + user.LastName;
-                            issue.AssignedImg = user.Img;
+                            issue.AssignedImg = user.Img ?? "";
                             return issue;
                         },
                         Err: _ => issue

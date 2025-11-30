@@ -8,7 +8,7 @@ using Tasker.Application.Features.Users;
 using Tasker.Domain.Dtos;
 using Tasker.Domain.Models;
 
-namespace Tasker.Application.Features.Auth
+namespace Tasker.Application.Interfaces
 {
     public interface IAuthCommand
     {
