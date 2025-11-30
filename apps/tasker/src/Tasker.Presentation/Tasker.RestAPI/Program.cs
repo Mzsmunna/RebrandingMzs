@@ -28,7 +28,7 @@ public class Program
 
         builder.Services.AddCors();
         builder.Services.AddHttpContextAccessor();
-        builder.Services.AddTaskerApplication(_config)
+        builder.Services.AddTaskerApplication()
             .AddTaskerInfrastructure(_config)
             .AddTaskerPersistence(_config);
 

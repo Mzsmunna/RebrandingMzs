@@ -37,7 +37,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("GetAllUsers")]
         public IActionResult AllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
-            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = ProcessHelper.JsonListDeserialize<SearchField>(searchQueries);
             var users = _userRepository.GetAllUsers(currentPage, pageSize, sortField, sortDirection, queries).Result;
             return Ok(users);
         }
@@ -85,7 +85,7 @@ namespace Tasker.RestAPI.Controllers
         //[ActionName("Count")]
         public IActionResult UsersCount(string searchQueries)
         {
-            List<SearchField>? queries = SharedHelperUtility.JsonListDeserialize<SearchField>(searchQueries);
+            List<SearchField>? queries = ProcessHelper.JsonListDeserialize<SearchField>(searchQueries);
             var users = _userRepository.GetAllUserCount(queries).Result;
             return Ok(users);
         }

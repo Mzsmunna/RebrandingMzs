@@ -1,4 +1,5 @@
-﻿using Kernel.Drivers.Dtos;
+﻿using FluentValidation;
+using Kernel.Drivers.Dtos;
 using Kernel.Drivers.Errors;
 using Kernel.Drivers.Interfaces.Auth;
 using Kernel.Managers.Auth;
@@ -12,16 +13,25 @@ using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Extensions;
 using Tasker.Application.Features.Users;
+using Tasker.Application.Validators;
 using Tasker.Domain.Dtos;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 
 namespace Tasker.Application.Features.Auth
 {
-    internal class AuthCommand(ILogger<AuthCommand> logger, IUserRepository userRepository, IJwtTokenManager jwtTokenManager, IGoogleAuthManager googleAuthManager) : IAuthCommand
+    internal class AuthCommand(ILogger<AuthCommand> logger,
+        //IValidator<SignUpDto> signUpValidator,
+        IUserRepository userRepository, 
+        IJwtTokenManager jwtTokenManager, 
+        IGoogleAuthManager googleAuthManager) : IAuthCommand
     {
         public async Task<Result<UserModel>> SignUp(SignUpDto signUpDto)
         {
+            //var validation = signUpValidator.Validate(signUpDto);
+            var validation = await TaskerValidator.ValidateSignUp(signUpDto);
+            if (!validation.IsValid)
+                return Error.Validation("AuthCommand.SignUp.InvalidInput", "User input invalid");
             var user = signUpDto.ToEntity<User, SignUpDto>();
             
             if (user is null)
@@ -71,7 +81,10 @@ namespace Tasker.Application.Features.Auth
             var payload = await googleAuthManager.ValidateToken(credential);
 
             if (payload == null)
+            {
+                logger.LogWarning("SignInWithGoogle: Bad Request");
                 return ClientError.BadRequest;
+            }
 
             var result = await userRepository.LoginUser(payload.Email);
 
@@ -94,6 +107,12 @@ namespace Tasker.Application.Features.Auth
 
         public async Task<Result<string>> RefreshToken(string userId, string refreshToken)
         {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(refreshToken))
+            {
+                logger.LogWarning("RefreshToken: Bad Request");
+                return ClientError.BadRequest;
+            }
+
             var result = await userRepository.GetUser(userId);
             
             if (!result.IsSuccess || result.Data is null)

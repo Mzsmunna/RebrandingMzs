@@ -48,7 +48,7 @@ namespace Kernel.Resources.DAL.MongoDB.Helpers
                         }
                         else if (query.IsDateTime)
                         {
-                            var date = SharedHelperUtility.GetDateFromString(query.Value);
+                            var date = ProcessHelper.GetDateFromString(query.Value);
 
                             if (date.HasValue)
                             {

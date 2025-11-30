@@ -1,4 +1,5 @@
-﻿using Kernel.Managers.Exceptions;
+﻿using FluentValidation;
+using Kernel.Managers.Exceptions;
 using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
@@ -13,15 +14,22 @@ namespace Tasker.Application
 {
     public static class DependencyResolver
     {
-        public static IServiceCollection AddTaskerApplication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddTaskerApplication(this IServiceCollection services)
         {
-            AddTaskerExceptions(services, configuration);
+            AddTaskerValidators(services);
+            AddTaskerExceptions(services);
             AddAppRepositories(services);
             AddTaskerAppServices(services);
             return services;
         }
 
-        private static void AddTaskerExceptions(IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddTaskerValidators(IServiceCollection services)
+        {
+            services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies(), includeInternalTypes: true);
+            return services;
+        }
+
+        private static void AddTaskerExceptions(IServiceCollection services)
         {
             services.AddProblemDetails(config =>
             {

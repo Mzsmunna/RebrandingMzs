@@ -33,7 +33,7 @@ namespace Kernel.Managers.Auth
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = SharedHelperUtility.ToDateTime(_options.RefreshTokenExpiryValue, _options.RefreshTokenExpiryUnit), //DateTime.UtcNow.AddDays(7),
+                Expires = ProcessHelper.ToDateTime(_options.RefreshTokenExpiryValue, _options.RefreshTokenExpiryUnit), //DateTime.UtcNow.AddDays(7),
                 Created = DateTime.UtcNow
             };
             return refreshToken;
@@ -55,7 +55,7 @@ namespace Kernel.Managers.Auth
 
         public string CreateToken(Identity user, List<Claim>? additionalClaims = null)
         {
-            var tokenExpiredOn = SharedHelperUtility.ToDateTime(_options.TokenExpiryValue, _options.TokenExpiryUnit); //DateTime.UtcNow.AddMinutes(15);
+            var tokenExpiredOn = ProcessHelper.ToDateTime(_options.TokenExpiryValue, _options.TokenExpiryUnit); //DateTime.UtcNow.AddMinutes(15);
 
             List<Claim> claims = new List<Claim>
             {

@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace Kernel.Processes.Helpers
 {
-    public static class SharedHelperUtility
+    public static class ProcessHelper
     {
         public static string GenerateSubmitId()
         {
@@ -30,6 +30,21 @@ namespace Kernel.Processes.Helpers
         {
             DateTime tempDate;
             return DateTime.TryParse(txtDate, out tempDate);
+        }
+
+        public static bool IsFutureDate(DateTime date) => date < DateTime.Today;
+
+        public static int CalculateAge(DateTime dob)
+        {
+            var today = DateTime.Today;
+
+            int age = today.Year - dob.Year;
+
+            // Adjust if birthday hasn't occurred yet this year
+            if (dob.Date > today.AddYears(-age)) 
+                age--;
+
+            return age;
         }
 
         public static string GetRegexValue(string value)
