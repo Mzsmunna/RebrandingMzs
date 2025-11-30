@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Errors;
-using Tasker.Application.Features.Users;
+using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 using Tasker.Persistence.DAL.MongoDB;
@@ -149,7 +149,7 @@ namespace Tasker.Infrastructure.Repositories
                 user.Created.At = DateTime.UtcNow;
             else if  (user.Modified != null)
                 user.Modified.At = DateTime.UtcNow;
-            user.Gender = user.Gender.ToLower();
+            user.Gender = user.Gender?.ToLower() ?? "";
             user.Email = user.Email.ToLower();
             user.Role = user.Role.ToLower();
             entity = user;

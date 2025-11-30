@@ -12,7 +12,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Tasker.Application.Errors;
-using Tasker.Application.Features.Users;
 using Tasker.Application.Interfaces;
 using Tasker.Domain.Dtos;
 using Tasker.Domain.Entities;

@@ -8,7 +8,7 @@ using Tasker.Application.Attributes;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 
-namespace Tasker.Application.Features.Users
+namespace Tasker.Application.Interfaces
 {
     //[EnforceResult]
     public interface IUserRepository

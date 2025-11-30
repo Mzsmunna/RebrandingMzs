@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Errors;
 using Tasker.Application.Features.Issues;
+using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 using Tasker.Persistence.DAL.MongoDB;
