@@ -19,6 +19,15 @@
     <Project Path="kernel/Kernel.Resources/Kernel.Resources.csproj" Id="7202e5dd-ddf6-420f-8b33-d391f3c4e255" />
   </Folder>
   <Folder Name="/knowledge/" />
+  <Folder Name="/mzstruct/">
+    <Project Path="mzstruct/Mzstruct.AI/Mzstruct.AI.csproj" Id="c1a41dae-dde0-4447-928c-2b4d08f3b33e" />
+    <Project Path="mzstruct/Mzstruct.Base/Mzstruct.Base.csproj" Id="2a920207-3a03-4076-8271-6c20dfd82751" />
+    <Project Path="mzstruct/Mzstruct.BI/Mzstruct.BI.csproj" Id="5a359784-4b78-4a6e-bf1b-381f5e6cb70b" />
+    <Project Path="mzstruct/Mzstruct.Inventory/Mzstruct.Inventory.csproj" Id="54e10fbc-6305-4528-aa03-734d276f28e9" />
+    <Project Path="mzstruct/Mzstruct.Logistic/Mzstruct.Logistic.csproj" Id="1e6d0513-a244-4a66-96a5-079a68dda479" />
+    <Project Path="mzstruct/Mzstruct.Resources/Mzstruct.Resources.csproj" Id="35d37265-8d9b-49ca-acd5-c3f4d2c7cc7b" />
+    <Project Path="mzstruct/Mzstruct.Services/Mzstruct.Services.csproj" Id="c5136b96-502a-4c7e-a9ba-60000e91a36a" />
+  </Folder>
   <Folder Name="/pocs/" />
   <Folder Name="/skills/" />
   <Folder Name="/skills/ai/" />
