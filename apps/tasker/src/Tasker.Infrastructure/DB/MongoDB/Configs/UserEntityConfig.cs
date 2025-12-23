@@ -8,7 +8,7 @@ using System.Text;
 using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
 
-namespace Tasker.Persistence.DAL.MongoDB.Configs
+namespace Tasker.Infrastructure.DB.MongoDB.Configs
 {
     public class UserEntityConfig : IMongoEntityConfig
     {

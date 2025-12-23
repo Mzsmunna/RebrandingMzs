@@ -16,10 +16,9 @@ using Tasker.Application.Errors;
 using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
-using Tasker.Persistence.DAL.MongoDB;
-using Tasker.Persistence.DAL.MongoDB.Configs;
+using Tasker.Infrastructure.DB.MongoDB.Configs;
 
-namespace Tasker.Infrastructure.Repositories
+namespace Tasker.Infrastructure.DB.MongoDB.Repositories
 {
     public class UserRepository: MongoDBBase<User>, IUserRepository
     {

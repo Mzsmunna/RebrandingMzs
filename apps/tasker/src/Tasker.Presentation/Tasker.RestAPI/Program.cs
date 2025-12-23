@@ -12,7 +12,6 @@ using Scalar.AspNetCore;
 using System.Text;
 using Tasker.Application;
 using Tasker.Infrastructure;
-using Tasker.Persistence;
 
 namespace Tasker.RestAPI;
 
@@ -29,8 +28,7 @@ public class Program
         builder.Services.AddCors();
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddTaskerApplication()
-            .AddTaskerInfrastructure(_config)
-            .AddTaskerPersistence(_config);
+            .AddTaskerInfrastructure(_config);
 
         builder.Services.AddControllers(options =>
         {
