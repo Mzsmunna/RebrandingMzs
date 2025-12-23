@@ -1,4 +1,4 @@
-﻿namespace Mzstruct.Resources
+﻿namespace Mzstruct.API
 {
     public class Class1
     {

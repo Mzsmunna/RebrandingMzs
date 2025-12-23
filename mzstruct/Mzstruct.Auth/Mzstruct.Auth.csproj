@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Masstransit\" />
+    <ProjectReference Include="..\Mzstruct.Base\Mzstruct.Base.csproj" />
   </ItemGroup>
 
 </Project>

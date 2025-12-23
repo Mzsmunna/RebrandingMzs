@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DB\" />
-    <Folder Include="Cloud\" />
-    <Folder Include="Blob\" />
-    <Folder Include="Storage\" />
+    <ProjectReference Include="..\Mzstruct.Base\Mzstruct.Base.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+    <Folder Include="ORM\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Mzstruct.Logistic
+﻿namespace Mzstruct.Distributed
 {
     public class Class1
     {

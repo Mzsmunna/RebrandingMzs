@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mzstruct.Auth\Mzstruct.Auth.csproj" />
+    <ProjectReference Include="..\Mzstruct.Base\Mzstruct.Base.csproj" />
+    <ProjectReference Include="..\Mzstruct.DB\Mzstruct.DB.csproj" />
+  </ItemGroup>
+
+</Project>

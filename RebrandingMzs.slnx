@@ -21,12 +21,17 @@
   <Folder Name="/knowledge/" />
   <Folder Name="/mzstruct/">
     <Project Path="mzstruct/Mzstruct.AI/Mzstruct.AI.csproj" Id="c1a41dae-dde0-4447-928c-2b4d08f3b33e" />
+    <Project Path="mzstruct/Mzstruct.API/Mzstruct.API.csproj" Id="f969145e-286e-42a4-a9b3-11c76442fc6c" />
+    <Project Path="mzstruct/Mzstruct.Auth/Mzstruct.Auth.csproj" Id="81a525dc-2d28-4530-a144-8fda5ce78f87" />
     <Project Path="mzstruct/Mzstruct.Base/Mzstruct.Base.csproj" Id="2a920207-3a03-4076-8271-6c20dfd82751" />
     <Project Path="mzstruct/Mzstruct.BI/Mzstruct.BI.csproj" Id="5a359784-4b78-4a6e-bf1b-381f5e6cb70b" />
-    <Project Path="mzstruct/Mzstruct.Inventory/Mzstruct.Inventory.csproj" Id="54e10fbc-6305-4528-aa03-734d276f28e9" />
-    <Project Path="mzstruct/Mzstruct.Logistic/Mzstruct.Logistic.csproj" Id="1e6d0513-a244-4a66-96a5-079a68dda479" />
-    <Project Path="mzstruct/Mzstruct.Resources/Mzstruct.Resources.csproj" Id="35d37265-8d9b-49ca-acd5-c3f4d2c7cc7b" />
+    <Project Path="mzstruct/Mzstruct.Cloud/Mzstruct.Cloud.csproj" Id="e903ab6d-6789-47ae-aecb-0c83ef129135" />
+    <Project Path="mzstruct/Mzstruct.Common/Mzstruct.Common.csproj" Id="846e5bdb-074c-46c6-ab10-13da09b6089f" />
+    <Project Path="mzstruct/Mzstruct.DB/Mzstruct.DB.csproj" Id="cb40ed1b-32dc-4db9-9a80-daa3e8e62d46" />
+    <Project Path="mzstruct/Mzstruct.Distributed/Mzstruct.Distributed.csproj" Id="7f474c42-7bc7-481d-9c6e-957e6a073386" />
+    <Project Path="mzstruct/Mzstruct.SDK/Mzstruct.SDK.csproj" Id="1778677f-0369-4aa6-8e64-57d1fce3b6d5" />
     <Project Path="mzstruct/Mzstruct.Services/Mzstruct.Services.csproj" Id="c5136b96-502a-4c7e-a9ba-60000e91a36a" />
+    <Project Path="mzstruct/Mzstruct.Storage/Mzstruct.Storage.csproj" Id="f3452e26-519b-4ae9-874a-8097caa56a52" />
   </Folder>
   <Folder Name="/pocs/" />
   <Folder Name="/skills/" />
