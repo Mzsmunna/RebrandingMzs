@@ -5,8 +5,8 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.DB.Resources.MongoDB;
-using Mzstruct.DB.Resources.MongoDB.Configs;
+using Mzstruct.DB.Providers.MongoDB;
+using Mzstruct.DB.Providers.MongoDB.Configs;
 
 namespace Mzstruct.Common.Extensions
 {

@@ -6,9 +6,9 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.DB.Resources.MongoDB.Models;
+using Mzstruct.DB.Providers.MongoDB.Models;
 
-namespace Mzstruct.DB.Resources.MongoDB
+namespace Mzstruct.DB.Providers.MongoDB
 {
     public class MongoDBBase<T> where T : class
     {

@@ -3,8 +3,6 @@ using Mzstruct.Base.Entities;
 using Mzstruct.Base.Errors;
 using Mzstruct.Base.Interfaces;
 using Mzstruct.Base.Models;
-using Mzstruct.DB.Resources.MongoDB;
-using Mzstruct.DB.Resources.MongoDB.Helpers;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
@@ -17,6 +15,8 @@ using Tasker.Application.Interfaces;
 using Tasker.Domain.Entities;
 using Tasker.Domain.Models;
 using Tasker.Infrastructure.DB.MongoDB.Configs;
+using Mzstruct.DB.Providers.MongoDB;
+using Mzstruct.DB.Providers.MongoDB.Helpers;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repositories
 {

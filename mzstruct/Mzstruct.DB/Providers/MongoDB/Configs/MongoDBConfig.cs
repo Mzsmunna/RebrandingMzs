@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.DB.Resources.MongoDB.Configs
+namespace Mzstruct.DB.Providers.MongoDB.Configs
 {
     public class MongoDBConfig
     {

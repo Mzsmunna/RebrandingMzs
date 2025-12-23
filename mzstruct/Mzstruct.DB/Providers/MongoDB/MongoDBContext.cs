@@ -3,9 +3,9 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.DB.Resources.MongoDB.Configs;
+using Mzstruct.DB.Providers.MongoDB.Configs;
 
-namespace Mzstruct.DB.Resources.MongoDB
+namespace Mzstruct.DB.Providers.MongoDB
 {
     public class MongoDBContext : IMongoDBContext
     {

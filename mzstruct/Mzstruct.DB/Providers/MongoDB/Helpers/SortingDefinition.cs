@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Security.Principal;
 using System.Text;
 
-namespace Mzstruct.DB.Resources.MongoDB.Helpers
+namespace Mzstruct.DB.Providers.MongoDB.Helpers
 {
     public static class SortingDefinition
     {

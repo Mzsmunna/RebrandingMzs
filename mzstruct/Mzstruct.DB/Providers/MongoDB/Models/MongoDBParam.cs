@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.DB.Resources.MongoDB.Models
+namespace Mzstruct.DB.Providers.MongoDB.Models
 {
     public class MongoDBParam : BsonDocument
     {

@@ -11,7 +11,7 @@ using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using Mzstruct.Base.Helpers;
 
-namespace Mzstruct.DB.Resources.MongoDB.Helpers
+namespace Mzstruct.DB.Providers.MongoDB.Helpers
 {
     public static class GenericFilter<T> where T : IEntity
     {
