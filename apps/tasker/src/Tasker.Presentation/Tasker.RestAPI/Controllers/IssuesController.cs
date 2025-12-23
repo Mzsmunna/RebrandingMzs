@@ -11,7 +11,7 @@ namespace Tasker.RestAPI.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     //[Route("api/[controller]/[action]")]
     public class IssuesController : ControllerBase
     {

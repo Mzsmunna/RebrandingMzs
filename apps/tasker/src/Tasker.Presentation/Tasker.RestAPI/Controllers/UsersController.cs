@@ -16,7 +16,7 @@ using Tasker.Domain.Models;
 namespace Tasker.RestAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     //[Route("api/[controller]/[action]")]
     public class UsersController : ControllerBase
     {
