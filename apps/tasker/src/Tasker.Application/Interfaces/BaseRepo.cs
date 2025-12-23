@@ -1,5 +1,5 @@
-﻿using Kernel.Drivers.Dtos;
-using Kernel.Drivers.Enums;
+﻿using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Enums;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

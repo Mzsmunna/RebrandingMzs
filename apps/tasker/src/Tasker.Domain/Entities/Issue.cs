@@ -1,4 +1,4 @@
-﻿using Kernel.Drivers.Entities;
+﻿using Mzstruct.Base.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;

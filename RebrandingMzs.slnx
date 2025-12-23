@@ -11,13 +11,6 @@
     <Project Path="apps/tasker/src/Tasker.Presentation/Tasker.RestAPI/Tasker.RestAPI.csproj" />
   </Folder>
   <Folder Name="/apps/tasker/tests/" />
-  <Folder Name="/kernel/">
-    <Project Path="kernel/Kernel.Drivers/Kernel.Drivers.csproj" Id="d4373446-56a3-44c0-921c-de13cdc51155" />
-    <Project Path="kernel/Kernel.Managers/Kernel.Managers.csproj" Id="2c1d9a54-b73b-4a11-8c0e-74b19d6e6136" />
-    <Project Path="kernel/Kernel.Modules/Kernel.Modules.csproj" Id="00c34174-030b-4b1f-bab6-332e1d7f8c7c" />
-    <Project Path="kernel/Kernel.Processes/Kernel.Processes.csproj" Id="d1ff5fb0-982d-4b9b-a171-022356d846d1" />
-    <Project Path="kernel/Kernel.Resources/Kernel.Resources.csproj" Id="7202e5dd-ddf6-420f-8b33-d391f3c4e255" />
-  </Folder>
   <Folder Name="/knowledge/" />
   <Folder Name="/mzstruct/">
     <Project Path="mzstruct/Mzstruct.AI/Mzstruct.AI.csproj" Id="c1a41dae-dde0-4447-928c-2b4d08f3b33e" />

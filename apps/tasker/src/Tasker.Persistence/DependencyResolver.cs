@@ -1,5 +1,5 @@
-﻿using Kernel.Drivers.Interfaces;
-using Kernel.Managers.Extensions;
+﻿using Mzstruct.Base.Interfaces;
+using Mzstruct.Common.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using Kernel.Drivers.Dtos;
-using Kernel.Drivers.Errors;
-using Kernel.Drivers.Interfaces.Auth;
-using Kernel.Managers.Auth;
-using Kernel.Managers.Extensions;
+using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Errors;
+using Mzstruct.Base.Interfaces.Auth;
+using Mzstruct.Auth;
+using Mzstruct.Common.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

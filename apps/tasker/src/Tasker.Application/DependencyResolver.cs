@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Kernel.Managers.Exceptions;
+using Mzstruct.Common.Exceptions;
 using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;

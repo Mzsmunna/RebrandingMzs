@@ -1,5 +1,5 @@
-﻿using Kernel.Drivers.Enums;
-using Kernel.Drivers.Errors;
+﻿using Mzstruct.Base.Enums;
+using Mzstruct.Base.Errors;
 using System;
 using System.Collections.Generic;
 using System.Text;

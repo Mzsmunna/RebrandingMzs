@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using Kernel.Processes.Helpers;
+using Mzstruct.Base.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,7 +22,7 @@ namespace Tasker.Application.Validators
                     .MaximumLength(100)
                     .WithMessage("First name cannot exceed 100 characters.");
                 v.RuleFor(x => x.dob)
-                    .Must(x => x.HasValue && ProcessHelper.IsFutureDate(x.Value))
+                    .Must(x => x.HasValue && BaseHelper.IsFutureDate(x.Value))
                     .WithMessage("birth date cannot be from future");
                 v.RuleFor(x => x.email)
                     .NotEmpty().WithMessage("Email is required.")

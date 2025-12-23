@@ -1,4 +1,4 @@
-﻿using Kernel.Drivers.Models;
+﻿using Mzstruct.Base.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

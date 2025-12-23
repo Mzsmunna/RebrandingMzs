@@ -1,4 +1,4 @@
-﻿using Kernel.Drivers.Entities;
+﻿using Mzstruct.Base.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using System;

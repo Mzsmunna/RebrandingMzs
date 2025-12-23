@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\kernel\Kernel.Drivers\Kernel.Drivers.csproj" />
+    <ProjectReference Include="..\..\..\..\mzstruct\Mzstruct.Base\Mzstruct.Base.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
-﻿using Kernel.Drivers.Dtos;
-using Kernel.Drivers.Errors;
+﻿using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Errors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

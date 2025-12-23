@@ -1,4 +1,4 @@
-﻿using Kernel.Drivers.Interfaces;
+﻿using Mzstruct.Base.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;

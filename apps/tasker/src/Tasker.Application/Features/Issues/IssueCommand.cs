@@ -1,6 +1,6 @@
-﻿using Kernel.Drivers.Dtos;
-using Kernel.Drivers.Errors;
-using Kernel.Drivers.Models;
+﻿using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Errors;
+using Mzstruct.Base.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
