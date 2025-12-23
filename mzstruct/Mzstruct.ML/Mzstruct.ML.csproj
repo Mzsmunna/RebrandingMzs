@@ -6,11 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Brokers\" />
-    <Folder Include="Events\" />
-    <Folder Include="Messaging\" />
-    <Folder Include="Queues\" />
-  </ItemGroup>
-
 </Project>

@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <Folder Include="Integrations\" />
+    <Folder Include="LLM\" />
+    <Folder Include="Agents\" />
+    <Folder Include="RAG\" />
   </ItemGroup>
 
 </Project>
