@@ -4,8 +4,8 @@ using Mzstruct.Base.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Extensions;
 using Tasker.Application.Features.Auth;
+using Tasker.Application.Extensions;
 
 namespace Tasker.Application.Validators
 {

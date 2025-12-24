@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Mzstruct.Common.Extensions
 {
-    public static class KernelExtender
+    public static class ActionExtender
     {
         public static Action<TOptions> ToConfigureAction<TOptions>(
             this IConfigurationSection section)

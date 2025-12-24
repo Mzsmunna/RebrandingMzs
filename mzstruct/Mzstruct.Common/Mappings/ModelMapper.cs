@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Extensions
+namespace Mzstruct.Common.Mappings
 {
     public static class ModelMapper
     {

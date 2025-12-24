@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" />
     <PackageReference Include="MongoDB.Driver" />
@@ -17,6 +16,7 @@
     <Folder Include="Configs\" />
     <Folder Include="Aggregates\" />
     <Folder Include="Events\" />
+    <Folder Include="Extensions\" />
     <Folder Include="Helpers\" />
     <Folder Include="Consts\" />
   </ItemGroup>

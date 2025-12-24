@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tasker.Application.Features.Users
 {
-    public class UserModel : BaseModel
+    public record UserModel : BaseModel
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

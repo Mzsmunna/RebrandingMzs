@@ -11,9 +11,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Extensions;
 using Tasker.Application.Validators;
 using Tasker.Application.Features.Users;
+using Mzstruct.Common.Mappings;
 
 namespace Tasker.Application.Features.Auth
 {

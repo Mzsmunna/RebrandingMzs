@@ -1,14 +1,15 @@
 ﻿using FluentValidation;
-using Mzstruct.Common.Exceptions;
 using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Mzstruct.Common.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Features.Auth;
+using Tasker.Application.Features.Issues;
 
 
 namespace Tasker.Application
@@ -21,14 +22,15 @@ namespace Tasker.Application
             AddTaskerQueries(services);
             AddTaskerValidators(services);
             AddTaskerExceptions(services);
-            AddTaskerRepositories(services);
-            AddTaskerServices(services);
+            //AddTaskerRepositories(services);
+            //AddTaskerServices(services);
             return services;
         }
 
         private static IServiceCollection AddTaskerCommands(IServiceCollection services)
         {
             services.AddScoped<IAuthCommand, AuthCommand>();
+            services.AddScoped<IIssueCommand, IssueCommand>();
             return services;
         }
 

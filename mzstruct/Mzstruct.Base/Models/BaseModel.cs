@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mzstruct.Base.Models
 {
-    public class BaseModel
+    public record BaseModel
     {
         public required string Id { get; set; }
     }

@@ -1,21 +1,24 @@
-﻿using Mzstruct.Base.Dtos;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
 using Mzstruct.Base.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using Mzstruct.Common.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Features.Users;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tasker.Application.Features.Issues
 {
     internal class IssueCommand(IIssueRepository issueRepository,
         IUserRepository userRepository) : IIssueCommand
     {
-        public async Task<Result<Issue>> CreateIssue(Issue issue)
+        public async Task<Result<Issue>> CreateIssue(IssueModel issue)
         {
-            return await SaveIssue(issue);
+            var issueEntity = issue.ToEntity<Issue, IssueModel>();
+            return await SaveIssue(issueEntity);
         }
 
         public async Task<Result<Issue>> UpdateIssue(Issue issue)
