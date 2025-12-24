@@ -15,19 +15,25 @@ namespace Tasker.Application
 {
     public static class DependencyResolver
     {
-        public static IServiceCollection AddTaskerApplication(this IServiceCollection services)
+        public static IServiceCollection AddTaskerFeatures(this IServiceCollection services)
         {
-            AddTaskerFeatures(services);
+            AddTaskerCommands(services);
+            AddTaskerQueries(services);
             AddTaskerValidators(services);
             AddTaskerExceptions(services);
-            AddAppRepositories(services);
-            AddTaskerAppServices(services);
+            AddTaskerRepositories(services);
+            AddTaskerServices(services);
             return services;
         }
 
-        private static IServiceCollection AddTaskerFeatures(IServiceCollection services)
+        private static IServiceCollection AddTaskerCommands(IServiceCollection services)
         {
             services.AddScoped<IAuthCommand, AuthCommand>();
+            return services;
+        }
+
+        private static IServiceCollection AddTaskerQueries(IServiceCollection services)
+        {
             return services;
         }
 
@@ -37,7 +43,7 @@ namespace Tasker.Application
             return services;
         }
 
-        private static void AddTaskerExceptions(IServiceCollection services)
+        private static IServiceCollection AddTaskerExceptions(IServiceCollection services)
         {
             services.AddProblemDetails(config =>
             {
@@ -49,16 +55,17 @@ namespace Tasker.Application
                 };
             });
             services.AddExceptionHandler<GlobalExceptionHandler>();
+            return services;
         }
 
-        private static void AddAppRepositories(IServiceCollection services)
+        private static IServiceCollection AddTaskerRepositories(IServiceCollection services)
         {
-            
+            return services;
         }
 
-        private static void AddTaskerAppServices(IServiceCollection services)
+        private static IServiceCollection AddTaskerServices(IServiceCollection services)
         {
-
+            return services;
         }
     }
 }

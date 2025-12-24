@@ -27,8 +27,9 @@ public class Program
 
         builder.Services.AddCors();
         builder.Services.AddHttpContextAccessor();
-        builder.Services.AddTaskerApplication()
-            .AddTaskerInfrastructure(_config);
+        builder.Services
+            .AddTaskerInfrastructure(_config)
+            .AddTaskerFeatures();
 
         builder.Services.AddControllers(options =>
         {
