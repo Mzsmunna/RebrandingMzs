@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Errors
+namespace Tasker.Application.Features.Issues
 {
     public static class IssueError
     {

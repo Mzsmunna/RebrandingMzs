@@ -12,11 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Extensions;
-using Tasker.Application.Interfaces;
 using Tasker.Application.Validators;
-using Tasker.Domain.Dtos;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.Application.Features.Auth
 {

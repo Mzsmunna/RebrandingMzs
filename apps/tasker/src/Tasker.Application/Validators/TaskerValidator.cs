@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Extensions;
-using Tasker.Domain.Dtos;
+using Tasker.Application.Features.Auth;
 
 namespace Tasker.Application.Validators
 {

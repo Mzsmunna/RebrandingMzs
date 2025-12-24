@@ -3,13 +3,12 @@ using Mzstruct.Base.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Domain.Dtos;
 
-namespace Tasker.Application.Validators
+namespace Tasker.Application.Features.Auth
 {
     internal sealed class UserSignUpValidator: AbstractValidator<SignUpDto>
     {
-        public UserSignUpValidator() 
+        public UserSignUpValidator()
         {
             RuleFor(x => x.firstName)
                 .NotEmpty().WithMessage("First name is required.")

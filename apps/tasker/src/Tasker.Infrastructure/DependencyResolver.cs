@@ -4,7 +4,8 @@ using Mzstruct.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Interfaces;
+using Tasker.Application.Features.Issues;
+using Tasker.Application.Features.Users;
 using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Tasker.Infrastructure.DB.MongoDB.Repositories;
 

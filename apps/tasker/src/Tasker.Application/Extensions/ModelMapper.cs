@@ -3,9 +3,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Domain.Dtos;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
 
 namespace Tasker.Application.Extensions
 {

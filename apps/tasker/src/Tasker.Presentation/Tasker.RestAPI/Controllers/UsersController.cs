@@ -9,9 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Tasker.Application.Interfaces;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.RestAPI.Controllers
 {

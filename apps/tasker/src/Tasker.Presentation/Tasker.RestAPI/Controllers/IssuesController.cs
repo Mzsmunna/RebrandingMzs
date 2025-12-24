@@ -3,9 +3,8 @@ using Mzstruct.Base.Models;
 using Mzstruct.Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tasker.Application.Interfaces;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
+using Tasker.Application.Features.Users;
+using Tasker.Application.Features.Issues;
 
 namespace Tasker.RestAPI.Controllers
 {

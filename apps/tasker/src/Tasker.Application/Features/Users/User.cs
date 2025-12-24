@@ -5,10 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
-using Tasker.Domain.Dtos;
-using Tasker.Domain.Models;
 
-namespace Tasker.Domain.Entities
+namespace Tasker.Application.Features.Users
 {
     public class User : Identity
     {

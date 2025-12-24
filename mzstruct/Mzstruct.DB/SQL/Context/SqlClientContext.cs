@@ -108,7 +108,7 @@ namespace Mzstruct.DB.SQL.Context
             Console.WriteLine("Quick Bulk Ended");
         }
 
-        public static void QuickBulkUpdate(List<T> entityList, string tableName = null)
+        public static void QuickBulkUpdate(List<T> entityList, string? tableName = null)
         {
             Console.WriteLine("Quick Bulk Update Called");
 
@@ -314,7 +314,7 @@ namespace Mzstruct.DB.SQL.Context
                 for (int i = 0; i < Props.Length; i++)
                 {
                     //inserting property values to datatable rows
-                    values[i] = Props[i].GetValue(item, null);
+                    values[i] = Props[i].GetValue(item, null) ?? DBNull.Value;
                 }
 
                 dataTable.Rows.Add(values);

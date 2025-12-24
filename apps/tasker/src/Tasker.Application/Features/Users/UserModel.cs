@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Domain.Models
+namespace Tasker.Application.Features.Users
 {
     public class UserModel : BaseModel
     {

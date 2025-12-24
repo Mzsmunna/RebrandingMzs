@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Features.Auth;
-using Tasker.Application.Interfaces;
 
 
 namespace Tasker.Application

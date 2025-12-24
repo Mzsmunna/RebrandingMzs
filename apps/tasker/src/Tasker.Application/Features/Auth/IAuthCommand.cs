@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Domain.Dtos;
-using Tasker.Domain.Models;
+using Tasker.Application.Features.Users;
 
-namespace Tasker.Application.Interfaces
+namespace Tasker.Application.Features.Auth
 {
     public interface IAuthCommand
     {

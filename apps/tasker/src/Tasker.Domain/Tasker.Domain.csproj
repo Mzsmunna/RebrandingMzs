@@ -3,10 +3,12 @@
   <ItemGroup>
     <Folder Include="Configs\" />
     <Folder Include="Aggregates\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Enums\" />
     <Folder Include="Events\" />
     <Folder Include="Helper\" />
-    <Folder Include="Logics\" />
-    <Folder Include="Constants\" />
+    <Folder Include="Consts\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>

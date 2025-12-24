@@ -47,7 +47,7 @@ namespace Mzstruct.DB.SQL.Helper
             }
         }
 
-        internal async static Task<List<IDictionary<string, Object>>> ExecuteDynamicReader(string commandText, List<SqlParameter> sqlParameters = null)
+        internal async static Task<List<IDictionary<string, Object>>> ExecuteDynamicReader(string commandText, List<SqlParameter>? sqlParameters = null)
         {
             List<IDictionary<string, Object>> results = new List<IDictionary<string, Object>>();
             using var conn = new SqlConnection(AppConst.SqlConnectionString);

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Domain.Entities
+namespace Tasker.Application.Features.Issues
 {
     public class Issue : BaseEntity
     {

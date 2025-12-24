@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Interfaces;
-using Tasker.Domain.Entities;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Configs
 {

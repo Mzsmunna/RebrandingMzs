@@ -5,10 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Attributes;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
 
-namespace Tasker.Application.Interfaces
+namespace Tasker.Application.Features.Users
 {
     //[EnforceResult]
     public interface IUserRepository

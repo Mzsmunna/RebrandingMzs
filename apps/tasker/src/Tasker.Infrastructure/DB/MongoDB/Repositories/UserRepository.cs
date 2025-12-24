@@ -10,13 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Errors;
-using Tasker.Application.Interfaces;
-using Tasker.Domain.Entities;
-using Tasker.Domain.Models;
 using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Mzstruct.DB.Providers.MongoDB.Models;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repositories
 {

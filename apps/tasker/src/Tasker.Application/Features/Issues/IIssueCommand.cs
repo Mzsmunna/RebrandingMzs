@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Interfaces
+namespace Tasker.Application.Features.Issues
 {
     public interface IIssueCommand
     {

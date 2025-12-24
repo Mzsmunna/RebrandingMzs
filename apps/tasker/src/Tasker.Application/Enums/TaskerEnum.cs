@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Domain.Enums
+namespace Tasker.Application.Enums
 {
     public enum TaskerEntities
     {

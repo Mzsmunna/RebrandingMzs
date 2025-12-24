@@ -4,17 +4,21 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" />
+    <PackageReference Include="MongoDB.Driver" />
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\mzstruct\Mzstruct.Common\Mzstruct.Common.csproj" />
-    <ProjectReference Include="..\Tasker.Domain\Tasker.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Exceptions\" />
-    <Folder Include="Features\Users\" />
+    <Folder Include="Configs\" />
+    <Folder Include="Aggregates\" />
+    <Folder Include="Events\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Consts\" />
   </ItemGroup>
 
 </Project>
