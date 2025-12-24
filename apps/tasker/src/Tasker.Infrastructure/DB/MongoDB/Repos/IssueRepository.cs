@@ -14,7 +14,7 @@ using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
 
-namespace Tasker.Infrastructure.DB.MongoDB.Repositories
+namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {
     public class IssueRepository: MongoDBBase<Issue>, IIssueRepository
     {

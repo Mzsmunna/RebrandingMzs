@@ -16,7 +16,7 @@ using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Mzstruct.DB.Providers.MongoDB.Models;
 using Tasker.Application.Features.Users;
 
-namespace Tasker.Infrastructure.DB.MongoDB.Repositories
+namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {
     public class UserRepository: MongoDBBase<User>, IUserRepository
     {
