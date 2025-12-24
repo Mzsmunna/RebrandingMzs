@@ -69,10 +69,7 @@ namespace Tasker.Application.Features.Issues
                 var result = await issueRepository.Save(issue);
                 return result!;
             }
-            else
-            {
-                return ClientError.BadRequest;
-            }
+            else return ClientError.BadRequest;
         }
 
         public async Task<Result<bool>> DeleteIssue(string id)

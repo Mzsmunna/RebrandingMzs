@@ -1,10 +1,12 @@
-﻿using Mzstruct.Base.Errors;
-using Mzstruct.Base.Models;
-using Mzstruct.Base.Helpers;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tasker.Application.Features.Users;
+using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Errors;
+using Mzstruct.Base.Helpers;
+using Mzstruct.Base.Models;
+using Mzstruct.Common.Extensions;
 using Tasker.Application.Features.Issues;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.RestAPI.Controllers
 {
@@ -12,192 +14,88 @@ namespace Tasker.RestAPI.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[Route("api/[controller]/[action]")]
-    public class IssuesController : ControllerBase
+    public class IssuesController(//ILogger<IssuesController> logger,
+            IIssueQuery issueQuery,
+            IIssueCommand issueCommand) : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<IssuesController> _logger;
-        private readonly IIssueRepository _IssueRepository;
-        private readonly IUserRepository _userRepository;
-
-        public IssuesController(IConfiguration configuration, 
-            ILogger<IssuesController> logger, 
-            IIssueRepository IssueRepository, 
-            IUserRepository userRepository)
-        {
-            _configuration = configuration;
-            _logger = logger;
-            _IssueRepository = IssueRepository;
-            _userRepository = userRepository;
-        }
-
         [HttpGet]
         //[ActionName("Issues")]
-        public IActionResult AllIssues(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        public async Task<IActionResult> GetAllIssues(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
-            List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries).Result;
-            return Ok(Issues);
+            var result = await issueQuery.GetAllIssues(currentPage, pageSize, sortField, sortDirection, searchQueries);
+            return result.ToActionResult(this);
         }
 
         [HttpGet("{id}")]
-        //[ActionName("Issues")]
-        public IActionResult GetIssue(string id)
+        public async Task<IActionResult> GetIssue(string id)
         {
-            var Issues = _IssueRepository.GetById(id).Result;
-            return Ok(Issues);
+            var result = await issueQuery.GetIssue(id);
+            return result.ToActionResult(this);
         }
 
         [HttpPost]
-        //[ActionName("Issues")]
-        public IActionResult CreateIssue(Issue issue)
+        public async Task<IActionResult> CreateIssue(IssueModel issue)
         {
-            return SaveIssue(issue);
+            var result = await issueCommand.CreateIssue(issue);
+            return result.ToActionResult(this);
         }
 
         [HttpPut]
-        //[ActionName("Issues")]
-        public IActionResult UpdateIssue(Issue issue)
+        public async Task<IActionResult> UpdateIssue(Issue issue)
         {
-            return SaveIssue(issue);
+            var result = await issueCommand.UpdateIssue(issue);
+            return result.ToActionResult(this);
         }
 
         [HttpDelete, Authorize]
-        //[ActionName("Issues")]
-        public IActionResult DeleteIssue(string id)
+        public async Task<IActionResult> DeleteIssue(string id)
         {
-            var users = _IssueRepository.DeleteById(id);
-            return Ok(users);
+            var result = await issueCommand.DeleteIssue(id);
+            return result.ToActionResult(this);
         }
 
         [HttpGet("Count/{searchQueries?}")]
-        //[ActionName("Count")]
-        public IActionResult GetIssuesCount(string searchQueries)
+        public async Task<IActionResult> GetIssuesCount(string searchQueries)
         {
-            List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            var Issues = _IssueRepository.GetAllIssueCount(queries).Result;
-            return Ok(Issues);
+            var result = await issueQuery.GetIssuesCount(searchQueries);
+            return result.ToActionResult(this);
         }
 
         [HttpGet("Status/{userId}")]
-        //[ActionName("Status")]
-        public IActionResult GetIssuesStatus(string userId)
+        public async Task<IActionResult> GetIssuesStatus(string userId)
         {
-            var Issues = _IssueRepository.GetIssueStatByUserId(userId);
-            return Ok(Issues);
+            var result = await issueQuery.GetIssuesStatus(userId);
+            return result.ToActionResult(this);
         }
 
         [HttpGet("CountByAssigner/{searchQueries?}")]
         //[ActionName("CountByAssigner")]
-        public IActionResult GetIssuesCountByAssigner(string searchQueries)
+        public async Task<IActionResult> GetIssuesCountByAssigner(string searchQueries)
         {
-            List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
-            {
-                var issueCount = _IssueRepository.GetAllIssueCount(queries);
-                return Ok(issueCount);
-            }
-            else
-            {
-                return Ok(0);
-            }
+            var result = await issueQuery.GetIssuesCountByAssigner(searchQueries);
+            return result.ToActionResult(this);
         }
 
         [HttpGet("ByAssigner")]
         //[ActionName("ByAssigner")]
-        public IActionResult GetIssuesByAssigner(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        public async Task<IActionResult> GetIssuesByAssigner(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
-            List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
-            {
-                var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries);
-                return Ok(Issues);
-            }
-            else
-            {
-                return NotFound();
-            }
+            var result = await issueQuery.GetIssuesByAssigner(currentPage, pageSize, sortField, sortDirection, searchQueries);
+            return result.ToActionResult(this);
         }
 
         [HttpGet("CountByAssigned/{searchQueries?}")]
-        //[ActionName("CountByAssigned")]
-        public IActionResult GetIssuesCountByAssigned(string searchQueries)
+        public async Task<IActionResult> GetIssuesCountByAssigned(string searchQueries)
         {
-            List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
-            {
-                var issueCount = _IssueRepository.GetAllIssueCount(queries);
-                return Ok(issueCount);
-            }
-            else
-            {
-                return Ok(0);
-            }
+            var result = await issueQuery.GetIssuesCountByAssigned(searchQueries);
+            return result.ToActionResult(this);
         }
 
         [HttpGet("ByAssigned")]
-        //[ActionName("ByAssigned")]
-        public IActionResult GetIssuesByAssigned(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        public async Task<IActionResult> GetIssuesByAssigned(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
-            List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            if (queries != null && queries.Count > 0 && queries.Any(x => !string.IsNullOrEmpty(x.Key) && x.Key.ToLower().Equals("assignerid")))
-            {
-                var Issues = _IssueRepository.GetAllIssues(currentPage, pageSize, sortField, sortDirection, queries);
-                return Ok(Issues);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
-        //---
-        private IActionResult SaveIssue(Issue issue)
-        {
-            if (issue != null)
-            {
-                if (issue.Created == null)
-                    issue.Created = new AppEvent();
-
-                if (string.IsNullOrEmpty(issue.Id))
-                    issue.Created.At = DateTime.UtcNow;
-                else if (issue.Modified != null)
-                    issue.Modified.At = DateTime.UtcNow;
-
-                if (!string.IsNullOrEmpty(issue.AssignedId))
-                {
-                    var response = _userRepository.GetUser(issue.AssignedId).Result;
-                    issue = response.Map(
-                        Ok: user =>
-                        {
-                            issue.AssignedName = user.FirstName + " " + user.LastName;
-                            issue.AssignedImg = user.Img ?? "";
-                            return issue;
-                        },
-                        Err: _ => issue
-                    );
-                }
-
-                if (!string.IsNullOrEmpty(issue.Created.By))
-                {
-                    var response = _userRepository.GetUser(issue.Created.By).Result;
-                    issue = response.Map(
-                        Ok: user =>
-                        {
-                            issue.Created.Name = user.FirstName + " " + user.LastName;
-                            issue.Created.Image = user.Img;
-                            return issue;
-                        },
-                        Err: _ => issue
-                    );
-                }
-
-                var result = _IssueRepository.Save(issue).Result;
-                return Ok(result);
-            }
-            else
-            {
-                return Ok(ClientError.BadRequest);
-            }
+            var result = await issueQuery.GetIssuesByAssigned(currentPage, pageSize, sortField, sortDirection, searchQueries);
+            return result.ToActionResult(this);
         }
     }
 }

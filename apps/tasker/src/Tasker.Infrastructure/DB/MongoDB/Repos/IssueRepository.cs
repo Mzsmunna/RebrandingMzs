@@ -142,9 +142,9 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
 
         #region Common_Methods
 
-        public async Task<Result<Issue?>> GetById(string _id)
+        public async Task<Result<Issue?>> GetById(string id)
         {
-            var filter = BuildFilter(_id);
+            var filter = BuildFilter(id);
             return await _collection.Find(filter).FirstOrDefaultAsync().ConfigureAwait(false);
         }
 

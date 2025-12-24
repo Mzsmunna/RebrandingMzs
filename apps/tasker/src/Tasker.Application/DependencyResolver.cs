@@ -31,6 +31,7 @@ namespace Tasker.Application
         {
             services.AddScoped<IAuthCommand, AuthCommand>();
             services.AddScoped<IIssueCommand, IssueCommand>();
+            services.AddScoped<IIssueQuery, IssueQuery>();
             return services;
         }
 

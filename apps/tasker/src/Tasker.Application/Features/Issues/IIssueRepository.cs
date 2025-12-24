@@ -10,7 +10,7 @@ namespace Tasker.Application.Features.Issues
 {
     public interface IIssueRepository //: IMongoRepository
     {
-        Task<Result<Issue?>> GetById(string _id);
+        Task<Result<Issue?>> GetById(string id);
         Task<Result<List<Issue>?>> GetAllByField(string fieldName, string fieldValue);
         Task<Result<long>> GetAllIssueCount(List<SearchField>? searchQueries = null);
         Task<Result<List<Issue>?>> GetAllIssues(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null);
