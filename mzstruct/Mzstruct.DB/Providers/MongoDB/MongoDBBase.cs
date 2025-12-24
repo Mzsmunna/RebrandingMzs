@@ -26,7 +26,7 @@ namespace Mzstruct.DB.Providers.MongoDB
             mongoCollection = dBContext.MapCollectionEntity<T>(collectionName);
         }
 
-        public async Task<MongoOperation> SaveAsync(IEntity entity)
+        public async Task<MongoOperation> SaveAsync(BaseEntity entity)
         {
             ReplaceOneResult? result = null;
             var operation  = new MongoOperation() { Id = string.Empty, IsCompleted = false };
@@ -65,7 +65,7 @@ namespace Mzstruct.DB.Providers.MongoDB
             }
         }
 
-        public async Task<MongoOperation> SaveManyAsync(List<IEntity> entities)
+        public async Task<MongoOperation> SaveManyAsync(List<BaseEntity> entities)
         {
             // initialise write model to hold list of our upsert tasks
             var dataModels = new List<WriteModel<T>>();
@@ -108,7 +108,7 @@ namespace Mzstruct.DB.Providers.MongoDB
             return new MongoOperation() { Id = string.Empty, IsCompleted = result.IsAcknowledged };
         }
 
-        public async Task<MongoOperation> DeleteAsync(IEntity entity)
+        public async Task<MongoOperation> DeleteAsync(BaseEntity entity)
         {
             var _entity = entity as T;
 

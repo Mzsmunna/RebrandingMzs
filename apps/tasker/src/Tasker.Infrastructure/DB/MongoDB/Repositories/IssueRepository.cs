@@ -97,7 +97,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repositories
             }
         }
 
-        public async Task<Result<Issue?>> Save(IEntity entity)
+        public async Task<Result<Issue?>> Save(BaseEntity entity)
         {
             var issue = entity as Issue;
 

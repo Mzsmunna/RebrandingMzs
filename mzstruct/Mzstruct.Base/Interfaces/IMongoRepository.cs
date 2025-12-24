@@ -8,6 +8,6 @@ namespace Mzstruct.Base.Interfaces
     public interface IMongoRepository
     {
         Task<int> GetAllCount();
-        Task<string> SaveMany(IEnumerable<IEntity> records);
+        Task<string> SaveMany(IEnumerable<BaseEntity> records);
     }
 }

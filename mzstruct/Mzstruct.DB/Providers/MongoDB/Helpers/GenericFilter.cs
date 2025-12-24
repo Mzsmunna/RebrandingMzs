@@ -13,7 +13,7 @@ using Mzstruct.Base.Helpers;
 
 namespace Mzstruct.DB.Providers.MongoDB.Helpers
 {
-    public static class GenericFilter<T> where T : IEntity
+    public static class GenericFilter<T> where T : BaseEntity
     {
         public static FilterDefinition<T> BuildDynamicFilter(string? id, List<SearchField>? searchQueries = null, FilterDefinition<T>? filter = null)
         {

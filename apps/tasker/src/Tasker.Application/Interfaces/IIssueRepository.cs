@@ -22,7 +22,7 @@ namespace Tasker.Application.Interfaces
         Task<Result<List<Issue>?>> GetAllIssuesByAssigned(string assignedId);
         Task<Result<Issue?>> GetIssuesById(string id);
         Task<Result<Issue?>> GetByTitle(string title);
-        Task<Result<Issue?>> Save(IEntity entity);
+        Task<Result<Issue?>> Save(BaseEntity entity);
         Task<Result<bool>> DeleteById(string _id);
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Mzstruct.Base.Entities
 {
-    public class Identity : IEntity
+    public class Identity : BaseEntity
     {
         public required string Email { get; set; }
         public required string Role { get; set; }

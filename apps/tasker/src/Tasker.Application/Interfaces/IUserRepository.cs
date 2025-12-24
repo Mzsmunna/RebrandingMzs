@@ -21,7 +21,7 @@ namespace Tasker.Application.Interfaces
         Task<Result<long>> GetAllUserCount(List<SearchField>? searchQueries = null);
         Task<Result<List<User>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null);
         Task<Result<List<dynamic>>> GetAllUserToAssign();
-        Task<Result<User>> Save(IEntity entity);
+        Task<Result<User>> Save(BaseEntity entity);
         Task<Result<bool>> UpdateUser(User user);
         Task<Result<bool>> DeleteById(string _id);
     }

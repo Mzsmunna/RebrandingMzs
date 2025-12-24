@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Mzstruct.Base.Entities
 {
-    public class IEntity
+    public class BaseEntity
     {
         public string Id { get; set; } = string.Empty; //ObjectId.GenerateNewId().ToString();
         public AppEvent Created { get; set; } = new AppEvent();

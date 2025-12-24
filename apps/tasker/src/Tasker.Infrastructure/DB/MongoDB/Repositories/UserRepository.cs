@@ -140,7 +140,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repositories
             return results.Cast<dynamic>().ToList();
         }
 
-        public async Task<Result<User>> Save(IEntity entity)
+        public async Task<Result<User>> Save(BaseEntity entity)
         {
             var user = entity as User;
             if (user == null) return ClientError.BadRequest;

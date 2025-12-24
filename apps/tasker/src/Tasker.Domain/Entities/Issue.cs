@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tasker.Domain.Entities
 {
-    public class Issue : IEntity
+    public class Issue : BaseEntity
     {
         public string ProjectId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;

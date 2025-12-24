@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tasker.Domain.Models
 {
-    public class UserModel : IModel
+    public class UserModel : BaseModel
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
