@@ -15,6 +15,7 @@ using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Mzstruct.DB.Providers.MongoDB.Models;
 using Tasker.Application.Features.Users;
+using Tasker.Application.Contracts.IRepos;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {

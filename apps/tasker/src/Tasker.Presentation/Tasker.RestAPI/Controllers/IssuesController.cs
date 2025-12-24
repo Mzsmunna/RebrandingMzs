@@ -6,7 +6,8 @@ using Mzstruct.Base.Helpers;
 using Mzstruct.Base.Models;
 using Mzstruct.Common.Extensions;
 using Tasker.Application.Features.Issues;
-using Tasker.Application.Features.Users;
+using Tasker.Application.Contracts.ICommands;
+using Tasker.Application.Contracts.IQueries;
 
 namespace Tasker.RestAPI.Controllers
 {

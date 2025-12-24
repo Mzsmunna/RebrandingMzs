@@ -4,9 +4,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Errors;
 
-namespace Tasker.Application.Interfaces
+namespace Mzstruct.Base.Repos
 {
     public abstract class BaseRepo
     {

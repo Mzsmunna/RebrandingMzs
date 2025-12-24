@@ -5,8 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Features.Users;
+using Tasker.Application.Features.Auth;
 
-namespace Tasker.Application.Features.Auth
+namespace Tasker.Application.Contracts.ICommands
 {
     public interface IAuthCommand
     {

@@ -7,8 +7,8 @@ using Mzstruct.Common.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Features.Users;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Tasker.Application.Contracts.ICommands;
+using Tasker.Application.Contracts.IRepos;
 
 namespace Tasker.Application.Features.Issues
 {

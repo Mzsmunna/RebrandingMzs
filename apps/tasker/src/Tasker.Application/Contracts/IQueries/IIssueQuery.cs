@@ -4,8 +4,9 @@ using Mzstruct.Base.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tasker.Application.Features.Issues;
 
-namespace Tasker.Application.Features.Issues
+namespace Tasker.Application.Contracts.IQueries
 {
     public interface IIssueQuery
     {

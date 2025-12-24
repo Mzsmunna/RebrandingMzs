@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Features.Auth;
 using Tasker.Application.Features.Issues;
+using Tasker.Application.Contracts.ICommands;
+using Tasker.Application.Contracts.IQueries;
 
 
 namespace Tasker.Application

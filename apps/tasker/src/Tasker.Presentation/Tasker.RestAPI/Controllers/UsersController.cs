@@ -10,6 +10,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Tasker.Application.Features.Users;
+using Tasker.Application.Contracts.IRepos;
 
 namespace Tasker.RestAPI.Controllers
 {

@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Features.Users;
+using Tasker.Application.Contracts.IQueries;
+using Tasker.Application.Contracts.IRepos;
 
 namespace Tasker.Application.Features.Issues
 {

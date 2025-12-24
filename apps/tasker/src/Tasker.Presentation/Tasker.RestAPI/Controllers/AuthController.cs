@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using Tasker.Application.Errors;
 using Tasker.Application.Features.Auth;
+using Tasker.Application.Contracts.ICommands;
 
 namespace Tasker.RestAPI.Controllers
 {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Interfaces
+namespace Tasker.Application.Contracts.ICommands
 {
     public interface ICommandHandler<TCommand, TResult> where TCommand : notnull
     {

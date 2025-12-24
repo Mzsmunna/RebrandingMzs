@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Interfaces
+namespace Tasker.Application.Contracts.IQueries
 {
     public interface IQueryHandler<TQuery, TResult>
     {

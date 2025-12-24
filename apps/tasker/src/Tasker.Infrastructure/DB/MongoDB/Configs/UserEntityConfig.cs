@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Serializers;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Interfaces;
+using Tasker.Application.Contracts;
 using Tasker.Application.Features.Users;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Configs

@@ -5,9 +5,10 @@ using Mzstruct.Common.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tasker.Application.Features.Issues;
 using Tasker.Application.Features.Users;
 
-namespace Tasker.Application.Features.Issues
+namespace Tasker.Application.Contracts.ICommands
 {
     public interface IIssueCommand
     {

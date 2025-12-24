@@ -13,6 +13,7 @@ using Tasker.Application.Features.Issues;
 using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
+using Tasker.Application.Contracts.IRepos;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {

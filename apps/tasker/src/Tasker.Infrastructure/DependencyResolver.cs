@@ -5,8 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Enums;
-using Tasker.Application.Features.Issues;
-using Tasker.Application.Features.Users;
+using Tasker.Application.Contracts.IRepos;
 using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Tasker.Infrastructure.DB.MongoDB.Repos;
 

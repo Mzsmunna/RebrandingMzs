@@ -5,8 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Text;
+using Tasker.Application.Features.Issues;
 
-namespace Tasker.Application.Features.Issues
+namespace Tasker.Application.Contracts.IRepos
 {
     public interface IIssueRepository //: IMongoRepository
     {
