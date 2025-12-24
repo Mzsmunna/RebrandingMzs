@@ -91,6 +91,11 @@
   <Folder Name="/skills/ui/tailwind/" />
   <Folder Name="/skills/ui/winforrms/" />
   <Folder Name="/skills/ui/wpf/" />
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
   <Project Path="RebrandingMzs.AppHost/RebrandingMzs.AppHost.csproj" Id="79810ad9-5e92-4e07-83ba-b956c4860c74" />
   <Project Path="RebrandingMzs.ServiceDefaults/RebrandingMzs.ServiceDefaults.csproj" />
 </Solution>
