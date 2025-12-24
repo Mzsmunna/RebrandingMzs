@@ -8,11 +8,11 @@ using Mzstruct.Common.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Features.Auth;
-using Tasker.Application.Features.Issues;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IQueries;
-
+using Tasker.Application.Features.Auth;
+using Tasker.Application.Features.Issues;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.Application
 {
@@ -32,13 +32,15 @@ namespace Tasker.Application
         private static IServiceCollection AddTaskerCommands(IServiceCollection services)
         {
             services.AddScoped<IAuthCommand, AuthCommand>();
+            services.AddScoped<IUserCommand, UserCommand>();
             services.AddScoped<IIssueCommand, IssueCommand>();
-            services.AddScoped<IIssueQuery, IssueQuery>();
             return services;
         }
 
         private static IServiceCollection AddTaskerQueries(IServiceCollection services)
         {
+            services.AddScoped<IUserQuery, UserQuery>();
+            services.AddScoped<IIssueQuery, IssueQuery>();
             return services;
         }
 

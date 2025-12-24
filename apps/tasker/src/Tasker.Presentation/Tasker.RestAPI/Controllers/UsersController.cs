@@ -1,135 +1,82 @@
 ﻿using Google.Apis.Auth;
-using Mzstruct.Base.Models;
-using Mzstruct.Base.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Helpers;
+using Mzstruct.Base.Models;
+using Mzstruct.Common.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Tasker.Application.Features.Users;
+using System.Threading.Tasks;
+using Tasker.Application.Contracts.ICommands;
+using Tasker.Application.Contracts.IQueries;
 using Tasker.Application.Contracts.IRepos;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.RestAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     //[Route("api/[controller]/[action]")]
-    public class UsersController : ControllerBase
+    public class UsersController(//IConfiguration configuration,
+        //IHttpContextAccessor httpContextAccessor,
+        //ILogger<UsersController> logger,
+        IUserQuery userQuery, 
+        IUserCommand userCommand) : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<UsersController> _logger;
-        private readonly IUserRepository _userRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public UsersController(IConfiguration configuration, ILogger<UsersController> logger, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor)
-        {
-            _configuration = configuration;
-            _logger = logger;
-            _userRepository = userRepository;
-            _httpContextAccessor = httpContextAccessor;
-        }
-
         [HttpGet, Authorize]
         //[ActionName("GetAllUsers")]
-        public IActionResult AllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        public async Task<IActionResult> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
-            List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            var users = _userRepository.GetAllUsers(currentPage, pageSize, sortField, sortDirection, queries).Result;
-            return Ok(users);
+            var result = await userQuery.GetAllUsers(currentPage, pageSize, sortField, sortDirection, searchQueries);
+            return result.ToActionResult(this);
         }
 
         [HttpGet("{id}"), Authorize]
-        //[ActionName("GetUser")]
-        public IActionResult GetUser(string id)
+        public async Task<IActionResult> GetUser(string id)
         {
-            var user = _userRepository.GetUser(id).Result;
-            //users.Password = "?";
-            return Ok(user);
+            var result = await userQuery.GetUser(id);
+            return result.ToActionResult(this);
         }
 
         [HttpPost, Authorize]
-        //[ActionName("SaveUser")]
-        public IActionResult CreateUser(User user)
+        public async Task<IActionResult> CreateUser(UserModel user)
         {
-            return SaveUser(user);
+            var result = await userCommand.CreateUser(user);
+            return result.ToActionResult(this);
         }
 
         [HttpPut, Authorize]
-        //[ActionName("UpdateUser")]
-        public IActionResult UpdateUser(User user)
+        public async Task<IActionResult> UpdateUser(User user)
         {
-            return SaveUser(user);
+            var result = await userCommand.UpdateUser(user);
+            return result.ToActionResult(this);
         }
 
         [HttpDelete, Authorize]
-        //[ActionName("DeleteUser")]
-        public IActionResult DeleteUser(string id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
-            var isDeleted = _userRepository.DeleteById(id);
-            return Ok(isDeleted);
+            var result = await userCommand.DeleteUser(id);
+            return result.ToActionResult(this);
         }
 
         [HttpGet("AvailableToAssign"), Authorize]
-        //[ActionName("AvailableToAssign")]
-        public IActionResult AvailableUsersToAssign()
+        public async Task<IActionResult> AvailableUsersToAssign()
         {
-            var users = _userRepository.GetAllUserToAssign();
-            return Ok(users);
+            var result = await userQuery.AvailableUsersToAssign();
+            return result.ToActionResult(this);
         }
 
         [HttpGet("Count"), Authorize]
-        //[ActionName("Count")]
-        public IActionResult UsersCount(string searchQueries)
+        public async Task<IActionResult> UsersCount(string searchQueries)
         {
-            List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            var users = _userRepository.GetAllUserCount(queries).Result;
-            return Ok(users);
-        }
-
-        // ---
-        private IActionResult SaveUser(User user)
-        {
-            var response = _userRepository.GetAllByField("Email", user.Email.ToLower()).Result;
-            var existingUser = response.Map(
-                Ok: users => users.Where(x => !x.Id.Equals(user.Id)).FirstOrDefault(),
-                Err: _ => null
-            );
-            if (existingUser != null)
-            {
-                //return StatusCode(StatusCodes.Status409Conflict, "This email already exist");               
-                var problemDetails = Results.Problem(
-                    instance: _httpContextAccessor.HttpContext?.Request.Path,
-                    type: "https://www.rfc-editor.org/rfc/rfc9110#name-409-conflict",
-                    title: "Conflict",
-                    detail:  "This email already exist",
-                    statusCode: StatusCodes.Status409Conflict,
-                    extensions: new Dictionary<string, object?>
-                    {
-                        { "errors", response.Error }
-                    }
-                );
-                return Ok(problemDetails);
-                //var problemDetails = new ProblemDetails
-                //{
-                //    Instance = _httpContextAccessor.HttpContext?.Request.Path,
-                //    Type = "https://www.rfc-editor.org/rfc/rfc9110#name-409-conflict",
-                //    Status = StatusCodes.Status409Conflict,
-                //    Title = "Conflict",
-                //    Detail = "This email already exist",
-                //    Extensions = new Dictionary<string, object?>
-                //    {
-                //        { "errors", response.Error }
-                //    }
-                //};
-            }
-            else
-            {
-                var result = _userRepository.Save(user).Result;
-                return Ok(result);
-            }  
+            var result = await userQuery.UsersCount(searchQueries);
+            return result.ToActionResult(this);
         }
     }
 }
