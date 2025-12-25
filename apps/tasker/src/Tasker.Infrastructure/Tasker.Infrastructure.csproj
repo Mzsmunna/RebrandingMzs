@@ -5,7 +5,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\mzstruct\Mzstruct.DB\Mzstruct.DB.csproj" />
     <ProjectReference Include="..\Tasker.Application\Tasker.Application.csproj" />
   </ItemGroup>
 
