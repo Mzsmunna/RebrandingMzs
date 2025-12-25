@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Text;
 using Mzstruct.Base.Contracts.IManagers.IAuth;
 
-namespace Mzstruct.Common.Extensions
+namespace Mzstruct.Common.Dependencies
 {
-    public static class AuthExtender
+    public static class AuthResolver
     {
         public static IServiceCollection AddGoogleSignIn(this IServiceCollection services)
         {

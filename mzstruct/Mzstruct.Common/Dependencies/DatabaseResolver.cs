@@ -7,10 +7,11 @@ using System.Text;
 using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.Base.Contracts.IContexts;
+using Mzstruct.Common.Extensions;
 
-namespace Mzstruct.Common.Extensions
+namespace Mzstruct.Common.Dependencies
 {
-    public static class DbExtender
+    public static class DatabaseResolver
     {
         public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration configuration)
         {

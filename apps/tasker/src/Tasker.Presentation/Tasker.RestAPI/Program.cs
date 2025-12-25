@@ -1,6 +1,5 @@
 
 using Mzstruct.Base.Enums;
-using Mzstruct.Common.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -12,6 +11,7 @@ using Scalar.AspNetCore;
 using System.Text;
 using Tasker.Application;
 using Tasker.Infrastructure;
+using Mzstruct.Common.Dependencies;
 
 namespace Tasker.RestAPI;
 

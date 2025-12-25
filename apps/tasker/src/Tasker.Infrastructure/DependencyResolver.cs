@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Mzstruct.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +7,7 @@ using Tasker.Application.Enums;
 using Tasker.Application.Contracts.IRepos;
 using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Tasker.Infrastructure.DB.MongoDB.Repos;
+using Mzstruct.Common.Dependencies;
 
 namespace Tasker.Infrastructure
 {

@@ -10,9 +10,9 @@ using System.Collections.Generic;
 using System.Text;
 using Mzstruct.Base.Contracts.IManagers.IAuth;
 
-namespace Mzstruct.Common.Extensions
+namespace Mzstruct.Common.Dependencies
 {
-    public static class JwtTokenExtender
+    public static class JWTResolver
     {
         public static IServiceCollection AddJwtAuth(
             this IServiceCollection services,
