@@ -1,7 +1,6 @@
 ﻿using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Errors;
-using Mzstruct.Base.Interfaces;
 using Mzstruct.Base.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -14,6 +13,7 @@ using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Tasker.Application.Contracts.IRepos;
+using Mzstruct.Base.Contracts.IContexts;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {

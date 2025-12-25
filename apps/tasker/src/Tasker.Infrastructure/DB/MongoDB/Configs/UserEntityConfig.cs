@@ -1,5 +1,4 @@
-﻿using Mzstruct.Base.Interfaces;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Contracts;
 using Tasker.Application.Features.Users;
+using Mzstruct.Base.Contracts.IConfigs;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Configs
 {

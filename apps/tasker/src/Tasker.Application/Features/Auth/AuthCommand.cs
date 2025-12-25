@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
-using Mzstruct.Base.Interfaces.Auth;
 using Mzstruct.Auth;
 using Mzstruct.Common.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +15,7 @@ using Tasker.Application.Features.Users;
 using Mzstruct.Common.Mappings;
 using Tasker.Application.Contracts.IRepos;
 using Tasker.Application.Contracts.ICommands;
+using Mzstruct.Base.Contracts.IManagers.IAuth;
 
 namespace Tasker.Application.Features.Auth
 {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 
-namespace Mzstruct.Base.Interfaces.Auth
+namespace Mzstruct.Base.Contracts.IManagers.IAuth
 {
     public interface IJwtTokenManager
     {

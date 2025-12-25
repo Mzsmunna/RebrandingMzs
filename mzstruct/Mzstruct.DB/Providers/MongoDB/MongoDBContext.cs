@@ -1,9 +1,9 @@
-﻿using Mzstruct.Base.Interfaces;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Mzstruct.DB.Providers.MongoDB.Configs;
+using Mzstruct.Base.Contracts.IContexts;
 
 namespace Mzstruct.DB.Providers.MongoDB
 {

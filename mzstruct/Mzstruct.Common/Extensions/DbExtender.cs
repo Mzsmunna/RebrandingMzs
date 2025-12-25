@@ -1,5 +1,4 @@
-﻿using Mzstruct.Base.Interfaces;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Configs;
+using Mzstruct.Base.Contracts.IContexts;
 
 namespace Mzstruct.Common.Extensions
 {

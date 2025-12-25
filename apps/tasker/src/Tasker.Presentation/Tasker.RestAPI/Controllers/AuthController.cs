@@ -1,7 +1,6 @@
 ﻿using Google.Apis.Auth;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
-using Mzstruct.Base.Interfaces.Auth;
 using Mzstruct.Auth;
 using Mzstruct.Common.Extensions;
 using Microsoft.AspNetCore.Http;

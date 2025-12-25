@@ -1,5 +1,4 @@
 ﻿using Mzstruct.Base.Entities;
-using Mzstruct.Base.Interfaces;
 using Mzstruct.Base.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -7,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Mzstruct.DB.Providers.MongoDB.Models;
+using Mzstruct.Base.Contracts.IContexts;
+using Mzstruct.Base.Contracts.IConfigs;
 
 namespace Mzstruct.DB.Providers.MongoDB
 {

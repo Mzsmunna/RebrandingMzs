@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Interfaces
+namespace Mzstruct.Base.Contracts.IContexts
 {
     public interface IMongoDBContext
     {

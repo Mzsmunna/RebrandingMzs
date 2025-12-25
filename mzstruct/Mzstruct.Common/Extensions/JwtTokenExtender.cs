@@ -1,5 +1,4 @@
 ﻿using Mzstruct.Base.Enums;
-using Mzstruct.Base.Interfaces.Auth;
 using Mzstruct.Base.Models;
 using Mzstruct.Auth.Managers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Mzstruct.Base.Contracts.IManagers.IAuth;
 
 namespace Mzstruct.Common.Extensions
 {

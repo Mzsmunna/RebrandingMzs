@@ -2,7 +2,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using Mzstruct.Base.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;

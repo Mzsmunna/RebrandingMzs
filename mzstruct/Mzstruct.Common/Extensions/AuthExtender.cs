@@ -1,11 +1,10 @@
-﻿using Mzstruct.Base.Interfaces;
-using Mzstruct.Base.Interfaces.Auth;
-using Mzstruct.Auth.Managers;
+﻿using Mzstruct.Auth.Managers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Mzstruct.Base.Contracts.IManagers.IAuth;
 
 namespace Mzstruct.Common.Extensions
 {

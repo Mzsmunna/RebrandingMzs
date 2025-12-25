@@ -1,5 +1,5 @@
 ﻿using Google.Apis.Auth;
-using Mzstruct.Base.Interfaces.Auth;
+using Mzstruct.Base.Contracts.IManagers.IAuth;
 using System;
 using System.Collections.Generic;
 using System.Text;

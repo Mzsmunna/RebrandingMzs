@@ -1,5 +1,5 @@
-﻿using InsightinCloud.Domain.Interface;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Mzstruct.Base.Contracts.IRepos;
 using Mzstruct.Base.Helpers;
 using Mzstruct.DB.ORM.EFCore.Context;
 using Mzstruct.DB.SQL.Context;

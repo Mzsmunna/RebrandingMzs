@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Helpers;
-using Mzstruct.Base.Interfaces.Auth;
 using Mzstruct.Base.Models;
 using System;
 using System.Collections.Generic;

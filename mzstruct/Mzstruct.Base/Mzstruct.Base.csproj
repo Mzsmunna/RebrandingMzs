@@ -7,4 +7,10 @@
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\IServices\" />
+    <Folder Include="Contracts\IEvents\" />
+    <Folder Include="Contracts\IJobs\" />
+  </ItemGroup>
+
 </Project>

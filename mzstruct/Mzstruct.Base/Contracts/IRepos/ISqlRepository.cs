@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InsightinCloud.Domain.Interface
+namespace Mzstruct.Base.Contracts.IRepos
 {
     public interface ISqlRepository<TEntity> where TEntity : class
     {

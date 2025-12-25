@@ -1,6 +1,5 @@
 ﻿using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
-using Mzstruct.Base.Interfaces.Auth;
 using Mzstruct.Base.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +13,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Mzstruct.Base.Helpers;
+using Mzstruct.Base.Contracts.IManagers.IAuth;
 
 namespace Mzstruct.Auth.Managers
 {
