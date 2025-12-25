@@ -29,7 +29,7 @@ namespace Tasker.Application.Features.Auth
         {
             //var validation = signUpValidator.Validate(signUpDto);
             var validation = await TaskerValidator.ValidateSignUp(signUpDto);
-            if (!validation.IsValid)
+            if (validation.IsValid is false)
                 return Error.Validation("AuthCommand.SignUp.InvalidInput", "User input invalid");
             var user = signUpDto.ToEntity<User, SignUpDto>();
             
@@ -49,19 +49,19 @@ namespace Tasker.Application.Features.Auth
 
         public async Task<Result<string>> SignIn(SignInDto user)
         {
-            if (user == null)
+            if (user is null)
             {
                 logger.LogWarning("SignIn: Bad Request");
                 return ClientError.BadRequest;
             }
             
-            var result = await userRepository.LoginUser(user.email, user.password);
+            var result = await userRepository.LoginUser(user.Email, user.Password);
 
-            if (!result.IsSuccess || result.Data is null)
+            if (result.IsSuccess is false || result.Data is null)
                 return Error.NotFound("Login.Credential.NotFound", "User doesn't exist."); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
             
             var signInUser = result.Data;
-            jwtTokenManager.CreatePasswordHash(user.password, out byte[] passwordHash, out byte[] passwordSalt);
+            jwtTokenManager.CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
             signInUser.PasswordHash = passwordHash;
             signInUser.PasswordSalt = passwordSalt;
             
@@ -79,7 +79,7 @@ namespace Tasker.Application.Features.Auth
         {
             var payload = await googleAuthManager.ValidateToken(credential);
 
-            if (payload == null)
+            if (payload is null)
             {
                 logger.LogWarning("SignInWithGoogle: Bad Request");
                 return ClientError.BadRequest;
@@ -87,7 +87,7 @@ namespace Tasker.Application.Features.Auth
 
             var result = await userRepository.LoginUser(payload.Email);
 
-            if (!result.IsSuccess || result.Data is null)
+            if (result.IsSuccess is false || result.Data is null)
                 Error.NotFound("Login.Google.NotLinkned", "User doesn't exist."); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
 
             var signInUser = result.Data!;
@@ -114,7 +114,7 @@ namespace Tasker.Application.Features.Auth
 
             var result = await userRepository.GetUser(userId);
             
-            if (!result.IsSuccess || result.Data is null)
+            if (result.IsSuccess is false || result.Data is null)
                 return Error.NotFound("Token.Refresh.NotFound", "User token unavailable");
             
             var signInUser = result.Data;

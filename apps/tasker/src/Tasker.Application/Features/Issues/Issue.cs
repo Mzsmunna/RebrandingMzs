@@ -12,9 +12,12 @@ namespace Tasker.Application.Features.Issues
         public string Type { get; set; } = string.Empty;
         public string Summary { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public string AssignedId { get; set; } = string.Empty;
         public string AssignedName { get; set; } = string.Empty;
         public string AssignedImg { get; set; } = string.Empty;
-        public string AssignedId { get; set; } = string.Empty;
+        public string AssignerId { get; set; } = string.Empty;
+        public string AssignerName { get; set; } = string.Empty;
+        public string AssignerImg { get; set; } = string.Empty;
         public int? LogTime { get; set; } = 0;
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

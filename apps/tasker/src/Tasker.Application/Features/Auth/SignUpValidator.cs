@@ -6,29 +6,29 @@ using System.Text;
 
 namespace Tasker.Application.Features.Auth
 {
-    internal sealed class UserSignUpValidator: AbstractValidator<SignUpDto>
+    internal sealed class SignUpValidator: AbstractValidator<SignUpDto>
     {
-        public UserSignUpValidator()
+        public SignUpValidator()
         {
-            RuleFor(x => x.firstName)
+            RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("First name is required.")
                 .MaximumLength(100).WithMessage("First name cannot exceed 100 characters.");
-            RuleFor(x => x.lastName)
+            RuleFor(x => x.LastName)
                 .MaximumLength(100)
                 .WithMessage("First name cannot exceed 100 characters.");
-            RuleFor(x => x.dob)
+            RuleFor(x => x.DOB)
                 .Must(x => x.HasValue && BaseHelper.IsFutureDate(x.Value))
                 .WithMessage("birth date cannot be from future");
-            RuleFor(x => x.email)
+            RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Invalid email format.");
-            RuleFor(x => x.password)
+            RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(8).WithMessage("Password must be at least 8 characters long.");
-            RuleFor(x => x.confirmPassword)
+            RuleFor(x => x.ConfirmPassword)
                 .NotEmpty().WithMessage("Confirm Password can't be empty.")
-                .Equal(x => x.password).WithMessage("Password didn't match.");
-            RuleFor(x => x.phone)
+                .Equal(x => x.Password).WithMessage("Password didn't match.");
+            RuleFor(x => x.Phone)
                 .MinimumLength(10).WithMessage("Phone must be at least 10 digit long.");
             RuleFor(x => x)
                 .NotNull().WithMessage("Bad Request").SetValidator(this);

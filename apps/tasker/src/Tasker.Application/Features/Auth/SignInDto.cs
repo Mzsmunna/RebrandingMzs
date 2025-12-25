@@ -4,4 +4,4 @@ using System.Text;
 
 namespace Tasker.Application.Features.Auth;
 
-public record SignInDto(string email, string password);
+public record SignInDto(string Email, string Password);
