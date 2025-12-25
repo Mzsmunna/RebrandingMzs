@@ -10,6 +10,7 @@ using System.Text;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IRepos;
 using Tasker.Application.Features.Issues;
+using Tasker.Application.Validators;
 
 namespace Tasker.Application.Features.Users
 {
@@ -19,6 +20,9 @@ namespace Tasker.Application.Features.Users
     {
         public async Task<Result<User>> CreateUser(UserModel user)
         {
+            var validation = await TaskerValidator.ValidateUser(user);
+            if (validation.IsValid is false)
+                return Error.Validation("IssueCommand.CreateUser.InvalidInput", "User input invalid");
             var userEntity = user.ToEntity<User, UserModel>();
             return await SaveUser(userEntity);
         }
@@ -30,11 +34,17 @@ namespace Tasker.Application.Features.Users
 
         public async Task<Result<bool>> DeleteUser(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                return ClientError.BadRequest;
             return await userRepository.DeleteById(id);
         }
 
         private async Task<Result<User>> SaveUser(User user)
         {
+            var validation = await TaskerValidator.ValidateUser(user);
+            if (validation.IsValid is false)
+                return Error.Validation("IssueCommand.UpdateUser.InvalidState", "Updated User info seems in invalid state");
+
             var usersByMail = await userRepository.GetAllByField("Email", user.Email.ToLower());
             var existingUser = usersByMail.Map(
                 Ok: users => users.Where(x => !x.Id.Equals(user.Id)).FirstOrDefault(),
@@ -73,10 +83,7 @@ namespace Tasker.Application.Features.Users
 
                 //return problemDetails;
             }
-            else
-            {
-                return await userRepository.Save(user);
-            }  
+            return await userRepository.Save(user); 
         }
     }
 }

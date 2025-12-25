@@ -22,6 +22,8 @@ namespace Tasker.Application.Features.Issues
 
         public async Task<Result<Issue?>> GetIssue(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                return ClientError.BadRequest;
             return await issueRepository.GetById(id);
         }
 
@@ -33,6 +35,8 @@ namespace Tasker.Application.Features.Issues
 
         public async Task<Result<List<dynamic>?>> GetIssuesStatus(string userId)
         {
+            if (string.IsNullOrEmpty(userId))
+                return ClientError.BadRequest;
             return await issueRepository.GetIssueStatByUserId(userId);
         }
 

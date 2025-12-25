@@ -35,7 +35,7 @@ namespace Tasker.Application.Features.Issues
         {
             var validation = await TaskerValidator.ValidateIssue(issue);
             if (validation.IsValid is false)
-                return Error.Validation("IssueCommand.UpdateIssue.InvalidState", "Issue state is invalid");
+                return Error.Validation("IssueCommand.UpdateIssue.InvalidState", "Updated Issue info seems in invalid state");
 
             if (issue is null)
                 return ClientError.BadRequest;

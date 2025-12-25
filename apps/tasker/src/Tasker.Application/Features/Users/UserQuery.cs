@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Errors;
 using Mzstruct.Base.Helpers;
 using Mzstruct.Base.Models;
 using System;
@@ -24,6 +25,8 @@ namespace Tasker.Application.Features.Users
 
         public async Task<Result<User>> GetUser(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                return ClientError.BadRequest;
             return await userRepository.GetUser(id);
         }
 
