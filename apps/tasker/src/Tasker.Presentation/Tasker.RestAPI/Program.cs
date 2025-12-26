@@ -12,6 +12,7 @@ using System.Text;
 using Tasker.Application;
 using Tasker.Infrastructure;
 using Mzstruct.Common.Dependencies;
+using Mzstruct.API.Dependencies;
 
 namespace Tasker.RestAPI;
 
@@ -25,41 +26,11 @@ public class Program
         // Add services to the container.
         IConfiguration _config = builder.Configuration;
 
-        builder.Services.AddCors();
-        builder.Services.AddHttpContextAccessor();
         builder.Services
             .AddTaskerInfrastructure(_config)
             .AddTaskerFeatures();
 
-        builder.Services.AddControllers(options =>
-        {
-            options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
-
-        }).AddNewtonsoftJson(options =>
-        {
-            options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-        });
-
-        // builder.Services.AddControllers();
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-        builder.Services.AddOpenApi();
-
-        builder.Services.AddEndpointsApiExplorer();
-
-        //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        //.AddJwtBearer(options =>
-        //{
-        //    options.TokenValidationParameters = new TokenValidationParameters
-        //    {
-        //        ValidateIssuerSigningKey = true,
-        //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-        //            .GetBytes(_configuration.GetValue<string>("JWTAuthSecretKey")!)),
-        //        ValidateIssuer = false,
-        //        ValidateAudience = false,
-        //        ValidateLifetime = true,
-        //        ClockSkew = TimeSpan.Zero
-        //    };
-        //});
+        builder.Services.AddRestApi(_config);
 
         builder.Services
             .AddJwtAuth(_config, options =>
