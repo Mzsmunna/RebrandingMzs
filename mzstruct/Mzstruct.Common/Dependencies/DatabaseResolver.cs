@@ -8,6 +8,7 @@ using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.Base.Contracts.IContexts;
 using Mzstruct.Common.Extensions;
+using Mzstruct.DB.ORM.EFCore.Context;
 
 namespace Mzstruct.Common.Dependencies
 {
@@ -19,6 +20,12 @@ namespace Mzstruct.Common.Dependencies
             services.Configure(config.GetSection(nameof(MongoDBConfig)).ToConfigureAction<MongoDBConfig>());
             services.AddScoped<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
             services.AddScoped<IMongoDBContext, MongoDBContext>();
+            return services;
+        }
+
+        public static IServiceCollection AddSqlDB(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddDbContext<SqlDbContext>(ServiceLifetime.Transient);
             return services;
         }
     }
