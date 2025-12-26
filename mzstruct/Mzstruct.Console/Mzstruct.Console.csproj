@@ -10,5 +10,9 @@
     <Folder Include="Managers\" />
     <Folder Include="Services\" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Mzstruct.Common\Mzstruct.Common.csproj" />
+  </ItemGroup>
 
 </Project>
