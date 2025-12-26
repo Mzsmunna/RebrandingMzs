@@ -13,10 +13,10 @@ namespace Mzstruct.Common.Dependencies
 {
     public static class DatabaseResolver
     {
-        public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration config)
         {
-            //builder.Services.Configure<MongoDBConfig>(_configuration.GetSection(nameof(MongoDBConfig)));
-            services.Configure(configuration.GetSection(nameof(MongoDBConfig)).ToConfigureAction<MongoDBConfig>());
+            //builder.Services.Configure<MongoDBConfig>(config.GetSection(nameof(MongoDBConfig)));
+            services.Configure(config.GetSection(nameof(MongoDBConfig)).ToConfigureAction<MongoDBConfig>());
             services.AddScoped<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
             services.AddScoped<IMongoDBContext, MongoDBContext>();
             return services;

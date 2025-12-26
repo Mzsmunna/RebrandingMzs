@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Mzstruct.Common.Dependencies;
 using Mzstruct.Common.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,8 @@ namespace Tasker.Application
         {
             AddTaskerCommands(services);
             AddTaskerQueries(services);
-            AddTaskerValidators(services);
-            AddTaskerExceptions(services);
+            services.AddValidationResolver();
+            services.AddExceptionResolver();
             //AddTaskerRepositories(services);
             //AddTaskerServices(services);
             return services;
@@ -41,27 +42,6 @@ namespace Tasker.Application
         {
             services.AddScoped<IUserQuery, UserQuery>();
             services.AddScoped<IIssueQuery, IssueQuery>();
-            return services;
-        }
-
-        private static IServiceCollection AddTaskerValidators(IServiceCollection services)
-        {
-            services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies(), includeInternalTypes: true);
-            return services;
-        }
-
-        private static IServiceCollection AddTaskerExceptions(IServiceCollection services)
-        {
-            services.AddProblemDetails(config =>
-            {
-                config.CustomizeProblemDetails = context =>
-                {
-                    context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
-                    var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
-                    context.ProblemDetails.Extensions.TryAdd("traceId", activity?.TraceId.ToString() ?? string.Empty);
-                };
-            });
-            services.AddExceptionHandler<GlobalExceptionHandler>();
             return services;
         }
 

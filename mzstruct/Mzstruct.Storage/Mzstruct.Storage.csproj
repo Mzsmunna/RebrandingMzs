@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <Folder Include="Blobs\" />
-    <Folder Include="Drives\" />
+    <Folder Include="Drives\Google\" />
+    <Folder Include="Drives\DropBox\" />
     <Folder Include="Local\" />
+    <Folder Include="FTP\" />
+    <Folder Include="SFTP\" />
   </ItemGroup>
 
 </Project>
