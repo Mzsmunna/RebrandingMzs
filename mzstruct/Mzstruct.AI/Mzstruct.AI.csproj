@@ -2,9 +2,8 @@
 
   <ItemGroup>
     <Folder Include="Integrations\" />
-    <Folder Include="LLM\" />
-    <Folder Include="Agents\" />
-    <Folder Include="RAG\" />
+    <Folder Include="GenAI\" />
+    <Folder Include="AgenticRAG\" />
   </ItemGroup>
 
 </Project>

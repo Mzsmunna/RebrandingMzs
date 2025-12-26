@@ -13,7 +13,8 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Mzstruct.Base.Helpers;
-using Mzstruct.Base.Contracts.IManagers.IAuth;
+using Mzstruct.Auth.Contracts.IManagers;
+using Mzstruct.Auth.Models;
 
 namespace Mzstruct.Auth.Managers
 {

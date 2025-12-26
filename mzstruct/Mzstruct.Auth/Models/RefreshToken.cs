@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Dtos
+namespace Mzstruct.Auth.Models
 {
     public class RefreshToken
     {

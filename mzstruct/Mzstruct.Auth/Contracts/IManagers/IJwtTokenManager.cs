@@ -5,8 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
+using Mzstruct.Auth.Models;
 
-namespace Mzstruct.Base.Contracts.IManagers.IAuth
+namespace Mzstruct.Auth.Contracts.IManagers
 {
     public interface IJwtTokenManager
     {

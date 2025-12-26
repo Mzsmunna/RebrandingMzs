@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.Base.Contracts.IManagers.IAuth;
+using Mzstruct.Auth.Contracts.IManagers;
 
 namespace Mzstruct.Common.Dependencies
 {

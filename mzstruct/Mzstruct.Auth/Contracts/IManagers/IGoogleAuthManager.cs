@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
-namespace Mzstruct.Base.Contracts.IManagers.IAuth
+namespace Mzstruct.Auth.Contracts.IManagers
 {
     public interface IGoogleAuthManager
     {

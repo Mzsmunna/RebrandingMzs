@@ -11,6 +11,9 @@
   <Folder Name="/apps/tasker/tests/" />
   <Folder Name="/knowledge/" />
   <Folder Name="/mzstruct/">
+    <Project Path="mzstruct/Mzstruct.AI.LLM/Mzstruct.AI.LLM.csproj" Id="08fc3afa-f965-4df1-846e-a64d07a51052" />
+    <Project Path="mzstruct/Mzstruct.AI.ML/Mzstruct.AI.ML.csproj" Id="c1127ce4-de74-4ee6-8735-837cbc048642" />
+    <Project Path="mzstruct/Mzstruct.AI.NN/Mzstruct.AI.NN.csproj" Id="a9d2b1c5-0473-4674-930b-52dbdea731f4" />
     <Project Path="mzstruct/Mzstruct.AI/Mzstruct.AI.csproj" Id="c1a41dae-dde0-4447-928c-2b4d08f3b33e" />
     <Project Path="mzstruct/Mzstruct.API/Mzstruct.API.csproj" Id="f969145e-286e-42a4-a9b3-11c76442fc6c" />
     <Project Path="mzstruct/Mzstruct.Auth/Mzstruct.Auth.csproj" Id="81a525dc-2d28-4530-a144-8fda5ce78f87" />
@@ -19,9 +22,9 @@
     <Project Path="mzstruct/Mzstruct.Cache/Mzstruct.Cache.csproj" Id="505fa1f6-3c48-4427-937e-e34cb0e3ec0c" />
     <Project Path="mzstruct/Mzstruct.Cloud/Mzstruct.Cloud.csproj" Id="e903ab6d-6789-47ae-aecb-0c83ef129135" />
     <Project Path="mzstruct/Mzstruct.Common/Mzstruct.Common.csproj" Id="846e5bdb-074c-46c6-ab10-13da09b6089f" />
+    <Project Path="mzstruct/Mzstruct.Console/Mzstruct.Console.csproj" Id="080aced7-ec94-4b47-bead-3a846da97f84" />
     <Project Path="mzstruct/Mzstruct.DB/Mzstruct.DB.csproj" Id="cb40ed1b-32dc-4db9-9a80-daa3e8e62d46" />
     <Project Path="mzstruct/Mzstruct.Distributed/Mzstruct.Distributed.csproj" Id="7f474c42-7bc7-481d-9c6e-957e6a073386" />
-    <Project Path="mzstruct/Mzstruct.ML/Mzstruct.ML.csproj" Id="caa97a26-5b5b-4142-aeed-3c659af6a843" />
     <Project Path="mzstruct/Mzstruct.Payment/Mzstruct.Payment.csproj" Id="9f66bb07-21e4-4c1e-a314-ebfcf8e1db77" />
     <Project Path="mzstruct/Mzstruct.SDK/Mzstruct.SDK.csproj" Id="1778677f-0369-4aa6-8e64-57d1fce3b6d5" />
     <Project Path="mzstruct/Mzstruct.Service/Mzstruct.Service.csproj" Id="614ef54b-cbd8-4825-978c-d99599c19e74" />

@@ -15,7 +15,7 @@ using Tasker.Application.Features.Users;
 using Mzstruct.Common.Mappings;
 using Tasker.Application.Contracts.IRepos;
 using Tasker.Application.Contracts.ICommands;
-using Mzstruct.Base.Contracts.IManagers.IAuth;
+using Mzstruct.Auth.Contracts.IManagers;
 
 namespace Tasker.Application.Features.Auth
 {

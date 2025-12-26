@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.Base.Contracts.IManagers.IAuth;
+using Mzstruct.Auth.Contracts.IManagers;
 
 namespace Mzstruct.Common.Dependencies
 {
@@ -59,9 +59,7 @@ namespace Mzstruct.Common.Dependencies
                 {
                     options.TokenValidationParameters = validationParams;
                 });
-
             services.AddScoped<IJwtTokenManager, JwtTokenManager>();
-
             return services;
         }
 

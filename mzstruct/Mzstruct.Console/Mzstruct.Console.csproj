@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Jobs\" />
+    <Folder Include="Managers\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>
