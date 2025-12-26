@@ -11,6 +11,7 @@ namespace Mzstruct.Common.Dependencies
     {
         public static IServiceCollection AddValidationResolver(this IServiceCollection services)
         {
+            services.AddValidation();
             services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies(), includeInternalTypes: true);
             return services;
         }

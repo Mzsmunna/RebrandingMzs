@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Tasker.Application.Features.Auth;
 
-public record SignUpDto(string FirstName, 
-    string LastName, 
+public record SignUpDto([Required] string FirstName, 
+    [Required] string LastName,
     string Gender,
     DateTime? DOB,
     int? Age,
     string Role,
-    string Email,
-    string Password,
-    string ConfirmPassword,
+    [Required] string Email,
+    [Required] string Password,
+    [Required] string ConfirmPassword,
     string Phone,
     string Address,
     string Department,
