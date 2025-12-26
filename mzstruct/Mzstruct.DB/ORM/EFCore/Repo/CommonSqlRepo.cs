@@ -2,7 +2,7 @@
 using Mzstruct.Base.Contracts.IRepos;
 using Mzstruct.Base.Helpers;
 using Mzstruct.DB.ORM.EFCore.Context;
-using Mzstruct.DB.SQL.Context;
+using Mzstruct.DB.Providers.SqlServer.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;

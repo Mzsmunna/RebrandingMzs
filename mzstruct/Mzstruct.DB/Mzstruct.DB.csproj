@@ -5,6 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="SQL\Context\" />
     <Folder Include="Vector\" />
     <Folder Include="NoSQL\" />
     <Folder Include="Repositories\" />

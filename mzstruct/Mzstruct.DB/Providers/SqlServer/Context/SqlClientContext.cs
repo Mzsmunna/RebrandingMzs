@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mzstruct.DB.SQL.Context
+namespace Mzstruct.DB.Providers.SqlServer.Context
 {
     public static class SqlClientContext<T> where T : class
     {

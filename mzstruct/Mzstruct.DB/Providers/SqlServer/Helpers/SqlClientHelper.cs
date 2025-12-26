@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Mzstruct.Base.Consts;
 
-namespace Mzstruct.DB.SQL.Helper
+namespace Mzstruct.DB.Providers.SqlServer.Helpers
 {
-    internal class SqlHelper
+    internal class SqlClientHelper
     {
         internal static T ExecuteReader<T>(Func<DbDataReader, T> dbDataRederDelegate, string procedureName, params object[] parameters)
         {
