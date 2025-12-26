@@ -1,12 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Mzstruct.Auth\Mzstruct.Auth.csproj" />
     <ProjectReference Include="..\Mzstruct.Base\Mzstruct.Base.csproj" />
     <ProjectReference Include="..\Mzstruct.DB\Mzstruct.DB.csproj" />

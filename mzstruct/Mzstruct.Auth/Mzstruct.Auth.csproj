@@ -1,6 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <ProjectReference Include="..\Mzstruct.Base\Mzstruct.Base.csproj" />
   </ItemGroup>
 

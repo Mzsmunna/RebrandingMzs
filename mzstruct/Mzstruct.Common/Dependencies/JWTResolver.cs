@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Mzstruct.Auth.Contracts.IManagers;
+using Mzstruct.Auth.Models;
 
 namespace Mzstruct.Common.Dependencies
 {
