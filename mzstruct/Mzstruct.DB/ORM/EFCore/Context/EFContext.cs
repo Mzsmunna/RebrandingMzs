@@ -3,9 +3,9 @@ using Mzstruct.Base.Models;
 
 namespace Mzstruct.DB.ORM.EFCore.Context
 {
-    public class SqlDbContext : DbContext
+    public class EFContext : DbContext
     {
-        public SqlDbContext(DbContextOptions options) : base(options) {}
+        public EFContext(DbContextOptions options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -9,9 +9,9 @@ namespace InsightinCloud.Infrastructure.SQLRepository
 {
     public class BaseSqlRepo<T> where T : class
     {
-        protected readonly SqlDbContext _context;
+        protected readonly EFContext _context;
 
-        public BaseSqlRepo(SqlDbContext context)
+        public BaseSqlRepo(EFContext context)
         {
             _context = context;
         }

@@ -9,18 +9,44 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace InsightinCloud.Infrastructure.SQLRepository
 {
     public class CommonSqlRepo<TEntity> : ISqlRepository<TEntity> where TEntity : class
     {
-        private readonly SqlDbContext dbContext;
+        private readonly EFContext dbContext;
         private readonly DbSet<TEntity> entities;
 
-        public CommonSqlRepo(SqlDbContext context)
+        public CommonSqlRepo(EFContext context)
         {
             dbContext = context;
             entities = dbContext.Set<TEntity>();
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            return await entities.ToListAsync();
+        }
+
+        public virtual async Task<TEntity?> GetByIdAsync(object id)
+        {
+            return await entities.FindAsync(id);
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await entities.Where(predicate).ToListAsync();
+        }
+
+        public virtual async Task AddAsync(TEntity entity)
+        {
+            await entities.AddAsync(entity);
+        }
+
+        public virtual async Task SaveChangesAsync()
+        {
+            await dbContext.SaveChangesAsync();
         }
 
         public TEntity? GetById(int Id)
@@ -98,14 +124,15 @@ namespace InsightinCloud.Infrastructure.SQLRepository
             }
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
 
-            dbContext.Entry(entity).State = EntityState.Modified;
+            entities.Update(entity);
+            //dbContext.Entry(entity).State = EntityState.Modified;
             dbContext.SaveChanges();
         }
 
@@ -134,11 +161,13 @@ namespace InsightinCloud.Infrastructure.SQLRepository
         public void Add(TEntity entity)
         {
             dbContext.Set<TEntity>().Add(entity);
+            dbContext.SaveChanges();
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
             dbContext.Set<TEntity>().AddRange(entities);
+            dbContext.SaveChanges();
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
@@ -159,11 +188,13 @@ namespace InsightinCloud.Infrastructure.SQLRepository
         public void Remove(TEntity entity)
         {
             dbContext.Set<TEntity>().Remove(entity);
+            dbContext.SaveChanges();
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             dbContext.Set<TEntity>().RemoveRange(entities);
+            dbContext.SaveChanges();
         }
 
         public void Commit()

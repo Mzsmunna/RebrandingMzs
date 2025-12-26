@@ -4,11 +4,12 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.Base.Contracts.IContexts;
 using Mzstruct.Common.Extensions;
 using Mzstruct.DB.ORM.EFCore.Context;
+using Microsoft.EntityFrameworkCore;
+using Mzstruct.DB.Providers.MongoDB.Context;
 
 namespace Mzstruct.Common.Dependencies
 {
@@ -25,7 +26,9 @@ namespace Mzstruct.Common.Dependencies
 
         public static IServiceCollection AddSqlDB(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<SqlDbContext>(ServiceLifetime.Transient);
+            //services.AddDbContext<SqlDbContext>(ServiceLifetime.Transient);
+            services.AddDbContext<EFContext>(options =>
+                options.UseSqlServer(config.GetConnectionString("DatabaseContext")));
             return services;
         }
     }

@@ -5,7 +5,7 @@ using System.Text;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.Base.Contracts.IContexts;
 
-namespace Mzstruct.DB.Providers.MongoDB
+namespace Mzstruct.DB.Providers.MongoDB.Context
 {
     public class MongoDBContext : IMongoDBContext
     {
