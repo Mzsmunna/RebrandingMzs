@@ -4,6 +4,26 @@ using System.Text;
 
 namespace Mzstruct.Base.Enums
 {
+    public enum DBType
+    {
+        Default, // SqlClient | SqlServer
+
+        //sql
+        SqlServer,
+        PostgreSql,
+        MySQL,
+        SQLite,
+        Superbase,
+
+        //nosql
+        MongoDB,
+        AppWrite,
+        Cassandra,
+        DynamoDB,
+        Redis,
+        CosmosDB,
+    }
+
     public enum CasingType
     {
         ToLowerCase,
@@ -36,5 +56,4 @@ namespace Mzstruct.Base.Enums
         Months = 1 * 60 * 60 * 24 * 30,
         Years = 1 * 60 * 60 * 24 * 365
     }
-
 }

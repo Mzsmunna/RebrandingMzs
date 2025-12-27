@@ -1,15 +1,17 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using Mzstruct.Base.Contracts.IContexts;
+using Mzstruct.Base.Enums;
+using Mzstruct.Common.Extensions;
+using Mzstruct.DB.ORM.EFCore.Context;
+using Mzstruct.DB.Providers.MongoDB.Configs;
+using Mzstruct.DB.Providers.MongoDB.Context;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.DB.Providers.MongoDB.Configs;
-using Mzstruct.Base.Contracts.IContexts;
-using Mzstruct.Common.Extensions;
-using Mzstruct.DB.ORM.EFCore.Context;
-using Microsoft.EntityFrameworkCore;
-using Mzstruct.DB.Providers.MongoDB.Context;
 
 namespace Mzstruct.Common.Dependencies
 {
@@ -24,11 +26,37 @@ namespace Mzstruct.Common.Dependencies
             return services;
         }
 
-        public static IServiceCollection AddSqlDB(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddSqlDBContext(this IServiceCollection services, IConfiguration config, DBType dBType)
         {
-            //services.AddDbContext<SqlDbContext>(ServiceLifetime.Transient);
-            services.AddDbContext<EFContext>(options =>
-                options.UseSqlServer(config.GetConnectionString("DatabaseContext")));
+            services.AddDbContext<EFContext>(ServiceLifetime.Transient);
+            if (dBType == DBType.SqlServer) 
+            {
+                services.AddDbContext<EFContext>(options =>
+                    options.UseSqlServer(config.GetConnectionString("DatabaseContext"))
+                );
+            }
+            return services;
+
+           //Action configureDb = dBType switch
+           //{
+           //     DBType.SqlServer => () =>
+           //         services.AddDbContext<EFContext>(options =>
+           //             options.UseSqlServer(
+           //                 config.GetConnectionString("DatabaseContext")
+           //             )),
+           //     _ => () => services.AddDbContext<EFContext>(ServiceLifetime.Transient)
+           //};
+           // configureDb();
+        }
+
+        public static IServiceCollection AddSqlDBFactory(this IServiceCollection services, IConfiguration config, DBType dBType)
+        {
+            if (dBType == DBType.SqlServer)
+            {
+               services.AddDbContextFactory<EFContext>(options =>
+                    options.UseSqlServer(config.GetConnectionString("DatabaseContext"))
+               );
+            }
             return services;
         }
     }
