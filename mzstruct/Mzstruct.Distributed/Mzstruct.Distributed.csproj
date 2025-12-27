@@ -2,8 +2,14 @@
 
   <ItemGroup>
     <Folder Include="Brokers\" />
-    <Folder Include="Events\" />
+    <Folder Include="EventSourcing\Topics\" />
     <Folder Include="Messaging\" />
+    <Folder Include="EventSourcing\Consumers\" />
+    <Folder Include="Brokers\Kafka\" />
+    <Folder Include="Messaging\RabbitMQ\" />
+    <Folder Include="Messaging\RabbitMQ\Subscribers\" />
+    <Folder Include="Messaging\RabbitMQ\Publishers\" />
+    <Folder Include="EventSourcing\Producers\" />
     <Folder Include="Queues\" />
   </ItemGroup>
 
