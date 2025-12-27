@@ -7,6 +7,7 @@ namespace Mzstruct.Base.Enums
     public enum DBType
     {
         Default, // SqlClient | SqlServer
+        InMemory,
 
         //sql
         SqlServer,

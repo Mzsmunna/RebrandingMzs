@@ -26,15 +26,40 @@ namespace Mzstruct.Common.Dependencies
             return services;
         }
 
-        public static IServiceCollection AddSqlDBContext(this IServiceCollection services, IConfiguration config, DBType dBType)
+        public static IServiceCollection AddSqlDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
         {
-            services.AddDbContext<EFContext>(ServiceLifetime.Transient);
-            if (dBType == DBType.SqlServer) 
+            //services.AddDbContext<EFContext>(ServiceLifetime.Transient);
+
+            if (dBType == DBType.InMemory) 
             {
-                services.AddDbContext<EFContext>(options =>
-                    options.UseSqlServer(config.GetConnectionString("DatabaseContext"))
+                var dbName = config.GetConnectionString("DatabaseName") ?? "InMemoryAppDb";
+                services.AddDbContext<TContext>(options =>
+                    options.UseInMemoryDatabase(dbName),
+                    ServiceLifetime.Transient
                 );
             }
+            else if (dBType == DBType.SqlServer) 
+            {
+                services.AddDbContext<TContext>(options =>
+                    options.UseSqlServer(config.GetConnectionString("DatabaseContext")),
+                    ServiceLifetime.Transient
+                );
+            }
+            else if (dBType == DBType.PostgreSql)
+            {
+                services.AddDbContext<TContext>(options =>
+                    options.UseNpgsql(config.GetConnectionString("DatabaseContext")),
+                    ServiceLifetime.Transient
+                );
+            }
+            else if (dBType == DBType.SQLite)
+            {
+                services.AddDbContext<TContext>(options =>
+                    options.UseSqlite(config.GetConnectionString("DatabaseContext")),
+                    ServiceLifetime.Transient
+                );
+            }
+
             return services;
 
            //Action configureDb = dBType switch
@@ -49,14 +74,38 @@ namespace Mzstruct.Common.Dependencies
            // configureDb();
         }
 
-        public static IServiceCollection AddSqlDBFactory(this IServiceCollection services, IConfiguration config, DBType dBType)
+        public static IServiceCollection AddSqlDBFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
         {
-            if (dBType == DBType.SqlServer)
+            if (dBType == DBType.InMemory) 
             {
-               services.AddDbContextFactory<EFContext>(options =>
-                    options.UseSqlServer(config.GetConnectionString("DatabaseContext"))
-               );
+                var dbName = config.GetConnectionString("DatabaseName") ?? "InMemoryAppDb";
+                services.AddDbContextFactory<TContext>(options =>
+                    options.UseInMemoryDatabase(dbName),
+                    ServiceLifetime.Transient
+                );
             }
+            else if (dBType == DBType.SqlServer) 
+            {
+                services.AddDbContextFactory<TContext>(options =>
+                    options.UseSqlServer(config.GetConnectionString("DatabaseContext")),
+                    ServiceLifetime.Transient
+                );
+            }
+            else if (dBType == DBType.PostgreSql)
+            {
+                services.AddDbContextFactory<TContext>(options =>
+                    options.UseNpgsql(config.GetConnectionString("DatabaseContext")),
+                    ServiceLifetime.Transient
+                );
+            }
+            else if (dBType == DBType.SQLite)
+            {
+                services.AddDbContextFactory<TContext>(options =>
+                    options.UseSqlite(config.GetConnectionString("DatabaseContext")),
+                    ServiceLifetime.Transient
+                );
+            }
+
             return services;
         }
     }
