@@ -35,6 +35,7 @@ namespace Mzstruct.Base.Enums
     public enum ErrorType
     {
         None,
+        Null,
         Bad,
         Unauthorized,
         Forbidden,
