@@ -2,15 +2,16 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using Mzstruct.Base.Contracts.IConfigs;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Features.Issues;
 using Tasker.Application.Contracts;
+using Tasker.Application.Features.Issues;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Configs
 {
-    public class IssueEntityConfig : MongoEntityConfig<Issue>
+    public class IssueEntityConfig : MongoEntityConfig<Issue> //, IMongoEntityConfig
     {
         public IssueEntityConfig(string? collectionName = "") : base(collectionName) { }
     }

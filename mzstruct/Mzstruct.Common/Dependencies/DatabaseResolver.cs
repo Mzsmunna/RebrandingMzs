@@ -11,6 +11,7 @@ using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB.Context;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 
 namespace Mzstruct.Common.Dependencies
@@ -19,10 +20,9 @@ namespace Mzstruct.Common.Dependencies
     {
         public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration config)
         {
-            //builder.Services.Configure<MongoDBConfig>(config.GetSection(nameof(MongoDBConfig)));
-            services.Configure(config.GetSection(nameof(MongoDBConfig)).ToConfigureAction<MongoDBConfig>());
-            services.AddScoped<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
-            services.AddScoped<IMongoDBContext, MongoDBContext>();
+            services.Configure<MongoDBConfig>(config.GetSection(nameof(MongoDBConfig)));
+            services.AddTransient<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
+            services.AddTransient<IMongoDBContext, MongoDBContext>();
             return services;
         }
 

@@ -1,20 +1,21 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using Mzstruct.Base.Contracts.IConfigs;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Contracts;
+using Tasker.Application.Features.Issues;
 using Tasker.Application.Features.Users;
-using Mzstruct.Base.Contracts.IConfigs;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Configs
 {
-    public class UserEntityConfig : IMongoEntityConfig
+    public class UserEntityConfig : MongoEntityConfig<User> //, IMongoEntityConfig
     {
         private readonly string _collectionName = "User";
 
-        public string Register()
+        public override string Register()
         {
             if (!BsonClassMap.IsClassMapRegistered(typeof(User)))
             {
@@ -22,8 +23,9 @@ namespace Tasker.Infrastructure.DB.MongoDB.Configs
                 {
                     map.AutoMap();
                     map.SetIgnoreExtraElements(true);
-                    map.MapProperty(x => x.Id).SetElementName("_id");
-                    map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
+                    
+                    //map.MapProperty(x => x.Id).SetElementName("_id");
+                    //map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
 
                     //map.MapProperty(x => x.CreatedBy).SetElementName("CreatedBy");
                     //map.GetMemberMap(x => x.CreatedBy).SetSerializer(new StringSerializer(BsonType.ObjectId));

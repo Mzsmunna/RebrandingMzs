@@ -58,7 +58,7 @@ namespace Tasker.Application.Features.Auth
             var result = await userRepository.LoginUser(user.Email, user.Password);
 
             if (result.IsSuccess is false || result.Data is null)
-                return Error.NotFound("Login.Credential.NotFound", "User doesn't exist."); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
+                return Error.NotFound("SignIn.Credential.NotFound", "User credential didn't match"); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
             
             var signInUser = result.Data;
             jwtTokenManager.CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -66,7 +66,7 @@ namespace Tasker.Application.Features.Auth
             signInUser.PasswordSalt = passwordSalt;
             
             if (!jwtTokenManager.VerifyPasswordHash(signInUser.Password, signInUser.PasswordHash, signInUser.PasswordSalt))
-                return Error.Validation("Login.Credential.Wrong", "Wrong credential.");
+                return Error.Validation("SignIn.Credential.Wrong", "Wrong credential.");
             
             string token = jwtTokenManager.CreateToken(signInUser);
             var refreshToken = jwtTokenManager.GenerateRefreshToken();
@@ -88,7 +88,7 @@ namespace Tasker.Application.Features.Auth
             var result = await userRepository.LoginUser(payload.Email);
 
             if (result.IsSuccess is false || result.Data is null)
-                Error.NotFound("Login.Google.NotLinkned", "User doesn't exist."); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
+                Error.NotFound("SignIn.Google.NotLinkned", "User doesn't exist."); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
 
             var signInUser = result.Data!;
             jwtTokenManager.CreatePasswordHash(signInUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -96,7 +96,7 @@ namespace Tasker.Application.Features.Auth
             signInUser.PasswordSalt = passwordSalt;
 
             if (!jwtTokenManager.VerifyPasswordHash(signInUser.Password, signInUser.PasswordHash, signInUser.PasswordSalt))
-                return Error.Validation("Login.Google.Error", "Wrong credential."); //StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
+                return Error.Validation("SignIn.Google.Error", "Wrong credential."); //StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
 
             string token = jwtTokenManager.CreateToken(signInUser);
             var refreshToken = jwtTokenManager.GenerateRefreshToken();

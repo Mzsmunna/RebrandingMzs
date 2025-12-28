@@ -1,24 +1,25 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using Mzstruct.Base.Contracts.IConfigs;
+using Mzstruct.Base.Entities;
+using Mzstruct.DB.Providers.MongoDB.Configs;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.Base.Entities;
-using Mzstruct.Base.Contracts.IConfigs;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Configs
 {
-    public class MongoEntityConfig<T> : IMongoEntityConfig where T : BaseEntity //class
+    public class MongoEntityConfig<T> : BaseMongoConfig, IMongoEntityConfig where T : BaseEntity
     {
         private readonly string _collectionName = typeof(T).Name;
 
-        public MongoEntityConfig(string? collectionName = "")
+        public MongoEntityConfig(string? collectionName = "") : base()
         {
             _collectionName = collectionName ?? typeof(T).Name;
         }
 
-        public string Register()
+        public virtual string Register()
         {
             if (!BsonClassMap.IsClassMapRegistered(typeof(T)))
             {
@@ -26,11 +27,10 @@ namespace Tasker.Infrastructure.DB.MongoDB.Configs
                 {
                     map.AutoMap();
                     map.SetIgnoreExtraElements(true);
-                    map.MapProperty(x => x.Id).SetElementName("_id");
-                    map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
+                    //map.MapProperty(x => x.Id).SetElementName("_id");
+                    //map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
                 });
             }
-
             return _collectionName;
         }
     }
