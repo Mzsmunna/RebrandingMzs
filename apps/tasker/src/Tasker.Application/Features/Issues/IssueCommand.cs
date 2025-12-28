@@ -50,34 +50,26 @@ namespace Tasker.Application.Features.Issues
 
             if (!string.IsNullOrEmpty(issue.AssignedId))
             {
-                var response = userRepository.GetUser(issue.AssignedId).Result;
-                issue = response.Map(
-                    Ok: user =>
-                    {
-                        issue.AssignedName = user.FirstName + " " + user.LastName;
-                        issue.AssignedImg = user.Img ?? "";
-                        return issue;
-                    },
-                    Err: _ => issue
-                );
+                var user = userRepository.GetById(issue.AssignedId).Result;
+                if (user != null)
+                {
+                    issue.AssignedName = user.FirstName + " " + user.LastName;
+                    issue.AssignedImg = user.Img ?? "";
+                }
             }
 
             if (!string.IsNullOrEmpty(issue.Created.By))
             {
-                var response = await userRepository.GetUser(issue.Created.By);
-                issue = response.Map(
-                    Ok: user =>
-                    {
-                        issue.Created.Name = user.FirstName + " " + user.LastName;
-                        issue.Created.Image = user.Img;
-                        return issue;
-                    },
-                    Err: _ => issue
-                );
+                var user = await userRepository.GetById(issue.Created.By);
+                if (user != null)
+                {
+                    issue.Created.Name = user.FirstName + " " + user.LastName;
+                    issue.Created.Image = user.Img;
+                }
             }
 
             var result = await issueRepository.Save(issue);
-            return result!;
+            return result ?? issue;
         }
 
         public async Task<Result<bool>> DeleteIssue(string id)
@@ -85,7 +77,7 @@ namespace Tasker.Application.Features.Issues
             if (string.IsNullOrEmpty(id))
                 return ClientError.BadRequest;
             var result = await issueRepository.DeleteById(id);
-            return result;
+            return result != null ? true : false;
         }
     }
 }

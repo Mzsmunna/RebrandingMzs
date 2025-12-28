@@ -18,7 +18,7 @@ namespace Tasker.Application.Features.Users
         //IHttpContextAccessor httpContextAccessor,
         IUserRepository userRepository) : IUserCommand
     {
-        public async Task<Result<User>> CreateUser(UserModel user)
+        public async Task<Result<User?>> CreateUser(UserModel user)
         {
             var validation = await TaskerValidator.ValidateUser(user);
             if (validation.IsValid is false)
@@ -27,7 +27,7 @@ namespace Tasker.Application.Features.Users
             return await SaveUser(userEntity);
         }
 
-        public async Task<Result<User>> UpdateUser(User user)
+        public async Task<Result<User?>> UpdateUser(User user)
         {
             return await SaveUser(user);
         }
@@ -36,20 +36,18 @@ namespace Tasker.Application.Features.Users
         {
             if (string.IsNullOrEmpty(id))
                 return ClientError.BadRequest;
-            return await userRepository.DeleteById(id);
+            var result = await userRepository.DeleteById(id);
+            return result != null ? true : false;
         }
 
-        private async Task<Result<User>> SaveUser(User user)
+        private async Task<Result<User?>> SaveUser(User user)
         {
             var validation = await TaskerValidator.ValidateUser(user);
             if (validation.IsValid is false)
-                return Error.Validation("IssueCommand.UpdateUser.InvalidState", "Updated User info seems in invalid state");
+                return Error.Validation("UserCommand.UpdateUser.InvalidState", "Updated User info seems in invalid state");
 
-            var usersByMail = await userRepository.GetAllByField("Email", user.Email.ToLower());
-            var existingUser = usersByMail.Map(
-                Ok: users => users.Where(x => !x.Id.Equals(user.Id)).FirstOrDefault(),
-                Err: _ => null
-            );
+            var usersWithSameEmail = await userRepository.GetByFieldValue("Email", user.Email.ToLower());
+            var existingUser = usersWithSameEmail?.Where(x => !x.Id.Equals(user.Id)).FirstOrDefault();
             if (string.IsNullOrEmpty(user.Id) && existingUser != null)
             {
                 return Error.Conflict("UserCommand.Create.EmailExist", "This email already exist");

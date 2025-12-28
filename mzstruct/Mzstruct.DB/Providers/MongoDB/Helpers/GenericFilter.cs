@@ -1,7 +1,8 @@
-﻿using Mzstruct.Base.Entities;
-using Mzstruct.Base.Models;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using Mzstruct.Base.Entities;
+using Mzstruct.Base.Helpers;
+using Mzstruct.Base.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Principal;
@@ -9,7 +10,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
-using Mzstruct.Base.Helpers;
 
 namespace Mzstruct.DB.Providers.MongoDB.Helpers
 {
@@ -19,11 +19,11 @@ namespace Mzstruct.DB.Providers.MongoDB.Helpers
         {
             if (filter == null)
                 filter = Builders<T>.Filter.Empty;
+            filter &= Builders<T>.Filter.Eq(x => x.IsActive, true);
+            filter &= Builders<T>.Filter.Eq(x => x.IsDeleted, false);
 
             if (!string.IsNullOrEmpty(id) && id.ToLower() != "undefined")
-            {
                 filter = filter & Builders<T>.Filter.Eq("Id", id);
-            }
 
             if (searchQueries != null && searchQueries.Count > 0)
             {

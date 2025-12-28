@@ -28,23 +28,22 @@ namespace Tasker.Application.Features.Auth
         public async Task<Result<UserModel>> SignUp(SignUpDto signUpDto)
         {
             //var validation = signUpValidator.Validate(signUpDto);
-            var validation = await TaskerValidator.ValidateSignUp(signUpDto);
+            var validation = await TaskerValidator.ValidateSignUp(signUpDto);   
             if (validation.IsValid is false)
                 return Error.Validation("AuthCommand.SignUp.InvalidInput", "User input invalid");
-            var user = signUpDto.ToEntity<User, SignUpDto>();
             
+            var user = signUpDto.ToEntity<User, SignUpDto>();        
             if (user is null)
             {
                 logger.LogWarning("SignUp: Bad Request");
                 return Error.Bad("AuthCommand.SignUp.BadRequest", "Requested body payload seems invalid");
             }
             
-            var result = await userRepository.RegisterUser(user);
-            
-            return result.Map(
-                Ok: data => data.ToModel<UserModel, User>(),
-                Err: error => default! //error //Error.None
-            );
+            var registered = await userRepository.RegisterUser(user);
+            if (registered is null)
+                return Error.Conflict("User.Exists", "This email already exists.");
+
+            return registered.ToModel<UserModel, User>();
         }
 
         public async Task<Result<string>> SignIn(SignInDto user)
@@ -55,12 +54,10 @@ namespace Tasker.Application.Features.Auth
                 return ClientError.BadRequest;
             }
             
-            var result = await userRepository.LoginUser(user.Email, user.Password);
-
-            if (result.IsSuccess is false || result.Data is null)
+            var signInUser = await userRepository.LoginUser(user.Email, user.Password);
+            if (signInUser is null)
                 return Error.NotFound("SignIn.Credential.NotFound", "User credential didn't match"); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
             
-            var signInUser = result.Data;
             jwtTokenManager.CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
             signInUser.PasswordHash = passwordHash;
             signInUser.PasswordSalt = passwordSalt;
@@ -78,19 +75,16 @@ namespace Tasker.Application.Features.Auth
         public async Task<Result<string>> SignInWithGoogle(string credential)
         {
             var payload = await googleAuthManager.ValidateToken(credential);
-
             if (payload is null)
             {
                 logger.LogWarning("SignInWithGoogle: Bad Request");
                 return ClientError.BadRequest;
             }
 
-            var result = await userRepository.LoginUser(payload.Email);
+            var signInUser = await userRepository.LoginUser(payload.Email);
+            if (signInUser is null)
+                return Error.NotFound("SignIn.Google.NotLinkned", "User doesn't exist."); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
 
-            if (result.IsSuccess is false || result.Data is null)
-                Error.NotFound("SignIn.Google.NotLinkned", "User doesn't exist."); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
-
-            var signInUser = result.Data!;
             jwtTokenManager.CreatePasswordHash(signInUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
             signInUser.PasswordHash = passwordHash;
             signInUser.PasswordSalt = passwordSalt;
@@ -112,12 +106,10 @@ namespace Tasker.Application.Features.Auth
                 return ClientError.BadRequest;
             }
 
-            var result = await userRepository.GetUser(userId);
-            
-            if (result.IsSuccess is false || result.Data is null)
+            var signInUser = await userRepository.GetById(userId);           
+            if (signInUser is null)
                 return Error.NotFound("Token.Refresh.NotFound", "User token unavailable");
             
-            var signInUser = result.Data;
             if (!signInUser.RefreshToken.Equals(refreshToken))
                 return Error.Unauthorized("Token.Refresh.Invalid", "Invalid Refresh Token."); //Unauthorized("Invalid Refresh Token.");
             else if (signInUser.TokenExpires < DateTime.UtcNow)

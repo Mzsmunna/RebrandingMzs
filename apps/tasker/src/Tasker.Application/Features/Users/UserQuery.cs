@@ -20,14 +20,15 @@ namespace Tasker.Application.Features.Users
         public async Task<Result<List<User>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
             List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            return await userRepository.GetAllUsers(currentPage, pageSize, sortField, sortDirection, queries);
+            return await userRepository.GetAll(currentPage, pageSize, sortField, sortDirection, queries);
         }
 
         public async Task<Result<User>> GetUser(string id)
         {
             if (string.IsNullOrEmpty(id))
                 return ClientError.BadRequest;
-            return await userRepository.GetUser(id);
+            var result = await userRepository.GetById(id);
+            return result != null ? result : Error.NotFound("UserQuery.GetUser", "We didn't find any user with id: " + id);
         }
 
         public async Task<Result<List<dynamic>>> AvailableUsersToAssign()
@@ -38,7 +39,7 @@ namespace Tasker.Application.Features.Users
         public async Task<Result<long>> UsersCount(string searchQueries)
         {
             List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
-            return await userRepository.GetAllUserCount(queries);
+            return await userRepository.GetCount(queries);
         }
     }
 }

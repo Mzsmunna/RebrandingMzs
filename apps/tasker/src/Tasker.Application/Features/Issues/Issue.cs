@@ -24,8 +24,6 @@ namespace Tasker.Application.Features.Issues
         public DateTime? DueDate { get; set; }
         public string Status { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
-        public bool? IsActive { get; set; } = false;
-        public bool? IsDeleted { get; set; } = false;
         public bool? IsCompleted { get; set; } = false;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Mzstruct.Base.Dtos;
+﻿using Mzstruct.Base.Contracts.IRepos;
+using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
 using System;
@@ -9,19 +10,11 @@ using Tasker.Application.Features.Issues;
 
 namespace Tasker.Application.Contracts.IRepos
 {
-    public interface IIssueRepository //: IMongoRepository
+    public interface IIssueRepository : IMongoDBRepo<Issue>
     {
-        Task<Result<Issue?>> GetById(string id);
-        Task<Result<List<Issue>?>> GetAllByField(string fieldName, string fieldValue);
-        Task<Result<long>> GetAllIssueCount(List<SearchField>? searchQueries = null);
-        Task<Result<List<Issue>?>> GetAllIssues(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null);
-        Task<Result<List<Issue>?>> GetAllIssues();
-        Task<Result<List<dynamic>?>> GetIssueStatByUserId(string userId);
-        Task<Result<List<Issue>?>> GetAllIssuesByAssigner(string assignerId);
-        Task<Result<List<Issue>?>> GetAllIssuesByAssigned(string assignedId);
-        Task<Result<Issue?>> GetIssuesById(string id);
-        Task<Result<Issue?>> GetByTitle(string title);
-        Task<Result<Issue?>> Save(BaseEntity entity);
-        Task<Result<bool>> DeleteById(string _id);
+        Task<List<dynamic>> GetIssueStatByUserId(string userId);
+        Task<List<Issue>> GetAllIssuesByAssigner(string assignerId);
+        Task<List<Issue>> GetAllIssuesByAssigned(string assignedId);
+        Task<Issue?> GetByTitle(string title);
     }
 }

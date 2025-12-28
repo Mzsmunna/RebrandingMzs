@@ -8,8 +8,8 @@ namespace Tasker.Application.Contracts.ICommands
 {
     public interface IUserCommand
     {
-        Task<Result<User>> CreateUser(UserModel user);
-        Task<Result<User>> UpdateUser(User user);
+        Task<Result<User?>> CreateUser(UserModel user);
+        Task<Result<User?>> UpdateUser(User user);
         Task<Result<bool>> DeleteUser(string id);
     }
 }

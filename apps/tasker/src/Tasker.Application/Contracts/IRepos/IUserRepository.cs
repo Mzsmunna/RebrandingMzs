@@ -1,4 +1,7 @@
-﻿using Mzstruct.Base.Dtos;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using Mzstruct.Base.Contracts.IRepos;
+using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
 using System;
@@ -10,18 +13,13 @@ using Tasker.Application.Features.Users;
 namespace Tasker.Application.Contracts.IRepos
 {
     //[EnforceResult]
-    public interface IUserRepository
+    public interface IUserRepository : IMongoDBRepo<User>
     {
-        Task<Result<User>> LoginUser(string email, string password);
-        Task<Result<User>> LoginUser(string email);
-        Task<Result<User>> RegisterUser(User user);
-        Task<Result<List<User>>> GetAllByField(string fieldName, string fieldValue);
-        Task<Result<User>> GetUser(string id);
-        Task<Result<long>> GetAllUserCount(List<SearchField>? searchQueries = null);
-        Task<Result<List<User>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null);
+        Task<User?> LoginUser(string email, string password);
+        Task<User?> LoginUser(string email);
+        Task<User?> RegisterUser(User user);
+        Task<Result<List<User>>> GetUsers(string clientId, string adminId);
         Task<Result<List<dynamic>>> GetAllUserToAssign();
-        Task<Result<User>> Save(BaseEntity entity);
-        Task<Result<bool>> UpdateUser(User user);
-        Task<Result<bool>> DeleteById(string _id);
+        Task<Result<User?>> UpdateUser(User User);
     }
 }

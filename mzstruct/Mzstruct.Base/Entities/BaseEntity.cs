@@ -11,5 +11,7 @@ namespace Mzstruct.Base.Entities
         public string Id { get; set; } = string.Empty; //ObjectId.GenerateNewId().ToString();
         public AppEvent Created { get; set; } = new AppEvent();
         public AppEvent? Modified { get; set; }
+        public bool IsActive { get; set; } = true;
+        public bool IsDeleted { get; set; } = false;
     }
 }
