@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Contracts.IConfigs
+namespace Mzstruct.Base.Contracts.IMappings
 {
-    public interface IMongoEntityConfig
+    public interface IMongoEntityMap
     {
         string Register();
     }

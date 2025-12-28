@@ -1,7 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using Mzstruct.Base.Contracts.IConfigs;
 using Mzstruct.Base.Entities;
 using System;
 using System.Collections.Generic;

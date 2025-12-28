@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using Mzstruct.Base.Contracts.IConfigs;
+using Mzstruct.Base.Contracts.IMappings;
 using Mzstruct.Base.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Mzstruct.DB.Providers.MongoDB.Mappings
 {
-    public class MongoEntityMap<T> : BsonEntityMap, IMongoEntityConfig where T : BaseEntity
+    public class MongoEntityMap<T> : BsonEntityMap, IMongoEntityMap where T : BaseEntity
     {
         private readonly string _collectionName = typeof(T).Name;
 

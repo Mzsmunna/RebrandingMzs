@@ -10,8 +10,8 @@ namespace Mzstruct.Base.Dtos
         public DateTime EndDate { get; set; }
         public int? PageNumber { get; set; }
         public int? PageSize { get; set; }
-        public string SortField { get; set; }
-        public string SortOrder { get; set; }
-        public string SearchText { get; set; }
+        public string SortField { get; set; } = string.Empty;
+        public string SortOrder { get; set; } = string.Empty;
+        public string SearchText { get; set; } = string.Empty;
     }
 }
