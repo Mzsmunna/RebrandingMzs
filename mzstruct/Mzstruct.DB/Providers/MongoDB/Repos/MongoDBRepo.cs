@@ -11,8 +11,6 @@ using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
