@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Tasker.Application\Tasker.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DB\MongoDB\Configs\" />
+  </ItemGroup>
+
 </Project>

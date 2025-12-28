@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Enums;
 using Tasker.Application.Contracts.IRepos;
-using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Tasker.Infrastructure.DB.MongoDB.Repos;
 using Mzstruct.Common.Dependencies;
+using Tasker.Infrastructure.DB.MongoDB.Mappings;
 
 namespace Tasker.Infrastructure
 {
@@ -29,11 +29,11 @@ namespace Tasker.Infrastructure
 
         private static IServiceCollection AddTaskerEntities(this IServiceCollection services)
         {
-            services.AddScoped<UserEntityConfig>();
+            services.AddScoped<UserEntityMap>();
             //services.AddScoped<IssueEntityConfig>();
-            services.AddScoped<IssueEntityConfig>(sp =>
+            services.AddScoped<IssueEntityMap>(sp =>
             {
-                return new IssueEntityConfig(TaskerEntities.Issue.ToString());
+                return new IssueEntityMap(TaskerEntities.Issue.ToString());
             });
             return services;
         }

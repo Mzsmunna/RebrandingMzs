@@ -9,11 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Features.Issues;
-using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Tasker.Application.Contracts.IRepos;
 using Mzstruct.Base.Contracts.IContexts;
+using Tasker.Infrastructure.DB.MongoDB.Mappings;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {
@@ -21,7 +21,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
     {
         private readonly IMongoCollection<Issue> _collection;
         
-        public IssueRepository(IMongoDBContext context, IssueEntityConfig entityConfig) : base(context, entityConfig)
+        public IssueRepository(IMongoDBContext context, IssueEntityMap entityConfig) : base(context, entityConfig)
         {
             _collection = mongoCollection;
         }

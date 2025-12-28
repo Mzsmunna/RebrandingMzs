@@ -3,18 +3,17 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Mzstruct.Base.Contracts.IConfigs;
 using Mzstruct.Base.Entities;
-using Mzstruct.DB.Providers.MongoDB.Configs;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Infrastructure.DB.MongoDB.Configs
+namespace Mzstruct.DB.Providers.MongoDB.Mappings
 {
-    public class MongoEntityConfig<T> : BaseMongoConfig, IMongoEntityConfig where T : BaseEntity
+    public class MongoEntityMap<T> : BsonEntityMap, IMongoEntityConfig where T : BaseEntity
     {
         private readonly string _collectionName = typeof(T).Name;
 
-        public MongoEntityConfig(string? collectionName = "") : base()
+        public MongoEntityMap(string? collectionName = "") : base()
         {
             _collectionName = collectionName ?? typeof(T).Name;
         }

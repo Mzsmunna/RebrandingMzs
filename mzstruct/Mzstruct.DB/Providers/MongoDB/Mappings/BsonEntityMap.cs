@@ -7,11 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.DB.Providers.MongoDB.Configs
+namespace Mzstruct.DB.Providers.MongoDB.Mappings
 {
-    public class BaseMongoConfig
+    public class BsonEntityMap
     {
-        public BaseMongoConfig()
+        public BsonEntityMap()
         {
             if (!BsonClassMap.IsClassMapRegistered(typeof(BaseEntity)))
             {

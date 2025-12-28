@@ -9,20 +9,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tasker.Application.Errors;
-using Tasker.Infrastructure.DB.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Mzstruct.DB.Providers.MongoDB.Models;
 using Tasker.Application.Features.Users;
 using Tasker.Application.Contracts.IRepos;
 using Mzstruct.Base.Contracts.IContexts;
+using Tasker.Infrastructure.DB.MongoDB.Mappings;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {
     public class UserRepository: MongoDBBase<User>, IUserRepository
     {
         private readonly IMongoCollection<User> _collection;
-        public UserRepository(IMongoDBContext dbContext, UserEntityConfig entityConfig) : base(dbContext, entityConfig)
+        public UserRepository(IMongoDBContext dbContext, UserEntityMap entityConfig) : base(dbContext, entityConfig)
         {
             _collection = mongoCollection;
         }

@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Mzstruct.Base.Contracts.IConfigs;
+using Mzstruct.DB.Providers.MongoDB.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,9 +10,9 @@ using Tasker.Application.Contracts;
 using Tasker.Application.Features.Issues;
 using Tasker.Application.Features.Users;
 
-namespace Tasker.Infrastructure.DB.MongoDB.Configs
+namespace Tasker.Infrastructure.DB.MongoDB.Mappings
 {
-    public class UserEntityConfig : MongoEntityConfig<User> //, IMongoEntityConfig
+    public class UserEntityMap : MongoEntityMap<User> //, IMongoEntityConfig
     {
         private readonly string _collectionName = "User";
 
