@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using Mzstruct.DB.Providers.MongoDB.Mappings;
+using Mzstruct.DB.Providers.MongoDB.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +15,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Mappings
     {
         private readonly string _collectionName = "User";
 
-        public override string Register()
+        public override string RegisterEntity()
         {
             if (!BsonClassMap.IsClassMapRegistered(typeof(User)))
             {

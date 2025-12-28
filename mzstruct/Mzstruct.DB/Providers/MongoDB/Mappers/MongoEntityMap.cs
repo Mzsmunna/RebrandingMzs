@@ -1,13 +1,13 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using Mzstruct.Base.Contracts.IMappings;
+using Mzstruct.Base.Contracts.IMappers;
 using Mzstruct.Base.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.DB.Providers.MongoDB.Mappings
+namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
     public class MongoEntityMap<T> : BsonEntityMap, IMongoEntityMap where T : BaseEntity
     {
@@ -18,7 +18,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappings
             _collectionName = collectionName ?? typeof(T).Name;
         }
 
-        public virtual string Register()
+        public virtual string RegisterEntity()
         {
             if (!BsonClassMap.IsClassMapRegistered(typeof(T)))
             {

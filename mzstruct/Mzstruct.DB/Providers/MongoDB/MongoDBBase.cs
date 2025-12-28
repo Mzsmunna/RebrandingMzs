@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using Mzstruct.DB.Providers.MongoDB.Models;
 using Mzstruct.Base.Contracts.IContexts;
-using Mzstruct.Base.Contracts.IMappings;
+using Mzstruct.Base.Contracts.IMappers;
 
 namespace Mzstruct.DB.Providers.MongoDB
 {
@@ -15,9 +15,9 @@ namespace Mzstruct.DB.Providers.MongoDB
     {
         protected readonly IMongoCollection<T> mongoCollection;
 
-        public MongoDBBase(IMongoDBContext dBContext, IMongoEntityMap entityConfig)
+        public MongoDBBase(IMongoDBContext dBContext, IMongoEntityMap entityMap)
         {
-            string collectionName = entityConfig.Register();
+            string collectionName = entityMap.RegisterEntity();
 
             if (string.IsNullOrEmpty(collectionName))
             {
