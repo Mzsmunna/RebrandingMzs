@@ -31,7 +31,7 @@ namespace Tasker.Application.Validators
                     .EmailAddress().WithMessage("Invalid email format.");
                 v.RuleFor(x => x.Password)
                     .NotEmpty().WithMessage("Password is required.")
-                    .MinimumLength(8).WithMessage("Password must be at least 8 characters long.");
+                    .MinimumLength(3).WithMessage("Password must be at least 3 characters long.");
                 v.RuleFor(x => x.ConfirmPassword)
                     .NotEmpty().WithMessage("Confirm Password can't be empty.")
                     .Equal(x => x.Password).WithMessage("Password didn't match.");
@@ -51,7 +51,7 @@ namespace Tasker.Application.Validators
                     .EmailAddress().WithMessage("Invalid email format.");
                 v.RuleFor(x => x.Password)
                     .NotEmpty().WithMessage("Password is required.")
-                    .MinimumLength(8).WithMessage("Password must be at least 8 characters long.");
+                    .MinimumLength(3).WithMessage("Password must be at least 3 characters long.");
             });
         }
 
@@ -96,7 +96,7 @@ namespace Tasker.Application.Validators
                     .EmailAddress().WithMessage("Invalid email format.");
                 v.RuleFor(x => x.Password)
                     .NotEmpty().WithMessage("Password is required.")
-                    .MinimumLength(8).WithMessage("Password must be at least 8 characters long.");
+                    .MinimumLength(3).WithMessage("Password must be at least 3 characters long.");
                 v.RuleFor(x => x.Phone)
                     .MinimumLength(10).WithMessage("Phone must be at least 10 digit long.");
                 v.RuleFor(x => x)

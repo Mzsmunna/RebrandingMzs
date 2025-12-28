@@ -24,7 +24,7 @@ namespace Tasker.Application.Features.Auth
                 .EmailAddress().WithMessage("Invalid email format.");
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required.")
-                .MinimumLength(8).WithMessage("Password must be at least 8 characters long.");
+                .MinimumLength(3).WithMessage("Password must be at least 3 characters long.");
             RuleFor(x => x.ConfirmPassword)
                 .NotEmpty().WithMessage("Confirm Password can't be empty.")
                 .Equal(x => x.Password).WithMessage("Password didn't match.");
