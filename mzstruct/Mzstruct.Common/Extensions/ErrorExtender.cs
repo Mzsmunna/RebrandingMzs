@@ -1,7 +1,7 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Errors;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Errors;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +15,16 @@ namespace Mzstruct.Common.Extensions
             if (result.IsSuccess)
                 throw new InvalidOperationException($"Success result shouldn't return any problem+json response");
             return result.Error.ToProblemDetails();
+            //return Results.Problem(
+            //    type: error.Url,
+            //    title: error.Title,
+            //    detail: error.Message,
+            //    statusCode: error?.StatusCore ?? StatusCodes.Status500InternalServerError,
+            //    extensions: new Dictionary<string, object?>
+            //    {
+            //        { "errors", new[] { result.Error } }
+            //    }
+            //);
         }
 
         public static IResult ToProblemDetails(this Error error)
