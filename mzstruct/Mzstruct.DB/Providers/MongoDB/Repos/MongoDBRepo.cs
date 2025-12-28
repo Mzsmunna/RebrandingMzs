@@ -11,6 +11,8 @@ using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
@@ -177,36 +179,32 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
         public async Task<T?> DeleteAsync(T entity, bool isSoftDelete = true)
         {           
-            return await DeleteById(entity.Id, isSoftDelete);
-        }
+            if (entity is null)
+                return null;
 
-        public virtual async Task<T?> DeleteById(string id, bool isSoftDelete = true)
-        {
             BsonDocument query = new BsonDocument {
-                { "_id" , ObjectId.Parse(id) }
+                { "_id" , ObjectId.Parse(entity.Id) }
             };
 
             if (isSoftDelete)
             {
-                var data = await GetById(id);
-                if (data is not null)
-                {
-                    data.IsDeleted = true;
-                    var result = await SaveAsync(data);
-                    return data;
-                }
-                return null;
+                entity.IsDeleted = true;
+                var updatedEntity = await SaveAsync(entity);
+                return updatedEntity ?? null;
             }
-            else
-            {
-                var data = await GetById(id);
-                if (data is not null)
-                {
-                    var result = await _collection.DeleteOneAsync(query).ConfigureAwait(false);
-                    return data; 
-                }
-                return null;
-            }
+            
+            var result = await _collection.DeleteOneAsync(query).ConfigureAwait(false);
+            if (result != null && result.DeletedCount > 0)
+                return entity;
+            else return null;
+        }
+
+        public virtual async Task<T?> DeleteById(string id, bool isSoftDelete = true)
+        {
+            var entity = await GetById(id);
+            if (entity != null)
+                return await DeleteAsync(entity, isSoftDelete);
+            return null;
         }
 
         public async Task<bool> DeleteManyAsync(string id, bool isSoftDelete = true)
