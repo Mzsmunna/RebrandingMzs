@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Mzstruct.Base.Errors
 {
-    public record Error(ErrorType Type, string Code, string Message, int StatusCore = 102, string Url = "", string Title = "", string Detail = "")
+    public sealed record Error(ErrorType Type, string Code, string Message, int StatusCore = 102, string Url = "", string Title = "", string Detail = "")
     {
-        public static Error None => new(ErrorType.None, string.Empty, string.Empty);
+        public static readonly Error None = new(ErrorType.None, string.Empty, string.Empty);
         public static Error Bad(string code = "", string message = "") => new(ErrorType.Bad, code, message, 400, "https://www.rfc-editor.org/rfc/rfc9110#name-400-bad-request");
         public static Error Unauthorized(string code = "", string message = "") => new(ErrorType.Unauthorized, code, message, 401, "https://www.rfc-editor.org/rfc/rfc9110#name-401-unauthorized");
         public static Error Forbidden(string code = "", string message = "") => new(ErrorType.Forbidden, code, message, 403, "https://www.rfc-editor.org/rfc/rfc9110#name-403-forbidden");

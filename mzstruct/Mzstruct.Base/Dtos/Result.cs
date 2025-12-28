@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Mzstruct.Base.Dtos
 {
-    public class Result<T>
+    public class Result<TValue>
     {
-        public readonly T Data;
+        public readonly TValue Data;
         public readonly Error Error;
         public readonly bool IsSuccess;
 
-        private Result(T data)
+        private Result(TValue data)
         {
             IsSuccess = true; 
             Data = data;
@@ -25,14 +25,14 @@ namespace Mzstruct.Base.Dtos
             Error = error;
         }
 
-        public static implicit operator Result<T>(T data) => new(data);
-        public static implicit operator Result<T>(Error error) => new(error);
+        public static implicit operator Result<TValue>(TValue data) => new(data);
+        public static implicit operator Result<TValue>(Error error) => new(error);
 
-        public static Result<T> Ok(T data) => new Result<T>(data);
-        public static Result<T> Err(Error error) => new Result<T>(error);
-        public TResult Map<TResult>(
-            Func<T, TResult> Ok,
-            Func<Error, TResult> Err)
+        public static Result<TValue> Ok(TValue data) => new Result<TValue>(data);
+        public static Result<TValue> Err(Error error) => new Result<TValue>(error);
+        public TResponse Map<TResponse>(
+            Func<TValue, TResponse> Ok,
+            Func<Error, TResponse> Err)
         {
             return IsSuccess ? Ok(Data) : Err(Error);
         }
