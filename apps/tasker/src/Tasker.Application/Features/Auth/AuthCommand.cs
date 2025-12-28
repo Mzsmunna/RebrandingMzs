@@ -30,7 +30,8 @@ namespace Tasker.Application.Features.Auth
             //var validation = signUpValidator.Validate(signUpDto);
             var validation = await TaskerValidator.ValidateSignUp(signUpDto);   
             if (validation.IsValid is false)
-                return Error.Validation("AuthCommand.SignUp.InvalidInput", "User input invalid");
+                return Error.Validation("AuthCommand.SignUp.InvalidInput", 
+                    "SignUp form is invalid", validation.ToErrorDictionary());
             
             var user = signUpDto.ToEntity<User, SignUpDto>();        
             if (user is null)
@@ -46,19 +47,24 @@ namespace Tasker.Application.Features.Auth
             return registered.ToModel<UserModel, User>();
         }
 
-        public async Task<Result<string>> SignIn(SignInDto user)
+        public async Task<Result<string>> SignIn(SignInDto signInDto)
         {
-            if (user is null)
+            if (signInDto is null)
             {
                 logger.LogWarning("SignIn: Bad Request");
                 return ClientError.BadRequest;
             }
+
+            var validation = await TaskerValidator.ValidateSignIn(signInDto);   
+            if (validation.IsValid is false)
+                return Error.Validation("AuthCommand.SignIn.InvalidForm", 
+                    "SignIn form is invalid", validation.ToErrorDictionary());
             
-            var signInUser = await userRepository.LoginUser(user.Email, user.Password);
+            var signInUser = await userRepository.LoginUser(signInDto.Email, signInDto.Password);
             if (signInUser is null)
                 return Error.NotFound("SignIn.Credential.NotFound", "User credential didn't match"); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
             
-            jwtTokenManager.CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            jwtTokenManager.CreatePasswordHash(signInDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
             signInUser.PasswordHash = passwordHash;
             signInUser.PasswordSalt = passwordSalt;
             

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
@@ -65,6 +66,21 @@ namespace Mzstruct.Common.Extensions
                     { "errors", error }
                 }
             );
+        }
+
+        public static Dictionary<string, string[]>? ToErrorDictionary(this ValidationResult validation)
+        {
+            if (validation.IsValid is false)
+            {
+                var errors = validation.Errors
+                    .GroupBy(e => e.PropertyName)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Select(e => e.ErrorMessage).ToArray()
+                    );
+                return errors;
+            }
+            return null;
         }
     }
 }

@@ -5,4 +5,4 @@ using System.Text;
 
 namespace Tasker.Application.Features.Auth;
 
-public record SignInDto([Required] string Email, [Required] string Password);
+public record SignInDto([Required, EmailAddress] string Email, [Required, MinLength(3)] string Password);

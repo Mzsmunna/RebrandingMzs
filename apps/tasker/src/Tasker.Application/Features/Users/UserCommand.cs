@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
+using Mzstruct.Common.Extensions;
 using Mzstruct.Common.Mappings;
 using System;
 using System.Collections.Generic;
@@ -22,7 +24,8 @@ namespace Tasker.Application.Features.Users
         {
             var validation = await TaskerValidator.ValidateUser(user);
             if (validation.IsValid is false)
-                return Error.Validation("IssueCommand.CreateUser.InvalidInput", "User input invalid");
+                return Error.Validation("IssueCommand.CreateUser.InvalidInputs",
+                    "One or more User input invalid", validation.ToErrorDictionary());
             var userEntity = user.ToEntity<User, UserModel>();
             return await SaveUser(userEntity);
         }
@@ -44,7 +47,8 @@ namespace Tasker.Application.Features.Users
         {
             var validation = await TaskerValidator.ValidateUser(user);
             if (validation.IsValid is false)
-                return Error.Validation("UserCommand.UpdateUser.InvalidState", "Updated User info seems in invalid state");
+                return Error.Validation("UserCommand.UpdateUser.InvalidState", 
+                    "Updated User info seems in invalid state", validation.ToErrorDictionary());
 
             var usersWithSameEmail = await userRepository.GetByFieldValue("Email", user.Email.ToLower());
             var existingUser = usersWithSameEmail?.Where(x => !x.Id.Equals(user.Id)).FirstOrDefault();

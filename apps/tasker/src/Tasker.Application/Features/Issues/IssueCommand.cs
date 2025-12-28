@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
 using Mzstruct.Base.Models;
+using Mzstruct.Common.Extensions;
 using Mzstruct.Common.Mappings;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,8 @@ namespace Tasker.Application.Features.Issues
         {
             var validation = await TaskerValidator.ValidateIssue(issue);
             if (validation.IsValid is false)
-                return Error.Validation("IssueCommand.CreateIssue.InvalidInput", "User input invalid");
+                return Error.Validation("IssueCommand.CreateIssue.InvalidForm", 
+                    "One or more Issue form invalid", validation.ToErrorDictionary());
             var issueEntity = issue.ToEntity<Issue, IssueModel>();
             return await SaveIssue(issueEntity);
         }
@@ -35,7 +37,8 @@ namespace Tasker.Application.Features.Issues
         {
             var validation = await TaskerValidator.ValidateIssue(issue);
             if (validation.IsValid is false)
-                return Error.Validation("IssueCommand.UpdateIssue.InvalidState", "Updated Issue info seems in invalid state");
+                return Error.Validation("IssueCommand.UpdateIssue.InvalidState", 
+                    "Updated Issue info seems in invalid state", validation.ToErrorDictionary());
 
             if (issue is null)
                 return ClientError.BadRequest;
