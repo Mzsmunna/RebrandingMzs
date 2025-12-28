@@ -4,6 +4,9 @@ using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Text;
 
 namespace Mzstruct.Common.Extensions
@@ -51,12 +54,14 @@ namespace Mzstruct.Common.Extensions
         public static ObjectResult ToProblem(this Error error, ControllerBase controller)
         {
             return controller.Problem(
-                type: error.Url,
-                title: error.Title,
+                type: error.Code, //.Type.ToString(),
+                title: error.Title ?? "Something went wrong!!",
                 detail: error.Message,
                 statusCode: error?.StatusCore ?? StatusCodes.Status500InternalServerError,
                 extensions: new Dictionary<string, object?>
                 {
+                    //{ "requestId", httpContext.TraceIdentifier },
+                    //{ "traceId", activity?.Id }
                     { "errors", error }
                 }
             );

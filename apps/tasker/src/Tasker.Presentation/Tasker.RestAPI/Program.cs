@@ -66,6 +66,8 @@ public class Program
 
         app.UseExceptionHandler();
 
+        app.UseStatusCodePages();
+
         app.UseDefaultFiles();
 
         app.UseStaticFiles();

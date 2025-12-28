@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -26,6 +27,7 @@ namespace Mzstruct.Common.Exceptions
                 _ => StatusCodes.Status500InternalServerError
             };
 
+            //var activity = httpContext.Features.Get<IHttpActivityFeature>()?.Activity;
             return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
             {
                 HttpContext = httpContext,
@@ -33,11 +35,16 @@ namespace Mzstruct.Common.Exceptions
                 //StatusCode = httpContext.Response.StatusCode,
                 ProblemDetails = new ProblemDetails
                 {
-                    Instance = httpContext.Request.Path.Value,
-                    Type = "https://www.rfc-editor.org/rfc/rfc9110#name-500-internal-server-error",
-                    Title = "Server error",
+                    //Instance = $"{httpContext.Request.Method} {httpContext.Request.Path.Value}",
+                    Type = ex.GetType().Name,  //"https://www.rfc-editor.org/rfc/rfc9110#name-500-internal-server-error",
+                    Title = "Internal server error!!",
                     Status = StatusCodes.Status500InternalServerError,
-                    Detail = ex.Message
+                    Detail = ex.Message,
+                    //Extensions = new Dictionary<string, object?>
+                    //{
+                    //    { "requestId", httpContext.TraceIdentifier },
+                    //    { "traceId", activity?.Id }
+                    //}
                 }
             });
         }

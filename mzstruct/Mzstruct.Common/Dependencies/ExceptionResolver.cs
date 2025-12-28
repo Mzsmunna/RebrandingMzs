@@ -15,6 +15,7 @@ namespace Mzstruct.Common.Dependencies
             {
                 config.CustomizeProblemDetails = context =>
                 {
+                    context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path.Value}";
                     context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
                     var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
                     context.ProblemDetails.Extensions.TryAdd("traceId", activity?.TraceId.ToString() ?? string.Empty);
