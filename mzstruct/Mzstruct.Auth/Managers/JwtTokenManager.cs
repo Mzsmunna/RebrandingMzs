@@ -18,37 +18,33 @@ using Mzstruct.Auth.Models;
 
 namespace Mzstruct.Auth.Managers
 {
-    public class JwtTokenManager : IJwtTokenManager
+    public class JwtTokenManager(IConfiguration config, 
+        IOptions<JwtTokenOptions> options, 
+        IHttpContextAccessor httpContextAccessor) : IJwtTokenManager
     {
-        private readonly JwtTokenOptions _options;
-        private readonly IConfiguration _config;
-
-        public JwtTokenManager(IConfiguration config, IOptions<JwtTokenOptions> options)
-        {
-            _options = options.Value;
-            _config = config;
-        }
+        //private readonly JwtTokenOptions _options = options.Value;
+        //private readonly IConfiguration _config = config;
 
         public RefreshToken GenerateRefreshToken()
         {
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = BaseHelper.ToDateTime(_options.RefreshTokenExpiryValue, _options.RefreshTokenExpiryUnit), //DateTime.UtcNow.AddDays(7),
+                Expires = BaseHelper.ToDateTime(options.Value.RefreshTokenExpiryValue, options.Value.RefreshTokenExpiryUnit), //DateTime.UtcNow.AddDays(7),
                 Created = DateTime.UtcNow
             };
             return refreshToken;
         }
 
-        public void SetRefreshToken(RefreshToken newRefreshToken, Identity user, ControllerBase? controller = null)
+        public void SetRefreshToken(RefreshToken newRefreshToken, Identity user)
         {
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Expires = newRefreshToken.Expires
             };
-            if (controller != null)
-                controller.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+            if (httpContextAccessor.HttpContext is not null)
+                httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
             user.RefreshToken = newRefreshToken.Token;
             user.TokenCreated = newRefreshToken.Created;
             user.TokenExpires = newRefreshToken.Expires;
@@ -56,7 +52,7 @@ namespace Mzstruct.Auth.Managers
 
         public string CreateToken(Identity user, List<Claim>? additionalClaims = null)
         {
-            var tokenExpiredOn = BaseHelper.ToDateTime(_options.TokenExpiryValue, _options.TokenExpiryUnit); //DateTime.UtcNow.AddMinutes(15);
+            var tokenExpiredOn = BaseHelper.ToDateTime(options.Value.TokenExpiryValue, options.Value.TokenExpiryUnit); //DateTime.UtcNow.AddMinutes(15);
 
             List<Claim> claims = new List<Claim>
             {
@@ -70,7 +66,7 @@ namespace Mzstruct.Auth.Managers
                 claims.AddRange(additionalClaims);
 
             SymmetricSecurityKey? key = null;
-            var secret = !string.IsNullOrEmpty(_options.SecretKey) ? _options.SecretKey : _config.GetValue<string>(_options.SecretConfigKey);
+            var secret = !string.IsNullOrEmpty(options.Value.SecretKey) ? options.Value.SecretKey : config.GetValue<string>(options.Value.SecretConfigKey);
             
             if (!string.IsNullOrEmpty(secret))
                 key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));

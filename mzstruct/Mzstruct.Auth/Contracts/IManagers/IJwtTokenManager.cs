@@ -12,7 +12,7 @@ namespace Mzstruct.Auth.Contracts.IManagers
     public interface IJwtTokenManager
     {
         public RefreshToken GenerateRefreshToken();
-        public void SetRefreshToken(RefreshToken newRefreshToken, Identity user, ControllerBase? controller = null);
+        public void SetRefreshToken(RefreshToken newRefreshToken, Identity user);
         public string CreateToken(Identity user, List<Claim>? additionalClaims = null);
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
         public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
