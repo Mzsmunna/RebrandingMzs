@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.Base.Contracts.IContexts;
 using Mzstruct.DB.Providers.MongoDB.Configs;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 
 namespace Mzstruct.DB.Providers.MongoDB.Context
 {

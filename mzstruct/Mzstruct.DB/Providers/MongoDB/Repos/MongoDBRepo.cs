@@ -1,12 +1,14 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using Mzstruct.Base.Contracts.IContexts;
-using Mzstruct.Base.Contracts.IMappers;
 using Mzstruct.Base.Contracts.IRepos;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
+using Mzstruct.DB.Providers.MongoDB.Models;
 using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
@@ -102,11 +104,17 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                 return entity;
 
             if (entity.Created is null)
+            {
                 entity.Created = new AppEvent();
-            entity.Created.At = DateTime.UtcNow; // DateTime.Now
-
+                entity.Created.Id = ObjectId.GenerateNewId().ToString();
+                entity.Created.At = DateTime.UtcNow; // DateTime.Now
+            }
+            
             if (entity.Modified is null)
+            {
                 entity.Modified = new AppEvent();
+                entity.Modified.Id = ObjectId.GenerateNewId().ToString();
+            }
             entity.Modified.At = DateTime.UtcNow; // DateTime.Now
 
             if (string.IsNullOrEmpty(entity.Id))

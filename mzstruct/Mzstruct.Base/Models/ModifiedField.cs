@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -9,7 +8,7 @@ namespace Mzstruct.Base.Models
 {
     public class ModifiedField
     {
-        [BsonIgnore]
+        //[BsonIgnore]
         public required PropertyInfo PropertyInfo { get; set; }
         public required string PropertyType { get; set; }
         public required string EntityName { get; set; }

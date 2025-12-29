@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Models
+namespace Mzstruct.DB.Providers.MongoDB.Models
 {
     public class MongoOperation
     {

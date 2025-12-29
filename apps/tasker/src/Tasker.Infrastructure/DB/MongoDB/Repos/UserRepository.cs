@@ -12,9 +12,9 @@ using Tasker.Application.Errors;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Tasker.Application.Features.Users;
 using Tasker.Application.Contracts.IRepos;
-using Mzstruct.Base.Contracts.IContexts;
 using Tasker.Infrastructure.DB.MongoDB.Mappings;
 using Mzstruct.DB.Providers.MongoDB.Repos;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {

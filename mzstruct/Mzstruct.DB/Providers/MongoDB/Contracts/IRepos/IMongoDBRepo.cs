@@ -2,11 +2,12 @@
 using MongoDB.Driver;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
+using Mzstruct.DB.Providers.MongoDB.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Contracts.IRepos
+namespace Mzstruct.DB.Providers.MongoDB.Contracts.IRepos
 {
     public interface IMongoDBRepo <T> where T : BaseEntity //class
     {

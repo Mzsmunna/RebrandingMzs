@@ -4,6 +4,7 @@ using Mzstruct.Base.Contracts.IRepos;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using System;
 using System.Collections.Generic;
 using System.Text;

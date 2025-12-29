@@ -11,9 +11,9 @@ using System.Text;
 using Tasker.Application.Features.Issues;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Tasker.Application.Contracts.IRepos;
-using Mzstruct.Base.Contracts.IContexts;
 using Tasker.Infrastructure.DB.MongoDB.Mappings;
 using Mzstruct.DB.Providers.MongoDB.Repos;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {

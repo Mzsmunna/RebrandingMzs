@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,16 +9,16 @@ namespace Mzstruct.Base.Entities
         public required string Email { get; set; }
         public required string Role { get; set; }
         
-        [BsonIgnore]
+        //[BsonIgnore]
         public byte[]? PasswordHash { get; set; }
 
-        [BsonIgnore]
+        //[BsonIgnore]
         public byte[]? PasswordSalt { get; set; }
 
-        [BsonIgnore]
+        //[BsonIgnore]
         public DateTime? TokenCreated { get; set; }
 
-        [BsonIgnore]
+        //[BsonIgnore]
         public DateTime? TokenExpires { get; set; }
 
         public string RefreshToken { get; set; } = string.Empty;
