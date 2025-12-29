@@ -41,6 +41,8 @@ namespace Mzstruct.Base.Enums
         Query,
         Notify,
         Scheduler,
+        Create,
+        Update
     }
 
     public enum ErrorType

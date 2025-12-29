@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Mzstruct.Base.Models
 {
-    public class AppEvent(string entity, string objectId, EventType type = EventType.Request) //<T>(string objectId) where T : class
+    public class AppEvent(string resource, string objectId, string type) //<T>(string objectId) where T : class
     {
         public string Id { get; set; } =  Guid.NewGuid().ToString(); //ObjectId.GenerateNewId().ToString();
-        public string Ref { get; set; } = (!string.IsNullOrEmpty(entity) && !string.IsNullOrEmpty(objectId)) ? 
-            $"{entity}:{objectId}" : string.Empty; //$"{typeof(T).Name}:{objectId}"; // entitty / table name + ':' + object id
-        public EventType Type { get; set; } = type;
+        public string Res { get; set; } =  resource ?? string.Empty; // resource / entitty / table name;
+        public string Ref { get; set; } = objectId ?? string.Empty;
+        public string Type { get; set; } = type ?? EventType.Request.ToString();
         public DateTime At { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;
         public string By { get; set; } = string.Empty; // user id, system, service etc.
         public string? Name { get; set; }

@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using Mzstruct.Base.Contracts.IRepos;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
+using Mzstruct.Base.Enums;
 using Mzstruct.Base.Models;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
@@ -109,14 +110,14 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
             if (entity.Created is null)
             {
-                entity.Created = new AppEvent(typeof(T).Name, operation.Id);
+                entity.Created = new AppEvent(typeof(T).Name, operation.Id, EventType.Create.ToString());
                 entity.Created.Id = ObjectId.GenerateNewId().ToString();
                 entity.Created.At = DateTime.UtcNow; // DateTime.Now
             }
             
             if (entity.Modified is null)
             {
-                entity.Modified = new AppEvent(typeof(T).Name, operation.Id);
+                entity.Modified = new AppEvent(typeof(T).Name, operation.Id, EventType.Update.ToString());
                 entity.Modified.Id = ObjectId.GenerateNewId().ToString();
             }
             entity.Modified.At = DateTime.UtcNow; // DateTime.Now
