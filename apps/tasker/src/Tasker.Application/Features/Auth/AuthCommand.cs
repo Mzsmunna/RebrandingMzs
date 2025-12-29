@@ -21,19 +21,19 @@ namespace Tasker.Application.Features.Auth
 {
     internal class AuthCommand(ILogger<AuthCommand> logger,
         //IValidator<SignUpDto> signUpValidator,
-        IUserRepository userRepository, 
+        IUserRepository userRepository,
         IJwtTokenManager jwtTokenManager, 
         IGoogleAuthManager googleAuthManager) : IAuthCommand
     {
         public async Task<Result<UserModel>> SignUp(SignUpDto signUpDto)
         {
             //var validation = signUpValidator.Validate(signUpDto);
-            var validation = await TaskerValidator.ValidateSignUp(signUpDto);   
+            var validation = await TaskerValidator.ValidateSignUp(signUpDto);
             if (validation.IsValid is false)
-                return Error.Validation("AuthCommand.SignUp.InvalidInput", 
+                return Error.Validation("AuthCommand.SignUp.InvalidInput",
                     "SignUp form is invalid", validation.ToErrorDictionary());
             
-            var user = signUpDto.ToEntity<User, SignUpDto>();        
+            var user = signUpDto.ToEntity<User, SignUpDto>();
             if (user is null)
             {
                 logger.LogWarning("SignUp: Bad Request");
@@ -55,9 +55,9 @@ namespace Tasker.Application.Features.Auth
                 return ClientError.BadRequest;
             }
 
-            var validation = await TaskerValidator.ValidateSignIn(signInDto);   
+            var validation = await TaskerValidator.ValidateSignIn(signInDto);
             if (validation.IsValid is false)
-                return Error.Validation("AuthCommand.SignIn.InvalidForm", 
+                return Error.Validation("AuthCommand.SignIn.InvalidForm",
                     "SignIn form is invalid", validation.ToErrorDictionary());
             
             var signInUser = await userRepository.LoginUser(signInDto.Email, signInDto.Password);

@@ -11,9 +11,7 @@ namespace Tasker.Application.Features.Users
     public class User : Identity
     {
         public required string FirstName { get; set; }
-        public required string Password { get; set; }
-        //public bool IsActive { get; set; } = true;
-        public string? LastName { get; set; }
+        public string? LastName { get; set; }     
         public string? Gender { get; set; }
         public DateTime? BirthDate { get; set; }
         public int? Age { get; set; }
