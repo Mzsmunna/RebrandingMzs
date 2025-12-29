@@ -16,6 +16,7 @@
     <Folder Include="Contracts\IEvents\" />
     <Folder Include="Contracts\IJobs\" />
     <Folder Include="Contracts\IMemories\" />
+    <Folder Include="Events\" />
   </ItemGroup>
 
 </Project>

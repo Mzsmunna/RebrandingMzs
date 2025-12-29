@@ -32,6 +32,17 @@ namespace Mzstruct.Base.Enums
         ToTitleCase
     }
 
+    public enum EventType
+    {
+        Unknown,
+        Request,
+        Response,
+        Command,
+        Query,
+        Notify,
+        Scheduler,
+    }
+
     public enum ErrorType
     {
         None,

@@ -73,8 +73,6 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
                     existingUser.Password = "?";
                     return null; //return Error.Conflict("User.Exists", "This email already exists.");
                 }
-                if (user.Created == null)
-                    user.Created = new AppEvent();
                 return await Save(user);
             }
             return null;
@@ -112,10 +110,6 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
         public override async Task<User?> Save(User user)
         {
             if (user == null) return user;
-            if (string.IsNullOrEmpty(user.Id))
-                user.Created.At = DateTime.UtcNow;
-            else if  (user.Modified != null)
-                user.Modified.At = DateTime.UtcNow;
             user.Gender = user.Gender?.ToLower() ?? "";
             user.Email = user.Email.ToLower();
             user.Role = user.Role.ToLower();

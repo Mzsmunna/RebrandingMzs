@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Mzstruct.Base.Contracts.IRepos;
 using Mzstruct.Base.Dtos;
@@ -98,28 +99,31 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
         public async Task<T?> SaveAsync(T entity)
         {
             ReplaceOneResult? result = null;
-            var operation  = new MongoOperation() { Id = entity.Id, IsCompleted = false };
+            var operation  = new MongoOperation() { 
+                Id = entity.Id ?? ObjectId.GenerateNewId().ToString(),
+                IsCompleted = false 
+            };
 
             if (entity == null)
                 return entity;
 
             if (entity.Created is null)
             {
-                entity.Created = new AppEvent();
+                entity.Created = new AppEvent(typeof(T).Name, operation.Id);
                 entity.Created.Id = ObjectId.GenerateNewId().ToString();
                 entity.Created.At = DateTime.UtcNow; // DateTime.Now
             }
             
             if (entity.Modified is null)
             {
-                entity.Modified = new AppEvent();
+                entity.Modified = new AppEvent(typeof(T).Name, operation.Id);
                 entity.Modified.Id = ObjectId.GenerateNewId().ToString();
             }
             entity.Modified.At = DateTime.UtcNow; // DateTime.Now
 
             if (string.IsNullOrEmpty(entity.Id))
             {
-                entity.Id = ObjectId.GenerateNewId().ToString();
+                entity.Id = operation.Id; //ObjectId.GenerateNewId().ToString();
                 await _collection.InsertOneAsync(entity).ConfigureAwait(false);
                 operation.Id = entity.Id;
                 operation.IsCompleted = true;
@@ -168,7 +172,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             }
 
             var result = await _collection.BulkWriteAsync(dataModels);
-            return result.InsertedCount; //new MongoOperation() { Id = string.Empty, IsCompleted = result.IsAcknowledged };
+            return result.InsertedCount;
         }
 
         public virtual async Task<T?> Save(T entity)
@@ -185,7 +189,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
         public async Task<T?> DeleteAsync(T entity, bool isSoftDelete = true)
         {           
-            if (entity is null)
+            if (entity is null || string.IsNullOrEmpty(entity.Id))
                 return null;
 
             BsonDocument query = new BsonDocument {
@@ -207,6 +211,8 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
         public virtual async Task<T?> DeleteById(string id, bool isSoftDelete = true)
         {
+            if (string.IsNullOrEmpty(id))
+                return null;
             var entity = await GetById(id);
             if (entity != null)
                 return await DeleteAsync(entity, isSoftDelete);

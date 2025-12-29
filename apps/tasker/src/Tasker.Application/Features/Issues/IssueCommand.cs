@@ -43,14 +43,6 @@ namespace Tasker.Application.Features.Issues
             if (issue is null)
                 return ClientError.BadRequest;
 
-            if (issue.Created == null)
-                issue.Created = new AppEvent();
-
-            if (string.IsNullOrEmpty(issue.Id))
-                issue.Created.At = DateTime.UtcNow;
-            else if (issue.Modified != null)
-                issue.Modified.At = DateTime.UtcNow;
-
             if (!string.IsNullOrEmpty(issue.AssignedId))
             {
                 var user = userRepository.GetById(issue.AssignedId).Result;
@@ -61,7 +53,7 @@ namespace Tasker.Application.Features.Issues
                 }
             }
 
-            if (!string.IsNullOrEmpty(issue.Created.By))
+            if (issue.Created is not null && !string.IsNullOrEmpty(issue.Created.By))
             {
                 var user = await userRepository.GetById(issue.Created.By);
                 if (user != null)
