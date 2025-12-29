@@ -9,7 +9,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Helpers
 {
     public static class SortingDefinition
     {
-        public static SortDefinition<T> TableSortingFilter<T>(string sortField = "", string sortDirection = "") where T : BaseEntity
+        public static SortDefinition<T> TableSortingFilter<T>(string sortField = "", string sortDirection = "") where T : MongoEntity
         {
             var sort = Builders<T>.Sort.Descending("Created.At");
             if (!string.IsNullOrEmpty(sortField) && sortField.ToLower() != "undefined")

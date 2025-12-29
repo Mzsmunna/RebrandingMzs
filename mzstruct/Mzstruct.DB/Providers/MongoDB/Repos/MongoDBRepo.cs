@@ -1,8 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using Mzstruct.Base.Contracts.IRepos;
-using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Enums;
 using Mzstruct.Base.Models;
@@ -11,14 +8,10 @@ using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Mzstruct.DB.Providers.MongoDB.Models;
-using SharpCompress.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
-    public class MongoDBRepo<T> : IMongoDBRepo<T> where T : BaseEntity //class
+    public class MongoDBRepo<T> : IMongoDBRepo<T> where T : MongoEntity //class
     {
         protected readonly IMongoCollection<T> _collection;
 

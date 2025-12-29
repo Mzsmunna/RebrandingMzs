@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Models
+namespace Mzstruct.Base.Entities
 {
     public class AppEvent(string resource, string objectId, string type) //<T>(string objectId) where T : class
     {

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tasker.Application.Features.Issues
 {
-    public class Issue : BaseEntity
+    public class Issue : MongoEntity
     {
         public string ProjectId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;

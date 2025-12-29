@@ -10,9 +10,9 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappers
     {
         public BsonEntityMap()
         {
-            if (!BsonClassMap.IsClassMapRegistered(typeof(BaseEntity)))
+            if (!BsonClassMap.IsClassMapRegistered(typeof(MongoEntity)))
             {
-                BsonClassMap.RegisterClassMap<BaseEntity>(map =>
+                BsonClassMap.RegisterClassMap<MongoEntity>(map =>
                 {
                     map.AutoMap();
                     map.SetIgnoreExtraElements(true);

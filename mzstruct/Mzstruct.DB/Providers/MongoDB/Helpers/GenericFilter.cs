@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace Mzstruct.DB.Providers.MongoDB.Helpers
 {
-    public static class GenericFilter<T> where T : BaseEntity
+    public static class GenericFilter<T> where T : MongoEntity
     {
         public static FilterDefinition<T> BuildDynamicFilter(string? id, List<SearchField>? searchQueries = null, FilterDefinition<T>? filter = null)
         {
