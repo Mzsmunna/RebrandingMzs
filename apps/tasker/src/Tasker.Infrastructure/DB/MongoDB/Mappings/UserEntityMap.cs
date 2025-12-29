@@ -13,7 +13,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Mappings
 {
     public class UserEntityMap : MongoEntityMap<User> //, IMongoEntityConfig
     {
-        private readonly string _collectionName = "User";
+        public UserEntityMap(string? collectionName = "User") : base(collectionName) { }
 
         public override string RegisterEntity()
         {

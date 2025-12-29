@@ -11,7 +11,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
     public class MongoEntityMap<T> : BsonEntityMap, IMongoEntityMap where T : BaseEntity
     {
-        private readonly string _collectionName = typeof(T).Name;
+        protected readonly string _collectionName = typeof(T).Name;
 
         public MongoEntityMap(string? collectionName = "") : base()
         {
