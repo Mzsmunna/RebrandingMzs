@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Features.Auth
+namespace Mzstruct.Common.Features.Auth
 {
-    internal sealed class SignUpValidator: AbstractValidator<SignUpDto>
+    internal sealed class AppSignUpValidator: AbstractValidator<AppSignUpDto>
     {
-        public SignUpValidator()
+        public AppSignUpValidator()
         {
             RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("First name is required.")

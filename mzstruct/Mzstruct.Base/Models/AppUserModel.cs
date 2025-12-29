@@ -1,12 +1,8 @@
-﻿using Mzstruct.Base.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tasker.Application.Features.Users
+namespace Mzstruct.Base.Models
 {
-    public record UserModel : BaseModel
+    public record AppUserModel : BaseModel
     {
         [Required] public string FirstName { get; set; } = string.Empty;
         [Required] public string LastName { get; set; } = string.Empty;

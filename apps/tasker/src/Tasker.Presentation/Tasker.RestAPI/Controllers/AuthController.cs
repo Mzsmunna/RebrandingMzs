@@ -1,7 +1,8 @@
-﻿using Mzstruct.Common.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Tasker.Application.Features.Auth;
+﻿using Microsoft.AspNetCore.Mvc;
+using Mzstruct.Common.Extensions;
+using Mzstruct.Common.Features.Auth;
 using Tasker.Application.Contracts.ICommands;
+using Tasker.Application.Features.Auth;
 
 namespace Tasker.RestAPI.Controllers
 {
@@ -11,7 +12,7 @@ namespace Tasker.RestAPI.Controllers
     {
         [HttpPost]
         [ActionName("Register")]
-        public async Task<IActionResult> Register(SignUpDto dto)
+        public async Task<IActionResult> Register(AppSignUpDto dto)
         {
             var result = await authCommand.SignUp(dto);
             return result.ToActionResult(this);
@@ -19,7 +20,7 @@ namespace Tasker.RestAPI.Controllers
 
         [HttpPost]
         [ActionName("Login")]
-        public async Task<IActionResult> Login(SignInDto dto)
+        public async Task<IActionResult> Login(AppSignInDto dto)
         {
             var result = await authCommand.SignIn(dto);
             return result.ToActionResult(this);

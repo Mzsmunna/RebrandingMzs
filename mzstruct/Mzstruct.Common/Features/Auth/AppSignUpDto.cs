@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Tasker.Application.Features.Auth;
+namespace Mzstruct.Common.Features.Auth;
 
-public record SignUpDto([Required] string FirstName, 
+public record AppSignUpDto([Required] string FirstName, 
     [Required] string LastName,
     string Gender,
     DateTime? DOB,

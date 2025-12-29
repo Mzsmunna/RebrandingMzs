@@ -1,25 +1,17 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
-using Mzstruct.DB.Providers.MongoDB.Mappers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Tasker.Application.Contracts;
-using Tasker.Application.Features.Issues;
-using Tasker.Application.Features.Users;
+﻿using MongoDB.Bson.Serialization;
+using Mzstruct.Base.Entities;
 
-namespace Tasker.Infrastructure.DB.MongoDB.Mappings
+namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
-    public class UserEntityMap : MongoEntityMap<User> //, IMongoEntityConfig
+    public class AppUserEntityMap : MongoEntityMap<AppUser> //, IMongoEntityConfig
     {
-        public UserEntityMap(string? collectionName = "User") : base(collectionName) { }
+        public AppUserEntityMap(string? collectionName = "User") : base(collectionName) { }
 
         public override string RegisterEntity()
         {
-            if (!BsonClassMap.IsClassMapRegistered(typeof(User)))
+            if (!BsonClassMap.IsClassMapRegistered(typeof(AppUser)))
             {
-                BsonClassMap.RegisterClassMap<User>(map =>
+                BsonClassMap.RegisterClassMap<AppUser>(map =>
                 {
                     map.AutoMap();
                     map.SetIgnoreExtraElements(true);

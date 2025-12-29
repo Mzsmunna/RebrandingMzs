@@ -1,11 +1,6 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
+﻿using MongoDB.Bson.Serialization;
 using Mzstruct.Base.Entities;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {

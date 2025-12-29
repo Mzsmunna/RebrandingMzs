@@ -1,11 +1,7 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
 using Mzstruct.DB.Providers.MongoDB.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Mzstruct.DB.Providers.MongoDB.Contracts.IRepos
 {

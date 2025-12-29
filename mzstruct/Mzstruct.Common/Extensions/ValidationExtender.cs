@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace Tasker.Application.Extensions
+namespace Mzstruct.Common.Extensions
 {
     internal static class ValidationExtender
     {

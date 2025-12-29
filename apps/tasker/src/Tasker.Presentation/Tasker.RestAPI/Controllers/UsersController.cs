@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Mzstruct.Base.Entities;
+using Mzstruct.Base.Models;
 using Mzstruct.Common.Extensions;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IQueries;
-using Tasker.Application.Features.Users;
 
 namespace Tasker.RestAPI.Controllers
 {
@@ -32,14 +33,14 @@ namespace Tasker.RestAPI.Controllers
         }
 
         [HttpPost, Authorize]
-        public async Task<IActionResult> CreateUser(UserModel user)
+        public async Task<IActionResult> CreateUser(AppUserModel user)
         {
             var result = await userCommand.CreateUser(user);
             return result.ToActionResult(this);
         }
 
         [HttpPut, Authorize]
-        public async Task<IActionResult> UpdateUser(User user)
+        public async Task<IActionResult> UpdateUser(AppUser user)
         {
             var result = await userCommand.UpdateUser(user);
             return result.ToActionResult(this);

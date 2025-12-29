@@ -1,0 +1,13 @@
+﻿using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Entities;
+using Mzstruct.Base.Models;
+
+namespace Mzstruct.Common.Contracts.ICommands
+{
+    public interface IAppUserCommand
+    {
+        Task<Result<AppUser?>> CreateUser(AppUserModel user);
+        Task<Result<AppUser?>> UpdateUser(AppUser user);
+        Task<Result<bool>> DeleteUser(string id);
+    }
+}

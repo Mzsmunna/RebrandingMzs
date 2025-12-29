@@ -1,22 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Mzstruct.Base.Dtos;
+﻿using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
-using Mzstruct.Base.Models;
 using Mzstruct.Common.Extensions;
 using Mzstruct.Common.Mappings;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IRepos;
-using Tasker.Application.Features.Auth;
 using Tasker.Application.Validators;
 
 namespace Tasker.Application.Features.Issues
 {
     internal class IssueCommand(IIssueRepository issueRepository,
-        IUserRepository userRepository) : IIssueCommand
+        IAppUserRepository userRepository) : IIssueCommand
     {
         public async Task<Result<Issue>> CreateIssue(IssueModel issue)
         {

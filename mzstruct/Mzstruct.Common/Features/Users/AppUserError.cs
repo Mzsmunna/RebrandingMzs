@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Features.Users
+namespace Mzstruct.Common.Features.Users
 {
-    public static class UserError
+    public static class AppUserError
     {
     }
 }

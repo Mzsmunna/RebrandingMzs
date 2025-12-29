@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tasker.Application.Features.Auth
+namespace Mzstruct.Common.Features.Auth
 {
-    internal sealed class SignInValidator: AbstractValidator<SignInDto>
+    internal sealed class AppSignInValidator: AbstractValidator<AppSignInDto>
     {
-        public SignInValidator()
+        public AppSignInValidator()
         {
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")
