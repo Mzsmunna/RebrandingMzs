@@ -1,21 +1,8 @@
-﻿using Google.Apis.Auth;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Helpers;
-using Mzstruct.Base.Models;
 using Mzstruct.Common.Extensions;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IQueries;
-using Tasker.Application.Contracts.IRepos;
 using Tasker.Application.Features.Users;
 
 namespace Tasker.RestAPI.Controllers

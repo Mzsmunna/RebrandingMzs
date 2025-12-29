@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Errors;
-using Mzstruct.Base.Helpers;
-using Mzstruct.Base.Models;
 using Mzstruct.Common.Extensions;
 using Tasker.Application.Features.Issues;
 using Tasker.Application.Contracts.ICommands;

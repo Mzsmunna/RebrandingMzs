@@ -1,16 +1,5 @@
-﻿using Google.Apis.Auth;
-using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Errors;
-using Mzstruct.Auth;
-using Mzstruct.Common.Extensions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Mzstruct.Common.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using Tasker.Application.Errors;
 using Tasker.Application.Features.Auth;
 using Tasker.Application.Contracts.ICommands;
 
