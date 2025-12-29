@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Mzstruct.Auth\Mzstruct.Auth.csproj" />
     <ProjectReference Include="..\Mzstruct.Base\Mzstruct.Base.csproj" />
+    <ProjectReference Include="..\Mzstruct.Cache\Mzstruct.Cache.csproj" />
     <ProjectReference Include="..\Mzstruct.DB\Mzstruct.DB.csproj" />
   </ItemGroup>
 

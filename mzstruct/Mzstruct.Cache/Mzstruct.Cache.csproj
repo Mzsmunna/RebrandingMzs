@@ -1,3 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <ItemGroup>
+    <Folder Include="Distributed\" />
+    <Folder Include="Hybrid\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.Caching" />
+  </ItemGroup>
 </Project>

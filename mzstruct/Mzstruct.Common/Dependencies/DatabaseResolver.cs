@@ -2,10 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using Mzstruct.Base.Enums;
-using Mzstruct.Common.Extensions;
-using Mzstruct.DB.ORM.EFCore.Context;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB.Context;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;

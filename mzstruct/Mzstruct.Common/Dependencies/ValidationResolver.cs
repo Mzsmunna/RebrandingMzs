@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Mzstruct.Common.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
