@@ -14,26 +14,21 @@ namespace Tasker.Infrastructure.DB.MongoDB.Mappings
     public class IssueEntityMap : MongoEntityMap<Issue> //, IMongoEntityConfig
     {
         public IssueEntityMap(string? collectionName = "") : base(collectionName) { }
+
+        public override string RegisterEntity()
+        {
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Issue)))
+            {
+                BsonClassMap.RegisterClassMap<Issue>(map =>
+                {
+                    map.AutoMap();
+                    map.SetIgnoreExtraElements(true);
+                    map.UnmapMember(x => x.Assigner);
+                    map.UnmapMember(x => x.Assigned);                  
+                });
+            }
+
+            return _collectionName;
+        }
     }
-
-    //public class IssueEntityConfig : IMongoEntityConfig
-    //{
-    //    private readonly string _collectionName = "Issue";
-
-    //    public string Register()
-    //    {
-    //        if (!BsonClassMap.IsClassMapRegistered(typeof(Issue)))
-    //        {
-    //            BsonClassMap.RegisterClassMap<Issue>(map =>
-    //            {
-    //                map.AutoMap();
-    //                map.SetIgnoreExtraElements(true);
-    //                map.MapProperty(x => x.Id).SetElementName("_id");
-    //                map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
-    //            });
-    //        }
-
-    //        return _collectionName;
-    //    }
-    //}
 }

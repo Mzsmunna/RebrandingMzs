@@ -1,7 +1,5 @@
 ﻿using Mzstruct.Base.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.Application.Features.Issues
 {
@@ -25,5 +23,9 @@ namespace Tasker.Application.Features.Issues
         public string Status { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
         public bool? IsCompleted { get; set; } = false;
+
+        //relationships
+        public User? Assigner { get; set; }
+        public User? Assigned { get; set; }
     }
 }

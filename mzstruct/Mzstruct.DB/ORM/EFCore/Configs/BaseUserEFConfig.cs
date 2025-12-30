@@ -10,7 +10,8 @@ namespace Mzstruct.DB.ORM.EFCore.Configs
 
         public override void Configure(EntityTypeBuilder<BaseUser> builder)
         {
-            builder.HasKey(u => u.Id);
+            builder.HasKey(u => new { u.Id, u.Name, u.Email, u.Password });
+            //builder.HasKey(u => u.Id);
             //builder.Property(u => u.Name).HasColumnName(nameof(BaseUser.Name));
             //builder.Property(u => u.Email).HasColumnName(nameof(BaseUser.Email));
             //builder.Property(u => u.Password).HasColumnName(nameof(BaseUser.Password));
