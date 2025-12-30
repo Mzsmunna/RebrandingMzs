@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
+using Mzstruct.DB.ORM.EFCore.Configs;
 
 namespace Mzstruct.DB.ORM.EFCore.Context
 {
@@ -12,6 +14,9 @@ namespace Mzstruct.DB.ORM.EFCore.Context
             #region common
             modelBuilder.Entity<Count>(insu => { insu.HasNoKey(); });
             modelBuilder.Entity<TotalCount>(insu => { insu.HasNoKey(); });
+
+            modelBuilder.ApplyConfiguration(new BaseUserEFConfig());
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(EFContext).Assembly);
             #endregion
             base.OnModelCreating(modelBuilder);
         }

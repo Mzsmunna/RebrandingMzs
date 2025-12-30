@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Mzstruct.Base.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Mzstruct.DB.ORM.EFCore.Configs
 {
