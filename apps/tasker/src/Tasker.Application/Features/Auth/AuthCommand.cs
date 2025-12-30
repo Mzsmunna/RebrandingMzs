@@ -23,12 +23,12 @@ namespace Tasker.Application.Features.Auth
 
         public async Task<Result<string>> SignInWithGoogle(string credential)
         {
-            return await SignInWithGoogle(credential);
+            return await authCommand.SignInWithGoogle(credential);
         }
 
         public async Task<Result<string>> RefreshToken(string userId, string refreshToken)
         {
-            return await RefreshToken(userId, refreshToken);
+            return await authCommand.RefreshToken(userId, refreshToken);
         }
     }
 }
