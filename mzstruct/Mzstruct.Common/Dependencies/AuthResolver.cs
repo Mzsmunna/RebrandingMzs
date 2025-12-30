@@ -79,7 +79,7 @@ namespace Mzstruct.Common.Dependencies
                             var accessToken = context.Request.Query["access_token"];
 
                             var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/alert")))
+                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/jwtevents")))
                             {
                                 context.Token = accessToken;
                             }
