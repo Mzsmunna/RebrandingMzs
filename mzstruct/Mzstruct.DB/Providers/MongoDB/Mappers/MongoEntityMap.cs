@@ -4,7 +4,7 @@ using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
 
 namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
-    public class MongoEntityMap<T> : BsonEntityMap, IMongoEntityMap where T : MongoEntity
+    public abstract class MongoEntityMap<T> : BsonEntityMap, IMongoEntityMap where T : MongoEntity
     {
         protected readonly string _collectionName = typeof(T).Name;
 

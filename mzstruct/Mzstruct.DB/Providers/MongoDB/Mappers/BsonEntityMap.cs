@@ -6,7 +6,7 @@ using Mzstruct.Base.Models;
 
 namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
-    public class BsonEntityMap
+    public abstract class BsonEntityMap
     {
         public BsonEntityMap()
         {
