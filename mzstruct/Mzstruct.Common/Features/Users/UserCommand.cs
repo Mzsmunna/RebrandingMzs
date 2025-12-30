@@ -14,7 +14,7 @@ namespace Mzstruct.Common.Features.Users
         //IHttpContextAccessor httpContextAccessor,
         IBaseUserRepository userRepository) : IUserCommand
     {
-        public async Task<Result<BaseUser?>> CreateUser(BaseUserModel user)
+        public async Task<Result<BaseUserModel?>> CreateUser(BaseUserModel user)
         {
             var validation = await CommonValidator.ValidateUser(user);
             if (validation.IsValid is false)
@@ -24,9 +24,10 @@ namespace Mzstruct.Common.Features.Users
             return await SaveUser(userEntity);
         }
 
-        public async Task<Result<BaseUser?>> UpdateUser(BaseUser user)
+        public async Task<Result<BaseUserModel?>> UpdateUser(BaseUserModel user)
         {
-            return await SaveUser(user);
+            var userEntity = user.ToEntity<BaseUser, BaseUserModel>();
+            return await SaveUser(userEntity);
         }
 
         public async Task<Result<bool>> DeleteUser(string id)
@@ -37,8 +38,9 @@ namespace Mzstruct.Common.Features.Users
             return result != null ? true : false;
         }
 
-        private async Task<Result<BaseUser?>> SaveUser(BaseUser user)
+        private async Task<Result<BaseUserModel?>> SaveUser(BaseUser user)
         {
+            if (user is null) return ClientError.BadRequest;
             var validation = await CommonValidator.ValidateUser(user);
             if (validation.IsValid is false)
                 return Error.Validation("UserCommand.UpdateUser.InvalidState", 
@@ -79,7 +81,8 @@ namespace Mzstruct.Common.Features.Users
 
                 //return problemDetails;
             }
-            return await userRepository.Save(user); 
+            var result = await userRepository.Save(user);
+            return result?.ToModel<BaseUserModel, BaseUser>() ;
         }
     }
 }

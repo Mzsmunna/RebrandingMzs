@@ -1,8 +1,6 @@
 ﻿using Mzstruct.Base.Entities;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SharpCompress.Common;
 
 namespace Mzstruct.Common.Mappings
 {
@@ -10,14 +8,14 @@ namespace Mzstruct.Common.Mappings
     {
         public static readonly JsonSerializerSettings jsonSrlizeConfig = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
         
-        public static TModel ToModel<TModel, TEntity>(this TEntity entity) where TEntity : MongoEntity where TModel : class
+        public static TModel ToModel<TModel, TEntity>(this TEntity entity) where TEntity : BaseEntity where TModel : class
         {
             return JsonConvert.DeserializeObject<TModel>(JsonConvert.SerializeObject(entity), jsonSrlizeConfig)!;
         }
 
-        public static TEntity ToEntity<TEntity, TModel>(this TModel dto) where TEntity : MongoEntity where TModel : class
+        public static TEntity ToEntity<TEntity, TModel>(this TModel model) where TEntity : BaseEntity where TModel : class
         {
-            return JsonConvert.DeserializeObject<TEntity>(JsonConvert.SerializeObject(dto), jsonSrlizeConfig)!;
+            return JsonConvert.DeserializeObject<TEntity>(JsonConvert.SerializeObject(model), jsonSrlizeConfig)!;
         }
     }
 }

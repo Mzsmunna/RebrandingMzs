@@ -5,6 +5,7 @@ using Mzstruct.Base.Models;
 using Mzstruct.Common.Extensions;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IQueries;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.RestAPI.Controllers
 {
@@ -33,14 +34,14 @@ namespace Tasker.RestAPI.Controllers
         }
 
         [HttpPost, Authorize]
-        public async Task<IActionResult> CreateUser(BaseUserModel user)
+        public async Task<IActionResult> CreateUser(UserModel user)
         {
             var result = await userCommand.CreateUser(user);
             return result.ToActionResult(this);
         }
 
         [HttpPut, Authorize]
-        public async Task<IActionResult> UpdateUser(BaseUser user)
+        public async Task<IActionResult> UpdateUser(UserModel user)
         {
             var result = await userCommand.UpdateUser(user);
             return result.ToActionResult(this);

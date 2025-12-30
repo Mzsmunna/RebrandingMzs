@@ -15,13 +15,5 @@ namespace Mzstruct.Common.Extensions
         {
             return options => section.Bind(options);
         }
-
-        public static IActionResult ToActionResult<T>(this Result<T> result, ControllerBase controller)
-        {
-            return result.Map<IActionResult>(
-                Ok: data => controller.Ok(data),
-                Err: error => error.ToProblem(controller)
-            );
-        }
     }
 }

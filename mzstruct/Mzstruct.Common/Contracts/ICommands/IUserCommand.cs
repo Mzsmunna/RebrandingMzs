@@ -6,8 +6,8 @@ namespace Mzstruct.Common.Contracts.ICommands
 {
     public interface IUserCommand
     {
-        Task<Result<BaseUser?>> CreateUser(BaseUserModel user);
-        Task<Result<BaseUser?>> UpdateUser(BaseUser user);
+        Task<Result<BaseUserModel?>> CreateUser(BaseUserModel user);
+        Task<Result<BaseUserModel?>> UpdateUser(BaseUserModel user);
         Task<Result<bool>> DeleteUser(string id);
     }
 }

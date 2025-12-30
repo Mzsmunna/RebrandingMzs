@@ -1,21 +1,22 @@
 ﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Entities;
-using Mzstruct.Base.Models;
 using CommonCommands = Mzstruct.Common.Contracts.ICommands;
 using Tasker.Application.Contracts.ICommands;
+using Mzstruct.Common.Extensions;
 
 namespace Tasker.Application.Features.Users
 {
     internal class UserCommand(CommonCommands.IUserCommand userCommand) : IUserCommand
     {
-        public async Task<Result<BaseUser?>> CreateUser(BaseUserModel user)
+        public async Task<Result<UserModel?>> CreateUser(UserModel user)
         {
-            return await userCommand.CreateUser(user);
+            var result = await userCommand.CreateUser(user);
+            return result.To(user => user as UserModel);
         }
 
-        public async Task<Result<BaseUser?>> UpdateUser(BaseUser user)
+        public async Task<Result<UserModel?>> UpdateUser(UserModel user)
         {
-            return await userCommand.UpdateUser(user);
+            var result = await userCommand.UpdateUser(user);
+            return result.To(user => user as UserModel);
         }
 
         public async Task<Result<bool>> DeleteUser(string id)

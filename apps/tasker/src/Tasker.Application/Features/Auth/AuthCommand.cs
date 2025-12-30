@@ -1,16 +1,19 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Models;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Mzstruct.Base.Dtos;
+using Mzstruct.Common.Extensions;
 using Mzstruct.Common.Features.Auth;
 using Tasker.Application.Contracts.ICommands;
+using Tasker.Application.Features.Users;
 using CommonCommands = Mzstruct.Common.Contracts.ICommands;
 
 namespace Tasker.Application.Features.Auth
 {
     internal class AuthCommand(CommonCommands.IAuthCommand authCommand) : IAuthCommand
     {
-        public async Task<Result<BaseUserModel>> SignUp(SignUpDto signUpDto)
+        public async Task<Result<UserModel?>> SignUp(SignUpDto signUpDto)
         {
-            return await authCommand.SignUp(signUpDto);
+            var result = await authCommand.SignUp(signUpDto);
+            return result.To(user => user as UserModel);
         }
 
         public async Task<Result<string>> SignIn(SignInDto signInDto)

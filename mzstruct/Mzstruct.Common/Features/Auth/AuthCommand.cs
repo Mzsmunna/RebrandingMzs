@@ -19,7 +19,7 @@ namespace Mzstruct.Common.Auth
         IJwtTokenManager jwtTokenManager,
         IGoogleAuthManager googleAuthManager) : IAuthCommand
     {
-        public async Task<Result<BaseUserModel>> SignUp(SignUpDto signUpDto)
+        public async Task<Result<BaseUserModel?>> SignUp(SignUpDto signUpDto)
         {
             //var validation = signUpValidator.Validate(signUpDto);
             var validation = await CommonValidator.ValidateSignUp(signUpDto);
