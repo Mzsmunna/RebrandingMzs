@@ -1,15 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mzstruct.Base.Models;
+using Microsoft.Extensions.Configuration;
+using Mzstruct.Base.Extensions;
 using Mzstruct.DB.ORM.EFCore.Context;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Mzstruct.DB.Providers.PostgreSQL.Context
 {
     public class PostgreEFContext : EFContext
     {
         public PostgreEFContext(DbContextOptions options) : base(options) {}
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder
+                .UseNpgsql(ConfigExtender.GetNewConfig().GetConnectionString("PostgreSQL"));
+            //optionsBuilder.LogTo(Console.WriteLine);
+            base.OnConfiguring(optionsBuilder);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

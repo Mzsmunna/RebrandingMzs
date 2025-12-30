@@ -10,6 +10,8 @@ namespace Mzstruct.Base.Entities
         public string Id { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
         public bool IsDeleted { get; set; } = false;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;
+        public DateTime? ModifiedAt { get; set; }
         public DateTime ActivatedAt { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;
         public DateTime? DeactivatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
