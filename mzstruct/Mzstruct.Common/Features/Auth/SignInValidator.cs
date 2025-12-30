@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Mzstruct.Common.Features.Auth
 {
-    internal sealed class AppSignInValidator: AbstractValidator<AppSignInDto>
+    internal sealed class SignInValidator: AbstractValidator<SignInDto>
     {
-        public AppSignInValidator()
+        public SignInValidator()
         {
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")

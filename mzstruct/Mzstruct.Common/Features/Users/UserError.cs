@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mzstruct.Common.Features.Users
 {
-    public static class AppUserError
+    public static class UserError
     {
     }
 }

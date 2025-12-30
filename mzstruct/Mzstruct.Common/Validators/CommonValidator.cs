@@ -8,9 +8,9 @@ using Mzstruct.Common.Features.Auth;
 
 namespace Mzstruct.Common.Validators
 {
-    internal static class AppValidator
+    internal static class CommonValidator
     {
-        public static async Task<ValidationResult> ValidateSignUp(AppSignUpDto dto)
+        public static async Task<ValidationResult> ValidateSignUp(SignUpDto dto)
         {
             return await dto.FluentInlineValidate(v =>
             {
@@ -39,7 +39,7 @@ namespace Mzstruct.Common.Validators
             });
         }
 
-        public static async Task<ValidationResult> ValidateSignIn(AppSignInDto dto)
+        public static async Task<ValidationResult> ValidateSignIn(SignInDto dto)
         {
             return await dto.FluentInlineValidate(v =>
             {
@@ -52,7 +52,7 @@ namespace Mzstruct.Common.Validators
             });
         }
 
-        public static async Task<ValidationResult> ValidateUser(AppUserModel model)
+        public static async Task<ValidationResult> ValidateUser(BaseUserModel model)
         {
             return await model.FluentInlineValidate(v =>
             {
@@ -75,7 +75,7 @@ namespace Mzstruct.Common.Validators
             });
         }
 
-        public static async Task<ValidationResult> ValidateUser(AppUser entity)
+        public static async Task<ValidationResult> ValidateUser(BaseUser entity)
         {
             return await entity.FluentInlineValidate(v =>
             {

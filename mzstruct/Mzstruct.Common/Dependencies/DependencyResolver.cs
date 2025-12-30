@@ -25,26 +25,26 @@ namespace Mzstruct.Common.Dependencies
 
         private static IServiceCollection AddAppCommands(IServiceCollection services)
         {
-            services.AddScoped<IAppAuthCommand, AppAuthCommand>();
-            services.AddScoped<IAppUserCommand, AppUserCommand>();
+            services.AddScoped<IAuthCommand, AuthCommand>();
+            services.AddScoped<IUserCommand, UserCommand>();
             return services;
         }
 
         private static IServiceCollection AddAppQueries(IServiceCollection services)
         {
-            services.AddScoped<IAppUserQuery, AppUserQuery>();
+            services.AddScoped<IUserQuery, UserQuery>();
             return services;
         }
 
         private static IServiceCollection AddAppEntities(this IServiceCollection services)
         {
-            services.AddScoped<AppUserEntityMap>();
+            services.AddScoped<BaseUserEntityMap>();
             return services;
         }
 
         private static IServiceCollection AddAppRepositories(IServiceCollection services)
         {
-            services.AddScoped<IAppUserRepository, AppUserRepository>();
+            services.AddScoped<IBaseUserRepository, BaseUserRepository>();
             return services;
         }
 

@@ -3,15 +3,15 @@ using Mzstruct.Base.Entities;
 
 namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
-    public class AppUserEntityMap : MongoEntityMap<AppUser> //, IMongoEntityConfig
+    public class BaseUserEntityMap : MongoEntityMap<BaseUser> //, IMongoEntityConfig
     {
-        public AppUserEntityMap(string? collectionName = "User") : base(collectionName) { }
+        public BaseUserEntityMap(string? collectionName = "User") : base(collectionName) { }
 
         public override string RegisterEntity()
         {
-            if (!BsonClassMap.IsClassMapRegistered(typeof(AppUser)))
+            if (!BsonClassMap.IsClassMapRegistered(typeof(BaseUser)))
             {
-                BsonClassMap.RegisterClassMap<AppUser>(map =>
+                BsonClassMap.RegisterClassMap<BaseUser>(map =>
                 {
                     map.AutoMap();
                     map.SetIgnoreExtraElements(true);

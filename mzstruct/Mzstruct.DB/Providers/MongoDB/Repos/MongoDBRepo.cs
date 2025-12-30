@@ -103,14 +103,14 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
             if (entity.Created is null)
             {
-                entity.Created = new AppEvent(typeof(T).Name, operation.Id, EventType.Create.ToString());
+                entity.Created = new BaseEvent(typeof(T).Name, operation.Id, EventType.Create.ToString());
                 entity.Created.Id = ObjectId.GenerateNewId().ToString();
                 entity.Created.At = DateTime.UtcNow; // DateTime.Now
             }
             
             if (entity.Modified is null)
             {
-                entity.Modified = new AppEvent(typeof(T).Name, operation.Id, EventType.Update.ToString());
+                entity.Modified = new BaseEvent(typeof(T).Name, operation.Id, EventType.Update.ToString());
                 entity.Modified.Id = ObjectId.GenerateNewId().ToString();
             }
             entity.Modified.At = DateTime.UtcNow; // DateTime.Now

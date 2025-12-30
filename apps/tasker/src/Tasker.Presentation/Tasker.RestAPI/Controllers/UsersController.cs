@@ -33,14 +33,14 @@ namespace Tasker.RestAPI.Controllers
         }
 
         [HttpPost, Authorize]
-        public async Task<IActionResult> CreateUser(AppUserModel user)
+        public async Task<IActionResult> CreateUser(BaseUserModel user)
         {
             var result = await userCommand.CreateUser(user);
             return result.ToActionResult(this);
         }
 
         [HttpPut, Authorize]
-        public async Task<IActionResult> UpdateUser(AppUser user)
+        public async Task<IActionResult> UpdateUser(BaseUser user)
         {
             var result = await userCommand.UpdateUser(user);
             return result.ToActionResult(this);

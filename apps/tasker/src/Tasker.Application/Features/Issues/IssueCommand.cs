@@ -10,7 +10,7 @@ using Tasker.Application.Validators;
 namespace Tasker.Application.Features.Issues
 {
     internal class IssueCommand(IIssueRepository issueRepository,
-        IAppUserRepository userRepository) : IIssueCommand
+        IBaseUserRepository userRepository) : IIssueCommand
     {
         public async Task<Result<Issue>> CreateIssue(IssueModel issue)
         {

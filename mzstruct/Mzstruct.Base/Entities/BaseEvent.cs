@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Mzstruct.Base.Entities
 {
-    public class AppEvent(string resource, string objectId, string type) //<T>(string objectId) where T : class
+    public class BaseEvent(string resource, string objectId, string type) //<T>(string objectId) where T : class
     {
         public string Id { get; set; } =  Guid.NewGuid().ToString(); //ObjectId.GenerateNewId().ToString();
         public string Res { get; set; } =  resource ?? string.Empty; // resource / entitty / table name;

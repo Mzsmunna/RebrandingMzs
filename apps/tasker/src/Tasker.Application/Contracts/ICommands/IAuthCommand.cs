@@ -10,5 +10,5 @@ using Tasker.Application.Features.Users;
 
 namespace Tasker.Application.Contracts.ICommands
 {
-    public interface IAuthCommand : IAppAuthCommand { }
+    public interface IAuthCommand : Mzstruct.Common.Contracts.ICommands.IAuthCommand { }
 }

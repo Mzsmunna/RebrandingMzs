@@ -2,7 +2,7 @@
 {
     public class MongoEntity : BaseEntity
     {
-        public AppEvent? Created { get; set; } // = new AppEvent();
-        public AppEvent? Modified { get; set; }
+        public BaseEvent? Created { get; set; } // = new BaseEvent();
+        public BaseEvent? Modified { get; set; }
     }
 }

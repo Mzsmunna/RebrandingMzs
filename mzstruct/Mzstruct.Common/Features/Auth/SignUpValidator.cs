@@ -1,14 +1,11 @@
 ﻿using FluentValidation;
 using Mzstruct.Base.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Mzstruct.Common.Features.Auth
 {
-    internal sealed class AppSignUpValidator: AbstractValidator<AppSignUpDto>
+    internal sealed class SignUpValidator: AbstractValidator<SignUpDto>
     {
-        public AppSignUpValidator()
+        public SignUpValidator()
         {
             RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("First name is required.")

@@ -1,19 +1,19 @@
 ﻿using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
-using Mzstruct.Common.Contracts.IQueries;
+using CommonQueries = Mzstruct.Common.Contracts.IQueries;
 using Tasker.Application.Contracts.IQueries;
 
 namespace Tasker.Application.Features.Users
 {
     internal class UserQuery(//ILogger<UserQuery> logger,
-        IAppUserQuery userQuery) : IUserQuery
+        CommonQueries.IUserQuery userQuery) : IUserQuery
     {
-        public async Task<Result<List<AppUser>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        public async Task<Result<List<BaseUser>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
             return await userQuery.GetAllUsers(currentPage, pageSize, sortField, sortDirection, searchQueries);
         }
 
-        public async Task<Result<AppUser>> GetUser(string id)
+        public async Task<Result<BaseUser>> GetUser(string id)
         {
             return await userQuery.GetUser(id);
         }

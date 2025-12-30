@@ -13,21 +13,21 @@ using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 
 namespace Mzstruct.Common.Auth
 {
-    internal class AppAuthCommand(ILogger<AppAuthCommand> logger,
+    internal class AuthCommand(ILogger<AuthCommand> logger,
         //IValidator<SignUpDto> signUpValidator,
-        IAppUserRepository userRepository,
+        IBaseUserRepository userRepository,
         IJwtTokenManager jwtTokenManager,
-        IGoogleAuthManager googleAuthManager) : IAppAuthCommand
+        IGoogleAuthManager googleAuthManager) : IAuthCommand
     {
-        public async Task<Result<AppUserModel>> SignUp(AppSignUpDto signUpDto)
+        public async Task<Result<BaseUserModel>> SignUp(SignUpDto signUpDto)
         {
             //var validation = signUpValidator.Validate(signUpDto);
-            var validation = await AppValidator.ValidateSignUp(signUpDto);
+            var validation = await CommonValidator.ValidateSignUp(signUpDto);
             if (validation.IsValid is false)
                 return Error.Validation("AuthCommand.SignUp.InvalidInput",
                     "SignUp form is invalid", validation.ToErrorDictionary());
             
-            var user = signUpDto.ToEntity<AppUser, AppSignUpDto>();
+            var user = signUpDto.ToEntity<BaseUser, SignUpDto>();
             if (user is null)
             {
                 logger.LogWarning("SignUp: Bad Request");
@@ -38,10 +38,10 @@ namespace Mzstruct.Common.Auth
             if (registered is null)
                 return Error.Conflict("User.Exists", "This email already exists.");
 
-            return registered.ToModel<AppUserModel, AppUser>();
+            return registered.ToModel<BaseUserModel, BaseUser>();
         }
 
-        public async Task<Result<string>> SignIn(AppSignInDto signInDto)
+        public async Task<Result<string>> SignIn(SignInDto signInDto)
         {
             if (signInDto is null)
             {
@@ -49,7 +49,7 @@ namespace Mzstruct.Common.Auth
                 return ClientError.BadRequest;
             }
 
-            var validation = await AppValidator.ValidateSignIn(signInDto);
+            var validation = await CommonValidator.ValidateSignIn(signInDto);
             if (validation.IsValid is false)
                 return Error.Validation("AuthCommand.SignIn.InvalidForm",
                     "SignIn form is invalid", validation.ToErrorDictionary());

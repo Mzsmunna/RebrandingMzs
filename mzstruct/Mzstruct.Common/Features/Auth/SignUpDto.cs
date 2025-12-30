@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Mzstruct.Common.Features.Auth;
 
-public record AppSignUpDto([Required] string FirstName, 
+public record SignUpDto([Required] string FirstName, 
     [Required] string LastName,
     string Gender,
     DateTime? DOB,

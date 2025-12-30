@@ -7,5 +7,5 @@ using Tasker.Application.Features.Users;
 
 namespace Tasker.Application.Contracts.ICommands
 {
-    public interface IUserCommand : IAppUserCommand { }
+    public interface IUserCommand : Mzstruct.Common.Contracts.ICommands.IUserCommand { }
 }

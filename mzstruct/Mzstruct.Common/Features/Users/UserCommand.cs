@@ -10,21 +10,21 @@ using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 
 namespace Mzstruct.Common.Features.Users
 {
-    internal class AppUserCommand(//ILogger<UserQuery> logger,
+    internal class UserCommand(//ILogger<UserQuery> logger,
         //IHttpContextAccessor httpContextAccessor,
-        IAppUserRepository userRepository) : IAppUserCommand
+        IBaseUserRepository userRepository) : IUserCommand
     {
-        public async Task<Result<AppUser?>> CreateUser(AppUserModel user)
+        public async Task<Result<BaseUser?>> CreateUser(BaseUserModel user)
         {
-            var validation = await AppValidator.ValidateUser(user);
+            var validation = await CommonValidator.ValidateUser(user);
             if (validation.IsValid is false)
                 return Error.Validation("IssueCommand.CreateUser.InvalidInputs",
                     "One or more User input invalid", validation.ToErrorDictionary());
-            var userEntity = user.ToEntity<AppUser, AppUserModel>();
+            var userEntity = user.ToEntity<BaseUser, BaseUserModel>();
             return await SaveUser(userEntity);
         }
 
-        public async Task<Result<AppUser?>> UpdateUser(AppUser user)
+        public async Task<Result<BaseUser?>> UpdateUser(BaseUser user)
         {
             return await SaveUser(user);
         }
@@ -37,9 +37,9 @@ namespace Mzstruct.Common.Features.Users
             return result != null ? true : false;
         }
 
-        private async Task<Result<AppUser?>> SaveUser(AppUser user)
+        private async Task<Result<BaseUser?>> SaveUser(BaseUser user)
         {
-            var validation = await AppValidator.ValidateUser(user);
+            var validation = await CommonValidator.ValidateUser(user);
             if (validation.IsValid is false)
                 return Error.Validation("UserCommand.UpdateUser.InvalidState", 
                     "Updated User info seems in invalid state", validation.ToErrorDictionary());

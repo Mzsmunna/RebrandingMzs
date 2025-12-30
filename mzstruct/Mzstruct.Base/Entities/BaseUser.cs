@@ -2,7 +2,7 @@
 
 namespace Mzstruct.Base.Entities
 {
-    public class AppUser : Identity
+    public class BaseUser : Identity
     {
         public required string FirstName { get; set; }
         public string? LastName { get; set; }     

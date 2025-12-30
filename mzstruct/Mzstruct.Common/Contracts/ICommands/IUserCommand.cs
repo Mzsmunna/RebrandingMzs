@@ -4,10 +4,10 @@ using Mzstruct.Base.Models;
 
 namespace Mzstruct.Common.Contracts.ICommands
 {
-    public interface IAppUserCommand
+    public interface IUserCommand
     {
-        Task<Result<AppUser?>> CreateUser(AppUserModel user);
-        Task<Result<AppUser?>> UpdateUser(AppUser user);
+        Task<Result<BaseUser?>> CreateUser(BaseUserModel user);
+        Task<Result<BaseUser?>> UpdateUser(BaseUser user);
         Task<Result<bool>> DeleteUser(string id);
     }
 }

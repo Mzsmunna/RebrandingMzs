@@ -8,16 +8,16 @@ using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 
 namespace Mzstruct.Common.Features.Users
 {
-    internal class AppUserQuery(//ILogger<UserQuery> logger,
-        IAppUserRepository userRepository) : IAppUserQuery
+    internal class UserQuery(//ILogger<UserQuery> logger,
+        IBaseUserRepository userRepository) : IUserQuery
     {
-        public async Task<Result<List<AppUser>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
+        public async Task<Result<List<BaseUser>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
             List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);
             return await userRepository.GetAll(currentPage, pageSize, sortField, sortDirection, queries);
         }
 
-        public async Task<Result<AppUser>> GetUser(string id)
+        public async Task<Result<BaseUser>> GetUser(string id)
         {
             if (string.IsNullOrEmpty(id))
                 return ClientError.BadRequest;

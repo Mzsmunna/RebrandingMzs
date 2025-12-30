@@ -12,7 +12,7 @@ namespace Tasker.RestAPI.Controllers
     {
         [HttpPost]
         [ActionName("Register")]
-        public async Task<IActionResult> Register(AppSignUpDto dto)
+        public async Task<IActionResult> Register(SignUpDto dto)
         {
             var result = await authCommand.SignUp(dto);
             return result.ToActionResult(this);
@@ -20,7 +20,7 @@ namespace Tasker.RestAPI.Controllers
 
         [HttpPost]
         [ActionName("Login")]
-        public async Task<IActionResult> Login(AppSignInDto dto)
+        public async Task<IActionResult> Login(SignInDto dto)
         {
             var result = await authCommand.SignIn(dto);
             return result.ToActionResult(this);
