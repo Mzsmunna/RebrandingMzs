@@ -6,6 +6,8 @@ namespace Mzstruct.DB.ORM.EFCore.Configs
 {
     public class BaseUserEFConfig : BaseEntityEFConfig<BaseUser>
     {
+        public BaseUserEFConfig(string? tableName = "User") : base(tableName) { }
+
         public override void Configure(EntityTypeBuilder<BaseUser> builder)
         {
             builder.HasKey(u => u.Id);
