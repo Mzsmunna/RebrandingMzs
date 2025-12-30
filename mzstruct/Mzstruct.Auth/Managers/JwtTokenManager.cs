@@ -15,6 +15,7 @@ using System.Text;
 using Mzstruct.Base.Helpers;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.Auth.Models;
+using Mzstruct.Auth.Configs;
 
 namespace Mzstruct.Auth.Managers
 {

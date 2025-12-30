@@ -20,9 +20,13 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
             builder.Ignore(u => u.TokenCreated);
             builder.Ignore(u => u.TokenExpires);
 
-            //builder.HasMany(f => f.issues)
-            //.WithMany ()
-            //.HasForeignKey(f => f.UserId);
+            builder.HasMany(x => x.Issues)
+                .WithOne(x => x.Assigner)
+                .HasForeignKey(x => x.AssignerId);
+
+            builder.HasMany(x => x.Issues)
+                .WithOne(x => x.Assigned)
+                .HasForeignKey(x => x.AssignedId);
         }
     }
 }

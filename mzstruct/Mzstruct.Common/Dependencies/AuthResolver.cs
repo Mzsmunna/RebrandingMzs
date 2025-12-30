@@ -2,11 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Mzstruct.Auth.Configs;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.Auth.Managers;
-using Mzstruct.Auth.Models;
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Mzstruct.Common.Dependencies
@@ -25,6 +23,11 @@ namespace Mzstruct.Common.Dependencies
         {
             var opts = new JwtTokenOptions();
             options?.Invoke(opts);
+            if (opts.jwtAuthConfig is null)
+                opts.jwtAuthConfig = config.GetSection(nameof(JWTAuth)).Get<JWTAuth>();
+            if (opts.jwtAuthConfig != null && 
+                string.IsNullOrEmpty(opts.SecretKey))
+                opts.SecretKey = opts.jwtAuthConfig.SecretKey;
 
             // Register options into DI
             services.Configure<JwtTokenOptions>(o =>
@@ -50,18 +53,39 @@ namespace Mzstruct.Common.Dependencies
                 new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = signingKey,
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
+                    ClockSkew = TimeSpan.Zero,
+                    IssuerSigningKey = signingKey,
+                    ValidIssuer = opts.jwtAuthConfig?.Issuer,
+                    ValidAudience = opts.jwtAuthConfig?.Audience,             
                 };
 
             services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                //.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = validationParams;
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/alert")))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
             services.AddScoped<IJwtTokenManager, JwtTokenManager>();
             return services;

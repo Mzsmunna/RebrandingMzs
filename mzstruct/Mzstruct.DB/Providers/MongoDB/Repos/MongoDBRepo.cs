@@ -11,7 +11,7 @@ using Mzstruct.DB.Providers.MongoDB.Models;
 
 namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
-    public class MongoDBRepo<T> : IMongoDBRepo<T> where T : MongoEntity //class
+    public class MongoDBRepo<T> : IMongoDBRepo<T> where T : BaseEntity //class
     {
         protected readonly IMongoCollection<T> _collection;
 

@@ -27,18 +27,6 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappers
                 });
             }
 
-            if (!BsonClassMap.IsClassMapRegistered(typeof(MongoEntity)))
-            {
-                BsonClassMap.RegisterClassMap<MongoEntity>(map =>
-                {
-                    map.AutoMap();
-                    map.SetIgnoreExtraElements(true);
-                    //map.MapProperty(x => x.Id).SetElementName("_id");
-                    //map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
-
-                });
-            }
-
             if (!BsonClassMap.IsClassMapRegistered(typeof(BaseEvent)))
             {
                 BsonClassMap.RegisterClassMap<BaseEvent>(map =>

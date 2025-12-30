@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Auth.Models
+namespace Mzstruct.Auth.Configs
 {
     public sealed class JwtTokenOptions
     {
         public string? SecretKey { get; set; }
-        public string SecretConfigKey { get; set; } = "JWTAuthSecretKey";
+        public string SecretConfigKey { get; set; } = "JWTAuth.SecretKey";
 
         public int TokenExpiryValue { get; set; } = 60;
         public TimeUnit TokenExpiryUnit { get; set; } = TimeUnit.Minutes;
@@ -17,6 +17,7 @@ namespace Mzstruct.Auth.Models
         public int RefreshTokenExpiryValue { get; set; } = 7;
         public TimeUnit RefreshTokenExpiryUnit { get; set; } = TimeUnit.Days;
 
+        public JWTAuth? jwtAuthConfig { get; set; }
         public TokenValidationParameters? CustomTokenValidationParameters { get; set; }
     }
 }

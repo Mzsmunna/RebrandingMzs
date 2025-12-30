@@ -3,17 +3,11 @@ using MongoDB.Driver;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
 using Mzstruct.Base.Models;
-using System;
-using System.Collections.Generic;
-using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
 namespace Mzstruct.DB.Providers.MongoDB.Helpers
 {
-    public static class GenericFilter<T> where T : MongoEntity
+    public static class GenericFilter<T> where T : BaseEntity
     {
         public static FilterDefinition<T> BuildDynamicFilter(string? id, List<SearchField>? searchQueries = null, FilterDefinition<T>? filter = null)
         {

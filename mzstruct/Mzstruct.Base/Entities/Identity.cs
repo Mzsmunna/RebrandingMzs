@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mzstruct.Base.Entities
 {
-    public class Identity : MongoEntity
+    public class Identity : BaseEntity
     {
         public required string Name { get; set; }
         public required string Email { get; set; }

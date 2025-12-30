@@ -6,6 +6,6 @@ namespace Tasker.Application.Features.Users
     public class User : BaseUser
     {
         // relationships
-        public ICollection<Issue>? issues { get; set; }
+        public ICollection<Issue>? Issues { get; set; }
     }
 }

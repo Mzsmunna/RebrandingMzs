@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.Auth.Models;
+using Mzstruct.Auth.Configs;
 
 namespace Mzstruct.Common.Dependencies
 {

@@ -3,7 +3,7 @@ using Tasker.Application.Features.Users;
 
 namespace Tasker.Application.Features.Issues
 {
-    public class Issue : MongoEntity
+    public class Issue : BaseEntity
     {
         public string ProjectId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;

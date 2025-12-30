@@ -13,5 +13,7 @@ namespace Mzstruct.Base.Entities
         public DateTime ActivatedAt { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;
         public DateTime? DeactivatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
+        public BaseEvent? Created { get; set; } // = new BaseEvent();
+        public BaseEvent? Modified { get; set; }
     }
 }
