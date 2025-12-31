@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Folder Include="Contracts\IConfigs\" />
+    <Folder Include="Contracts\IContexts\" />
     <Folder Include="Contracts\IManagers\" />
     <Folder Include="Contracts\IMappers\" />
     <Folder Include="Contracts\IServices\" />

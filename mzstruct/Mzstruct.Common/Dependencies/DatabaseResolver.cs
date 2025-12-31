@@ -2,11 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Mzstruct.Base.Contracts.IFactories;
 using Mzstruct.Base.Enums;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB.Context;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 using Mzstruct.DB.SQL.Context;
+using Mzstruct.DB.SQL.Factory;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -24,7 +26,7 @@ namespace Mzstruct.Common.Dependencies
             return services;
         }
 
-        public static IServiceCollection AddSqlConnection(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer)
+        public static IServiceCollection AddSqlDBConnFactory(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer)
         {
             var conn = config.GetConnectionString("DatabaseContext");
                  //?? throw new ApplicationException("The connectiton string is null");
@@ -32,15 +34,15 @@ namespace Mzstruct.Common.Dependencies
             
             if (dBType is DBType.SqlServer)
             {
-                services.AddTransient(sp => new SqlServerContext(conn));
+                services.AddTransient<IDbSqlFactory>(sp => new SqlServerFactory(conn));
             }
             else if (dBType is DBType.PostgreSql)
             {
-                services.AddTransient(sp => new PostgreSqlContext(conn));
+                services.AddTransient<IDbSqlFactory>(sp => new PostgreSqlFactory(conn));
             }
             else if (dBType is DBType.SQLite)
             {
-                services.AddTransient(sp => new SqliteContext(conn));
+                services.AddTransient<IDbSqlFactory>(sp => new SqliteFactory(conn));
             }
             return services;
         }
@@ -92,7 +94,7 @@ namespace Mzstruct.Common.Dependencies
            // configureDb();
         }
 
-        public static IServiceCollection AddSqlDBFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
+        public static IServiceCollection AddSqlDBContextFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
         {
             if (dBType is DBType.InMemory) 
             {
