@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
+using Mzstruct.Base.Models;
 using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.SQL.Context;
@@ -53,6 +54,23 @@ namespace Mzstruct.DB.EFCore.Repo
             //.Include(e => e.Posts) // eager loading | joins
             //.ThenInclude(e => e.Comments) // eager looading | multiple joins
             // no cartesian explosion
+
+            //var summary = data
+            //    .GroupBy(o => new { o.CustomerId, o.Status })
+            //    .Select(g => new
+            //    {
+            //        g.Key.CustomerId,
+            //        g.Key.Status,
+            //        TotalAmount = g.Sum(x => x.Amount)
+            //    }
+            //});
+
+            //var specials = db.Products
+            //    .Where(p => p.Price > 0)
+            //    .AsEnumerable()
+            //    .Where(p => IsSpecial(p));
+
+            //var bytes = data.ToLookUp(o => o.CustomerId);
         }
 
         public virtual async Task<IEnumerable<TEntity>> FindAsNoTrackAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
