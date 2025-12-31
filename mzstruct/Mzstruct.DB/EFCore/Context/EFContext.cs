@@ -22,6 +22,8 @@ namespace Mzstruct.DB.EFCore.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             EFCoreHelper.OnModelCreating(modelBuilder);
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(EFContext).Assembly);
+            //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
             base.OnModelCreating(modelBuilder);
         }
 

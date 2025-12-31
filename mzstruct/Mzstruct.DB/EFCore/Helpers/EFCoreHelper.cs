@@ -29,7 +29,6 @@ namespace Mzstruct.DB.EFCore.Helpers
             modelBuilder.Entity<Count>(insu => { insu.HasNoKey(); });
             modelBuilder.Entity<TotalCount>(insu => { insu.HasNoKey(); });
             //modelBuilder.ApplyConfiguration(new BaseUserEFConfig());
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(EFContext).Assembly);
             #endregion
         }
 
