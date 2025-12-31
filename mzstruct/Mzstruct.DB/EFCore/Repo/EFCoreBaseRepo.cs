@@ -4,6 +4,7 @@ using Mzstruct.Base.Helpers;
 using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.SQL.Context;
+using System;
 using System.Linq.Expressions;
 
 namespace Mzstruct.DB.EFCore.Repo
@@ -19,29 +20,56 @@ namespace Mzstruct.DB.EFCore.Repo
             entities = dbContext.Set<TEntity>();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token = default)
         {
-            return await entities.ToListAsync();
+            return await entities.ToListAsync(token);
         }
 
-        public virtual async Task<TEntity?> GetByIdAsync(object id)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsNoTrackAsync(CancellationToken token = default)
         {
-            return await entities.FindAsync(id);
+            return await entities.AsNoTracking().ToListAsync(token);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<TEntity?> GetByIdAsync(string id, CancellationToken token = default)
         {
-            return await entities.Where(predicate).ToListAsync();
+            return await entities.FindAsync(id, token);
         }
 
-        public virtual async Task AddAsync(TEntity entity)
+        public virtual async Task<TEntity?> GetByIdAsNoTrackAsync(string id, CancellationToken token = default)
         {
-            await entities.AddAsync(entity);
+            return await entities.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync(token);
         }
 
-        public virtual async Task SaveChangesAsync()
+        public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
         {
-            await dbContext.SaveChangesAsync();
+            return await entities.Where(predicate).ToListAsync(token);
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> FindAsNoTrackAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
+        {
+            return await entities.Where(predicate).AsNoTracking().ToListAsync(token);
+        }
+
+        public virtual async Task AddAsync(TEntity entity, CancellationToken token = default)
+        {
+            await entities.AddAsync(entity, token);
+        }
+
+        public virtual async Task AddRangeAsync(List<TEntity> entityList, CancellationToken token = default)
+        {
+            try
+            {
+                await entities.AddRangeAsync(entityList, token);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public virtual async Task SaveChangesAsync(CancellationToken token = default)
+        {
+            await dbContext.SaveChangesAsync(token);
         }
 
         public TEntity? GetById(int Id)
@@ -99,7 +127,6 @@ namespace Mzstruct.DB.EFCore.Repo
             try
             {
                 entities.AddRange(entityList);
-                dbContext.SaveChanges();
             }
             catch (Exception)
             {
@@ -128,7 +155,6 @@ namespace Mzstruct.DB.EFCore.Repo
 
             entities.Update(entity);
             //dbContext.Entry(entity).State = EntityState.Modified;
-            dbContext.SaveChanges();
         }
 
         public void Delete(TEntity entity)
@@ -156,13 +182,11 @@ namespace Mzstruct.DB.EFCore.Repo
         public void Add(TEntity entity)
         {
             dbContext.Set<TEntity>().Add(entity);
-            dbContext.SaveChanges();
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
             dbContext.Set<TEntity>().AddRange(entities);
-            dbContext.SaveChanges();
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
@@ -183,13 +207,11 @@ namespace Mzstruct.DB.EFCore.Repo
         public void Remove(TEntity entity)
         {
             dbContext.Set<TEntity>().Remove(entity);
-            dbContext.SaveChanges();
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             dbContext.Set<TEntity>().RemoveRange(entities);
-            dbContext.SaveChanges();
         }
 
         public void Commit()

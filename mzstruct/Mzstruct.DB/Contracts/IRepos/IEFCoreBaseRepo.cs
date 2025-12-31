@@ -10,11 +10,15 @@ namespace Mzstruct.DB.Contracts.IRepos
     public interface IEFCoreBaseRepo<TEntity> where TEntity : class
     {
         //asynchronous methods
-        Task<IEnumerable<TEntity>> GetAllAsync();
-        Task<TEntity?> GetByIdAsync(object id);
-        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
-        Task AddAsync(TEntity entity);
-        Task SaveChangesAsync();
+        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token = default);
+        Task<IEnumerable<TEntity>> GetAllAsNoTrackAsync(CancellationToken token = default);
+        Task<TEntity?> GetByIdAsync(string id, CancellationToken token = default);
+        Task<TEntity?> GetByIdAsNoTrackAsync(string id, CancellationToken token = default);
+        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default);
+        Task<IEnumerable<TEntity>> FindAsNoTrackAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default);
+        Task AddAsync(TEntity entity, CancellationToken token = default);
+        Task AddRangeAsync(List<TEntity> entityList, CancellationToken token = default);
+        Task SaveChangesAsync(CancellationToken token = default);
 
         //synchronous methods
         TEntity? Get(int id);
