@@ -1,5 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using Mzstruct.Base.Contracts.IFactories;
+using Mzstruct.DB.Contracts.IFactories;
 using Newtonsoft.Json.Linq;
 using Npgsql;
 using System.Data;

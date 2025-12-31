@@ -3,6 +3,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
   </ItemGroup>
@@ -10,8 +11,10 @@
   <ItemGroup>
     <Folder Include="Contracts\IConfigs\" />
     <Folder Include="Contracts\IContexts\" />
+    <Folder Include="Contracts\IFactories\" />
     <Folder Include="Contracts\IManagers\" />
     <Folder Include="Contracts\IMappers\" />
+    <Folder Include="Contracts\IRepos\" />
     <Folder Include="Contracts\IServices\" />
     <Folder Include="Contracts\IEvents\" />
     <Folder Include="Contracts\IJobs\" />

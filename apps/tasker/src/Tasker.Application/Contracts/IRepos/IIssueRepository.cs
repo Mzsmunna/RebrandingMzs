@@ -1,12 +1,4 @@
-﻿using Mzstruct.Base.Contracts.IRepos;
-using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Entities;
-using Mzstruct.Base.Models;
-using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
-using System;
-using System.Collections.Generic;
-using System.Security.Principal;
-using System.Text;
+﻿using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Tasker.Application.Features.Issues;
 
 namespace Tasker.Application.Contracts.IRepos

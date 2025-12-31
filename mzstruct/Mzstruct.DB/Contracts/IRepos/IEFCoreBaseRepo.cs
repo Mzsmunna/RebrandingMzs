@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mzstruct.Base.Contracts.IRepos
+namespace Mzstruct.DB.Contracts.IRepos
 {
     public interface IEFCoreBaseRepo<TEntity> where TEntity : class
     {

@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Mzstruct.Base.Contracts.IFactories;
 using Mzstruct.Base.Enums;
+using Mzstruct.DB.Contracts.IFactories;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB.Context;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;

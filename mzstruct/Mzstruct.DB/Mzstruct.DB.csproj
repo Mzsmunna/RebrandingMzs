@@ -5,8 +5,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ORM\EFCore\Contracts\" />
-    <Folder Include="SQL\Context\" />
     <Folder Include="Vector\" />
     <Folder Include="NoSQL\" />
     <Folder Include="Repos\" />

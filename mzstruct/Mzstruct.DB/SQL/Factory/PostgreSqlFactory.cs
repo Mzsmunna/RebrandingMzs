@@ -1,4 +1,4 @@
-﻿using Mzstruct.Base.Contracts.IFactories;
+﻿using Mzstruct.DB.Contracts.IFactories;
 using Npgsql;
 using System.Data;
 

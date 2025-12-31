@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mzstruct.Base.Contracts.IRepos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
+using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.ORM.EFCore.Context;
 using Mzstruct.DB.SQL.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InsightinCloud.Infrastructure.SQLRepository
 {

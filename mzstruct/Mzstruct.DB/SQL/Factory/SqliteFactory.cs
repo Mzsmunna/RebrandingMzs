@@ -1,5 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
-using Mzstruct.Base.Contracts.IFactories;
+using Mzstruct.DB.Contracts.IFactories;
 using System.Data;
 
 namespace Mzstruct.DB.SQL.Factory

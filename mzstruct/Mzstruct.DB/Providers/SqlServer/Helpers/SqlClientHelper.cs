@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Dynamic;
-using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Mzstruct.Base.Consts;
 
