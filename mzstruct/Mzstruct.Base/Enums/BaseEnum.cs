@@ -6,8 +6,12 @@ namespace Mzstruct.Base.Enums
 {
     public enum DBType
     {
-        Default, // SqlClient | SqlServer
+        //Default, // SqlClient | SqlServer
         InMemory,
+        SQL,
+        NoSQL,
+        KeyValue,
+        Vector,
 
         //sql
         SqlServer,
@@ -21,8 +25,10 @@ namespace Mzstruct.Base.Enums
         AppWrite,
         Cassandra,
         DynamoDB,
-        Redis,
         CosmosDB,
+
+        //kv
+        Redis,
     }
 
     public enum CasingType
