@@ -22,6 +22,9 @@ namespace Mzstruct.DB.EFCore.Helpers
 
         public static void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //var entity = modelBuilder.Entity<BaseEntity>();
+            //entity.ToTable("BaseEntities");
+            //entity.HasKey(e => e.Id);
             #region common_entities
             modelBuilder.Entity<Count>(insu => { insu.HasNoKey(); });
             modelBuilder.Entity<TotalCount>(insu => { insu.HasNoKey(); });
