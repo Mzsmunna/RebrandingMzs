@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Mzstruct.Base.Entities
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
         public string Id { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
