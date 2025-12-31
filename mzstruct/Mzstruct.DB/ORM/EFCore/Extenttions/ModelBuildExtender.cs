@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Mzstruct.DB.ORM.EFCore.Helper
+namespace Mzstruct.DB.ORM.EFCore.Extenttions
 {
     internal static class ModelBuildExtender
     {

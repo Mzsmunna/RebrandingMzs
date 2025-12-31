@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Mzstruct.DB.Helpers
 {
-    internal class SqlHelper
+    public static class SqlHelper
     {
+
     }
 }
