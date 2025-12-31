@@ -1,6 +1,6 @@
-﻿using Mzstruct.Common.Contracts.IQueries;
+﻿using CommonQueries = Mzstruct.Common.Contracts.IQueries;
 
 namespace Tasker.Application.Contracts.IQueries
 {
-    public interface IUserQuery : Mzstruct.Common.Contracts.IQueries.IUserQuery { }
+    public interface IUserQuery : CommonQueries.IUserQuery { }
 }

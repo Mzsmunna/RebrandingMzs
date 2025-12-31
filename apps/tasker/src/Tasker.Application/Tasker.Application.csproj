@@ -24,7 +24,6 @@
     <Folder Include="Events\" />
     <Folder Include="Extensions\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Consts\" />
   </ItemGroup>
 
 </Project>

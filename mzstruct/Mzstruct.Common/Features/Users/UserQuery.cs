@@ -11,6 +11,11 @@ namespace Mzstruct.Common.Features.Users
     internal class UserQuery(//ILogger<UserQuery> logger,
         IBaseUserRepository userRepository) : IUserQuery
     {
+        public async Task<Result<List<BaseUser>>> GetAllUsers(string sortField, string sortDirection)
+        {
+            return await userRepository.GetAll(sortField, sortDirection);
+        }
+
         public async Task<Result<List<BaseUser>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
             List<SearchField>? queries = BaseHelper.JsonListDeserialize<SearchField>(searchQueries);

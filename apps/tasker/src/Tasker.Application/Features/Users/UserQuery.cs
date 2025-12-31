@@ -8,6 +8,11 @@ namespace Tasker.Application.Features.Users
     internal class UserQuery(//ILogger<UserQuery> logger,
         CommonQueries.IUserQuery userQuery) : IUserQuery
     {
+        public async Task<Result<List<BaseUser>>> GetAllUsers(string sortField, string sortDirection)
+        {
+            return await userQuery.GetAllUsers(sortField, sortDirection);
+        }
+
         public async Task<Result<List<BaseUser>>> GetAllUsers(int currentPage, int pageSize, string sortField, string sortDirection, string searchQueries)
         {
             return await userQuery.GetAllUsers(currentPage, pageSize, sortField, sortDirection, searchQueries);

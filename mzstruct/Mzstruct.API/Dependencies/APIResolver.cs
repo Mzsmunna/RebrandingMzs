@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Configuration;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
-using Mzstruct.Auth.Contracts.IManagers;
-using Mzstruct.Auth.Managers;
+using Microsoft.FeatureManagement;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ namespace Mzstruct.API.Dependencies
 {
     public static class APIResolver
     {
-        public static IServiceCollection AddRestApi(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddRestApi(this IServiceCollection services)
         {
             services.AddCors();
             services.AddHttpContextAccessor();
@@ -45,6 +44,27 @@ namespace Mzstruct.API.Dependencies
             //        ClockSkew = TimeSpan.Zero
             //    };
             //});
+
+            return services;
+        }
+
+        public static IServiceCollection AddDefaultApiVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            })
+            .AddMvc()
+            .AddApiExplorer(options =>
+            {
+                // to work with swagger
+                options.GroupNameFormat = "v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+            services.AddFeatureManagement();
 
             return services;
         }
