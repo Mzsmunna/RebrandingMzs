@@ -1,28 +1,27 @@
 ﻿using Microsoft.Data.Sqlite;
 using Mzstruct.Base.Contracts.IFactories;
-using Npgsql;
 using System.Data;
 
 namespace Mzstruct.DB.SQL.Factory
 {
-    public class SqliteFactory : IDbSqlFactory
+    public class SqliteFactory : IDbSqlConnFactory
     {
-        private readonly string _connection;
+        private readonly string _conn;
 
         public SqliteFactory(string connection) 
         {
-            _connection = connection;
+            _conn = connection;
         }
 
         public IDbConnection Connect()
         {
-            return new SqliteConnection(_connection);
+            return new SqliteConnection(_conn);
         }
 
-        public async Task<IDbConnection> ConnectAsync()
+        public async Task<IDbConnection> ConnectAsync(CancellationToken token = default)
         {
-            var conn = new SqliteConnection(_connection);
-            await conn.OpenAsync();
+            var conn = new SqliteConnection(_conn);
+            await conn.OpenAsync(token);
             return conn;
         }
     }

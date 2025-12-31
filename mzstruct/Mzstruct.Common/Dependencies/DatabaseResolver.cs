@@ -34,15 +34,15 @@ namespace Mzstruct.Common.Dependencies
             
             if (dBType is DBType.SqlServer)
             {
-                services.AddTransient<IDbSqlFactory>(sp => new SqlServerFactory(conn));
+                services.AddTransient<IDbSqlConnFactory>(sp => new SqlServerFactory(conn));
             }
             else if (dBType is DBType.PostgreSql)
             {
-                services.AddTransient<IDbSqlFactory>(sp => new PostgreSqlFactory(conn));
+                services.AddTransient<IDbSqlConnFactory>(sp => new PostgreSqlFactory(conn));
             }
             else if (dBType is DBType.SQLite)
             {
-                services.AddTransient<IDbSqlFactory>(sp => new SqliteFactory(conn));
+                services.AddTransient<IDbSqlConnFactory>(sp => new SqliteFactory(conn));
             }
             return services;
         }

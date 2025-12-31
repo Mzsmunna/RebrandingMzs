@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Mzstruct.Base.Contracts.IFactories
 {
-    public interface IDbSqlFactory
+    public interface IDbSqlConnFactory
     {
         IDbConnection Connect();
-        Task<IDbConnection> ConnectAsync();
+        Task<IDbConnection> ConnectAsync(CancellationToken token = default);
     }
 }

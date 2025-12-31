@@ -4,24 +4,26 @@ using System.Data;
 
 namespace Mzstruct.DB.SQL.Factory
 {
-    public class PostgreSqlFactory : IDbSqlFactory
+    public class PostgreSqlFactory : IDbSqlConnFactory
     {
-        private readonly string _connection;
+        private readonly string _conn;
 
         public PostgreSqlFactory(string connection) 
         {
-            _connection = connection;
+            _conn = connection;
         }
 
         public IDbConnection Connect()
         {
-            return new NpgsqlConnection(_connection);
+            var conn = new NpgsqlConnection(_conn);
+            conn.Open();
+            return conn;
         }
 
-        public async Task<IDbConnection> ConnectAsync()
+        public async Task<IDbConnection> ConnectAsync(CancellationToken token = default)
         {
-            var conn = new NpgsqlConnection(_connection);
-            await conn.OpenAsync();
+            var conn = new NpgsqlConnection(_conn);
+            await conn.OpenAsync(token);
             return conn;
         }
     }
