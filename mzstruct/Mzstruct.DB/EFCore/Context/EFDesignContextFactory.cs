@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.DB.ORM.EFCore.Context
+namespace Mzstruct.DB.EFCore.Context
 {
     internal class EFDesignContextFactory : IDesignTimeDbContextFactory<EFContext>
     {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Mzstruct.Base.Entities;
 
-namespace Mzstruct.DB.ORM.EFCore.Configs
+namespace Mzstruct.DB.EFCore.Configs
 {
     public abstract class BaseEntityEFConfig<T>(string? tableName) : IEntityTypeConfiguration<T> where T : BaseEntity
     {

@@ -1,11 +1,7 @@
-﻿using Mzstruct.DB.ORM.EFCore.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Mzstruct.DB.EFCore.Context;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
-namespace InsightinCloud.Infrastructure.SQLRepository
+namespace Mzstruct.DB.EFCore.Repo
 {
     public class BaseSqlRepo<T> where T : class
     {

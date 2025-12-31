@@ -5,12 +5,8 @@ using Mzstruct.Base.Entities;
 using Mzstruct.Base.Enums;
 using Mzstruct.Base.Extensions;
 using Mzstruct.Base.Models;
-using Mzstruct.DB.ORM.EFCore.Configs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Mzstruct.DB.ORM.EFCore.Helpers
+namespace Mzstruct.DB.EFCore.Helpers
 {
     public static class EFCoreHelper
     {

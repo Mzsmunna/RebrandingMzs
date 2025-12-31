@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Mzstruct.DB.ORM.EFCore.Configs;
+using Mzstruct.DB.EFCore.Configs;
 using Tasker.Application.Features.Users;
 
 namespace Tasker.Infrastructure.DB.EFCore.Configs

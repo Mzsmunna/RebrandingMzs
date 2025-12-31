@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Mzstruct.Base.Entities;
-using Mzstruct.DB.ORM.EFCore.Configs;
+using Mzstruct.DB.EFCore.Configs;
 using Tasker.Application.Features.Issues;
 
 namespace Tasker.Infrastructure.DB.EFCore.Configs

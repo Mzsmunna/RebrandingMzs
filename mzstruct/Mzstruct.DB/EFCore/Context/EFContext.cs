@@ -2,11 +2,10 @@
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Enums;
 using Mzstruct.Base.Models;
+using Mzstruct.DB.EFCore.Helpers;
 using Mzstruct.DB.Helpers;
-using Mzstruct.DB.ORM.EFCore.Helpers;
-using System.Reflection.Emit;
 
-namespace Mzstruct.DB.ORM.EFCore.Context
+namespace Mzstruct.DB.EFCore.Context
 {
     public class EFContext : DbContext
     {

@@ -2,11 +2,11 @@
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
 using Mzstruct.DB.Contracts.IRepos;
-using Mzstruct.DB.ORM.EFCore.Context;
+using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.SQL.Context;
 using System.Linq.Expressions;
 
-namespace InsightinCloud.Infrastructure.SQLRepository
+namespace Mzstruct.DB.EFCore.Repo
 {
     public class EFCoreBaseRepo<TEntity> : IEFCoreBaseRepo<TEntity> where TEntity : BaseEntity
     {

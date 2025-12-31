@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mzstruct.Base.Enums;
-using Mzstruct.DB.ORM.EFCore.Context;
+using Mzstruct.DB.EFCore.Context;
 using Tasker.Application.Features.Issues;
 using Tasker.Application.Features.Users;
 
