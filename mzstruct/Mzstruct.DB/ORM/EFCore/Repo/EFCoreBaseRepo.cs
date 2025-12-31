@@ -1,24 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mzstruct.Base.Contracts.IRepos;
+using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
 using Mzstruct.DB.ORM.EFCore.Context;
-using Mzstruct.DB.Providers.SqlServer.Context;
+using Mzstruct.DB.SQL.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace InsightinCloud.Infrastructure.SQLRepository
 {
-    public class CommonSqlRepo<TEntity> : ISqlRepository<TEntity> where TEntity : class
+    public class EFCoreBaseRepo<TEntity> : IEFCoreBaseRepo<TEntity> where TEntity : BaseEntity
     {
-        private readonly EFContext dbContext;
-        private readonly DbSet<TEntity> entities;
+        protected readonly EFContext dbContext;
+        protected readonly DbSet<TEntity> entities;
 
-        public CommonSqlRepo(EFContext context)
+        public EFCoreBaseRepo(EFContext context)
         {
             dbContext = context;
             entities = dbContext.Set<TEntity>();

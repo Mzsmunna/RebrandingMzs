@@ -4,11 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace Mzstruct.Base.Contracts.IRepos
 {
-    public interface ISqlRepository<TEntity> where TEntity : class
+    public interface IEFCoreBaseRepo<TEntity> where TEntity : class
     {
         //asynchronous methods
         Task<IEnumerable<TEntity>> GetAllAsync();
