@@ -40,7 +40,7 @@ namespace Mzstruct.DB.ORM.EFCore.Context
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            EFCoreHelper.ModifyDateTime(ChangeTracker);
+            EFCoreHelper.ModifyDateTime(ChangeTracker, _dbType);
             return base.SaveChangesAsync(cancellationToken);
         }
 
