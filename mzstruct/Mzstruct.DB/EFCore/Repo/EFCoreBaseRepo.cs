@@ -71,6 +71,21 @@ namespace Mzstruct.DB.EFCore.Repo
             //    .Where(p => IsSpecial(p));
 
             //var bytes = data.ToLookUp(o => o.CustomerId);
+
+            //int pageIndex = 2, pageSize = 10;
+            //var page = db.Users
+            //.OrderBy(u => u.Id)
+            //.Skip((pageIndex - 1) * pageSize)
+            //. Take (pageSize)
+            //.ToList();
+
+            //int pageIndex = 2, pageSize = 10;
+            //int key =100
+            //var page = db. Users
+            //.Where(w => w.Id > key)
+            //.OrderBy(u => u.Id)
+            //. Take (pageSize)
+            //.ToList();
         }
 
         public virtual async Task<IEnumerable<TEntity>> FindAsNoTrackAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
