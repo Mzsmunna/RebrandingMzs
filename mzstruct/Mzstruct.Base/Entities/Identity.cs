@@ -11,6 +11,7 @@ namespace Mzstruct.Base.Entities
         public required string Role { get; set; }
         public required string Username { get; set; }
         public required string Password { get; set; }
+        public string RefreshToken { get; set; } = string.Empty;
 
         //[BsonIgnore]
         public byte[]? PasswordHash { get; set; }
@@ -23,7 +24,7 @@ namespace Mzstruct.Base.Entities
 
         //[BsonIgnore]
         public DateTime? TokenExpires { get; set; }
-
-        public string RefreshToken { get; set; } = string.Empty;
+        public DateTime ActivatedAt { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;
+        public DateTime? DeactivatedAt { get; set; }
     }
 }
