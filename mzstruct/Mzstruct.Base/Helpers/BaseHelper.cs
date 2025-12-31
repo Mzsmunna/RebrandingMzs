@@ -440,7 +440,7 @@ namespace Mzstruct.Base.Helpers
 
         public static string GetUniqueNumber()
         {
-            byte[] buffer = Guid.NewGuid().ToByteArray();
+            byte[] buffer = Guid.CreateVersion7().ToByteArray();
             var FormNumber = BitConverter.ToUInt32(buffer, 0) ^ BitConverter.ToUInt32(buffer, 4) ^ BitConverter.ToUInt32(buffer, 8) ^ BitConverter.ToUInt32(buffer, 12);
             return FormNumber.ToString("X");
 

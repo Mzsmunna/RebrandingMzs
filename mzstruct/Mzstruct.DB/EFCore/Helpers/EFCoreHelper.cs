@@ -22,6 +22,7 @@ namespace Mzstruct.DB.EFCore.Helpers
 
         public static void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("dbo");
             //var entity = modelBuilder.Entity<BaseEntity>();
             //entity.ToTable("BaseEntities");
             //entity.HasKey(e => e.Id);

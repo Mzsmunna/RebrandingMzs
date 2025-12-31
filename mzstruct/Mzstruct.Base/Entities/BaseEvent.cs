@@ -7,7 +7,7 @@ namespace Mzstruct.Base.Entities
 {
     public class BaseEvent(string resource, string objectId, string type) //<T>(string objectId) where T : class
     {
-        public string Id { get; set; } =  Guid.NewGuid().ToString(); //ObjectId.GenerateNewId().ToString();
+        public string Id { get; set; } =  Guid.CreateVersion7().ToString(); //ObjectId.GenerateNewId().ToString();
         public string Res { get; set; } =  resource ?? string.Empty; // resource / entitty / table name;
         public string Ref { get; set; } = objectId ?? string.Empty;
         public string Type { get; set; } = type ?? EventType.Request.ToString();

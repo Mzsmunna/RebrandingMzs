@@ -39,7 +39,7 @@ namespace Tasker.RestAPI.Controllers
                         var bytes = ms.ToArray();
 
                         var fileName = httpPostedFile.FileName;
-                        newFileName = Guid.NewGuid().ToString() + "-" + fileName.Replace("\"", string.Empty);
+                        newFileName = Guid.CreateVersion7().ToString().ToString() + "-" + fileName.Replace("\"", string.Empty);
 
                         path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"wwwroot/UploadedFiles"));
                         if (!Directory.Exists(path))

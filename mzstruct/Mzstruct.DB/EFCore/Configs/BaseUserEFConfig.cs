@@ -10,11 +10,11 @@ namespace Mzstruct.DB.EFCore.Configs
 
         public override void Configure(EntityTypeBuilder<BaseUser> builder)
         {
-            //builder.HasKey(u => u.Id);
-            builder.HasKey(u => new { u.Id, u.Email, u.Username });
+            builder.HasKey(u => u.Id);
+            //builder.HasKey(u => new { u.Id, u.Email, u.Username });
             //builder.HasIndex(x => x.Email).IsUnique();
             //builder.HasIndex(x => x.Username).IsUnique();
-            builder.HasIndex(e => new { e.Id, e.Email, e.Username }).IsUnique();
+            builder.HasIndex(e => new { e.Email, e.Username }).IsUnique();
             builder.Property(x => x.Id).IsRequired();
             builder.Property(x => x.Name).IsRequired(); //.HasMaxLength(50);
             builder.Property(x => x.Email).IsRequired();
@@ -37,8 +37,24 @@ namespace Mzstruct.DB.EFCore.Configs
             //.WithOne(x => x.User)
             //.HasForeignKey<Address>(x => x.AddressId);
 
-            
-            
+            //builder.HasData(new BaseUser
+            //{
+            //    Id = Guid.CreateVersion7().ToString(),
+            //    Name = "Mzs Munna",
+            //    Email = "mzs.munna@gmail.com",
+            //    Username = "mzsmunna",
+            //    Password = "P@ssw0rd123",
+            //    Role = "Admin",
+            //},
+            //new BaseUser
+            //{
+            //    Id = Guid.CreateVersion7().ToString(),
+            //    Name = "Mamunuz Zaman",
+            //    Email = "mzaman@insightintechnology.com",
+            //    Username = "mzaman",
+            //    Password = "P@ssw0rd321",
+            //    Role = "User",
+            //});
         }
     }
 }
