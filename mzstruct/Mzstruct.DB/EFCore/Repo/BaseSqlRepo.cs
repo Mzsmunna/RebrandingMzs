@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Mzstruct.DB.EFCore.Repo
 {
-    public class BaseSqlRepo<T> where T : class
+    public abstract class BaseSqlRepo<T> where T : class
     {
         protected readonly EFContext _context;
 

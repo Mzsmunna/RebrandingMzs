@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace Mzstruct.DB.EFCore.Repo
 {
-    public class EFCoreBaseRepo<TEntity> : IEFCoreBaseRepo<TEntity> where TEntity : BaseEntity
+    public abstract class EFCoreBaseRepo<TEntity> : IEFCoreBaseRepo<TEntity> where TEntity : BaseEntity
     {
         protected readonly EFContext dbContext;
         protected readonly DbSet<TEntity> entities;
