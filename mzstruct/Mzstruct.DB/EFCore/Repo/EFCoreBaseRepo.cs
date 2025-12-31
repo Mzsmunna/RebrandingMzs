@@ -28,9 +28,6 @@ namespace Mzstruct.DB.EFCore.Repo
         public virtual async Task<IEnumerable<TEntity>> GetAllAsNoTrackAsync(CancellationToken token = default)
         {
             return await entities.AsNoTracking().ToListAsync(token);
-            
-            
-
         }
 
         public virtual async Task<TEntity?> GetByIdAsync(string id, CancellationToken token = default)
