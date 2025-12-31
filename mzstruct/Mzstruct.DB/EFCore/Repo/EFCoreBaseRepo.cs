@@ -28,6 +28,9 @@ namespace Mzstruct.DB.EFCore.Repo
         public virtual async Task<IEnumerable<TEntity>> GetAllAsNoTrackAsync(CancellationToken token = default)
         {
             return await entities.AsNoTracking().ToListAsync(token);
+            
+            
+
         }
 
         public virtual async Task<TEntity?> GetByIdAsync(string id, CancellationToken token = default)
@@ -37,12 +40,22 @@ namespace Mzstruct.DB.EFCore.Repo
 
         public virtual async Task<TEntity?> GetByIdAsNoTrackAsync(string id, CancellationToken token = default)
         {
-            return await entities.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync(token);
+            //return await entities.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync(token);
+            return await entities.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, token);
         }
 
         public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
         {
             return await entities.Where(predicate).ToListAsync(token);
+
+            //Blogs
+            //.Include(e => e.Posts) // eager loading | joins
+            //.Include(e => e.Conttributors) // eager looading | multiple joins
+            //.AsSplitQuery() // to avoid cartesian explosion -> multiple queries
+
+            //.Include(e => e.Posts) // eager loading | joins
+            //.ThenInclude(e => e.Comments) // eager looading | multiple joins
+            // no cartesian explosion
         }
 
         public virtual async Task<IEnumerable<TEntity>> FindAsNoTrackAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
