@@ -23,13 +23,13 @@ namespace Mzstruct.Common.Dependencies
             return services;
         }
 
-        public static IServiceCollection AddSqlDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
+        public static IServiceCollection AddSqlDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : DbContext
         {
             //services.AddDbContext<EFContext>(ServiceLifetime.Transient);
 
             if (dBType == DBType.InMemory) 
             {
-                var dbName = config.GetConnectionString("DatabaseName") ?? "InMemoryAppDb";
+                var dbName = config.GetConnectionString("DatabaseName") ?? "AppInMemoryDb";
                 services.AddDbContext<TContext>(options =>
                     options.UseInMemoryDatabase(dbName),
                     ServiceLifetime.Transient

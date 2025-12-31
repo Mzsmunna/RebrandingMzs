@@ -24,7 +24,7 @@ namespace Mzstruct.DB.ORM.EFCore.Helpers
             //optionsBuilder.LogTo(Console.WriteLine);
         }
 
-        public static void OnModelCreating(ModelBuilder modelBuilder, DBType db = DBType.SqlServer)
+        public static void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region common_entities
             modelBuilder.Entity<Count>(insu => { insu.HasNoKey(); });
@@ -34,7 +34,7 @@ namespace Mzstruct.DB.ORM.EFCore.Helpers
             #endregion
         }
 
-        public static void ModifyDateTime(ChangeTracker changeTracker, DBType db = DBType.SqlServer)
+        public static void ModifyDateTime(ChangeTracker changeTracker)
         {
             var entries = changeTracker.Entries()
                 .Where(e => e.Entity is BaseEntity && (e.State == EntityState.Added || e.State == EntityState.Modified));

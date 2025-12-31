@@ -11,7 +11,7 @@ namespace Mzstruct.DB.ORM.EFCore.Context
         public EFContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<EFContext>();
-            return new EFContext();
+            return new EFContext(optionsBuilder.Options);
         }
     }
 }

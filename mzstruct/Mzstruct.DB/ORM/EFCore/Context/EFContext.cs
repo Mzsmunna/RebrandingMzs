@@ -10,37 +10,31 @@ namespace Mzstruct.DB.ORM.EFCore.Context
 {
     public class EFContext : DbContext
     {
-        protected readonly DBType _dbType = DBType.SqlServer;
-
-        public EFContext(DBType dbType = DBType.SqlServer) 
-        {
-            _dbType = dbType;
-        }
-        public EFContext(DbContextOptions options, DBType dbType = DBType.SqlServer) : base(options) { }
-        public EFContext(DbContextOptions<EFContext> options, DBType dbType = DBType.SqlServer) : base(options) { }
+        public EFContext(DbContextOptions options) : base(options) { }
+        //public EFContext(DbContextOptions<EFContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.LogTo(Console.WriteLine);
-            EFCoreHelper.OnConfiguring(optionsBuilder, _dbType);
+            //EFCoreHelper.OnConfiguring(optionsBuilder, dbType);
             base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            EFCoreHelper.OnModelCreating(modelBuilder, _dbType);
+            EFCoreHelper.OnModelCreating(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
         public override int SaveChanges()
         {
-            EFCoreHelper.ModifyDateTime(ChangeTracker, _dbType);
+            EFCoreHelper.ModifyDateTime(ChangeTracker);
             return base.SaveChanges();
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            EFCoreHelper.ModifyDateTime(ChangeTracker, _dbType);
+            EFCoreHelper.ModifyDateTime(ChangeTracker);
             return base.SaveChangesAsync(cancellationToken);
         }
 

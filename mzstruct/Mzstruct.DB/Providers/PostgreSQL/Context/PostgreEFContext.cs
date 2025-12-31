@@ -7,6 +7,6 @@ namespace Mzstruct.DB.Providers.PostgreSQL.Context
 {
     public class PostgreEFContext : EFContext
     {
-        public PostgreEFContext(DbContextOptions options) : base(options, DBType.PostgreSql) { }
+        public PostgreEFContext(DbContextOptions options) : base(options) { }
     }
 }
