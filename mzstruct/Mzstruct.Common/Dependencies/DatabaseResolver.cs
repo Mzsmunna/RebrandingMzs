@@ -20,6 +20,7 @@ namespace Mzstruct.Common.Dependencies
     {
         public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration config)
         {
+            //var readConn = config.GetSection("Database:Mongo:ReadConn").Get<ReadConn>();
             services.Configure<MongoDBConfig>(config.GetSection(nameof(MongoDBConfig)));
             services.AddTransient<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
             services.AddTransient<IMongoDBContext, MongoDBContext>();
@@ -49,8 +50,9 @@ namespace Mzstruct.Common.Dependencies
 
         public static IServiceCollection AddSqlDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : DbContext
         {
+            var conn = config.GetConnectionString("DatabaseContext");
             //services.AddDbContext<EFContext>(ServiceLifetime.Transient);
-            if (dBType is DBType.InMemory) 
+            if (string.IsNullOrEmpty(conn) || dBType is DBType.InMemory) 
             {
                 var dbName = config.GetConnectionString("DatabaseName") ?? "AppInMemoryDb";
                 services.AddDbContext<TContext>(options =>
@@ -61,21 +63,21 @@ namespace Mzstruct.Common.Dependencies
             else if (dBType is DBType.SqlServer) 
             {
                 services.AddDbContext<TContext>(options =>
-                    options.UseSqlServer(config.GetConnectionString("DatabaseContext")),
+                    options.UseSqlServer(conn),
                     ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.PostgreSql)
             {
                 services.AddDbContext<TContext>(options =>
-                    options.UseNpgsql(config.GetConnectionString("DatabaseContext")),
+                    options.UseNpgsql(conn),
                     ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.SQLite)
             {
                 services.AddDbContext<TContext>(options =>
-                    options.UseSqlite(config.GetConnectionString("DatabaseContext")),
+                    options.UseSqlite(conn),
                     ServiceLifetime.Transient
                 );
             }

@@ -32,7 +32,7 @@ namespace Mzstruct.Base.Extensions
         }
 
         public static string? GetAppSetting(this IConfiguration config, string key) => config.GetValue<string>(key);
-        public static T? GetAppSetting<T>(this IConfiguration config, string key) => config.GetSection(key).Get<T>();
+        public static T? GetAppSetting<T>(this IConfiguration config, string key) => config.GetSection(key).Get<T>(); //"Database:Mongo:ReadConn"
         public static IConfigurationBuilder AddSettingsJson(this IConfigurationBuilder builder)
         {
             builder.SetBasePath(Directory.GetCurrentDirectory());
