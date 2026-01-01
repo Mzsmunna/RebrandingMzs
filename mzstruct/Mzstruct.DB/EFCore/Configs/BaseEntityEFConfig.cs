@@ -22,6 +22,7 @@ namespace Mzstruct.DB.EFCore.Configs
             //});
             builder.HasKey(u => u.Id);
             builder.Property(x => x.Id).ValueGeneratedNever();
+            //builder.Property(x => x.Id).ValueGeneratedOnAdd().UseIdentityColumn();
             //builder.HasQueryFilter(e => !e.IsDeleted);
             builder.HasQueryFilter("SoftDeleteFilter", e => !e.IsDeleted);
             builder.Ignore(u => u.Created);
