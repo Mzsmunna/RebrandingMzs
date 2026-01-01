@@ -93,9 +93,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
         public async Task<T?> SaveAsync(T entity)
         {
-            if (entity == null || entity.IsDeleted)
-                return null;
-
+            if (entity == null) return entity;
             if (string.IsNullOrEmpty(entity.Id) || entity.Id.IsGuid())
                 entity.Id = string.Empty;
 
@@ -142,16 +140,10 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
         {
             // initialise write model to hold list of our upsert tasks
             var dataModels = new List<WriteModel<T>>();
-
             foreach(var entity in entities)
             {
-                if (entity == null || entity.IsDeleted)
-                    continue;
-
+                if (entity == null) continue;
                 if (string.IsNullOrEmpty(entity.Id) || entity.Id.IsGuid())
-                    entity.Id = string.Empty;
-
-                if (string.IsNullOrEmpty(entity.Id))
                 {
                     entity.Id = ObjectId.GenerateNewId().ToString();
                     if (entity.Created != null)
