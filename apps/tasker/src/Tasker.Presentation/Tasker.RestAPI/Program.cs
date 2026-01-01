@@ -41,6 +41,12 @@ public class Program
             })
             .AddGoogleSignIn();
 
+        builder.Host.UseDefaultServiceProvider(Options => 
+        {
+            Options.ValidateScopes = true;
+            Options.ValidateOnBuild = true;
+        });
+
         var app = builder.Build();
 
         app.MapDefaultEndpoints();

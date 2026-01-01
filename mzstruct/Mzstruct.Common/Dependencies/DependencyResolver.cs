@@ -50,6 +50,9 @@ namespace Mzstruct.Common.Dependencies
 
         private static IServiceCollection AddAppServices(IServiceCollection services)
         {
+            //services.AddKeyedScoped<IAuthService, AuthService>("jwt_auth");
+            //services.AddKeyedScoped<IAuthService, IdentityAuthService>("identity_auth");
+            //then inside the service dependency innject as: [FromKeyedServices("jwt_auth")] IAuthService authService,
             return services;
         }
     }
