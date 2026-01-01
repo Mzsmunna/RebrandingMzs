@@ -20,9 +20,30 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
                 .WithOne(f => f.Assigner)
                 .HasForeignKey(f => f.AssignerId);
 
-            builder.HasMany(f => f.AssignedIssues)
-                .WithOne(f => f.Assigned)
-                .HasForeignKey(f => f.AssignedId);
+            builder.HasMany(f => f.UserIssues)
+                .WithOne(f => f.User)
+                .HasForeignKey(f => f.UserId);
+
+            //builder.HasData(new User
+            //{
+            //    Id = "0ba69e11-483b-4649-8634-57ac875f03d8", //Guid.CreateVersion7().ToString(),
+            //    Name = "Mzs Munna",
+            //    Email = "mzs.munna@gmail.com",
+            //    Username = "mzsmunna",
+            //    Password = "P@ssw0rd123",
+            //    Role = "Admin",
+            //    //CreatedAt = DateTime.UtcNow,
+            //},
+            //new User
+            //{
+            //    Id = "be32d5c7-25d6-434e-a07e-49b2f617b1b5", //Guid.CreateVersion7().ToString(),
+            //    Name = "Mamunuz Zaman",
+            //    Email = "mzaman@insightintechnology.com",
+            //    Username = "mzaman",
+            //    Password = "P@ssw0rd321",
+            //    Role = "User",
+            //    //CreatedAt = DateTime.UtcNow,
+            //});
 
             base.Configure(builder);
         }

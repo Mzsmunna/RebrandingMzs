@@ -24,7 +24,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Mappings
                     map.AutoMap();
                     map.SetIgnoreExtraElements(true);
                     map.UnmapMember(x => x.Assigner);
-                    map.UnmapMember(x => x.Assigned);                  
+                    map.UnmapMember(x => x.User);
                 });
             }
 

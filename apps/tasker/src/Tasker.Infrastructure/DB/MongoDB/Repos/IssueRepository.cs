@@ -35,7 +35,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
             //var filter = Builders<User>.Filter.Empty;
             var results = await _collection.AsQueryable()
                             //.OrderByDescending(e => e.Email)
-                            .Where(x => !string.IsNullOrEmpty(x.AssignedId) && x.AssignedId.Equals(userId))
+                            .Where(x => !string.IsNullOrEmpty(x.UserId) && x.UserId.Equals(userId))
                             .GroupBy(x => x.Status)
                             .Select(g => new
                             {

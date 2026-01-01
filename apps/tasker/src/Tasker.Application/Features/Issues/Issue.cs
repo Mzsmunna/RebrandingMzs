@@ -10,9 +10,9 @@ namespace Tasker.Application.Features.Issues
         public string Type { get; set; } = string.Empty;
         public string Summary { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public string AssignedId { get; set; } = string.Empty;
-        public string AssignedName { get; set; } = string.Empty;
-        public string AssignedImg { get; set; } = string.Empty;
+        public string UserId { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string UserImg { get; set; } = string.Empty;
         public string AssignerId { get; set; } = string.Empty;
         public string AssignerName { get; set; } = string.Empty;
         public string AssignerImg { get; set; } = string.Empty;
@@ -26,7 +26,7 @@ namespace Tasker.Application.Features.Issues
         public bool? IsCompleted { get; set; } = false;
 
         //relationships
+        public User? User { get; set; }
         public User? Assigner { get; set; }
-        public User? Assigned { get; set; }
     }
 }

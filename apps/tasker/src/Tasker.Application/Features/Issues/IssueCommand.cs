@@ -37,13 +37,13 @@ namespace Tasker.Application.Features.Issues
             if (issue is null)
                 return ClientError.BadRequest;
 
-            if (!string.IsNullOrEmpty(issue.AssignedId))
+            if (!string.IsNullOrEmpty(issue.UserId))
             {
-                var user = userRepository.GetById(issue.AssignedId).Result;
+                var user = userRepository.GetById(issue.UserId).Result;
                 if (user != null)
                 {
-                    issue.AssignedName = user.FirstName + " " + user.LastName;
-                    issue.AssignedImg = user.Img ?? "";
+                    issue.UserName = user.FirstName + " " + user.LastName;
+                    issue.UserImg = user.Img ?? "";
                 }
             }
 

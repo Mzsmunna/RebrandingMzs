@@ -7,6 +7,6 @@ namespace Tasker.Application.Features.Users
     {
         // relationships
         public ICollection<Issue>? AssignerIssues { get; set; }
-        public ICollection<Issue>? AssignedIssues { get; set; }
+        public ICollection<Issue>? UserIssues { get; set; }
     }
 }

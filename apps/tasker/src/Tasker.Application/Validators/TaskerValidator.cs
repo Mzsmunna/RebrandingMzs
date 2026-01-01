@@ -46,8 +46,8 @@ namespace Tasker.Application.Validators
                 v.RuleFor(x => x.Description)
                     //.NotEmpty().WithMessage("Description is required.")
                     .MaximumLength(4000).WithMessage("Title cannot exceed 4000 characters.");
-                v.RuleFor(x => x.AssignedId)
-                    .NotEmpty().WithMessage("AssignedId is required.");
+                v.RuleFor(x => x.UserId)
+                    .NotEmpty().WithMessage("UserId is required.");
                 v.RuleFor(x => x.AssignerId)
                     .NotEmpty().WithMessage("AssignerId is required.");
                 v.RuleFor(x => x)
