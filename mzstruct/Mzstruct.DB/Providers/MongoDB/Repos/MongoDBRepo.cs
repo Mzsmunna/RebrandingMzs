@@ -105,14 +105,24 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
             if (entity.Created is null)
             {
-                entity.Created = new BaseEvent(typeof(T).Name, operation.Id, EventType.Create.ToString());
-                entity.Created.Id = ObjectId.GenerateNewId().ToString();
-                entity.Created.At = DateTime.UtcNow; // DateTime.Now
+                entity.Created = new BaseEvent { 
+                    Res = typeof(T).Name, 
+                    Ref = operation.Id, 
+                    Type = EventType.Create.ToString(),
+                    Id = ObjectId.GenerateNewId().ToString(),
+                    At = DateTime.UtcNow // DateTime.Now
+                };
             }
             
             if (entity.Modified is null)
             {
-                entity.Modified = new BaseEvent(typeof(T).Name, operation.Id, EventType.Update.ToString());
+                entity.Modified = new BaseEvent{ 
+                    Res = typeof(T).Name, 
+                    Ref = operation.Id, 
+                    Type = EventType.Update.ToString(),
+                    Id = ObjectId.GenerateNewId().ToString(),
+                    At = DateTime.UtcNow // DateTime.Now
+                };
                 entity.Modified.Id = ObjectId.GenerateNewId().ToString();
             }
             entity.Modified.At = DateTime.UtcNow; // DateTime.Now

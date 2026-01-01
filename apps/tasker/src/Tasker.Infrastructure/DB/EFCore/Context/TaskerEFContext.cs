@@ -12,10 +12,10 @@ namespace Tasker.Infrastructure.DB.EFCore.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskerEFContext).Assembly);
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskerEFContext).Assembly);
             //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-            //modelBuilder.ApplyConfiguration(new UserEFConfig());
-            //modelBuilder.ApplyConfiguration(new IssueEFConfig());
+            modelBuilder.ApplyConfiguration(new UserEFConfig());
+            modelBuilder.ApplyConfiguration(new IssueEFConfig());
             base.OnModelCreating(modelBuilder);
         }
 

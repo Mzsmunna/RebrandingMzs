@@ -11,7 +11,10 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
 
         public override void Configure(EntityTypeBuilder<Issue> builder)
         {
-            builder.HasKey(u => new { u.Id, u.AssignerId, u.AssignedId });
+            //builder.HasKey(u => new { u.Id });
+            builder.HasIndex(e => new { e.Id, e.AssignerId, e.AssignedId });
+            builder.Property(x => x.AssignerId).IsRequired();
+            builder.Property(x => x.AssignedId).IsRequired();
 
             builder.HasOne(f => f.Assigner)
                 .WithMany()
@@ -22,6 +25,8 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
                 .WithMany()
                 .HasForeignKey(f => f.AssignedId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            base.Configure(builder);
         }
     }
 }

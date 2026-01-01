@@ -1,24 +1,16 @@
-
+using Mzstruct.API.Dependencies;
 using Mzstruct.Base.Enums;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Serialization;
+using Mzstruct.Common.Dependencies;
 using Scalar.AspNetCore;
-using System.Text;
 using Tasker.Application;
 using Tasker.Infrastructure;
-using Mzstruct.Common.Dependencies;
-using Mzstruct.API.Dependencies;
+using Tasker.Infrastructure.DB.EFCore.Context;
 
 namespace Tasker.RestAPI;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
@@ -54,6 +46,11 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+            await using(var serviceScope = app.Services.CreateAsyncScope())
+            await using (var dbContext = serviceScope.ServiceProvider.GetRequiredService<TaskerEFContext>())
+            {
+                await dbContext.Database.EnsureCreatedAsync();
+            }
             app.MapOpenApi();
             app.MapScalarApiReference();
             app.UseSwaggerUI(options =>

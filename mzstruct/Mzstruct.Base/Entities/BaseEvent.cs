@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Mzstruct.Base.Entities
 {
-    public class BaseEvent(string resource, string objectId, string type) //<T>(string objectId) where T : class
+    public class BaseEvent //<T>(string objectId) where T : class
     {
         public string Id { get; set; } =  Guid.CreateVersion7().ToString(); //ObjectId.GenerateNewId().ToString();
-        public string Res { get; set; } =  resource ?? string.Empty; // resource / entitty / table name;
-        public string Ref { get; set; } = objectId ?? string.Empty;
-        public string Type { get; set; } = type ?? EventType.Request.ToString();
+        public string Res { get; set; } = string.Empty; // resource / entitty / table name;
+        public string Ref { get; set; } = string.Empty; // record id;
+        public string Type { get; set; } = EventType.Request.ToString();
         public DateTime At { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;
         public string By { get; set; } = string.Empty; // user id, system, service etc.
         public string? Name { get; set; }
