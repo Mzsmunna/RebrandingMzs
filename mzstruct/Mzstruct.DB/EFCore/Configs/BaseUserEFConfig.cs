@@ -21,7 +21,7 @@ namespace Mzstruct.DB.EFCore.Configs
             builder.Property(x => x.Password).IsRequired();
             builder.Property(x => x.RefreshToken).HasColumnType("text");
             builder.Property(x => x.Roles).HasConversion(
-                c => string.Join(',', c),
+                c => string.Join(',', c ?? new List<string>()),
                 c => c.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList());
             //builder.Property(e => e.CreatedAt).HasConversion(v => v.ToUniversalTime(),v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
             //builder.Property(e => e.UpdatedAt).HasConversion(v => v.ToUniversalTime(),v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
