@@ -76,6 +76,7 @@ namespace Mzstruct.Common.Dependencies
             }
             else if (dBType is DBType.SQLite)
             {
+                conn = conn ?? "Data Source=app.db";
                 services.AddDbContext<TContext>(options =>
                     options.UseSqlite(conn),
                     ServiceLifetime.Transient
