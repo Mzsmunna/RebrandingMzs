@@ -21,6 +21,7 @@ namespace Mzstruct.DB.Contracts.IRepos
         Task<List<TModel>> ExecuteAnySPAsync<TModel>(string spName, List<SqlParameter> sqlParams) where TModel : class, new();
         Task<List<TEntity>> ExecuteRawSqlAsync(string sql, List<SqlParameter>? sqlParams);
         Task<List<TModel>> ExecuteAnyRawSqlAsync<TModel>(string sql, List<SqlParameter> sqlParams) where TModel : class, new();
+        Task<int> UpdateDbRawSqlAsync(string sql, List<SqlParameter> sqlParams);
         Task AddAsync(TEntity entity, CancellationToken token = default);
         Task AddRangeAsync(List<TEntity> entityList, CancellationToken token = default);
         Task SaveChangesAsync(CancellationToken token = default);

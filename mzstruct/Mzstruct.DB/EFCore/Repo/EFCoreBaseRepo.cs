@@ -148,6 +148,13 @@ namespace Mzstruct.DB.EFCore.Repo
             return result;
         }
 
+        public virtual async Task<int> UpdateDbRawSqlAsync(string sql, List<SqlParameter> sqlParams)
+        {
+            if (string.IsNullOrEmpty(sql)) return 0;
+            var resultNoParams = await dbContext.Database.ExecuteSqlRawAsync(sql);
+            return resultNoParams;
+        }
+
         public virtual async Task AddAsync(TEntity entity, CancellationToken token = default)
         {
             await entities.AddAsync(entity, token);
