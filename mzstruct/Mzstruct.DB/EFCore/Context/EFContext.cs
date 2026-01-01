@@ -7,6 +7,16 @@ using Mzstruct.DB.Helpers;
 
 namespace Mzstruct.DB.EFCore.Context
 {
+    /// <commands> .NET & EF CLI  </commands>
+    /// dotnet tool list --global | -g
+    /// dotnet tool install --global dotnet-ef --version 7.0.11
+    /// dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
+    /// dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
+    /// dotnet ef --version
+    /// 
+    /// 
+    /// dotnet ef migration add InitialCreate --project Mzstruct.DB.SQL --startup-project Mzstruct.Api --context DatabaseContext
+    /// ef database update -p Mzstruct.DB.SQL -s Mzstruct.Api --context DatabaseContext
     public class EFContext : DbContext
     {
         public EFContext(DbContextOptions options) : base(options) { }

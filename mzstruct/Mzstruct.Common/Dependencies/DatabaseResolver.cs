@@ -14,15 +14,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 
-/// <commands> .NET CLI </commands>
-/// dotnet tool list --global | -g
-/// dotnet tool install --global dotnet-ef --version 7.0.11
-/// dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
-/// dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
-/// dotnet ef --version
-/// 
-/// 
-/// dotnet ef migration add InitialCreate --project Mzstruct.DB.SQL --startup-project Mzstruct.Api --context DatabaseContext
 namespace Mzstruct.Common.Dependencies
 {
     public static class DatabaseResolver
