@@ -26,7 +26,7 @@ namespace Mzstruct.DB.EFCore.Helpers
             //var entity = modelBuilder.Entity<BaseEntity>();
             //entity.ToTable("BaseEntities");
             //entity.HasKey(e => e.Id);
-            #region common_entities
+            #region common_entities_or_models
             modelBuilder.Entity<Count>(insu => { insu.HasNoKey(); });
             modelBuilder.Entity<TotalCount>(insu => { insu.HasNoKey(); });
             //modelBuilder.ApplyConfiguration(new BaseUserEFConfig());
