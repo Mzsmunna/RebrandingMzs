@@ -48,6 +48,8 @@ namespace Mzstruct.DB.EFCore.Repo
             return await entities.Where(predicate).ToListAsync(token);
 
             //Blogs
+            //.IgnoreQueryFilters() // ignore all global filters defined in the model builder
+            //.IgnoreQueryFilters(["SoftDeleteFilter"]) // ignore specific filters defined in the model builder
             //.Include(e => e.Posts) // eager loading | joins
             //.Include(e => e.Conttributors) // eager looading | multiple joins
             //.AsSplitQuery() // to avoid cartesian explosion -> multiple queries
