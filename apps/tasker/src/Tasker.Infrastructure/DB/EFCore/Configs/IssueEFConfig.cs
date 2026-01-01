@@ -19,12 +19,12 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
             builder.HasOne(f => f.Assigner)
                 .WithMany()
                 .HasForeignKey(f => f.AssignerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(f => f.Assigned)
                 .WithMany()
                 .HasForeignKey(f => f.AssignedId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.Configure(builder);
         }

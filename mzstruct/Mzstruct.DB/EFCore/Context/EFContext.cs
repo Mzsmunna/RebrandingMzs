@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mzstruct.Base.Entities;
-using Mzstruct.Base.Enums;
 using Mzstruct.Base.Models;
 using Mzstruct.DB.EFCore.Helpers;
-using Mzstruct.DB.Helpers;
 
 /// <commands> .NET & EF CLI  </commands>
 /// dotnet tool list --global | -g
@@ -12,8 +9,11 @@ using Mzstruct.DB.Helpers;
 /// dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
 /// dotnet ef --version
 /// 
-/// dotnet ef migration add InitialCreate --project Mzstruct.DB.SQL --startup-project Mzstruct.Api --context DatabaseContext
-/// ef database update -p Mzstruct.DB.SQL -s Mzstruct.Api --context DatabaseContext
+/// dotnet ef migrations add InitialCreate --output-dir Infrastructure/DB/Migrations
+/// dotnet ef migrations add InitialCreate --project apps/tasker/src/Tasker.Infrastructure --startup-project apps/tasker/src/Tasker.Presentation/Tasker.RestAPI --output-dir DB/SqlServer/Migrations/
+/// dotnet ef database update -p apps/tasker/src/Tasker.Infrastructure -s apps/tasker/src/Tasker.Presentation/Tasker.RestAPI
+/// dotnet ef database update
+/// dotnet ef database update -p Mzstruct.DB.SQL -s Mzstruct.Api --context DatabaseContext
 /// 
 /// <commands> Package Manager Console </commands>
 /// Add-Migration InitialCreate
