@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Folder Include="DB\MongoDB\Configs\" />
+    <Folder Include="DB\PostgreSQL\Migrations\" />
   </ItemGroup>
 
 </Project>
