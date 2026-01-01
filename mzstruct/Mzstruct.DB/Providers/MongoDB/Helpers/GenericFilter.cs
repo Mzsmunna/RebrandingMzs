@@ -13,7 +13,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Helpers
         {
             if (filter == null)
                 filter = Builders<T>.Filter.Empty;
-            filter &= Builders<T>.Filter.Eq(x => x.IsActive, true);
+            //filter &= Builders<T>.Filter.Eq(x => x.IsActive, true);
             filter &= Builders<T>.Filter.Eq(x => x.IsDeleted, false);
 
             if (!string.IsNullOrEmpty(id) && id.ToLower() != "undefined")

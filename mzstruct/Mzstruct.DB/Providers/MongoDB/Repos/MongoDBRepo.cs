@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Enums;
+using Mzstruct.Base.Helpers;
 using Mzstruct.Base.Models;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
@@ -92,14 +93,17 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
         public async Task<T?> SaveAsync(T entity)
         {
+            if (entity == null || entity.IsDeleted)
+                return null;
+
+            if (string.IsNullOrEmpty(entity.Id) || entity.Id.IsGuid())
+                entity.Id = string.Empty;
+
             ReplaceOneResult? result = null;
             var operation  = new MongoOperation() { 
                 Id = entity.Id ?? ObjectId.GenerateNewId().ToString(),
                 IsCompleted = false 
             };
-
-            if (entity == null)
-                return entity;
 
             if (entity.Created is null)
             {
@@ -141,8 +145,11 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
             foreach(var entity in entities)
             {
-                if (entity == null)
+                if (entity == null || entity.IsDeleted)
                     continue;
+
+                if (string.IsNullOrEmpty(entity.Id) || entity.Id.IsGuid())
+                    entity.Id = string.Empty;
 
                 if (string.IsNullOrEmpty(entity.Id))
                 {

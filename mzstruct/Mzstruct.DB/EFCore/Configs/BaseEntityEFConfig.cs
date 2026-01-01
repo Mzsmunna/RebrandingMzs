@@ -15,7 +15,7 @@ namespace Mzstruct.DB.EFCore.Configs
         {
             builder.ToTable(tableName ?? typeof(T).Name);
             builder.HasKey(u => u.Id);
-            builder.HasQueryFilter(e => e.IsActive && !e.IsDeleted);
+            builder.HasQueryFilter(e => !e.IsDeleted);
             //builder.Property(x => x.Status).HasConversion<string>(); // Enum to string conversion
         }
 

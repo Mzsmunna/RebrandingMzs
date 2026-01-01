@@ -1,10 +1,12 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Mzstruct.DB.Helpers
 {
-    internal class DBHelper
+    public static class DBHelper
     {
+        public static bool IsBsonObjectId(this string? value) => ObjectId.TryParse(value, out _);
     }
 }

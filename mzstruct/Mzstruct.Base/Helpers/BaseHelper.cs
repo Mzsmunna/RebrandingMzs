@@ -14,6 +14,7 @@ namespace Mzstruct.Base.Helpers
 {
     public static class BaseHelper
     {
+        public static bool IsGuid(this string? value) => Guid.TryParse(value, out _);
         public static string GenerateSubmitId()
         {
             string submitId = string.Empty;

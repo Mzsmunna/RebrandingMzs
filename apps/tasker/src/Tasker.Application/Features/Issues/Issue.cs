@@ -22,6 +22,7 @@ namespace Tasker.Application.Features.Issues
         public DateTime? DueDate { get; set; }
         public string Status { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
+        public bool IsActive { get; set; } = true;
         public bool? IsCompleted { get; set; } = false;
 
         //relationships

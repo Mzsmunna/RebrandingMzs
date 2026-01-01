@@ -7,8 +7,7 @@ namespace Mzstruct.Base.Entities
 {
     public abstract class BaseEntity
     {
-        public string Id { get; set; } = string.Empty;
-        public bool IsActive { get; set; } = true;
+        public required string Id { get; set; } = Guid.CreateVersion7().ToString();
         public bool IsDeleted { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;
         public DateTime? ModifiedAt { get; set; }

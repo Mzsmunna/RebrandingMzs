@@ -9,8 +9,11 @@ namespace Mzstruct.Base.Entities
         public required string Name { get; set; }
         public required string Email { get; set; }
         public required string Role { get; set; }
+        public required List<string> Roles { get; set; }
         public required string Username { get; set; }
         public required string Password { get; set; }
+        public bool IsActive { get; set; } = true;
+        
         public string RefreshToken { get; set; } = string.Empty;
 
         //[BsonIgnore]
