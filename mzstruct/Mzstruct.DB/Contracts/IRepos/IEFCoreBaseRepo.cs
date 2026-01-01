@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -16,6 +17,10 @@ namespace Mzstruct.DB.Contracts.IRepos
         Task<TEntity?> GetByIdAsNoTrackAsync(string id, CancellationToken token = default);
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default);
         Task<IEnumerable<TEntity>> FindAsNoTrackAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default);
+        Task<List<TEntity>> ExecuteSPAsync(string spName, List<SqlParameter> sqlParams);
+        Task<List<TModel>> ExecuteAnySPAsync<TModel>(string spName, List<SqlParameter> sqlParams) where TModel : class, new();
+        Task<List<TEntity>> ExecuteRawSqlAsync(string sql, List<SqlParameter>? sqlParams);
+        Task<List<TModel>> ExecuteAnyRawSqlAsync<TModel>(string sql, List<SqlParameter> sqlParams) where TModel : class, new();
         Task AddAsync(TEntity entity, CancellationToken token = default);
         Task AddRangeAsync(List<TEntity> entityList, CancellationToken token = default);
         Task SaveChangesAsync(CancellationToken token = default);
