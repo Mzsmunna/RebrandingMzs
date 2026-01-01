@@ -51,7 +51,7 @@ namespace Mzstruct.DB.EFCore.Context
         //    }
         //}
 
-        #region common
+        #region common_dbsets
         public virtual DbSet<Count> Counts { get; set; }
         public virtual DbSet<TotalCount> TotalCounts { get; set; }
         //public virtual DbSet<BaseUser> Users { get; set; }
