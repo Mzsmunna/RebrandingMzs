@@ -14,6 +14,12 @@ namespace Mzstruct.DB.EFCore.Configs
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
             builder.ToTable(tableName ?? typeof(T).Name);
+            //builder.ToTable(tableName ?? typeof(T).Name, tableBuilder =>
+            //{
+            //    tableBuilder.HasCheckConstraint(
+            //        "CK_Age_NotNegative",
+            //        sql: $"{nameof(BaseUser.Age)} > 0");
+            //});
             builder.HasKey(u => u.Id);
             builder.Property(x => x.Id).ValueGeneratedNever();
             builder.HasQueryFilter(e => !e.IsDeleted);

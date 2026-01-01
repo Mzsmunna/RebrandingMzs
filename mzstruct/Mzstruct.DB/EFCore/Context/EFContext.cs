@@ -5,18 +5,22 @@ using Mzstruct.Base.Models;
 using Mzstruct.DB.EFCore.Helpers;
 using Mzstruct.DB.Helpers;
 
+/// <commands> .NET & EF CLI  </commands>
+/// dotnet tool list --global | -g
+/// dotnet tool install --global dotnet-ef --version 7.0.11
+/// dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
+/// dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
+/// dotnet ef --version
+/// 
+/// dotnet ef migration add InitialCreate --project Mzstruct.DB.SQL --startup-project Mzstruct.Api --context DatabaseContext
+/// ef database update -p Mzstruct.DB.SQL -s Mzstruct.Api --context DatabaseContext
+/// 
+/// <commands> Package Manager Console </commands>
+/// Add-Migration InitialCreate
+/// Update-Databse | Update-Database -Migration Name -ConnectionString
+/// Bundle-Migration -ConnectionString
 namespace Mzstruct.DB.EFCore.Context
 {
-    /// <commands> .NET & EF CLI  </commands>
-    /// dotnet tool list --global | -g
-    /// dotnet tool install --global dotnet-ef --version 7.0.11
-    /// dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
-    /// dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
-    /// dotnet ef --version
-    /// 
-    /// 
-    /// dotnet ef migration add InitialCreate --project Mzstruct.DB.SQL --startup-project Mzstruct.Api --context DatabaseContext
-    /// ef database update -p Mzstruct.DB.SQL -s Mzstruct.Api --context DatabaseContext
     public class EFContext : DbContext
     {
         public EFContext(DbContextOptions options) : base(options) { }

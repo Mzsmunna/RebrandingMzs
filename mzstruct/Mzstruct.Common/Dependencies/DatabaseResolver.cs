@@ -131,5 +131,12 @@ namespace Mzstruct.Common.Dependencies
 
             return services;
         }
+
+        public static IServiceScope ApplyDBMigration<TContext>(this IServiceScope scope) where TContext : DbContext
+        {
+            using var dbContext = scope.ServiceProvider.GetRequiredService<TContext>();
+            dbContext.Database.Migrate();
+            return scope;
+        }
     }
 }

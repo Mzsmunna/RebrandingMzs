@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Mzstruct.API.Dependencies;
 using Mzstruct.Base.Enums;
 using Mzstruct.Common.Dependencies;
@@ -50,7 +51,9 @@ public class Program
             await using (var dbContext = serviceScope.ServiceProvider.GetRequiredService<TaskerEFContext>())
             {
                 await dbContext.Database.EnsureCreatedAsync();
+                //dbContext.Database.Migrate();
             }
+
             app.MapOpenApi();
             app.MapScalarApiReference();
             app.UseSwaggerUI(options =>
