@@ -59,7 +59,7 @@ namespace Mzstruct.DB.EFCore.Configs
             //.WithOne(x => x.User)
             //.HasForeignKey<Address>(x => x.AddressId);
 
-            //builder.HasData(new BaseUser
+            //builder.HasData([new BaseUser
             //{
             //    Id = Guid.CreateVersion7().ToString(),
             //    Name = "Mzs Munna",
@@ -76,7 +76,7 @@ namespace Mzstruct.DB.EFCore.Configs
             //    Username = "mzaman",
             //    Password = "P@ssw0rd321",
             //    Role = "User",
-            //});
+            //}]);
 
             base.Configure(builder);
         }

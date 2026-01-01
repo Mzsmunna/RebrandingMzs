@@ -24,7 +24,7 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
                 .WithOne(f => f.User)
                 .HasForeignKey(f => f.UserId);
 
-            //builder.HasData(new User
+            //builder.HasData([new User
             //{
             //    Id = "0ba69e11-483b-4649-8634-57ac875f03d8", //Guid.CreateVersion7().ToString(),
             //    Name = "Mzs Munna",
@@ -43,7 +43,7 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
             //    Password = "P@ssw0rd321",
             //    Role = "User",
             //    //CreatedAt = DateTime.UtcNow,
-            //});
+            //}]);
 
             base.Configure(builder);
         }
