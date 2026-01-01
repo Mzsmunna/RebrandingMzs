@@ -18,11 +18,12 @@ namespace Mzstruct.DB.EFCore.Configs
             builder.Property(x => x.Id).ValueGeneratedNever();
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Email).IsRequired();
+            builder.Property(x => x.Role).IsRequired();
             builder.Property(x => x.Password).IsRequired();
-            builder.Property(x => x.RefreshToken).HasColumnType("text");
             builder.Property(x => x.Roles).HasConversion(
                 c => string.Join(',', c ?? new List<string>()),
                 c => c.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList());
+            builder.Property(x => x.RefreshToken).HasColumnType("text");
             //builder.Property(e => e.CreatedAt).HasConversion(v => v.ToUniversalTime(),v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
             //builder.Property(e => e.UpdatedAt).HasConversion(v => v.ToUniversalTime(),v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
             //builder.Property(x => x.Img).HasColumnType("text");
