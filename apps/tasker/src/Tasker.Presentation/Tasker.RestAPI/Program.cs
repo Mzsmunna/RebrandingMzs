@@ -50,8 +50,8 @@ public class Program
             await using(var serviceScope = app.Services.CreateAsyncScope())
             await using (var dbContext = serviceScope.ServiceProvider.GetRequiredService<TaskerEFContext>())
             {
-                await dbContext.Database.EnsureCreatedAsync();
                 //dbContext.Database.Migrate();
+                await dbContext.Database.EnsureCreatedAsync();
             }
 
             app.MapOpenApi();
