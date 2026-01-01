@@ -7,7 +7,7 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
 {
     public class IssueEFConfig : BaseEntityEFConfig<Issue>
     {
-        public IssueEFConfig(string? tableName = "User") : base(tableName) { }
+        public IssueEFConfig(string? tableName = "Issue") : base(tableName) { }
 
         public override void Configure(EntityTypeBuilder<Issue> builder)
         {

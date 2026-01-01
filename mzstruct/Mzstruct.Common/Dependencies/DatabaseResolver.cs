@@ -29,7 +29,7 @@ namespace Mzstruct.Common.Dependencies
 
         public static IServiceCollection AddSqlDBConnFactory(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer)
         {
-            var conn = config.GetConnectionString("DatabaseContext");
+            var conn = config.GetConnectionString("DefaultConnection");
                  //?? throw new ApplicationException("The connectiton string is null");
             if (conn is null) return services;
             
@@ -50,7 +50,7 @@ namespace Mzstruct.Common.Dependencies
 
         public static IServiceCollection AddSqlDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : DbContext
         {
-            var conn = config.GetConnectionString("DatabaseContext");
+            var conn = config.GetConnectionString("DefaultConnection");
             //services.AddDbContext<EFContext>(ServiceLifetime.Transient);
             if (string.IsNullOrEmpty(conn) || dBType is DBType.InMemory) 
             {
@@ -99,6 +99,7 @@ namespace Mzstruct.Common.Dependencies
 
         public static IServiceCollection AddSqlDBContextFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
         {
+            var conn = config.GetConnectionString("DefaultConnection");
             if (dBType is DBType.InMemory) 
             {
                 var dbName = config.GetConnectionString("DatabaseName") ?? "InMemoryAppDb";
@@ -110,21 +111,21 @@ namespace Mzstruct.Common.Dependencies
             else if (dBType is DBType.SqlServer) 
             {
                 services.AddDbContextFactory<TContext>(options =>
-                    options.UseSqlServer(config.GetConnectionString("DatabaseContext")),
+                    options.UseSqlServer(conn),
                     ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.PostgreSql)
             {
                 services.AddDbContextFactory<TContext>(options =>
-                    options.UseNpgsql(config.GetConnectionString("DatabaseContext")),
+                    options.UseNpgsql(conn),
                     ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.SQLite)
             {
                 services.AddDbContextFactory<TContext>(options =>
-                    options.UseSqlite(config.GetConnectionString("DatabaseContext")),
+                    options.UseSqlite(conn),
                     ServiceLifetime.Transient
                 );
             }
