@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mzstruct.Base.Enums;
-using Mzstruct.Base.Models;
 using Mzstruct.DB.EFCore.Context;
 using Tasker.Application.Features.Issues;
 using Tasker.Application.Features.Users;
+using Tasker.Infrastructure.DB.EFCore.Configs;
 
 namespace Tasker.Infrastructure.DB.EFCore.Context
 {
@@ -15,6 +14,8 @@ namespace Tasker.Infrastructure.DB.EFCore.Context
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskerEFContext).Assembly);
             //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+            //modelBuilder.ApplyConfiguration(new UserEFConfig());
+            //modelBuilder.ApplyConfiguration(new IssueEFConfig());
             base.OnModelCreating(modelBuilder);
         }
 
