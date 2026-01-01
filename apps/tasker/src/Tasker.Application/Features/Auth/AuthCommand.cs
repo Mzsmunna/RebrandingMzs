@@ -2,6 +2,7 @@
 using Mzstruct.Base.Dtos;
 using Mzstruct.Common.Extensions;
 using Mzstruct.Common.Features.Auth;
+using Mzstruct.DB.Contracts.IRepos;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Features.Users;
 using CommonCommands = Mzstruct.Common.Contracts.ICommands;
@@ -12,6 +13,7 @@ namespace Tasker.Application.Features.Auth
     {
         public async Task<Result<UserModel?>> SignUp(SignUpDto signUpDto)
         {
+            //var allUsers = await userSqlRepo.GetAllAsync();
             var result = await authCommand.SignUp(signUpDto);
             return result.To(user => user as UserModel);
         }

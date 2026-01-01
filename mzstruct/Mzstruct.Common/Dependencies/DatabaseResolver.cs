@@ -4,9 +4,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Mzstruct.Base.Enums;
 using Mzstruct.DB.Contracts.IFactories;
+using Mzstruct.DB.Contracts.IRepos;
+using Mzstruct.DB.EFCore.Repo;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB.Context;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
+using Mzstruct.DB.Providers.MongoDB.Mappers;
+using Mzstruct.DB.Providers.MongoDB.Repos;
 using Mzstruct.DB.SQL.Context;
 using Mzstruct.DB.SQL.Factory;
 using System;
@@ -24,6 +29,20 @@ namespace Mzstruct.Common.Dependencies
             services.Configure<MongoDBConfig>(config.GetSection(nameof(MongoDBConfig)));
             services.AddTransient<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
             services.AddTransient<IMongoDBContext, MongoDBContext>();
+            AddMongoEntities(services);
+            AddMongoRepositories(services);
+            return services;
+        }
+
+        private static IServiceCollection AddMongoEntities(IServiceCollection services)
+        {
+            services.AddScoped<BaseUserEntityMap>();
+            return services;
+        }
+
+        private static IServiceCollection AddMongoRepositories(IServiceCollection services)
+        {
+            services.AddScoped<IBaseUserRepository, BaseUserRepository>();
             return services;
         }
 
@@ -56,33 +75,36 @@ namespace Mzstruct.Common.Dependencies
             {
                 var dbName = config.GetConnectionString("DatabaseName") ?? "AppInMemoryDb";
                 services.AddDbContext<TContext>(options =>
-                    options.UseInMemoryDatabase(dbName),
-                    ServiceLifetime.Transient
+                    options.UseInMemoryDatabase(dbName)
+                    //,ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.SqlServer) 
             {
                 services.AddDbContext<TContext>(options =>
-                    options.UseSqlServer(conn),
-                    ServiceLifetime.Transient
+                    options.UseSqlServer(conn)
+                    //,ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.PostgreSql)
             {
                 services.AddDbContext<TContext>(options =>
-                    options.UseNpgsql(conn),
-                    ServiceLifetime.Transient
+                    options.UseNpgsql(conn)
+                    //,ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.SQLite)
             {
                 conn = conn ?? "Data Source=app.db";
                 services.AddDbContext<TContext>(options =>
-                    options.UseSqlite(conn),
-                    ServiceLifetime.Transient
+                    options.UseSqlite(conn)
+                    //,ServiceLifetime.Transient
                 );
             }
 
+            //services.AddScoped(typeof(IEFCoreBaseRepo<>), typeof(EFCoreBaseRepo<>));
+            //services.AddScoped(typeof(IEFCoreBaseRepo<,>), typeof(EFCoreBaseRepo<,>));
+            //services.AddScoped(typeof(IEFCoreBaseRepo<>), typeof(EFCoreBaseRepo<,>));
             return services;
 
            //Action configureDb = dBType switch
@@ -104,29 +126,29 @@ namespace Mzstruct.Common.Dependencies
             {
                 var dbName = config.GetConnectionString("DatabaseName") ?? "InMemoryAppDb";
                 services.AddDbContextFactory<TContext>(options =>
-                    options.UseInMemoryDatabase(dbName),
-                    ServiceLifetime.Transient
+                    options.UseInMemoryDatabase(dbName)
+                    //,ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.SqlServer) 
             {
                 services.AddDbContextFactory<TContext>(options =>
-                    options.UseSqlServer(conn),
-                    ServiceLifetime.Transient
+                    options.UseSqlServer(conn)
+                    //,ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.PostgreSql)
             {
                 services.AddDbContextFactory<TContext>(options =>
-                    options.UseNpgsql(conn),
-                    ServiceLifetime.Transient
+                    options.UseNpgsql(conn)
+                    //,ServiceLifetime.Transient
                 );
             }
             else if (dBType is DBType.SQLite)
             {
                 services.AddDbContextFactory<TContext>(options =>
-                    options.UseSqlite(conn),
-                    ServiceLifetime.Transient
+                    options.UseSqlite(conn)
+                    //,ServiceLifetime.Transient
                 );
             }
 

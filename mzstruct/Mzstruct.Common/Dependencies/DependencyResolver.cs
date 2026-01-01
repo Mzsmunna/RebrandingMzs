@@ -15,8 +15,6 @@ namespace Mzstruct.Common.Dependencies
         {
             AddAppCommands(services);
             AddAppQueries(services);
-            AddAppEntities(services);
-            AddAppRepositories(services);
             AddAppServices(services);
             services.AddValidationResolver();
             services.AddExceptionResolver();
@@ -33,18 +31,6 @@ namespace Mzstruct.Common.Dependencies
         private static IServiceCollection AddAppQueries(IServiceCollection services)
         {
             services.AddScoped<IUserQuery, UserQuery>();
-            return services;
-        }
-
-        private static IServiceCollection AddAppEntities(this IServiceCollection services)
-        {
-            services.AddScoped<BaseUserEntityMap>();
-            return services;
-        }
-
-        private static IServiceCollection AddAppRepositories(IServiceCollection services)
-        {
-            services.AddScoped<IBaseUserRepository, BaseUserRepository>();
             return services;
         }
 

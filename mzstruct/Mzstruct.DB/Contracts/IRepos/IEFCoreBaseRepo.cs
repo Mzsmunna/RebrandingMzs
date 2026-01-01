@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Mzstruct.Base.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Mzstruct.DB.Contracts.IRepos
 {
-    public interface IEFCoreBaseRepo<TEntity> where TEntity : class
+    public interface IEFCoreBaseRepo<TEntity> where TEntity : BaseEntity
     {
         //asynchronous methods
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token = default);
