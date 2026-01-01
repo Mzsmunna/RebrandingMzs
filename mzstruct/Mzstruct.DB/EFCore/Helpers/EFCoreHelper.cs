@@ -10,6 +10,22 @@ namespace Mzstruct.DB.EFCore.Helpers
 {
     public static class EFCoreHelper
     {
+        public static ValueComparer<List<T>> VirtualListCompare<T>()
+        {
+            var comparer = new ValueComparer<List<T>>(
+                (a, b) =>
+                    ReferenceEquals(a, b) ||
+                    (a != null && b != null && a.SequenceEqual(b)),
+
+                v => v == null
+                    ? 0
+                    : v.Aggregate(0, (h, e) => HashCode.Combine(h, e)),
+
+                v => v == null ? null! : v.ToList()
+            );
+            return comparer;
+        }
+
         public static void OnConfiguring(DbContextOptionsBuilder optionsBuilder, DBType db = DBType.SqlServer)
         {
             if (db == DBType.PostgreSql)

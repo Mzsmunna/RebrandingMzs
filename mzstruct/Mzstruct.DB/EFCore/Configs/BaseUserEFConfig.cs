@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Mzstruct.Base.Entities;
+using Mzstruct.DB.EFCore.Helpers;
+using System.Data;
 
 namespace Mzstruct.DB.EFCore.Configs
 {
@@ -20,9 +23,18 @@ namespace Mzstruct.DB.EFCore.Configs
             builder.Property(x => x.Email).IsRequired();
             builder.Property(x => x.Role).IsRequired();
             builder.Property(x => x.Password).IsRequired();
-            builder.Property(x => x.Roles).HasConversion(
-                c => string.Join(',', c ?? new List<string>()),
-                c => c.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList());
+
+            var comparer = EFCoreHelper.VirtualListCompare<string>();
+            builder.Property(x => x.Roles)
+            .HasConversion(
+                v => v == null ? null : string.Join(",", v),
+                v => string.IsNullOrWhiteSpace(v)
+                    ? new List<string>()
+                    : v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .ToList()
+            )
+            .Metadata.SetValueComparer(comparer);
+
             builder.Property(x => x.RefreshToken).HasColumnType("text");
             builder.Property(e => e.CreatedAt)
                 .HasConversion(
