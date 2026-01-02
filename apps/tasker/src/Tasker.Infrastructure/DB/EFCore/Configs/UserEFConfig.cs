@@ -24,6 +24,9 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
                 .WithOne(f => f.User)
                 .HasForeignKey(f => f.UserId);
 
+            builder.Navigation(f => f.AssignerIssues).AutoInclude();
+            builder.Navigation(f => f.UserIssues).AutoInclude();
+
             //builder.HasData([new User
             //{
             //    Id = "0ba69e11-483b-4649-8634-57ac875f03d8", //Guid.CreateVersion7().ToString(),
