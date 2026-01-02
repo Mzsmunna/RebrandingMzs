@@ -33,6 +33,36 @@ namespace Mzstruct.DB.EFCore.Helpers
                 optionsBuilder
                     .UseNpgsql(ConfigExtender.GetNewConfig().GetConnectionString("PostgreSQL"));
             }
+            //optionsBuilder.UseSeeding((context, _) =>
+            //{
+            //    if (!context.Set<BaseEntity>().Any())
+            //    {
+            //        context.Set<BaseEntity>().Add(new BaseUser
+            //        {
+            //            Id = Guid.CreateVersion7().ToString(),
+            //            Name = "Mzs Munna",
+            //            Email = "mzs.munna@gmail.com",
+            //            Username = "mzsmunna",
+            //            Password = "P@ssw0rd123",
+            //            Role = "Admin",
+            //        });
+            //    }
+            //})
+            //.UseAsyncSeeding(async (context, _, cancellationToken) =>
+            //{
+            //    if (!context.Set<BaseEntity>().Any())
+            //    {
+            //        context.Set<BaseEntity>().Add(new BaseUser
+            //        {
+            //            Id = Guid.CreateVersion7().ToString(),
+            //            Name = "Mzs Munna",
+            //            Email = "mzs.munna@gmail.com",
+            //            Username = "mzsmunna",
+            //            Password = "P@ssw0rd123",
+            //            Role = "Admin",
+            //        });
+            //    }
+            //});
             //optionsBuilder.LogTo(Console.WriteLine);
         }
 
