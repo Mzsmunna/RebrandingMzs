@@ -319,6 +319,7 @@ namespace Mzstruct.DB.EFCore.Repo
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             dbContext.Set<TEntity>().RemoveRange(entities);
+            //dbContext.Set<TEntity>().Where(x => x.DeletedAt.HasValue).ExecuteDelete();
         }
 
         public void Commit()
