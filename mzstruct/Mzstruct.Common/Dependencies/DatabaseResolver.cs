@@ -83,6 +83,10 @@ namespace Mzstruct.Common.Dependencies
             {
                 services.AddDbContext<TContext>(options =>
                     options.UseSqlServer(conn)
+                    //), sqlOption =>
+                    //{
+                    //    sqlOption.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                    //})
                     //,ServiceLifetime.Transient
                 );
             }

@@ -53,6 +53,8 @@ namespace Mzstruct.DB.EFCore.Repo
             //.Include(e => e.Posts) // eager loading | joins
             //.Include(e => e.Conttributors) // eager looading | multiple joins
             //.AsSplitQuery() // to avoid cartesian explosion -> multiple queries
+            //.AsSingleQuery() // default behavior of multiple includes
+
 
             //.Include(e => e.Posts) // eager loading | joins
             //.ThenInclude(e => e.Comments) // eager looading | multiple joins
