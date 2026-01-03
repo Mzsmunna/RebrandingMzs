@@ -22,7 +22,7 @@ namespace Tasker.Infrastructure
         private static IServiceCollection AddTaskerDB(this IServiceCollection services, IConfiguration config)
         {
             services.AddMongoDB(config);
-            services.AddSqlDBContext<TaskerEFContext>(config);
+            services.AddEFCoreDBContext<TaskerEFContext>(config);
             return services;
         }
 

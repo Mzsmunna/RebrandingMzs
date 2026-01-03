@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Mzstruct.Base.Enums;
+using Mzstruct.DB.Contracts.IContext;
 using Mzstruct.DB.Contracts.IFactories;
 using Mzstruct.DB.Contracts.IRepos;
+using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.EFCore.Repo;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB.Context;
@@ -67,10 +69,22 @@ namespace Mzstruct.Common.Dependencies
             return services;
         }
 
-        public static IServiceCollection AddSqlDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : DbContext
+        public static IServiceCollection AddEFCoreDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : EFContext
         {
             var conn = config.GetConnectionString("DefaultConnection");
             //services.AddDbContext<EFContext>(ServiceLifetime.Transient);
+
+           //Action configureDb = dBType switch
+           //{
+           //     DBType.SqlServer => () =>
+           //         services.AddDbContext<EFContext>(options =>
+           //             options.UseSqlServer(
+           //                 config.GetConnectionString("DatabaseContext")
+           //             )),
+           //     _ => () => services.AddDbContext<EFContext>(ServiceLifetime.Transient)
+           //};
+           // configureDb();
+
             if (string.IsNullOrEmpty(conn) || dBType is DBType.InMemory) 
             {
                 var dbName = config.GetConnectionString("DatabaseName") ?? "AppInMemoryDb";
@@ -106,21 +120,11 @@ namespace Mzstruct.Common.Dependencies
                 );
             }
 
+            services.AddScoped<IAppDBContext, TContext>();
             //services.AddScoped(typeof(IEFCoreBaseRepo<>), typeof(EFCoreBaseRepo<>));
             //services.AddScoped(typeof(IEFCoreBaseRepo<,>), typeof(EFCoreBaseRepo<,>));
             //services.AddScoped(typeof(IEFCoreBaseRepo<>), typeof(EFCoreBaseRepo<,>));
             return services;
-
-           //Action configureDb = dBType switch
-           //{
-           //     DBType.SqlServer => () =>
-           //         services.AddDbContext<EFContext>(options =>
-           //             options.UseSqlServer(
-           //                 config.GetConnectionString("DatabaseContext")
-           //             )),
-           //     _ => () => services.AddDbContext<EFContext>(ServiceLifetime.Transient)
-           //};
-           // configureDb();
         }
 
         public static IServiceCollection AddSqlDBContextFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
