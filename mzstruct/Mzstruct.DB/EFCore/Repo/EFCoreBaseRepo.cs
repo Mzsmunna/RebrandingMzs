@@ -2,21 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
-using Mzstruct.Base.Models;
+using Mzstruct.DB.Contracts.IContext;
 using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.SQL.Context;
-using System;
 using System.Linq.Expressions;
 
 namespace Mzstruct.DB.EFCore.Repo
 {
     public abstract class EFCoreBaseRepo<TEntity> : IEFCoreBaseRepo<TEntity> where TEntity : BaseEntity
     {
-        protected readonly EFContext dbContext;
+        protected readonly IAppDBContext dbContext;
         protected readonly DbSet<TEntity> entities;
 
-        public EFCoreBaseRepo(EFContext context)
+        public EFCoreBaseRepo(IAppDBContext context)
         {
             dbContext = context;
             entities = dbContext.Set<TEntity>();
@@ -181,7 +180,7 @@ namespace Mzstruct.DB.EFCore.Repo
 
         public TEntity? GetById(int Id)
         {
-            return this.entities.Find(Id);
+            return entities.Find(Id);
         }
 
         public int Insert(TEntity entity)

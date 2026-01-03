@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mzstruct.Base.Models;
+using Mzstruct.DB.Contracts.IContext;
 using Mzstruct.DB.EFCore.Helpers;
 
 /// <commands> .NET & EF CLI  </commands>
@@ -21,7 +22,7 @@ using Mzstruct.DB.EFCore.Helpers;
 /// Bundle-Migration -ConnectionString
 namespace Mzstruct.DB.EFCore.Context
 {
-    public class EFContext : DbContext
+    public class EFContext : DbContext, IAppDBContext
     {
         public EFContext(DbContextOptions options) : base(options) { }
         //public EFContext(DbContextOptions<EFContext> options) : base(options) { }
@@ -68,6 +69,7 @@ namespace Mzstruct.DB.EFCore.Context
         #region common_dbsets
         public virtual DbSet<Count> Counts { get; set; }
         public virtual DbSet<TotalCount> TotalCounts { get; set; }
+        //public virtual DbSet<TEntity> Entity { get; set; }
         //public virtual DbSet<BaseUser> Users { get; set; }
         #endregion
     }
