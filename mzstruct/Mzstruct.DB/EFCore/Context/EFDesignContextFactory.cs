@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Mzstruct.DB.EFCore.Context
 {
-    internal class EFDesignContextFactory : IDesignTimeDbContextFactory<EFContext>
+    internal class EFDesignContextFactory //: IDesignTimeDbContextFactory<AppEFContext>
     {
-        public EFContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<EFContext>();
-            return new EFContext(optionsBuilder.Options);
-        }
+        //public AppEFContext CreateDbContext(string[] args)
+        //{
+        //    var optionsBuilder = new DbContextOptionsBuilder<AppEFContext>();
+        //    return new AppEFContext(optionsBuilder.Options);
+        //}
     }
 }

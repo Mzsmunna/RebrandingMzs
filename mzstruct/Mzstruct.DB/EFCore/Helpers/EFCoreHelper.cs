@@ -26,7 +26,7 @@ namespace Mzstruct.DB.EFCore.Helpers
             return comparer;
         }
 
-        public static void OnConfiguring(DbContextOptionsBuilder optionsBuilder, DBType db = DBType.SqlServer)
+        public static void OnDefaultConfiguring(DbContextOptionsBuilder optionsBuilder, DBType db = DBType.SqlServer)
         {
             if (db == DBType.PostgreSql)
             {
@@ -66,7 +66,7 @@ namespace Mzstruct.DB.EFCore.Helpers
             //optionsBuilder.LogTo(Console.WriteLine);
         }
 
-        public static void OnModelCreating(ModelBuilder modelBuilder)
+        public static void OnDefaultModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("dbo");
             //var entity = modelBuilder.Entity<BaseEntity>();

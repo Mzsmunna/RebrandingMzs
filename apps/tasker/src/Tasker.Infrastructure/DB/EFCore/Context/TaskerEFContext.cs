@@ -6,7 +6,7 @@ using Tasker.Infrastructure.DB.EFCore.Configs;
 
 namespace Tasker.Infrastructure.DB.EFCore.Context
 {
-    public class TaskerEFContext : EFContext
+    public class TaskerEFContext : AppEFContext<TaskerEFContext>
     {
         public TaskerEFContext(DbContextOptions<TaskerEFContext> options) : base(options) { }
 

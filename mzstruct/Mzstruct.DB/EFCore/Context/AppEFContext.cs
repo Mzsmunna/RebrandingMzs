@@ -22,24 +22,24 @@ using Mzstruct.DB.EFCore.Helpers;
 /// Bundle-Migration -ConnectionString
 namespace Mzstruct.DB.EFCore.Context
 {
-    public class EFContext : DbContext, IAppDBContext
+    public class AppEFContext<TContext> : DbContext, IAppDBContext  where TContext : DbContext
     {
-        public EFContext(DbContextOptions options) : base(options) { }
-        //public EFContext(DbContextOptions<EFContext> options) : base(options) { }
+        //public EFContext(DbContextOptions options) : base(options) { }
+        public AppEFContext(DbContextOptions<TContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.LogTo(Console.WriteLine);
-            //EFCoreHelper.OnConfiguring(optionsBuilder, dbType);
+            //EFCoreHelper.OnDefaultConfiguring(optionsBuilder, dbType);
             base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            EFCoreHelper.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
+            EFCoreHelper.OnDefaultModelCreating(modelBuilder);
             //modelBuilder.ApplyConfigurationsFromAssembly(typeof(EFContext).Assembly);
             //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-            base.OnModelCreating(modelBuilder);
         }
 
         public override int SaveChanges()
