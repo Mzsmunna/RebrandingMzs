@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Mzstruct.DB.Contracts.IContext;
 using Mzstruct.DB.EFCore.Context;
 using Tasker.Application.Features.Issues;
 using Tasker.Application.Features.Users;
@@ -6,7 +7,7 @@ using Tasker.Infrastructure.DB.EFCore.Configs;
 
 namespace Tasker.Infrastructure.DB.EFCore.Context
 {
-    public class TaskerEFContext : AppEFContext<TaskerEFContext>
+    public class TaskerEFContext : AppDBContext<TaskerEFContext>, IAppDBContext
     {
         public TaskerEFContext(DbContextOptions<TaskerEFContext> options) : base(options) { }
 

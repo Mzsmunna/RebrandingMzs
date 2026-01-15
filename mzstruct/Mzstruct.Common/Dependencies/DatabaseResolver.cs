@@ -69,7 +69,7 @@ namespace Mzstruct.Common.Dependencies
             return services;
         }
 
-        public static IServiceCollection AddEFCoreDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : DbContext
+        public static IServiceCollection AddEFCoreDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : AppDBContext<TContext> //DbContext
         {
             var conn = config.GetConnectionString("DefaultConnection");
             //services.AddDbContext<EFContext>(ServiceLifetime.Transient);
@@ -120,9 +120,9 @@ namespace Mzstruct.Common.Dependencies
                 );
             }
 
-            //services.AddScoped<IAppDBContext, TContext>();
-            //services.AddScoped(typeof(IEFCoreBaseRepo<>), typeof(EFCoreBaseRepo<>));
-            services.AddScoped(typeof(IEFCoreBaseRepo<,>), typeof(EFCoreBaseRepo<,>));
+            services.AddScoped<IAppDBContext, TContext>();
+            services.AddScoped(typeof(IEFCoreBaseRepo<>), typeof(EFCoreBaseRepo<>));
+            //services.AddScoped(typeof(IEFCoreBaseRepo<,>), typeof(EFCoreBaseRepo<,>));
             //services.AddScoped(typeof(IEFCoreBaseRepo<>), typeof(EFCoreBaseRepo<,>));
             return services;
         }

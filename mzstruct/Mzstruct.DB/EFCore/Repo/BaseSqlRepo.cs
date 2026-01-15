@@ -6,9 +6,9 @@ namespace Mzstruct.DB.EFCore.Repo
 {
     public abstract class BaseSqlRepo<TContext, TEntity> where TContext : DbContext where TEntity : class
     {
-        protected readonly AppEFContext<TContext> _context;
+        protected readonly AppDBContext<TContext> _context;
 
-        public BaseSqlRepo(AppEFContext<TContext> context)
+        public BaseSqlRepo(AppDBContext<TContext> context)
         {
             _context = context;
         }

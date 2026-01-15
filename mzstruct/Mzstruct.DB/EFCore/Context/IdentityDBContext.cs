@@ -24,10 +24,10 @@ using Mzstruct.DB.EFCore.Helpers;
 /// Bundle-Migration -ConnectionString
 namespace Mzstruct.DB.EFCore.Context
 {
-    public class IdentityEFContext<TContext> : IdentityDbContext<UserEntity>, IAppDBContext  where TContext : DbContext
+    public class IdentityDBContext<TContext, TEntity> : IdentityDbContext<TEntity>, IAppDBContext where TContext : DbContext where TEntity : UserEntity
     {
         //public EFContext(DbContextOptions options) : base(options) { }
-        public IdentityEFContext(DbContextOptions<TContext> options) : base(options) { }
+        public IdentityDBContext(DbContextOptions<TContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

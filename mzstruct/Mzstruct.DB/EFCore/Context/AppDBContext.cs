@@ -20,12 +20,13 @@ using Mzstruct.DB.EFCore.Helpers;
 /// Add-Migration InitialCreate
 /// Update-Databse | Update-Database -Migration Name -ConnectionString
 /// Bundle-Migration -ConnectionString
+/// 
 namespace Mzstruct.DB.EFCore.Context
 {
-    public class AppEFContext<TContext> : DbContext, IAppDBContext  where TContext : DbContext
+    public class AppDBContext<TContext> : DbContext, IAppDBContext where TContext : DbContext
     {
         //public EFContext(DbContextOptions options) : base(options) { }
-        public AppEFContext(DbContextOptions<TContext> options) : base(options) { }
+        public AppDBContext(DbContextOptions<TContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

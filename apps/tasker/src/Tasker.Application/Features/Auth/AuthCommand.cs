@@ -9,17 +9,19 @@ using CommonCommands = Mzstruct.Common.Contracts.ICommands;
 
 namespace Tasker.Application.Features.Auth
 {
-    internal class AuthCommand(CommonCommands.IAuthCommand authCommand) : IAuthCommand
+    internal class AuthCommand(CommonCommands.IAuthCommand authCommand
+        //,IEFCoreBaseRepo<User> userSqlRepo
+        ) : IAuthCommand
     {
         public async Task<Result<UserModel?>> SignUp(SignUpDto signUpDto)
         {
-            //var allUsers = await userSqlRepo.GetAllAsync();
             var result = await authCommand.SignUp(signUpDto);
             return result.To(user => user as UserModel);
         }
 
         public async Task<Result<string>> SignIn(SignInDto signInDto)
-        {        
+        {
+            //var allUsers = await userSqlRepo.GetAllAsync();
             return await authCommand.SignIn(signInDto);
         }
 
