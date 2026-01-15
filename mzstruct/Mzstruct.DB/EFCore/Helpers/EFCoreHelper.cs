@@ -74,7 +74,9 @@ namespace Mzstruct.DB.EFCore.Helpers
             //entity.HasKey(e => e.Id);
             #region common_entities_or_models
             modelBuilder.Entity<Count>(insu => { insu.HasNoKey(); });
+            modelBuilder.Entity<Count>().ToTable("Count", t => t.ExcludeFromMigrations());
             modelBuilder.Entity<TotalCount>(insu => { insu.HasNoKey(); });
+            modelBuilder.Entity<TotalCount>().ToTable("TotalCount", t => t.ExcludeFromMigrations());
             //modelBuilder.ApplyConfiguration(new BaseUserEFConfig());
             #endregion
         }
