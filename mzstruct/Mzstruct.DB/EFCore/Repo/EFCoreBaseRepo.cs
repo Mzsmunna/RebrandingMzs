@@ -7,15 +7,18 @@ using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.SQL.Context;
 using System.Linq.Expressions;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace Mzstruct.DB.EFCore.Repo
 {
-    public abstract class EFCoreBaseRepo<TEntity> : IEFCoreBaseRepo<TEntity> where TEntity : BaseEntity
+    public class EFCoreBaseRepo<TContext, TEntity> : IEFCoreBaseRepo<TContext, TEntity> where TContext : DbContext where TEntity : BaseEntity
     {
-        protected readonly IAppDBContext dbContext;
+        //protected readonly IAppDBContext dbContext;
+        protected readonly AppEFContext<TContext> dbContext;
         protected readonly DbSet<TEntity> entities;
 
-        public EFCoreBaseRepo(IAppDBContext context)
+        //public EFCoreBaseRepo(IAppDBContext context)
+        public EFCoreBaseRepo(AppEFContext<TContext> context)
         {
             dbContext = context;
             entities = dbContext.Set<TEntity>();

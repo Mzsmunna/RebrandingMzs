@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Mzstruct.DB.Contracts.IRepos
 {
-    public interface IEFCoreBaseRepo<TEntity> where TEntity : BaseEntity
+    public interface IEFCoreBaseRepo<TContext, TEntity> where TContext : DbContext where TEntity : BaseEntity
     {
         //asynchronous methods
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token = default);
