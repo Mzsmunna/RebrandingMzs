@@ -67,7 +67,7 @@ namespace Mzstruct.Common.Dependencies
             Action<JwtTokenOptions>? jwtOptions = null) where TIdentity : UserIdentity where TContext : IdentityDBContext<TContext, TIdentity>
         {
             //return EFCoreHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime);
-            return AppHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime, includeJWT, jwtOptions);
+            return AuthCommonHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime, includeJWT, jwtOptions);
         }
 
         public static IServiceCollection AddDBContextFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType db, ServiceLifetime lifeTime = ServiceLifetime.Scoped) where TContext : DbContext
