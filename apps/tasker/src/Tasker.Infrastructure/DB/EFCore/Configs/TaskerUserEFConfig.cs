@@ -19,11 +19,13 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
 
             builder.HasMany(f => f.AssignerIssues)
                 .WithOne(f => f.Assigner)
-                .HasForeignKey(f => f.AssignerId);
+                .HasForeignKey(f => f.AssignerId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(f => f.UserIssues)
                 .WithOne(f => f.User)
-                .HasForeignKey(f => f.UserId);
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Navigation(f => f.AssignerIssues).AutoInclude();
             builder.Navigation(f => f.UserIssues).AutoInclude();

@@ -15,17 +15,6 @@ namespace Tasker.Infrastructure.DB.EFCore.Configs
             builder.HasIndex(e => new { e.Id, e.AssignerId, e.UserId });
             builder.Property(x => x.AssignerId).IsRequired();
             builder.Property(x => x.UserId).IsRequired();
-
-            builder.HasOne(f => f.Assigner)
-                .WithMany()
-                .HasForeignKey(f => f.AssignerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(f => f.User)
-                .WithMany()
-                .HasForeignKey(f => f.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             base.Configure(builder);
         }
     }

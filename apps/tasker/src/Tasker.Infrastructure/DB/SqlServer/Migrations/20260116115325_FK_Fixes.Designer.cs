@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tasker.Infrastructure.DB.EFCore.Context;
 
@@ -11,9 +12,11 @@ using Tasker.Infrastructure.DB.EFCore.Context;
 namespace Tasker.Infrastructure.DB.SqlServer.Migrations
 {
     [DbContext(typeof(TaskerEFContext))]
-    partial class TaskerEFContextModelSnapshot : ModelSnapshot
+    [Migration("20260116115325_FK_Fixes")]
+    partial class FK_Fixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

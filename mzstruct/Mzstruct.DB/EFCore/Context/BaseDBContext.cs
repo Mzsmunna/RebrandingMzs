@@ -4,8 +4,9 @@ using Mzstruct.DB.Contracts.IContext;
 using Mzstruct.DB.EFCore.Helpers;
 
 /// <commands> .NET & EF CLI  </commands>
+/// dotnet tool install --global dotnet-ef
 /// dotnet tool list --global | -g
-/// dotnet tool install --global dotnet-ef --version 7.0.11
+/// dotnet tool install --global dotnet-ef --version 10.0.1
 /// dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
 /// dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
 /// dotnet ef --version
