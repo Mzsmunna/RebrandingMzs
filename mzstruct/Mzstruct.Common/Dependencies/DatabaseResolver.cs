@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Mzstruct.Base.Enums;
 using Mzstruct.DB.EFCore.Context;
+using Mzstruct.DB.EFCore.Entities;
 using Mzstruct.DB.EFCore.Helpers;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB.Context;
@@ -49,12 +50,22 @@ namespace Mzstruct.Common.Dependencies
             return SqlHelper.AddDBConnFactory(services, config, dBType);
         }
 
-        public static IServiceCollection AddEFCoreDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : AppDBContext<TContext> //DbContext
+        public static IServiceCollection AddDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : BaseDBContext //DbContext
         {
             return EFCoreHelper.AddDBContext<TContext>(services, config, dBType);
         }
 
-        public static IServiceCollection AddEFCoreDBContextFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
+        public static IServiceCollection AddAppDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : AppDBContext<TContext>
+        {
+            return EFCoreHelper.AddAppDBContext<TContext>(services, config, dBType);
+        }
+
+        public static IServiceCollection AddIdentityDBContext<TContext, TEntity>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TEntity : UserEntity where TContext : IdentityDBContext<TContext, TEntity>
+        {
+            return EFCoreHelper.AddIdentityDBContext<TContext, TEntity>(services, config, dBType);
+        }
+
+        public static IServiceCollection AddDBContextFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
         {
             return EFCoreHelper.AddDBContextFactory<TContext>(services, config, dBType);
         }

@@ -13,15 +13,20 @@ namespace Mzstruct.DB.EFCore.Repo
     public class EFCoreBaseRepo<TEntity> : IEFCoreBaseRepo<TEntity> where TEntity : BaseEntity
     {
         protected readonly IAppDBContext dbContext;
-        //protected readonly AppDBContext<TContext> dbContext;
         protected readonly DbSet<TEntity> entities;
 
         public EFCoreBaseRepo(IAppDBContext context)
-        //public EFCoreBaseRepo(AppDBContext<TContext> context)
         {
             dbContext = context;
             entities = dbContext.Set<TEntity>();
         }
+
+        //public EFCoreBaseRepo(DbContext context)
+        //{
+        //    var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
+        //    dbContext = new AppDBContext<DbContext>(optionsBuilder.Options);
+        //    entities = dbContext.Set<TEntity>();
+        //}
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token = default)
         {

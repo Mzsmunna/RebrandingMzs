@@ -26,7 +26,7 @@ namespace Mzstruct.DB.EFCore.Context
 {
     public class IdentityDBContext<TContext, TEntity> : IdentityDbContext<TEntity>, IAppDBContext where TContext : DbContext where TEntity : UserEntity
     {
-        //public EFContext(DbContextOptions options) : base(options) { }
+        //public IdentityDBContext(DbContextOptions options) : base(options) { }
         public IdentityDBContext(DbContextOptions<TContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
