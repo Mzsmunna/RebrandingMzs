@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mzstruct.Base.Models;
 using Mzstruct.DB.Contracts.IContext;
 using Mzstruct.DB.EFCore.Helpers;
 
@@ -11,11 +10,13 @@ using Mzstruct.DB.EFCore.Helpers;
 /// dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
 /// dotnet ef --version
 /// 
-/// dotnet ef migrations add InitialCreate --output-dir Infrastructure/DB/Migrations
-/// dotnet ef migrations add InitialCreate --project apps/tasker/src/Tasker.Infrastructure --startup-project apps/tasker/src/Tasker.Presentation/Tasker.RestAPI --output-dir DB/SqlServer/Migrations/
-/// dotnet ef database update -p apps/tasker/src/Tasker.Infrastructure -s apps/tasker/src/Tasker.Presentation/Tasker.RestAPI
+/// dotnet ef migrations add InitialCreate --output-dir App/DB/Migrations
 /// dotnet ef database update
 /// dotnet ef database update -p Mzstruct.DB.SQL -s Mzstruct.Api --context DatabaseContext
+/// dotnet ef database update -p apps/tasker/src/Tasker.Infrastructure -s apps/tasker/src/Tasker.Presentation/Tasker.RestAPI
+/// 
+/// dotnet ef migrations add InitialMigrate --project apps/tasker/src/Tasker.Infrastructure --startup-project apps/tasker/src/Tasker.Presentation/Tasker.RestAPI --output-dir DB/SqlServer/Migrations/ --context TaskerEFContext
+/// dotnet ef database update InitialMigrate --project apps/tasker/src/Tasker.Infrastructure --startup-project apps/tasker/src/Tasker.Presentation/Tasker.RestAPI --context TaskerEFContext
 /// 
 /// <commands> Package Manager Console </commands>
 /// Add-Migration InitialCreate
