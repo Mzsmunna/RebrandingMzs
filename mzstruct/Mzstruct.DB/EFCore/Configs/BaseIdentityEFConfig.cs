@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Mzstruct.Base.Entities;
 using Mzstruct.DB.EFCore.Entities;
 using Mzstruct.DB.EFCore.Helpers;
@@ -9,21 +8,17 @@ using System.Data;
 
 namespace Mzstruct.DB.EFCore.Configs
 {
-    public class UserEntityEFConfig<TUser> : IEntityTypeConfiguration<TUser> where TUser : UserEntity
+    public class BaseIdentityEFConfig<TUser> : IEntityTypeConfiguration<TUser> where TUser : UserEntity
     {
+        //public BaseIdentityUserEFConfig(string? tableName = "User") { }
+
         public virtual void Configure(EntityTypeBuilder<TUser> builder)
         {
             //builder.ToTable(tableName ?? typeof(TUser).Name);
-            //builder.HasKey(u => u.Id);
-            //builder.Property(x => x.Id).ValueGeneratedNever();
-            //builder.HasKey(u => new { u.Id, u.Email, u.Username });
-            //builder.HasIndex(x => x.Email).IsUnique();
-            //builder.HasIndex(x => x.Username).IsUnique();
-            builder.HasIndex(e => new { e.Id, e.Email, e.UserName }).IsUnique();
-            builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.Email).IsRequired();
-            //builder.Property(x => x.Role).IsRequired();
-            //builder.Property(x => x.PasswordHash).IsRequired();
+            //builder.HasIndex(e => new { e.Id, e.Email }).IsUnique();
+            //builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
+            //builder.Property(x => x.Email).IsRequired();
+       
             builder.Property(e => e.CreatedAt)
                 .HasConversion(
                     v => v.ToUniversalTime(),
@@ -32,10 +27,16 @@ namespace Mzstruct.DB.EFCore.Configs
                 .HasConversion(
                     v => v.HasValue ? v.Value.ToUniversalTime() : v,
                     v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
+
+            //builder.Property(x => x.RefreshToken).HasColumnType("text");
             //builder.Property(x => x.Img).HasColumnType("text");
             //builder.Property(x => x.Name).HasColumnType("varchar(50)").IsRequired();
             //builder.Property(u => u.Email).HasColumnName(nameof(BaseUser.Email));
             //builder.Property(u => u.Password).HasColumnName(nameof(BaseUser.Password));
+            //builder.Ignore(u => u.PasswordHash);
+            //builder.Ignore(u => u.PasswordSalt);
+            //builder.Ignore(u => u.TokenCreated);
+            //builder.Ignore(u => u.TokenExpires);
             //builder.Ignore(u => u.Created);
             //builder.Ignore(u => u.Modified);
 
@@ -61,8 +62,6 @@ namespace Mzstruct.DB.EFCore.Configs
             //    Password = "P@ssw0rd321",
             //    Role = "User",
             //}]);
-
-            // Removed: base.Configure(builder);
         }
     }
 }

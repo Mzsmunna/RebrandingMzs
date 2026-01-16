@@ -3,7 +3,21 @@ using Tasker.Application.Features.Users;
 
 namespace Tasker.Application.Features.Issues
 {
-    public class Issue : BaseEntity
+    public class Issue : Ticket
+    {
+        //relationships
+        public User? User { get; set; }
+        public User? Assigner { get; set; }
+    }
+
+    public class TaskerIssue : Ticket
+    {
+        //relationships
+        public TaskerUser? User { get; set; }
+        public TaskerUser? Assigner { get; set; }
+    }
+
+    public class Ticket : BaseEntity
     {
         public string ProjectId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
@@ -24,9 +38,5 @@ namespace Tasker.Application.Features.Issues
         public string Comment { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
         public bool? IsCompleted { get; set; } = false;
-
-        //relationships
-        public User? User { get; set; }
-        public User? Assigner { get; set; }
     }
 }
