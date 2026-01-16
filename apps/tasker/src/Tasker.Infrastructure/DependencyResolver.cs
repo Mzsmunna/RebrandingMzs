@@ -15,7 +15,7 @@ namespace Tasker.Infrastructure
         public static IServiceCollection AddTaskerInfrastructure(this IServiceCollection services, IConfiguration config)
         {
             AddTaskerDB(services, config);
-            AddTaskerEntities(services);
+            AddTaskerMongoEntities(services);
             AddTaskerRepositories(services);
             return services;
         }
@@ -28,7 +28,7 @@ namespace Tasker.Infrastructure
             return services;
         }
 
-        private static IServiceCollection AddTaskerEntities(this IServiceCollection services)
+        private static IServiceCollection AddTaskerMongoEntities(this IServiceCollection services)
         {
             //services.AddScoped<AppUserEntityMap>();
             //services.AddScoped<IssueEntityConfig>();
