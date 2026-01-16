@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Mzstruct.Base.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Mzstruct.DB.EFCore.Entities
 {
-    public class UserEntity : IdentityUser
+    public class UserIdentity : IdentityUser
     {
         //public required string Id { get; set; } = Guid.CreateVersion7().ToString();
         public required string Name { get; set; }

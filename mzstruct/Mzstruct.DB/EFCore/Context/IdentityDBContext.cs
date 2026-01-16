@@ -7,7 +7,7 @@ using Mzstruct.DB.EFCore.Helpers;
 
 namespace Mzstruct.DB.EFCore.Context
 {
-    public class IdentityDBContext<TContext, TEntity> : IdentityDbContext<TEntity>, IAppDBContext where TContext : DbContext where TEntity : UserEntity
+    public class IdentityDBContext<TContext, TIdentity> : IdentityDbContext<TIdentity>, IAppDBContext where TContext : DbContext where TIdentity : UserIdentity
     {
         //public IdentityDBContext(DbContextOptions options) : base(options) { }
         public IdentityDBContext(DbContextOptions<TContext> options) : base(options) { }

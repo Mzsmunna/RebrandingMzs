@@ -1,16 +1,28 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Mzstruct.Auth.Configs;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.Auth.Managers;
+using Mzstruct.Base.Enums;
+using Mzstruct.Common.Helpers;
+using Mzstruct.DB.EFCore.Context;
+using Mzstruct.DB.EFCore.Entities;
+using Mzstruct.DB.EFCore.Helpers;
 using System.Text;
 
 namespace Mzstruct.Common.Dependencies
 {
     public static class AuthResolver
     {
+        public static IServiceCollection AddIdentityAuth<TContext, TIdentity>(this IServiceCollection services, IConfiguration config, DBType db = DBType.SqlServer, ServiceLifetime lifeTime = ServiceLifetime.Scoped, bool includeJWT = false,
+            Action<JwtTokenOptions>? jwtOptions = null) where TIdentity : UserIdentity where TContext : IdentityDBContext<TContext, TIdentity>
+        {
+            return AppHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime, includeJWT, jwtOptions);
+        }
+
         public static IServiceCollection AddGoogleSignIn(this IServiceCollection services)
         {
             services.AddScoped<IGoogleAuthManager, GoogleAuthManager>();
@@ -48,18 +60,30 @@ namespace Mzstruct.Common.Dependencies
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
 
-            TokenValidationParameters validationParams =
+            var validationParams =
                 opts.CustomTokenValidationParameters ??
                 new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero,
+                    ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.Zero, //TimeSpan.FromSeconds(30)
                     IssuerSigningKey = signingKey,
                     ValidIssuer = opts.jwtAuthConfig?.Issuer,
-                    ValidAudience = opts.jwtAuthConfig?.Audience,             
+                    ValidAudience = opts.jwtAuthConfig?.Audience,
+                };
+
+            var jwtEvent = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) 
+                        && (path.StartsWithSegments("/jwtevents"))) context.Token = accessToken;
+                        return Task.CompletedTask;
+                    }
                 };
 
             services
@@ -72,17 +96,7 @@ namespace Mzstruct.Common.Dependencies
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = validationParams;
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            var accessToken = context.Request.Query["access_token"];
-                            var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(accessToken) 
-                            && (path.StartsWithSegments("/jwtevents"))) context.Token = accessToken;
-                            return Task.CompletedTask;
-                        }
-                    };
+                    options.Events = jwtEvent;
                 });
             services.AddScoped<IJwtTokenManager, JwtTokenManager>();
             return services;

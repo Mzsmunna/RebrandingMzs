@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Mzstruct.Auth.Configs;
 using Mzstruct.Base.Enums;
+using Mzstruct.Common.Helpers;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.EFCore.Entities;
 using Mzstruct.DB.EFCore.Helpers;
@@ -16,6 +18,7 @@ using Mzstruct.DB.SQL.Helper;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Management;
 using System.Text;
 
 namespace Mzstruct.Common.Dependencies
@@ -45,29 +48,31 @@ namespace Mzstruct.Common.Dependencies
             return services;
         }
 
-        public static IServiceCollection AddSqlDBConnFactory(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer)
+        public static IServiceCollection AddSqlDBConnFactory(this IServiceCollection services, IConfiguration config, DBType db = DBType.SqlServer)
         {
-            return SqlHelper.AddDBConnFactory(services, config, dBType);
+            return SqlHelper.AddDBConnFactory(services, config, db);
         }
 
-        public static IServiceCollection AddDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : BaseDBContext //DbContext
+        public static IServiceCollection AddDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType db = DBType.SqlServer, ServiceLifetime lifeTime = ServiceLifetime.Scoped) where TContext : BaseDBContext //DbContext
         {
-            return EFCoreHelper.AddDBContext<TContext>(services, config, dBType);
+            return EFCoreHelper.AddDBContext<TContext>(services, config, db, lifeTime);
         }
 
-        public static IServiceCollection AddAppDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TContext : AppDBContext<TContext>
+        public static IServiceCollection AddAppDBContext<TContext>(this IServiceCollection services, IConfiguration config, DBType db = DBType.SqlServer, ServiceLifetime lifeTime = ServiceLifetime.Scoped) where TContext : AppDBContext<TContext>
         {
-            return EFCoreHelper.AddAppDBContext<TContext>(services, config, dBType);
+            return EFCoreHelper.AddAppDBContext<TContext>(services, config, db, lifeTime);
         }
 
-        public static IServiceCollection AddIdentityDBContext<TContext, TEntity>(this IServiceCollection services, IConfiguration config, DBType dBType = DBType.SqlServer) where TEntity : UserEntity where TContext : IdentityDBContext<TContext, TEntity>
+        public static IServiceCollection AddIdentityDBContext<TContext, TIdentity>(this IServiceCollection services, IConfiguration config, DBType db = DBType.SqlServer, ServiceLifetime lifeTime = ServiceLifetime.Scoped, bool includeJWT = false,
+            Action<JwtTokenOptions>? jwtOptions = null) where TIdentity : UserIdentity where TContext : IdentityDBContext<TContext, TIdentity>
         {
-            return EFCoreHelper.AddIdentityDBContext<TContext, TEntity>(services, config, dBType);
+            //return EFCoreHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime);
+            return AppHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime, includeJWT, jwtOptions);
         }
 
-        public static IServiceCollection AddDBContextFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType dBType) where TContext : DbContext
+        public static IServiceCollection AddDBContextFactory<TContext>(this IServiceCollection services, IConfiguration config, DBType db, ServiceLifetime lifeTime = ServiceLifetime.Scoped) where TContext : DbContext
         {
-            return EFCoreHelper.AddDBContextFactory<TContext>(services, config, dBType);
+            return EFCoreHelper.AddDBContextFactory<TContext>(services, config, db, lifeTime);
         }
 
         public static IServiceScope ApplyDBMigration<TContext>(this IServiceScope scope) where TContext : DbContext

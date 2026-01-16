@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
@@ -151,7 +150,7 @@ namespace Mzstruct.DB.EFCore.Helpers
             return services;
         }
 
-        public static IServiceCollection AddIdentityDBContext<TContext, TEntity>(IServiceCollection services, IConfiguration config, DBType db = DBType.SqlServer, ServiceLifetime lifeTime = ServiceLifetime.Scoped) where TEntity : UserEntity where TContext : IdentityDBContext<TContext, TEntity>
+        public static IServiceCollection AddIdentityDBContext<TContext, TIdentity>(IServiceCollection services, IConfiguration config, DBType db = DBType.SqlServer, ServiceLifetime lifeTime = ServiceLifetime.Scoped) where TIdentity : UserIdentity where TContext : IdentityDBContext<TContext, TIdentity>
         {
             var conn = config.GetConnectionString("DefaultConnection");
             //services.AddDbContext<EFContext>(lifeTime);
@@ -190,10 +189,7 @@ namespace Mzstruct.DB.EFCore.Helpers
                     ,lifeTime
                 );
             }
-
-            services.AddIdentityCore<TEntity>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<TContext>();
+            
             services.AddScoped<IAppDBContext, TContext>();
             services.AddScoped(typeof(IEFCoreBaseRepo<>), typeof(EFCoreBaseRepo<>));
             return services;

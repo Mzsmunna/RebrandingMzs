@@ -11,7 +11,7 @@ namespace Tasker.Application.Features.Users
         public ICollection<Issue>? UserIssues { get; set; }
     }
 
-    public class TaskerUser : UserEntity
+    public class TaskerUser : UserIdentity
     {
         // relationships
         public ICollection<TaskerIssue>? AssignerIssues { get; set; }

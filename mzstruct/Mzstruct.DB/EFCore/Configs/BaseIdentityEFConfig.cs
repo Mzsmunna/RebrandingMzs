@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Mzstruct.Base.Entities;
 using Mzstruct.DB.EFCore.Entities;
-using Mzstruct.DB.EFCore.Helpers;
-using System.Data;
 
 namespace Mzstruct.DB.EFCore.Configs
 {
-    public class BaseIdentityEFConfig<TUser> : IEntityTypeConfiguration<TUser> where TUser : UserEntity
+    public class BaseIdentityEFConfig<TUser> : IEntityTypeConfiguration<TUser> where TUser : UserIdentity
     {
         //public BaseIdentityUserEFConfig(string? tableName = "User") { }
 
