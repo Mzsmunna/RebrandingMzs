@@ -7,20 +7,20 @@ using Tasker.Infrastructure.DB.EFCore.Configs;
 
 namespace Tasker.Infrastructure.DB.EFCore.Context
 {
-    public class TaskerIdentityContext : AppDBContext<TaskerIdentityContext>, IAppDBContext
+    public class TaskerIdentityContext : IdentityDBContext<TaskerIdentityContext, TaskerUser>, IAppDBContext
     {
         public TaskerIdentityContext(DbContextOptions<TaskerIdentityContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskerEFContext).Assembly);
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskerIdentityContext).Assembly);
             //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
             modelBuilder.ApplyConfiguration(new TaskerUserEFConfig());
             modelBuilder.ApplyConfiguration(new TaskerIssueEFConfig());
             base.OnModelCreating(modelBuilder);
         }
 
-        public virtual DbSet<TaskerUser> Users { get; set; }
+        //public virtual DbSet<TaskerUser> Users { get; set; }
         public virtual DbSet<TaskerIssue> Issues { get; set; }
     }
 }

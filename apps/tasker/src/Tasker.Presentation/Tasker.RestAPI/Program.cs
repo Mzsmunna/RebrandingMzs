@@ -7,6 +7,7 @@ using Tasker.Application;
 using Tasker.Application.Features.Users;
 using Tasker.Infrastructure;
 using Tasker.Infrastructure.DB.EFCore.Context;
+using Tasker.Infrastructure.DB.EFCore.Helpers;
 
 namespace Tasker.RestAPI;
 
@@ -48,35 +49,7 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            await using(var serviceScope = app.Services.CreateAsyncScope())
-            await using (var dbContext = serviceScope.ServiceProvider.GetRequiredService<TaskerEFContext>())
-            {
-                dbContext.Database.Migrate();
-                if (!dbContext.Users.Any())
-                {
-                    await dbContext.Users.AddRangeAsync([new User
-                    {
-                        Id = Guid.CreateVersion7().ToString(),
-                        Name = "Mzs Munna",
-                        Email = "mzs.munna@gmail.com",
-                        Username = "mzsmunna",
-                        Password = "P@ssw0rd123",
-                        Role = "Admin",
-                    },
-                    new User
-                    {
-                        Id = Guid.CreateVersion7().ToString(),
-                        Name = "Mamunuz Zaman",
-                        Email = "mzaman@insightintechnology.com",
-                        Username = "mzaman",
-                        Password = "P@ssw0rd321",
-                        Role = "User",
-                    }]);
-                    dbContext.SaveChanges();
-                }
-                //await dbContext.Database.EnsureCreatedAsync();
-            }
-
+            await TaskerEFCoreHelper.SeedData<TaskerEFContext>(app.Services);
             app.MapOpenApi();
             app.MapScalarApiReference();
             app.UseSwaggerUI(options =>
