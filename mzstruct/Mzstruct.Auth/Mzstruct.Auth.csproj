@@ -4,9 +4,9 @@
     <PackageReference Include="Google.Apis.Auth" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\Mzstruct.Base\Mzstruct.Base.csproj" />
+    <ProjectReference Include="..\Mzstruct.DB\Mzstruct.DB.csproj" />
   </ItemGroup>
 
 </Project>
