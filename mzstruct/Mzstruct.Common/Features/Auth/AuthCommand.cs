@@ -61,6 +61,7 @@ namespace Mzstruct.Common.Auth
             jwtTokenManager.CreatePasswordHash(signInDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
             signInUser.PasswordHash = passwordHash;
             signInUser.PasswordSalt = passwordSalt;
+            signInUser.Name = signInUser.FirstName + " " + signInUser.LastName;
             
             if (!jwtTokenManager.VerifyPasswordHash(signInUser.Password, signInUser.PasswordHash, signInUser.PasswordSalt))
                 return Error.Validation("SignIn.Credential.Wrong", "Wrong credential.");

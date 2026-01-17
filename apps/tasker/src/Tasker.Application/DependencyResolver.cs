@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Mzstruct.Common.Dependencies;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IQueries;
@@ -10,9 +11,9 @@ namespace Tasker.Application
 {
     public static class DependencyResolver
     {
-        public static IServiceCollection AddTaskerFeatures(this IServiceCollection services)
+        public static IServiceCollection AddTaskerFeatures(this IServiceCollection services, IConfiguration config)
         {
-            services.AddCommonFeatures();
+            services.AddCommonFeatures(config);
             AddTaskerCommands(services);
             AddTaskerQueries(services);
             return services;

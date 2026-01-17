@@ -23,7 +23,7 @@ public class Program
 
         builder.Services
             .AddTaskerInfrastructure(_config)
-            .AddTaskerFeatures();
+            .AddTaskerFeatures(_config);
         //builder.Services.AddDefaultApiVersioning();
         builder.Services.AddRestApi();
         builder.Services

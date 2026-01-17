@@ -18,5 +18,6 @@ namespace Mzstruct.Auth.Contracts.IManagers
         public string CreateToken(Identity? user = null, List<Claim>? additionalClaims = null);
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
         public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
+        public string GetValueFromToken(string token, string key);
     }
 }

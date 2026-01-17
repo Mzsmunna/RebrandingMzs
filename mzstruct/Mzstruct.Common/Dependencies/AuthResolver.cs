@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Mzstruct.Auth.Configs;
+using Mzstruct.Auth.Contracts.IHandlers;
 using Mzstruct.Auth.Contracts.IManagers;
+using Mzstruct.Auth.Interceptors;
 using Mzstruct.Auth.Managers;
+using Mzstruct.Auth.Policies;
 using Mzstruct.Base.Enums;
 using Mzstruct.Common.Helpers;
 using Mzstruct.DB.EFCore.Context;
@@ -99,6 +103,36 @@ namespace Mzstruct.Common.Dependencies
                     options.Events = jwtEvent;
                 });
             services.AddScoped<IJwtTokenManager, JwtTokenManager>();
+            return services;
+        }
+
+        public static IServiceCollection AddDefaultAuthPolicies(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policy =>
+                {
+                    policy.RequireRole(config["AdminRoles"]?.Split(',') ?? []);
+                });
+                options.AddPolicy("UserPolicy", policy =>
+                {
+                    policy.RequireRole(config["UserRoles"]?.Split(',') ?? []);
+                });
+            });
+            return services;
+        }
+
+        public static IServiceCollection AddCustomAuthPolicies(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddSingleton<ICustomAuthorizer, CustomAuthorizer>();
+			services.AddSingleton<IAuthorizationHandler, CustomAuthorizationHandler>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CustomPolicy", policy =>
+                {
+                    policy.Requirements.Add(new CustomAuthorizationRequirement());
+                });
+            });
             return services;
         }
     }

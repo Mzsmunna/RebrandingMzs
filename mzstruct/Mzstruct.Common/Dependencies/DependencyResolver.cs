@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Mzstruct.Base.Consts;
 using Mzstruct.Common.Auth;
 using Mzstruct.Common.Contracts.ICommands;
 using Mzstruct.Common.Contracts.IQueries;
@@ -11,8 +13,9 @@ namespace Mzstruct.Common.Dependencies
 {
     public static class DependencyResolver
     {
-        public static IServiceCollection AddCommonFeatures(this IServiceCollection services)
+        public static IServiceCollection AddCommonFeatures(this IServiceCollection services, IConfiguration config)
         {
+            AppConst.Init(config, services);
             AddAppCommands(services);
             AddAppQueries(services);
             AddAppServices(services);

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Mzstruct.Auth.Configs;
 using Mzstruct.Auth.Contracts.IManagers;
+using Mzstruct.Auth.Helpers;
 using Mzstruct.Auth.Models;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
@@ -24,13 +25,7 @@ namespace Mzstruct.Auth.Managers
 
         public RefreshToken GenerateRefreshToken()
         {
-            var refreshToken = new RefreshToken
-            {
-                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = BaseHelper.ToDateTime(options.Value.RefreshTokenExpiryValue, options.Value.RefreshTokenExpiryUnit), //DateTime.UtcNow.AddDays(7),
-                Created = DateTime.UtcNow
-            };
-            return refreshToken;
+            return JwtHelper.GenerateRefreshToken(options.Value);
         }
 
         public void SetRefreshToken(RefreshToken newRefreshToken, Identity user)
@@ -100,20 +95,17 @@ namespace Mzstruct.Auth.Managers
 
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            }
+            JwtHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
         }
 
         public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
+            return JwtHelper.VerifyPasswordHash(password, passwordHash, passwordSalt);
+        }
+
+        public string GetValueFromToken(string token, string key)
+        {
+            return JwtHelper.GetValueFromToken(token, key);
         }
     }
 }

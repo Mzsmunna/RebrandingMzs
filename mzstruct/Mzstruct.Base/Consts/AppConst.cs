@@ -15,13 +15,16 @@ namespace Mzstruct.Base.Consts
         private static IServiceCollection? _services { get; set; }
         private static IServiceProvider? _serviceProvider { get; set; }
 
-        public static void Init(IConfiguration config,
-            IServiceCollection? services,
-            IServiceProvider? serviceProvider)
+        public static void Init(IConfiguration? config,
+            IServiceCollection? services)
         {
-            _config = config;
-            _services = services;
-            _serviceProvider = serviceProvider;
+            if (_config == null && config != null) _config = config;
+            if (_services == null && services != null) _services = services;
+        }
+
+        public static void Build(IServiceProvider? serviceProvider)
+        {
+            if (_serviceProvider == null && serviceProvider != null) _serviceProvider = serviceProvider;
         }
 
         public static IConfiguration? GetConfig() => _config;
@@ -34,5 +37,7 @@ namespace Mzstruct.Base.Consts
 		public static string? ConnectionString => _config?.GetValue<string>("MongoDBSettings:ConnectionString");
 		public static string? DatabaseName => _config?.GetValue<string>("MongoDBSettings:DatabaseName");
 		public static string? AzureConnectionString => _config?.GetValue<string>("AzureConnectionString");
+		public static string? AppId => _config?.GetValue<string>("AppId");
+		public static string? ClientId => _config?.GetValue<string>("ClientId");
     }
 }
