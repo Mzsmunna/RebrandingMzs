@@ -51,6 +51,8 @@ namespace Mzstruct.Auth.Managers
         {
             List<Claim> claims = new List<Claim>
             {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(ClaimTypes.Surname, user.UserName ?? ""),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Email, user.Email?.ToLower() ?? ""),
                 //new Claim(ClaimTypes.Role, user.Role.ToLower()),
@@ -71,7 +73,9 @@ namespace Mzstruct.Auth.Managers
             {
                 List<Claim> userClaims = new List<Claim>
                 {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Surname, user.Name),
                     new Claim(ClaimTypes.Email, user.Email.ToLower()),
                     new Claim(ClaimTypes.Role, user.Role.ToLower()),
                 };
