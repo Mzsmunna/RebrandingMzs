@@ -80,25 +80,65 @@ namespace Mzstruct.Base.Enums
 
     public enum LogicalOperator
     {
-        equals,
-        not_equal,
-        contains,
-        doesnt_contain,
-        starts_with,
-        doesnt_start_with,
-        ends_with,
-        doesnt_end_with,
-        is_null_or_empty,
-        isnt_null_or_empty,
-        exists,
-        doesnt_exist,
-        is_in,
-        is_not_in,
-        has_type,
-        doesnt_has_type,
-        greater_than,
-        greater_than_or_equal,
-        less_than,
-        less_than_or_equal,
+        NE, // not_equal
+        EQ, // equals
+        DO, //contains
+        DONT, //doesnt_contains
+        SW, // starts_with
+        DSW, // doesnt_start_with
+        EW, // ends_with
+        DEW, //doesnt_end_with
+        NULL, // is_null
+        EMT, // is_empty
+        NOE, //null_or_empty
+        VAL, // has_value | not_null_not_empty
+        EX, // exists
+        DEX, // doesnt_exist
+        IN, // includes
+        NIN, // not_in
+        TYP, // has_type
+        NTYP, // hasnt_type
+        GT, // greater_than
+        GTE, // greater_than_or_equal
+        LT, // less_than
+        LTE //less_than_or_equal
+    }
+
+    public enum PrivacyType 
+    {
+        Public,
+        Private,
+        Protected,
+        Custom,
+        OnlyMe,
+        OnlyFans,
+        Friend,
+        FriendsOfFriend,
+        Followers,
+        Following,
+        Suscribers,
+        Subscribed,
+    }
+
+    public enum PermissionType 
+    {
+        User,
+        Admin, 
+        Manager, 
+        Moderator, 
+        Player, 
+        Member,
+        System,
+        Platform,
+        App,
+        Api,
+        Controller,
+        Method,
+        Service,
+        Resource,
+        Module,
+        Page,
+        Component,
+        Section,
     }
 }

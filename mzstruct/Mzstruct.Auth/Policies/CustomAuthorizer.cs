@@ -760,7 +760,7 @@ namespace Mzstruct.Auth.Policies
                                 matchedConditionValue = matchedConditionValue.ToLower();
 
                             if (conditionalConfig.LogicalOperator.Equals("==") ||
-                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.equals.ToString()))
+                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.EQ.ToString()))
                             {
                                 if (matchedConditionValue.Equals(conditionalConfig.Value))
                                     isPermissionValidated = true;
@@ -768,84 +768,84 @@ namespace Mzstruct.Auth.Policies
                                     isPermissionValidated = false;
                             }
                             else if (conditionalConfig.LogicalOperator.Equals("!=") || 
-                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.not_equal.ToString()))
+                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.NE.ToString()))
                             {
                                 if (!matchedConditionValue.Equals(conditionalConfig.Value))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.contains.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.DO.ToString()))
                             {
                                 if (matchedConditionValue.Contains(conditionalConfig.Value))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.doesnt_contain.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.DONT.ToString()))
                             {
                                 if (!matchedConditionValue.Contains(conditionalConfig.Value))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.starts_with.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.SW.ToString()))
                             {
                                 if (matchedConditionValue.StartsWith(conditionalConfig.Value))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.doesnt_start_with.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.DSW.ToString()))
                             {
                                 if (!matchedConditionValue.StartsWith(conditionalConfig.Value))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.ends_with.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.EW.ToString()))
                             {
                                 if (matchedConditionValue.EndsWith(conditionalConfig.Value))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.doesnt_end_with.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.DEW.ToString()))
                             {
                                 if (!matchedConditionValue.EndsWith(conditionalConfig.Value))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.is_null_or_empty.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.NOE.ToString()))
                             {
                                 if (string.IsNullOrEmpty(matchedConditionValue))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.isnt_null_or_empty.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.VAL.ToString()))
                             {
                                 if (!string.IsNullOrEmpty(matchedConditionValue))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.exists.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.EX.ToString()))
                             {
                                 if (conditionalConfig.Value.Contains(matchedConditionValue))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.doesnt_exist.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.DEX.ToString()))
                             {
                                 if (!conditionalConfig.Value.Contains(matchedConditionValue))
                                     isPermissionValidated = true;
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.is_in.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.IN.ToString()))
                             {
                                 var paramValues = conditionalConfig.Value.Split(',').ToList();
 
@@ -854,7 +854,7 @@ namespace Mzstruct.Auth.Policies
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.is_not_in.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.NIN.ToString()))
                             {
                                 var paramValues = conditionalConfig.Value.Split(',').ToList();
 
@@ -863,7 +863,7 @@ namespace Mzstruct.Auth.Policies
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.has_type.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.TYP.ToString()))
                             {
                                 var type = matchedCondition.GetType();
 
@@ -872,7 +872,7 @@ namespace Mzstruct.Auth.Policies
                                 else
                                     isPermissionValidated = false;
                             }
-                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.doesnt_has_type.ToString()))
+                            else if (conditionalConfig.LogicalOperator.Equals(LogicalOperator.NTYP.ToString()))
                             {
                                 var type = matchedCondition.GetType();
 
@@ -882,7 +882,7 @@ namespace Mzstruct.Auth.Policies
                                     isPermissionValidated = false;
                             }
                             else if (conditionalConfig.LogicalOperator.Equals(">") || 
-                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.greater_than.ToString()))
+                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.GT.ToString()))
                             {
                                 int requestNumber = int.TryParse(matchedConditionValue, out requestNumber) ? requestNumber : 0;
                                 int paramLogicNumber = int.TryParse(conditionalConfig.Value.ToString(), out paramLogicNumber) ? paramLogicNumber : 0;
@@ -893,7 +893,7 @@ namespace Mzstruct.Auth.Policies
                                     isPermissionValidated = false;
                             }
                             else if (conditionalConfig.LogicalOperator.Equals(">=") || 
-                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.greater_than_or_equal.ToString()))
+                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.GTE.ToString()))
                             {
                                 int requestNumber = int.TryParse(matchedConditionValue, out requestNumber) ? requestNumber : 0;
                                 int paramLogicNumber = int.TryParse(conditionalConfig.Value.ToString(), out paramLogicNumber) ? paramLogicNumber : 0;
@@ -904,7 +904,7 @@ namespace Mzstruct.Auth.Policies
                                     isPermissionValidated = false;
                             }
                             else if (conditionalConfig.LogicalOperator.Equals("<") || 
-                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.less_than.ToString()))
+                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.LT.ToString()))
                             {
                                 int requestNumber = int.TryParse(matchedConditionValue, out requestNumber) ? requestNumber : 0;
                                 int paramLogicNumber = int.TryParse(conditionalConfig.Value.ToString(), out paramLogicNumber) ? paramLogicNumber : 0;
@@ -915,7 +915,7 @@ namespace Mzstruct.Auth.Policies
                                     isPermissionValidated = false;
                             }
                             else if (conditionalConfig.LogicalOperator.Equals("<=") || 
-                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.less_than_or_equal.ToString()))
+                                conditionalConfig.LogicalOperator.Equals(LogicalOperator.LTE.ToString()))
                             {
                                 int requestNumber = int.TryParse(matchedConditionValue, out requestNumber) ? requestNumber : 0;
                                 int paramLogicNumber = int.TryParse(conditionalConfig.Value.ToString(), out paramLogicNumber) ? paramLogicNumber : 0;
