@@ -1,7 +1,7 @@
-﻿//using Asp.Versioning;
+﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-//using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement;
 using Mzstruct.Base.Consts;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Errors;
@@ -15,7 +15,7 @@ using Tasker.Application.Features.Users;
 namespace Tasker.RestAPI.Controllers
 {
     [ApiController]
-    //[ApiVersion("1")]
+    //[ApiVersion("1", Deprecated = true)]
     //[ApiVersion("2")]
     //[Route("api/v{version:apiVersion}/[controller]")]
     [Route("api/[controller]")]
