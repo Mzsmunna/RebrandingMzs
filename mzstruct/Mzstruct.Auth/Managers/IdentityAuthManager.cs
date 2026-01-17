@@ -9,12 +9,14 @@ using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.DB.Contracts.IContext;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 
 namespace Mzstruct.Auth.Managers
 {
     public class IdentityAuthManager<TIdentity>(IAppDBContext appDBContext,
         UserManager<TIdentity> userManager,
+        RoleManager<IdentityRole> roleManager,
         SignInManager<TIdentity> signInManager,
         JwtTokenManager jwtTokenManager) : IIdentityAuthManager<TIdentity> where TIdentity : IdentityUser, new()
     {
@@ -25,15 +27,29 @@ namespace Mzstruct.Auth.Managers
                 UserName = req.Email,
                 Email = req.Email
             };
+            var defaultRole = "User";
+            var claimType = "Permission";
+            List<string> accessLevels = ["Read", "Update", "Delete"];
 
-            using var transaction = await appDBContext.Database.BeginTransactionAsync();       
+            var existingRole = await roleManager.FindByNameAsync(defaultRole);
+            if (existingRole is null)
+            {
+                await roleManager.CreateAsync(existingRole = new IdentityRole(defaultRole));
+                foreach (var access in accessLevels)
+                {
+                    await roleManager.AddClaimAsync(existingRole, new Claim(claimType, defaultRole + ":" + access));
+                }
+                //await roleManager.AddClaimAsync(existingRole, new Claim(claimType, defaultRole + ":Read"));
+                //await roleManager.AddClaimAsync(existingRole, new Claim(claimType, defaultRole + ":Delete"));
+            }
+                
+            using var transaction = await appDBContext.Database.BeginTransactionAsync();         
             var result = await userManager.CreateAsync(user, req.Password);
             if (!result.Succeeded)
-                return string.Join(", ", result.Errors.Select(e => e.Description));
-      
-            await userManager.AddToRoleAsync(user, "User"); // Optional: assign default role
+                return string.Join(", ", result.Errors.Select(e => e.Description));   
+            await userManager.AddToRoleAsync(user, defaultRole); // Optional: assign default role
             var roles = await userManager.GetRolesAsync(user);
-            var token = jwtTokenManager.CreateIdentityToken(user, ["User"]);
+            var token = jwtTokenManager.CreateIdentityToken(user, [defaultRole]);
             await transaction.CommitAsync();
             return token;
         }
@@ -48,9 +64,16 @@ namespace Mzstruct.Auth.Managers
 
             var check = await signInManager.CheckPasswordSignInAsync(user, req.Password, lockoutOnFailure: true);
             if (!check.Succeeded) return "Invalid credentials";
-
+          
             var roles = await userManager.GetRolesAsync(user);
-            var token = jwtTokenManager.CreateIdentityToken(user, roles);
+            //var claimType = "Permission";
+            //var parmissions = await (from role in appDBContext.Roles
+            //                         join claim in appDBContext.RoleClaims on role.Id equals claim.RoleId
+            //                         where roles.Contains(role.Name) && claim.ClaimType == claimType
+            //                          select claim.ClaimValue).Distinct().ToListAsync();
+            //var permissionClaims = parmissions.Select(p => new Claim(claimType, p)).ToList();
+
+            var token = jwtTokenManager.CreateIdentityToken(user, roles); //, permissionClaims
             return token;
         }
     }
