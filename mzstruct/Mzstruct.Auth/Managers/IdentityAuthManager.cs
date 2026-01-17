@@ -43,6 +43,9 @@ namespace Mzstruct.Auth.Managers
             var user = await userManager.FindByEmailAsync(req.Email);
             if (user is null) return "Invalid credentials";
 
+            var isSucceeded = await userManager.CheckPasswordAsync(user, req.Password);
+            if (!isSucceeded) return "Invalid credentials";
+
             var check = await signInManager.CheckPasswordSignInAsync(user, req.Password, lockoutOnFailure: true);
             if (!check.Succeeded) return "Invalid credentials";
 
