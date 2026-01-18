@@ -7,65 +7,113 @@ using System.Text;
 
 namespace Mzstruct.Auth.Models;
 
-public class Permission : BaseEntity
+public abstract class Permission : BaseEntity
 {
-    public PermissionType Type { get; set; }
+    public required PermissionType Type { get; set; }
+    public required PrivacyType Privacy { get; set; }
+    public string Permit { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
+    public string Restrict { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
+    public bool IsActive { get; set; } = false;
+    public bool IsInherited { get; set; } = false; // sub or child permission will inherit parent permission
+    public int Priority { get; set; }
+    public string Version { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
-    public string Roles { get; set; } = string.Empty; // "xyz,abc"
-    public string? Regex { get; set; }
-    public List<ResourceControl>? Sources { get; set; }
+    public string? Tags { get; set; } = string.Empty; // "xyz,abc"
+    public string? Icon { get; set; }
+    public string? Img { get; set; }
     public List<ConditionMap>? Conditions { get; set; }
-    public string Permit { get; set; } = string.Empty; // "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
-    public string Restrict { get; set; } = string.Empty; // "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
-    public PrivacyType Privacy { get; set; } // system, platform, app, service, public, private, protected, custom, friend, friends_of_friend, followers, following, suscribers, subscribed, etc.
-    public int Priority { get; set; }
-    public bool IsActive { get; set; }
-    public bool IsAllowedAny { get; set; } // top level permission
-    public bool IsReadOnly { get; set; } // will override canCreate, canUpdate, canEdit, canDelete permissions
-    public bool IsRestricted { get; set; } // will revoke all permissions
-    public string? RestrictionId { get; set; }
-    public IdentityMap? Permittor { get; set; } // system, platform, app, service, user, admin, manager, moderator, player, member etc.
+    public string? RestrictionId { get; set; } // will revoke all permissions
+    //public ReferenceMap? Permittor { get; set; } // system, platform, app, service, user, admin, manager, moderator, player, member etc.
     public DateTime? ExpiredAt { get; set; }
     public DateTime? RestrictedAt { get; set; }
 }
 
-public class PagePermission : Permission
+public class ResourcePermission : Permission
 {
-    public List<string>? HtmlIds { get; set; } // selector
-    public List<string>? HtmlClasses { get; set; } // selector
-    public List<string>? HtmlTags { get; set; } // selector
-    public List<string>? ApiUrls { get; set; }
-    public List<PagePermission>? SubPages { get; set; }
+    ResourcePermission()
+    {
+        Type = PermissionType.Resource;
+    }
+    public required string Resources { get; set; } // collection or table names! | "xyz,abc"
+    public FeaturePermission? Features { get; set; }
+}
+
+public class FeaturePermission
+{
+    public bool CanUpload { get; set; } // file upload
+    public bool CanDownload { get; set; } // file download
+    public bool CanPost { get; set; } // content post
+    public bool CanShare { get; set; } // content share
+    public bool CanComment { get; set; } // content comment
+    public bool CanLike { get; set; } // content like
+    public bool CanRate { get; set; } // content rate
+    public bool CanReport { get; set; } // content report
+    public bool CanBookmark { get; set; } // content bookmark
+    public bool CanStream { get; set; } // content stream
+    public bool CanDownloadStream { get; set; } // content stream download
+    public bool CanShareStream { get; set; } // content stream share
+    public bool CanLiveStream { get; set; } // content stream live
+    public bool IsReadOnly { get; set; } // will override canCreate, canUpdate, canEdit, canDelete permissions
+    public string? RestrictionId { get; set; } // will revoke all permissions
+    public List<ConditionMap>? Conditions { get; set; }
+}
+
+public class FieldPermission : Permission
+{
+    FieldPermission()
+    {
+        Type = PermissionType.Field;
+    }
+    public required string Properties { get; set; } // collection or table or form field names!
+    public List<FieldPermission>? SubFields { get; set; }
+}
+
+public class GroupPermission : Permission
+{
+    //public string Resource { get; set; } = string.Empty; // collection or table names!
+    public string GroupIds { get; set; } = string.Empty; 
+    public string Groups { get; set; } = string.Empty; // channel, chatroom, group, gang, page, shop, team, etc.
+    public ResourcePermission? Resource { get; set; }
+    public ReferenceMap? GroupCreater { get; set; }
+    public ReferenceMap? GroupOwner { get; set; }
+}
+
+public class RolePermission : Permission
+{
+    public string Roles { get; set; } = string.Empty; // "xyz,abc"
+    public List<ResourcePermission>? Resources { get; set; }
+    public List<ModulePermission>? Modules { get; set; }
+    public List<PagePermission>? Pages { get; set; }
+    public List<ApiPermission>? Apis { get; set; }   
 }
 
 //public class ApiPermission : Permission
 //{
+//    public string AppId { get; set; } = string.Empty;
+//    public required string Controllers { get; set; }
+//    public required string EndPoints { get; set; }
 //    public List<ApiPermission>? SubApis { get; set; }
 //}
 
 public class ModulePermission : Permission
 {
     public List<PagePermission>? Pages { get; set; }
-    public List<ApiPermission>? Apis { get; set; }
-    public string? Icon { get; set; }
-    public string? Img { get; set; }
+    public List<ApiPermission>? Apis { get; set; }   
 }
 
-public class ResourcePermission : Permission
+public class PagePermission : Permission
 {
-    public List<IdentityMap> Users { get; set; } = new List<IdentityMap>();
-    public string ResourceId { get; set; } = string.Empty;
-    public string ResourceType { get; set; } = string.Empty; // page, group, channel, chatroom, team, etc.
-    public IdentityMap? ResourceCreater { get; set; }
-    public IdentityMap? ResourceOwner { get; set; }
-    public string? Icon { get; set; }
-    public string? Img { get; set; }
+    public string? HtmlIds { get; set; } // selectors " #id1, #id2"
+    public string? HtmlClasses { get; set; } // selectors ".class1, .class2"
+    public string? HtmlTags { get; set; } // selectors "div, span, p, a, img, button, input, form, table, tr, td, ul, li, etc."
+    public List<string>? ApiUrls { get; set; }
+    public List<PagePermission>? SubPages { get; set; }
 }
 
 public class ContentPermission : Permission
 {
-    public List<IdentityMap> Users { get; set; } = new List<IdentityMap>();
+    public List<ReferenceMap> Users { get; set; } = new();
     public string ContentId { get; set; } = string.Empty;
     public string ContentType { get; set; } = string.Empty; // post, blog, thread, comment, document -> word | excel | pdf | text | slide, file -> image, video, audio, etc.
     public IdentityMap? ContentCreater { get; set; }
@@ -74,8 +122,6 @@ public class ContentPermission : Permission
     public string ResourceType { get; set; } = string.Empty; // page, group, channel, chatroom, team, etc.
     public IdentityMap? ResourceCreater { get; set; }
     public IdentityMap? ResourceOwner { get; set; }
-    public string? Icon { get; set; }
-    public string? Img { get; set; }
 }
 
 public class PlatformPermission : Permission

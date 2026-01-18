@@ -47,8 +47,20 @@ namespace Mzstruct.Base.Enums
         Query,
         Notify,
         Scheduler,
+        Action,
         Create,
-        Update
+        Edit,
+        Update, 
+        Delete,
+        Invite,  
+        Accept, 
+        Reject, 
+        Remove,
+        Revoke,
+        Block, 
+        Unblock, 
+        Promote,
+        Demote
     }
 
     public enum ErrorType
@@ -120,12 +132,29 @@ namespace Mzstruct.Base.Enums
         Subscribed,
     }
 
+    public enum AccessType 
+    {
+        X, // no permission
+        A, // all permissions
+        R, // read
+        C, // create
+        W, // write -> create + update + edit + delete
+        U, // update -> put
+        E, // edit -> patch
+        F, // filter | search | query
+        D, // delete
+        S, // share
+        // Comb -> multiple permissions: CR, RW, ... etc
+    }
+
     public enum PermissionType 
     {
         User,
-        Admin, 
+        Admin,
+        Client,
+        Vendor,
         Manager, 
-        Moderator, 
+        Moderator,
         Player, 
         Member,
         System,
@@ -133,6 +162,7 @@ namespace Mzstruct.Base.Enums
         App,
         Api,
         Controller,
+        EndPoint,
         Method,
         Service,
         Resource,
@@ -140,5 +170,6 @@ namespace Mzstruct.Base.Enums
         Page,
         Component,
         Section,
+        Field
     }
 }
