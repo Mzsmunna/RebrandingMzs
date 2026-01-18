@@ -7,13 +7,10 @@ using System.Text;
 
 namespace Mzstruct.Auth.Models;
 
-public abstract class Permission : BaseEntity
+public class Permission : BaseEntity
 {
     public required PermissionType Type { get; set; }
     public required PrivacyType Privacy { get; set; }
-    public string AppId { get; set; } = string.Empty;
-    public string AppSecret { get; set; } = string.Empty;
-    public string AppTenant { get; set; } = string.Empty;
     public string Permit { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public string Restrict { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public bool IsActive { get; set; } = false;
@@ -22,7 +19,10 @@ public abstract class Permission : BaseEntity
     public string Version { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
-    public string? Tags { get; set; } = string.Empty; // "xyz,abc"
+    public string? AppId { get; set; }
+    public string? AppSecret { get; set; }
+    public string? AppTenant { get; set; }
+    public string? Tags { get; set; } // "xyz,abc"
     public string? Icon { get; set; }
     public string? Img { get; set; }
     public List<ConditionMap>? Conditions { get; set; }
@@ -31,6 +31,10 @@ public abstract class Permission : BaseEntity
     public DateTime? ExpiredAt { get; set; }
     public DateTime? RestrictedAt { get; set; }
 }
+
+//public class ApiControllerPermission : Permission { }
+//public class EndPointPermission : Permission { }
+//public class ComponentPermission : Permission { }
 
 public class FeaturePermission
 {
@@ -59,7 +63,7 @@ public class ResourcePermission : Permission
         Type = PermissionType.Resource;
     }
     public required string Resources { get; set; } // collection or table names! | "xyz,abc"
-    public List<FieldPermission>? Fields { get; set; }
+    public List<FieldPermission>? FieldPermits { get; set; }
     
 }
 
@@ -75,67 +79,61 @@ public class FieldPermission : Permission
 
 public class GroupPermission : Permission
 {
-    public string ResourceId { get; set; } = string.Empty;
-    public string ResourceType { get; set; } = string.Empty; // channel | chatroom | group | gang | page | shop | team | etc.
+    public required string ResourceId { get; set; } = string.Empty;
+    public required string ResourceType { get; set; } = string.Empty; // channel | chatroom | group | gang | page | shop | team | etc.
     public ReferenceMap? Creater { get; set; }
     public ReferenceMap? Owner { get; set; }
 }
 
 public class ContentPermission : Permission
 {
-    public List<ReferenceMap> Users { get; set; } = new();
-    public string ContentId { get; set; } = string.Empty;
-    public string ContentType { get; set; } = string.Empty; // post, blog, thread, comment, document -> word | excel | pdf | text | slide, file -> image, video, audio, etc.
-    public IdentityMap? ContentCreater { get; set; }
-    public IdentityMap? ContentOwner { get; set; }
-    public FeaturePermission? Features { get; set; }
-    public string ResourceId { get; set; } = string.Empty;
-    public string ResourceType { get; set; } = string.Empty; // page, group, channel, chatroom, team, etc.
+    public required string ContentId { get; set; } = string.Empty;
+    public required string ContentType { get; set; } = string.Empty; // post, blog, thread, comment, document -> word | excel | pdf | text | slide, file -> image, video, audio, etc.
+    public string? ParentContentId { get; set; }
+    public string? ParentContentType { get; set; } // post, blog, thread, comment, document -> word | excel | pdf | text | slide, file -> image, video, audio, etc.
+    public string? ResourceId { get; set; }
+    public string? ResourceType { get; set; } // user | profile | channel | chatroom | group | gang | page | shop | team | etc.
+    public ReferenceMap? ResourceOwner { get; set; }
     public ReferenceMap? Creater { get; set; }
-    public ReferenceMap? Owner { get; set; }
 }
 
 public class PlatformPermission : Permission
 {
     // App permissions
-    public List<AppPermission>? Apps { get; set; }
-    // API permissions
-    public List<ApiPermission>? Apis { get; set; }
-    // UI permissions
-    public List<ModulePermission>? Modules { get; set; }
-    public List<PagePermission>? Pages { get; set; }
-    
+    public List<APPPermission>? AppPermits { get; set; }
 }
 
-//public class AppPermission : Permission
-//{
-//    // API permissions
-//    public List<ApiPermission>? Apis { get; set; }
-//    // UI permissions
-//    public List<ModulePermission>? Modules { get; set; }
-//    public List<PagePermission>? Pages { get; set; }
-//}
+public class APPPermission : Permission
+{
+    // UI permissions
+    public List<ModulePermission>? ModulePermits { get; set; }
+    // API permissions
+    public List<APIPermission>? ApiPermits { get; set; }
+}
 
 public class RolePermission : Permission
 {
     public string Roles { get; set; } = string.Empty; // "xyz,abc"
-    public List<ResourcePermission>? Resources { get; set; }
-    public List<ModulePermission>? Modules { get; set; }
-    public List<PagePermission>? Pages { get; set; }
-    public List<APIPermission>? Apis { get; set; }   
+    public List<ResourcePermission>? ResourcePermits { get; set; }
+    public List<ModulePermission>? ModulePermits { get; set; }
+    public List<PagePermission>? PagePermits { get; set; }
+    public List<APIPermission>? ApiPermits { get; set; }   
 }
 
 public class APIPermission : Permission
 {
     public required string Controllers { get; set; }
     public required string EndPoints { get; set; }
-    public List<APIPermission>? SubApis { get; set; }
+    public List<Permission>? ControllerPermits { get; set; }
+    public List<Permission>? EndPointPermits { get; set; }
 }
 
 public class ModulePermission : Permission
 {
-    public List<PagePermission>? Pages { get; set; }
-    public List<APIPermission>? Apis { get; set; }   
+    // UI permissions
+    public List<PagePermission>? PagePermits { get; set; }
+    // API permissions
+    public List<APIPermission>? ApiPermits { get; set; }
 }
 
 public class PagePermission : Permission
@@ -143,8 +141,10 @@ public class PagePermission : Permission
     public string? HtmlIds { get; set; } // selectors " #id1, #id2"
     public string? HtmlClasses { get; set; } // selectors ".class1, .class2"
     public string? HtmlTags { get; set; } // selectors "div, span, p, a, img, button, input, form, table, tr, td, ul, li, etc."
-    public List<string>? ApiUrls { get; set; }
-    public List<PagePermission>? SubPages { get; set; }
+    public List<string>? Apis { get; set; }
+    public List<string>? Components { get; set; }
+    public List<APIPermission>? ApiPermits { get; set; }
+    public List<Permission>? ComponentPermits { get; set; }
 }
 
 //public class UserPermission : Permission
