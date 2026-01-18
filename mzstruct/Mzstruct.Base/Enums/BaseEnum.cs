@@ -166,6 +166,7 @@ namespace Mzstruct.Base.Enums
         Method,
         Service,
         Resource,
+        UI,
         Module,
         Page,
         Component,
