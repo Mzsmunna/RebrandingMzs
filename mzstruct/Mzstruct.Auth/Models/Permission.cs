@@ -190,19 +190,36 @@ public class USERPermission : Permission
     public required ReferenceMap User { get; set; }
     public bool IsOverridden { get; set; } // prioritize this class over other classes (Permission tables / collections)
     public bool IsExtended { get; set; } // prioritize top level Permissions rather than the nested ones
-    // Role Permissions
+
+    // Privileges
+    public string Roles { get; set; } = string.Empty; // "xyz, abc"
+    public List<string>? PlatformIds { get; set; }
+    public List<string>? AppIds { get; set; }
+    public List<string>? RolePermitIds { get; set; }
+    public List<string>? ApiPermitIds { get; set; }
+    public List<string>? UIPermitIds { get; set; }
+    public List<string>? ModulePermitIds { get; set; }
+    public List<string>? GroupPermitIds { get; set; }
+    public List<string>? ContentPermitIds { get; set; }
+
+    // Role Permissions   
     public List<RolePermission>? RolePermits { get; set; }
-    // Platform Permissions
+    
+    // Platform Permissions 
     public List<PlatformPermission>? PlatformPermits { get; set; }
-    // App Permissions
+    
+    // App Permissions  
     public List<AppPermission>? AppPermits { get; set; }
+    
     // API Permissions
     public List<APIPermission>? ApiPermits { get; set; }
+    
     // UI Permissions
     public List<UIPermission>? UIPermits { get; set; } // Micro Frontend
     public List<ModulePermission>? ModulePermits { get; set; }
     public List<PagePermission>? PagePermits { get; set; }
     public List<ComponentPermission>? ComponentPermits { get; set; }
+    
     // Feature Permissions
     public List<GroupPermission>? GroupPermits { get; set; }
     public List<ContentPermission>? ContentPermits { get; set; }
