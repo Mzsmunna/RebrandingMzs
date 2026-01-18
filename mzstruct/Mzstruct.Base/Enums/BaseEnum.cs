@@ -150,13 +150,13 @@ namespace Mzstruct.Base.Enums
     public enum PermissionType 
     {
         User,
-        Admin,
-        Client,
-        Vendor,
+        Admin,    
         Manager, 
         Moderator,
-        Player, 
+        Player,
         Member,
+        Client,
+        Vendor,
         System,
         Platform,
         App,

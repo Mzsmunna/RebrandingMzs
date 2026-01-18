@@ -15,7 +15,7 @@ public class Permission : BaseEntity
     public string Permit { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public string Restrict { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public bool IsActive { get; set; } = false;
-    public bool IsListedOnly { get; set; } = false; // sub or child permission will inherit parent permission
+    public bool AllowListedOnly { get; set; } = false; // sub or child permission will inherit parent permission if missing
     public int Priority { get; set; }
     public string Version { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
@@ -29,7 +29,7 @@ public class Permission : BaseEntity
     public string? Img { get; set; }
     public List<ConditionMap>? Conditions { get; set; }
     public string? RestrictionId { get; set; } // will revoke all permissions
-    //public ReferenceMap? Permittor { get; set; } // system, platform, app, service, user, admin, manager, moderator, player, member etc.
+    public ReferenceMap? Permittor { get; set; } // system, platform, app, service, user, admin, manager, moderator, player, member etc.
     public DateTime? ExpiredAt { get; set; }
     public DateTime? RestrictedAt { get; set; }
 }
@@ -79,7 +79,8 @@ public class GroupPermission : Permission
 {
     public required string ResourceId { get; set; } = string.Empty;
     public required string ResourceType { get; set; } = string.Empty; // channel | chatroom | group | gang | page | shop | team | etc.
-    public ReferenceMap? Creater { get; set; }
+    public required ReferenceMap Creater { get; set; }
+    public List<RolePermission>? RolePermits { get; set; }
     public ReferenceMap? Owner { get; set; }
 }
 
@@ -103,10 +104,11 @@ public class PlatformPermission : Permission
 
 public class APPPermission : Permission
 { 
-    public string? PlatformPermitId { get; set; }
-    //public List<UIPermission>? UIPermits { get; set; }
-    public List<ModulePermission>? ModulePermits { get; set; }
+    public string? PlatformPermitId { get; set; }   
+    public List<ResourcePermission>? ResourcePermits { get; set; }
     public List<APIPermission>? ApiPermits { get; set; }
+    public List<UIPermission>? UIPermits { get; set; } // Micro Frontend
+    public List<ModulePermission>? ModulePermits { get; set; }
 }
 
 public class APIPermission : Permission
@@ -173,6 +175,7 @@ public class ComponentPermission : ViewPermission
 public class RolePermission : Permission
 {
     public string Roles { get; set; } = string.Empty; // "xyz,abc"
+    public string? GroupPermitId { get; set; }
     public List<ResourcePermission>? ResourcePermits { get; set; }
     public List<APIPermission>? ApiPermits { get; set; }
     public List<ApiControllerPermission>? ControllerPermits { get; set; }
@@ -182,20 +185,25 @@ public class RolePermission : Permission
     public List<ComponentPermission>? ComponentPermits { get; set; }
 }
 
-//public class UserPermission : Permission
-//{
-//    public IdentityMap User { get; set; }
-//    public bool IsPermissionExtended { get; set; }
-//    public bool IsPermissionOverride { get; set; }
-//    // App permissions
-//    public List<AppPermission>? Apps { get; set; }
-//    // Platform permissions
-//    public List<PlatformPermission>? Platforms { get; set; }
-//    // UI permissions
-//    public List<ModulePermission>? Modules { get; set; }
-//    public List<PagePermission>? Pages { get; set; }
-//    // API permissions
-//    public List<ApiPermission>? Apis { get; set; }
-//}
-
-
+public class USERPermission : Permission
+{
+    public required ReferenceMap User { get; set; }
+    public bool IsOverridden { get; set; } // prioritize this class over other classes (Permission tables / collections)
+    public bool IsExtended { get; set; } // prioritize top level Permissions rather than the nested ones
+    // Role Permissions
+    public List<RolePermission>? RolePermits { get; set; }
+    // Platform Permissions
+    public List<PlatformPermission>? PlatformPermits { get; set; }
+    // App Permissions
+    public List<AppPermission>? AppPermits { get; set; }
+    // API Permissions
+    public List<APIPermission>? ApiPermits { get; set; }
+    // UI Permissions
+    public List<UIPermission>? UIPermits { get; set; } // Micro Frontend
+    public List<ModulePermission>? ModulePermits { get; set; }
+    public List<PagePermission>? PagePermits { get; set; }
+    public List<ComponentPermission>? ComponentPermits { get; set; }
+    // Feature Permissions
+    public List<GroupPermission>? GroupPermits { get; set; }
+    public List<ContentPermission>? ContentPermits { get; set; }
+}
