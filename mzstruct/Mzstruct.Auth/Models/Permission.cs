@@ -59,7 +59,8 @@ public class ResourcePermission : Permission
         Type = PermissionType.Resource;
     }
     public required string Resources { get; set; } // collection or table names! | "xyz,abc"
-    public FeaturePermission? Features { get; set; }
+    public List<FieldPermission>? Fields { get; set; }
+    
 }
 
 public class FieldPermission : Permission
@@ -68,18 +69,16 @@ public class FieldPermission : Permission
     {
         Type = PermissionType.Field;
     }
+    public required string Resources { get; set; } // collection or table names! | "xyz,abc"
     public required string Properties { get; set; } // collection or table or form field names!
-    public List<FieldPermission>? SubFields { get; set; }
 }
 
 public class GroupPermission : Permission
 {
-    //public string Resource { get; set; } = string.Empty; // collection or table names!
-    public string GroupIds { get; set; } = string.Empty; 
-    public string Groups { get; set; } = string.Empty; // channel, chatroom, group, gang, page, shop, team, etc.
-    public ResourcePermission? Resource { get; set; }
-    public ReferenceMap? GroupCreater { get; set; }
-    public ReferenceMap? GroupOwner { get; set; }
+    public string ResourceId { get; set; } = string.Empty;
+    public string ResourceType { get; set; } = string.Empty; // channel | chatroom | group | gang | page | shop | team | etc.
+    public ReferenceMap? Creater { get; set; }
+    public ReferenceMap? Owner { get; set; }
 }
 
 public class ContentPermission : Permission
@@ -89,10 +88,11 @@ public class ContentPermission : Permission
     public string ContentType { get; set; } = string.Empty; // post, blog, thread, comment, document -> word | excel | pdf | text | slide, file -> image, video, audio, etc.
     public IdentityMap? ContentCreater { get; set; }
     public IdentityMap? ContentOwner { get; set; }
+    public FeaturePermission? Features { get; set; }
     public string ResourceId { get; set; } = string.Empty;
     public string ResourceType { get; set; } = string.Empty; // page, group, channel, chatroom, team, etc.
-    public IdentityMap? ResourceCreater { get; set; }
-    public IdentityMap? ResourceOwner { get; set; }
+    public ReferenceMap? Creater { get; set; }
+    public ReferenceMap? Owner { get; set; }
 }
 
 public class PlatformPermission : Permission

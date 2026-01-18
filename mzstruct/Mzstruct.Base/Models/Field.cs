@@ -11,14 +11,6 @@ namespace Mzstruct.Base.Models
         public string Value { get; set; } = string.Empty;
     }
 
-    public class IconField : Field
-    {
-        public string KeyIcon { get; set; } = string.Empty;
-        public string KeyLink { get; set; } = string.Empty;
-        public string ValueIcon { get; set; } = string.Empty;
-        public string ValueLink { get; set; } = string.Empty;
-    }
-
     public class KeyMap : Field
     {
         public required string Key { get; set; }
@@ -30,6 +22,7 @@ namespace Mzstruct.Base.Models
     {
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
+        public string? Qrc { get; set; } // QR Code
         public string? Img { get; set; }
         public int? No { get; set; }
     }
@@ -38,8 +31,8 @@ namespace Mzstruct.Base.Models
     {
         public string Role { get; set; } = string.Empty; // string or FieldMap or null
         public string Group { get; set; } = string.Empty; // string or FieldMap or null
+        public string? Tags { get; set; } = string.Empty; // "xyz,abc"
         public string? Identifiers { get; set; } // type / resource / json -> ex: "{ role: 'Captain, Batsman', suffix: 'Mzs' }"
-        public string? Qrc { get; set; } // QR Code
         public string? Email { get; set; }
         public string? Phone { get; set; }
     }
@@ -65,7 +58,6 @@ namespace Mzstruct.Base.Models
         public bool IsActive { get; set; }
         public string? RestrictionId { get; set; }
         public string? Versions { get; set; }
-        
         public DateTime? ExpiredAt { get; set; }
         public DateTime? RestrictedAt { get; set; }
     }
