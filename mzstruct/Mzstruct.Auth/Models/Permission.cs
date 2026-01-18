@@ -11,10 +11,13 @@ public abstract class Permission : BaseEntity
 {
     public required PermissionType Type { get; set; }
     public required PrivacyType Privacy { get; set; }
+    public string AppId { get; set; } = string.Empty;
+    public string AppSecret { get; set; } = string.Empty;
+    public string AppTenant { get; set; } = string.Empty;
     public string Permit { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public string Restrict { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public bool IsActive { get; set; } = false;
-    public bool IsInherited { get; set; } = false; // sub or child permission will inherit parent permission
+    public bool IsListedOnly { get; set; } = false; // sub or child permission will inherit parent permission
     public int Priority { get; set; }
     public string Version { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
@@ -27,16 +30,6 @@ public abstract class Permission : BaseEntity
     //public ReferenceMap? Permittor { get; set; } // system, platform, app, service, user, admin, manager, moderator, player, member etc.
     public DateTime? ExpiredAt { get; set; }
     public DateTime? RestrictedAt { get; set; }
-}
-
-public class ResourcePermission : Permission
-{
-    ResourcePermission()
-    {
-        Type = PermissionType.Resource;
-    }
-    public required string Resources { get; set; } // collection or table names! | "xyz,abc"
-    public FeaturePermission? Features { get; set; }
 }
 
 public class FeaturePermission
@@ -59,6 +52,16 @@ public class FeaturePermission
     public List<ConditionMap>? Conditions { get; set; }
 }
 
+public class ResourcePermission : Permission
+{
+    ResourcePermission()
+    {
+        Type = PermissionType.Resource;
+    }
+    public required string Resources { get; set; } // collection or table names! | "xyz,abc"
+    public FeaturePermission? Features { get; set; }
+}
+
 public class FieldPermission : Permission
 {
     FieldPermission()
@@ -79,38 +82,6 @@ public class GroupPermission : Permission
     public ReferenceMap? GroupOwner { get; set; }
 }
 
-public class RolePermission : Permission
-{
-    public string Roles { get; set; } = string.Empty; // "xyz,abc"
-    public List<ResourcePermission>? Resources { get; set; }
-    public List<ModulePermission>? Modules { get; set; }
-    public List<PagePermission>? Pages { get; set; }
-    public List<ApiPermission>? Apis { get; set; }   
-}
-
-//public class ApiPermission : Permission
-//{
-//    public string AppId { get; set; } = string.Empty;
-//    public required string Controllers { get; set; }
-//    public required string EndPoints { get; set; }
-//    public List<ApiPermission>? SubApis { get; set; }
-//}
-
-public class ModulePermission : Permission
-{
-    public List<PagePermission>? Pages { get; set; }
-    public List<ApiPermission>? Apis { get; set; }   
-}
-
-public class PagePermission : Permission
-{
-    public string? HtmlIds { get; set; } // selectors " #id1, #id2"
-    public string? HtmlClasses { get; set; } // selectors ".class1, .class2"
-    public string? HtmlTags { get; set; } // selectors "div, span, p, a, img, button, input, form, table, tr, td, ul, li, etc."
-    public List<string>? ApiUrls { get; set; }
-    public List<PagePermission>? SubPages { get; set; }
-}
-
 public class ContentPermission : Permission
 {
     public List<ReferenceMap> Users { get; set; } = new();
@@ -126,18 +97,55 @@ public class ContentPermission : Permission
 
 public class PlatformPermission : Permission
 {
+    // App permissions
+    public List<AppPermission>? Apps { get; set; }
+    // API permissions
+    public List<ApiPermission>? Apis { get; set; }
     // UI permissions
     public List<ModulePermission>? Modules { get; set; }
     public List<PagePermission>? Pages { get; set; }
-    // API permissions
-    public List<ApiPermission>? Apis { get; set; }
+    
 }
 
 //public class AppPermission : Permission
 //{
-//    // Platform permissions
-//    public List<PlatformPermission>? Platforms { get; set; }
+//    // API permissions
+//    public List<ApiPermission>? Apis { get; set; }
+//    // UI permissions
+//    public List<ModulePermission>? Modules { get; set; }
+//    public List<PagePermission>? Pages { get; set; }
 //}
+
+public class RolePermission : Permission
+{
+    public string Roles { get; set; } = string.Empty; // "xyz,abc"
+    public List<ResourcePermission>? Resources { get; set; }
+    public List<ModulePermission>? Modules { get; set; }
+    public List<PagePermission>? Pages { get; set; }
+    public List<APIPermission>? Apis { get; set; }   
+}
+
+public class APIPermission : Permission
+{
+    public required string Controllers { get; set; }
+    public required string EndPoints { get; set; }
+    public List<APIPermission>? SubApis { get; set; }
+}
+
+public class ModulePermission : Permission
+{
+    public List<PagePermission>? Pages { get; set; }
+    public List<APIPermission>? Apis { get; set; }   
+}
+
+public class PagePermission : Permission
+{
+    public string? HtmlIds { get; set; } // selectors " #id1, #id2"
+    public string? HtmlClasses { get; set; } // selectors ".class1, .class2"
+    public string? HtmlTags { get; set; } // selectors "div, span, p, a, img, button, input, form, table, tr, td, ul, li, etc."
+    public List<string>? ApiUrls { get; set; }
+    public List<PagePermission>? SubPages { get; set; }
+}
 
 //public class UserPermission : Permission
 //{
