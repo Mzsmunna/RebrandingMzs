@@ -101,6 +101,7 @@
     <File Path=".editorconfig" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
+    <File Path="docker-compose.yml" />
   </Folder>
   <Project Path="RebrandingMzs.AppHost/RebrandingMzs.AppHost.csproj" Id="79810ad9-5e92-4e07-83ba-b956c4860c74" />
   <Project Path="RebrandingMzs.ServiceDefaults/RebrandingMzs.ServiceDefaults.csproj" />

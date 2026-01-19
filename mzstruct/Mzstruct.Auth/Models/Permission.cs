@@ -79,12 +79,12 @@ public class FieldPermission : Permission
     public required string Properties { get; set; } // collection or table or form field names!
 }
 
-public class FeatureGroupPermission : Permission
+public class ScopePermission : Permission
 {
     public required string ResourceId { get; set; } = string.Empty;
     public required string ResourceType { get; set; } = string.Empty; // channel | chatroom | group | gang | page | shop | team | etc.
     public required ReferenceMap Creater { get; set; }
-    public List<FeatureGroupRolePermission>? RolePermits { get; set; }
+    public List<ScopeRolePermission>? RolePermits { get; set; }
     public ReferenceMap? Owner { get; set; }
 }
 
@@ -189,16 +189,14 @@ public class AppRolePermission : FeaturePermission
     public string Roles { get; set; } = string.Empty; // "xyz,abc"
 }
 
-public class FeatureGroupRolePermission : AppRolePermission
+public class ScopeRolePermission : AppRolePermission
 {
     public required string GroupId { get; set; }
-    public string? PermitId { get; set; } // FeatureGroupPermitId
+    public string? PermitId { get; set; } // ScopePermitId
 }
 
-public class USERPermission : Permission
+public abstract class ConsumerPermission : Permission
 {
-    public required ReferenceMap User { get; set; }
-    public bool IsOverridden { get; set; } // prioritize this class over other classes (Permission tables / collections)
     //public bool IsExtended { get; set; } // prioritize top level Permissions rather than the nested ones
 
     // Privileges
@@ -233,6 +231,23 @@ public class USERPermission : Permission
     // Feature Permissions
     public List<FeaturePermission>? FeaturePermits { get; set; }
     public List<PaidFeaturePermission>? PaidFeaturePermits { get; set; }
-    public List<FeatureGroupRolePermission>? FeatureGroupPermits { get; set; }
+    public List<ScopeRolePermission>? ScopeRolePermits { get; set; }
     public List<ContentPermission>? ContentPermits { get; set; }
+}
+
+public class USERPermission : ConsumerPermission
+{
+    public required ReferenceMap User { get; set; }
+    public bool IsOverridden { get; set; } // prioritize this class over other classes (Permission tables / collections)
+}
+
+public class AdminPermission : ConsumerPermission
+{
+    public required ReferenceMap Admin { get; set; }
+    public bool IsOverridden { get; set; } // prioritize this class over other classes (Permission tables / collections)
+}
+
+public class ClientPermission : ConsumerPermission
+{
+    public required ReferenceMap Client { get; set; }
 }
