@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Mzstruct.Auth.Configs;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.Auth.Helpers;
 using Mzstruct.Auth.Models;
+using Mzstruct.Auth.Models.Configs;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,11 +22,6 @@ namespace Mzstruct.Auth.Managers
     {
         //private readonly JwtTokenOptions _options = options.Value;
         //private readonly IConfiguration _config = config;
-
-        public RefreshToken GenerateRefreshToken()
-        {
-            return JwtHelper.GenerateRefreshToken(options.Value);
-        }
 
         public void SetRefreshToken(RefreshToken newRefreshToken, Identity user)
         {
@@ -93,19 +88,9 @@ namespace Mzstruct.Auth.Managers
             return jwt;
         }
 
-        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            JwtHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
-        }
-
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            return JwtHelper.VerifyPasswordHash(password, passwordHash, passwordSalt);
-        }
-
-        public string GetValueFromToken(string token, string key)
-        {
-            return JwtHelper.GetValueFromToken(token, key);
-        }
+        public RefreshToken GenerateRefreshToken() => JwtHelper.GenerateRefreshToken(options.Value);
+        public string GetValueFromToken(string token, string key) => JwtHelper.GetValueFromToken(token, key);
+        public string CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt) => PasswordHelper.Hash(password, out passwordHash, out passwordSalt);
+        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt) => PasswordHelper.Verify(password, passwordHash, passwordSalt);
     }
 }

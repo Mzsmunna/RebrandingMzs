@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Mzstruct.Auth.Configs;
+using Mzstruct.Auth.Models.Configs;
 using Mzstruct.Base.Enums;
 using Mzstruct.Common.Helpers;
 using Mzstruct.DB.EFCore.Context;

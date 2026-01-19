@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Mzstruct.Auth.Configs;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.DB.Contracts.IContext;
 using System;
