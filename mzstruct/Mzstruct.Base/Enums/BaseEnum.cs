@@ -150,12 +150,16 @@ namespace Mzstruct.Base.Enums
     public enum PermissionType 
     {
         User,
-        Admin,    
+        Admin,
+        Editor,
         Manager, 
         Moderator,
-        Player,
         Member,
+        Advertiser, 
+        Analyst,
+        Player,
         Client,
+        Sponsor,
         Vendor,
         System,
         Platform,
@@ -169,8 +173,22 @@ namespace Mzstruct.Base.Enums
         UI,
         Module,
         Page,
+        Conntent,
         Component,
         Section,
         Field
+    }
+
+    public enum ViolationType 
+    {
+        Spam, 
+        Fraud, 
+        Abuse,
+        Rule,
+        Harrasment,
+        Rights, 
+        Policies,
+        Political,
+        Religious,
     }
 }

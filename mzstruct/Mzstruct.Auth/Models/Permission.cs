@@ -16,7 +16,8 @@ public class Permission : BaseEntity
     public string Restrict { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public bool IsActive { get; set; } = false;
     public bool AllowListedOnly { get; set; } = false; // sub or child permission will inherit parent permission if missing
-    public int Priority { get; set; }
+    public bool CanUpload { get; set; } = false; // file | doc upload
+    public int Priority { get; set; } = 0; // higher number means higher priority
     public string Version { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
@@ -30,28 +31,32 @@ public class Permission : BaseEntity
     public List<ConditionMap>? Conditions { get; set; }
     public string? RestrictionId { get; set; } // will revoke all permissions
     public ReferenceMap? Permittor { get; set; } // system, platform, app, service, user, admin, manager, moderator, player, member etc.
-    public DateTime? ExpiredAt { get; set; }
+    public DateTime? ActivatedAt { get; set; }
+    public DateTime? DisabledAt { get; set; }
+    public DateTime? DeactivatedAt { get; set; }
     public DateTime? RestrictedAt { get; set; }
 }
 
-public class FeaturePermission
+public class FeaturePermission : Permission
 {
-    public bool CanUpload { get; set; } // file upload
-    public bool CanDownload { get; set; } // file download
-    public bool CanPost { get; set; } // content post
-    public bool CanShare { get; set; } // content share
-    public bool CanComment { get; set; } // content comment
-    public bool CanLike { get; set; } // content like
-    public bool CanRate { get; set; } // content rate
-    public bool CanReport { get; set; } // content report
-    public bool CanBookmark { get; set; } // content bookmark
-    public bool CanStream { get; set; } // content stream
-    public bool CanDownloadStream { get; set; } // content stream download
-    public bool CanShareStream { get; set; } // content stream share
-    public bool CanLiveStream { get; set; } // content stream live
-    public bool IsReadOnly { get; set; } // will override canCreate, canUpdate, canEdit, canDelete permissions
-    public string? RestrictionId { get; set; } // will revoke all permissions
-    public List<ConditionMap>? Conditions { get; set; }
+    public List<ResourcePermission>? ResourcePermits { get; set; }
+    public List<APIPermission>? ApiPermits { get; set; }
+    public List<ApiControllerPermission>? ControllerPermits { get; set; }
+    public List<Permission>? EndPointPermits { get; set; }
+    public List<ModulePermission>? ModulePermits { get; set; }
+    public List<PagePermission>? PagePermits { get; set; }
+    public List<ComponentPermission>? ComponentPermits { get; set; }
+}
+
+public class PaidFeaturePermission : FeaturePermission
+{
+    public string MerchantId { get; set; } = string.Empty; // API Key
+    public string InvoiceId { get; set; } = string.Empty;
+    public string PaymentId { get; set; } = string.Empty;
+    public string TransactionId { get; set; } = string.Empty;
+    public string TransactionStatus { get; set; } = string.Empty;
+    public string ApprovalCode { get; set; } = string.Empty;
+    public string ReferenceNo { get; set; } = string.Empty; // Retrieval Reference Number (RRN)
 }
 
 public class ResourcePermission : Permission
@@ -62,7 +67,6 @@ public class ResourcePermission : Permission
     }
     public required string Resources { get; set; } // collection or table names! | "xyz,abc"
     public List<FieldPermission>? FieldPermits { get; set; }
-    
 }
 
 public class FieldPermission : Permission
@@ -75,12 +79,12 @@ public class FieldPermission : Permission
     public required string Properties { get; set; } // collection or table or form field names!
 }
 
-public class GroupPermission : Permission
+public class FeatureGroupPermission : Permission
 {
     public required string ResourceId { get; set; } = string.Empty;
     public required string ResourceType { get; set; } = string.Empty; // channel | chatroom | group | gang | page | shop | team | etc.
     public required ReferenceMap Creater { get; set; }
-    public List<RolePermission>? RolePermits { get; set; }
+    public List<FeatureGroupRolePermission>? RolePermits { get; set; }
     public ReferenceMap? Owner { get; set; }
 }
 
@@ -92,6 +96,14 @@ public class ContentPermission : Permission
     public string? ParentContentType { get; set; } // post, blog, thread, comment, document -> word | excel | pdf | text | slide, file -> image, video, audio, etc.
     public string? ResourceId { get; set; }
     public string? ResourceType { get; set; } // user | profile | channel | chatroom | group | gang | page | shop | team | etc.
+    public bool CanDownload { get; set; } = false; // file download
+    public bool CanShare { get; set; } = false; // content share
+    public bool CanComment { get; set; } = false; // content comment
+    public bool CanLike { get; set; } = false; // content like
+    public bool CanRate { get; set; } = false; // content rate
+    public bool CanReport { get; set; } = false; // content report
+    public bool CanBookmark { get; set; } = false; // content bookmark
+    public bool CanStream { get; set; } = false; // content stream
     public ReferenceMap? ResourceOwner { get; set; }
     public ReferenceMap? Creater { get; set; }
 }
@@ -172,24 +184,22 @@ public class ComponentPermission : ViewPermission
     public List<APIPermission>? ApiPermits { get; set; }
 }
 
-public class RolePermission : Permission
+public class AppRolePermission : FeaturePermission
 {
     public string Roles { get; set; } = string.Empty; // "xyz,abc"
-    public string? GroupPermitId { get; set; }
-    public List<ResourcePermission>? ResourcePermits { get; set; }
-    public List<APIPermission>? ApiPermits { get; set; }
-    public List<ApiControllerPermission>? ControllerPermits { get; set; }
-    public List<Permission>? EndPointPermits { get; set; }
-    public List<ModulePermission>? ModulePermits { get; set; }
-    public List<PagePermission>? PagePermits { get; set; }
-    public List<ComponentPermission>? ComponentPermits { get; set; }
+}
+
+public class FeatureGroupRolePermission : AppRolePermission
+{
+    public required string GroupId { get; set; }
+    public string? PermitId { get; set; } // FeatureGroupPermitId
 }
 
 public class USERPermission : Permission
 {
     public required ReferenceMap User { get; set; }
     public bool IsOverridden { get; set; } // prioritize this class over other classes (Permission tables / collections)
-    public bool IsExtended { get; set; } // prioritize top level Permissions rather than the nested ones
+    //public bool IsExtended { get; set; } // prioritize top level Permissions rather than the nested ones
 
     // Privileges
     public string Roles { get; set; } = string.Empty; // "xyz, abc"
@@ -203,7 +213,7 @@ public class USERPermission : Permission
     public List<string>? ContentPermitIds { get; set; }
 
     // Role Permissions   
-    public List<RolePermission>? RolePermits { get; set; }
+    public List<AppRolePermission>? RolePermits { get; set; }
     
     // Platform Permissions 
     public List<PlatformPermission>? PlatformPermits { get; set; }
@@ -221,6 +231,8 @@ public class USERPermission : Permission
     public List<ComponentPermission>? ComponentPermits { get; set; }
     
     // Feature Permissions
-    public List<GroupPermission>? GroupPermits { get; set; }
+    public List<FeaturePermission>? FeaturePermits { get; set; }
+    public List<PaidFeaturePermission>? PaidFeaturePermits { get; set; }
+    public List<FeatureGroupRolePermission>? FeatureGroupPermits { get; set; }
     public List<ContentPermission>? ContentPermits { get; set; }
 }
