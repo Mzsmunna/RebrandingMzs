@@ -16,30 +16,30 @@ namespace Mzstruct.Base.Helpers
         {
             byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
             byte[] hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, Iterations, Algorithm, HashSize);
-            return $"{Convert. ToHexString(hash)}-{Convert. ToHexString(salt)}";
+            return $"{Convert.ToHexString(hash)}-{Convert. ToHexString(salt)}";
         }
 
         public static bool Verify(string password, string passwordHash)
         {
             string[] parts = passwordHash. Split('-');
-            byte[] hash = Convert. FromHexString(parts[0]);
-            byte[] salt = Convert. FromHexString(parts[1]);
+            byte[] hash = Convert.FromHexString(parts[0]);
+            byte[] salt = Convert.FromHexString(parts[1]);
             byte[] inputHash = Rfc2898DeriveBytes. Pbkdf2(password, salt, Iterations, Algorithm, HashSize);
             //return hash.SequenceEqual(inputHash);
-            return CryptographicOperations. FixedTimeEquals(hash, inputHash);
+            return CryptographicOperations.FixedTimeEquals(hash, inputHash);
         }
 
-        public static string Hash(string password, out byte[] hash, out byte[] salt)
+        public static string HashWithHMACSHA512(string password, out byte[] hash, out byte[] salt)
         {
             using (var hmac = new HMACSHA512())
             {
                 salt = hmac.Key;
                 hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
-            return $"{Convert. ToHexString(hash)}-{Convert. ToHexString(salt)}";
+            return $"{Convert.ToHexString(hash)}-{Convert. ToHexString(salt)}";
         }
 
-        public static bool Verify(string password, byte[] passwordHash, byte[] passwordSalt)
+        public static bool VerifyWithHMACSHA512(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {

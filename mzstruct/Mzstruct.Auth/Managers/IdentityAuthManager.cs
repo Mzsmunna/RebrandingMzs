@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.DB.Contracts.IContext;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 
 namespace Mzstruct.Auth.Managers
 {
@@ -65,6 +58,7 @@ namespace Mzstruct.Auth.Managers
             if (!check.Succeeded) return "Invalid credentials";
           
             var roles = await userManager.GetRolesAsync(user);
+
             //var claimType = "Permission";
             //var parmissions = await (from role in appDBContext.Roles
             //                         join claim in appDBContext.RoleClaims on role.Id equals claim.RoleId

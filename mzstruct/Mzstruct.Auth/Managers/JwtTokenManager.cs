@@ -89,7 +89,7 @@ namespace Mzstruct.Auth.Managers
 
         public RefreshToken GenerateRefreshToken() => JwtHelper.GenerateRefreshToken(options.Value);
         public string GetValueFromToken(string token, string key) => JwtHelper.GetValueFromToken(token, key);
-        public string CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt) => PasswordHelper.Hash(password, out passwordHash, out passwordSalt);
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt) => PasswordHelper.Verify(password, passwordHash, passwordSalt);
+        public string CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt) => PasswordHelper.HashWithHMACSHA512(password, out passwordHash, out passwordSalt);
+        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt) => PasswordHelper.VerifyWithHMACSHA512(password, passwordHash, passwordSalt);
     }
 }
