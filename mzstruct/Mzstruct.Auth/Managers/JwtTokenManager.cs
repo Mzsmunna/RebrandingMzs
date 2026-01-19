@@ -11,7 +11,6 @@ using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace Mzstruct.Auth.Managers

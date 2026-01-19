@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Mzstruct.Auth.Helpers
+namespace Mzstruct.Base.Helpers
 {
     public static class PasswordHelper
     {

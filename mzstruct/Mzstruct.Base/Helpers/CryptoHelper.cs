@@ -3,17 +3,17 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Mzstruct.DB.SQL.Helper
+namespace Mzstruct.Base.Helpers
 {
-    public class Cryptography
+    public static class CryptoHelper
     {
         //public static string plainText;
-        private const string passPhrase = "Pas5pr@se";
-        private const string saltValue = "s@1tValue";
-        private const string hashAlgorithm = "MD5";
-        private const int passwordIterations = 2;
-        private const string initVector = "@1B2c3D4e5F6g7H8";
-        private const int keySize = 256;
+        private static readonly string passPhrase = "Pas5pr@se";
+        private static readonly string saltValue = "s@1tValue";
+        private static readonly string hashAlgorithm = "MD5";
+        private static readonly int passwordIterations = 2;
+        private static readonly string initVector = "@1B2c3D4e5F6g7H8";
+        private static readonly int keySize = 256;
 
         public static string? Encrypt(string plainText)
         {
