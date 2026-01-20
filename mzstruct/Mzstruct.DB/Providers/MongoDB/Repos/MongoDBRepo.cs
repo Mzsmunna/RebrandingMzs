@@ -110,7 +110,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                     RefId = operation.Id, 
                     Type = EventType.Create,
                     Id = ObjectId.GenerateNewId().ToString(),
-                    TriggeredAt = DateTime.UtcNow // DateTime.Now
+                    At = DateTime.UtcNow // DateTime.Now
                 };
             }
             
@@ -121,11 +121,11 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                     RefId = operation.Id, 
                     Type = EventType.Update,
                     Id = ObjectId.GenerateNewId().ToString(),
-                    TriggeredAt = DateTime.UtcNow // DateTime.Now
+                    At = DateTime.UtcNow // DateTime.Now
                 };
                 entity.Modified.Id = ObjectId.GenerateNewId().ToString();
             }
-            entity.Modified.TriggeredAt = DateTime.UtcNow; // DateTime.Now
+            entity.Modified.At = DateTime.UtcNow; // DateTime.Now
 
             if (string.IsNullOrEmpty(entity.Id))
             {
@@ -157,9 +157,9 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                 {
                     entity.Id = ObjectId.GenerateNewId().ToString();
                     if (entity.Created != null)
-                        entity.Created.TriggeredAt = DateTime.UtcNow; // DateTime.Now
+                        entity.Created.At = DateTime.UtcNow; // DateTime.Now
                     if (entity.Modified != null)
-                        entity.Modified.TriggeredAt = DateTime.UtcNow; // DateTime.Now                  
+                        entity.Modified.At = DateTime.UtcNow; // DateTime.Now                  
                     dataModels.Add(new InsertOneModel<T>(entity));
                 }
                 else
@@ -168,7 +168,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                         { "_id" , ObjectId.Parse(entity.Id) }
                     };
                     if (entity.Modified != null)
-                        entity.Modified.TriggeredAt = DateTime.UtcNow; // DateTime.Now
+                        entity.Modified.At = DateTime.UtcNow; // DateTime.Now
                     // use ReplaceOneModel with property IsUpsert set to true to upsert whole documents
                     dataModels.Add(new ReplaceOneModel<T>(query, entity) { IsUpsert = true });
                 }

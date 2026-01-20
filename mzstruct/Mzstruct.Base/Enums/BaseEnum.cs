@@ -165,6 +165,7 @@ namespace Mzstruct.Base.Enums
         Platform,
         App,
         Api,
+        WebHook,
         Controller,
         EndPoint,
         Method,
