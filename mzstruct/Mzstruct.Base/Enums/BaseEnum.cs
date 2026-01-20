@@ -120,7 +120,7 @@ namespace Mzstruct.Base.Enums
     {
         Public,
         Private,
-        Protected,
+        Protected, // only can be accessed via specific links / urls / qrcs / ids
         Custom,
         OnlyMe,
         OnlyFans,
@@ -149,11 +149,15 @@ namespace Mzstruct.Base.Enums
 
     public enum PermissionType 
     {
+        Role,
         User,
         Admin,
+        Agent,
+        Agency,
         Editor,
         Manager, 
         Moderator,
+        Group,
         Member,
         Advertiser, 
         Analyst,
@@ -198,6 +202,7 @@ namespace Mzstruct.Base.Enums
         Any,
         Env,
         Event,
+        Entity,
         Class,
         Record,
         Struct,
@@ -210,6 +215,10 @@ namespace Mzstruct.Base.Enums
         RequestBody,
         Payload,
         Header,
+        Controller,
+        Method,
+        EndPoint,
+        Repository,
         Response,
         DB,
         Collection,

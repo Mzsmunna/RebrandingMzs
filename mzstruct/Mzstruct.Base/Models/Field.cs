@@ -56,7 +56,8 @@ namespace Mzstruct.Base.Models
 
     public class ConditionMap : Field
     {
-        public string FieldType { get; set; } = string.Empty; // string, number, boolean, date, time, datetime, etc.
+        public required string FieldType { get; set; } = string.Empty; // string, number, boolean, date, time, datetime, etc.
+        public required string Checks { get; set; } // ContextType: any, this, jwt, session, cookie, localStorage, queryParams, requestBody, db, collection or table name, etc.
         public int Priority { get; set; } = 0;
         public bool IsAnd { get; set; }
         public bool IsCaseSensitive { get; set; }
@@ -65,7 +66,7 @@ namespace Mzstruct.Base.Models
         public LogicalOperator? LogicalOperator { get; set; } // and, or, not, xor, nand, nor, xnor, ===, ==, !=, >, <, >=, <=, gt, lt, gte, lte, ne, eq, con, in, ext, sw, ew, isn, isnn, etc.
         public string? Permit { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
         public string? Restrict { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
-        public string? Checks { get; set; } // any, this, jwt, session, cookie, localStorage, queryParams, requestBody, db, collection or table name, etc.
+        
         public string? Regex { get; set; }
         public string? RestrictionId { get; set; }
         public string? Versions { get; set; }
