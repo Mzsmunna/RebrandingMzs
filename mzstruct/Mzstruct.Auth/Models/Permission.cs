@@ -22,19 +22,16 @@ public class Permission : BaseEntity
     public string Name { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
     public string? ParentPermitId { get; set; }
-    public string? PlatformId { get; set; }
-    public string? AppId { get; set; }
-    public string? AppSecret { get; set; }
-    public string? AppTenant { get; set; }
     public string? Tags { get; set; } // "xyz,abc"
     public string? Icon { get; set; }
     public string? Img { get; set; }
-    public List<ConditionMap>? Conditions { get; set; }
     public string? RestrictionId { get; set; } // will revoke all permissions
+
+    public SecretKey? PlatformSecret { get; set; }
+    public SecretKey? AppSecret { get; set; }
+    public List<ConditionMap>? Conditions { get; set; }    
     public ReferenceMap? Permittor { get; set; } // system, platform, app, service, user, admin, manager, moderator, player, member etc.
-    public DateTime? ActivatedAt { get; set; }
     public DateTime? DisabledAt { get; set; }
-    public DateTime? DeactivatedAt { get; set; }
     public DateTime? RestrictedAt { get; set; }
 }
 
@@ -65,12 +62,18 @@ public class FeaturePermission : Permission
 public class PaidFeaturePermission : FeaturePermission
 {
     public string MerchantId { get; set; } = string.Empty; // API Key
-    public string InvoiceId { get; set; } = string.Empty;
     public string PaymentId { get; set; } = string.Empty;
     public string TransactionId { get; set; } = string.Empty;
     public string TransactionStatus { get; set; } = string.Empty;
     public string ApprovalCode { get; set; } = string.Empty;
     public string ReferenceNo { get; set; } = string.Empty; // Retrieval Reference Number (RRN)
+
+    public string? OrderId { get; set; }
+    public string? InvoiceId { get; set; }
+    public string? SubscriptionId { get; set; }
+
+    public DateTime ActivatedAt { get; set; }
+    public DateTime DeactivatedAt { get; set; }
 }
 
 public class ResourcePermission : Permission
@@ -103,7 +106,7 @@ public class ScopePermission : Permission
     public ReferenceMap? Owner { get; set; }
 
     public List<string>? RolePermitIds { get; set; }
-    public List<ScopeRolePermission>? RolePermits { get; set; }
+    public List<ScopedRolePermission>? RolePermits { get; set; }
 }
 
 public class ContentPermission : Permission
@@ -250,7 +253,7 @@ public class AppRolePermission : FeaturePermission
     public string Roles { get; set; } = string.Empty; // "xyz,abc"
 }
 
-public class ScopeRolePermission : AppRolePermission
+public class ScopedRolePermission : AppRolePermission
 {
     public required string GroupId { get; set; }
     public string? PermitId { get; set; } // ScopePermitId
@@ -262,37 +265,55 @@ public abstract class ConsumerPermission : Permission
 
     // Privileges
     public string Roles { get; set; } = string.Empty; // "xyz, abc"
-    public List<string>? PlatformIds { get; set; }
-    public List<string>? AppIds { get; set; }
-    public List<string>? RolePermitIds { get; set; }
-    public List<string>? ApiPermitIds { get; set; }
-    public List<string>? UIPermitIds { get; set; }
-    public List<string>? ModulePermitIds { get; set; }
-    public List<string>? GroupPermitIds { get; set; }
-    public List<string>? ContentPermitIds { get; set; }
+    public DateTime ActivatedAt { get; set; }
+    public DateTime? DeactivatedAt { get; set; }
 
-    // Role Permissions   
+    // Role Permissions
+    public List<string>? RolePermitIds { get; set; }
     public List<AppRolePermission>? RolePermits { get; set; }
     
-    // Platform Permissions 
+    // Platform Permissions
+    public List<string>? PlatformIds { get; set; }
     public List<PlatformPermission>? PlatformPermits { get; set; }
     
-    // App Permissions  
+    // App Permissions
+    public List<string>? AppIds { get; set; }
     public List<AppPermission>? AppPermits { get; set; }
     
     // API Permissions
+    public List<string>? ApiPermitIds { get; set; }
     public List<APIPermission>? ApiPermits { get; set; }
     
     // UI Permissions
+    public List<string>? UIPermitIds { get; set; } // Micro Frontend
     public List<UIPermission>? UIPermits { get; set; } // Micro Frontend
+
+    public List<string>? ModulePermitIds { get; set; }
     public List<ModulePermission>? ModulePermits { get; set; }
+
+    public List<string>? PagePermitIds { get; set; }
     public List<PagePermission>? PagePermits { get; set; }
+
+    public List<string>? ComponentPermitIds { get; set; }
     public List<ComponentPermission>? ComponentPermits { get; set; }
+
+    public List<string>? SectionPermitIds { get; set; }
+    public List<SectionPermission>? SectionPermits { get; set; }
+
+    public List<string>? TabPermitIds { get; set; }
+    public List<Permission>? TabPermits { get; set; }
     
     // Feature Permissions
+    public List<string>? FeaturePermitIds { get; set; }
     public List<FeaturePermission>? FeaturePermits { get; set; }
+
+    public List<string>? PaidFeaturePermitIds { get; set; }
     public List<PaidFeaturePermission>? PaidFeaturePermits { get; set; }
-    public List<ScopeRolePermission>? ScopeRolePermits { get; set; }
+
+    public List<string>? ScopedRolePermitIds { get; set; }
+    public List<ScopedRolePermission>? ScopedRolePermits { get; set; }
+
+    public List<string>? ContentPermitIds { get; set; }
     public List<ContentPermission>? ContentPermits { get; set; }
 }
 

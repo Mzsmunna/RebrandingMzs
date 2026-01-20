@@ -18,6 +18,13 @@ namespace Mzstruct.Base.Models
         public string Icon { get; set; } = string.Empty;
     }
 
+    public class SecretKey
+    {
+        public required string Id { get; set; }
+        public string? Secret { get; set; }
+        public string? Tenant { get; set; }
+    }
+
     public class ReferenceMap
     {
         public string Id { get; set; } = string.Empty;
