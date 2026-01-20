@@ -23,6 +23,7 @@ public class Permission : BaseEntity
     public string Details { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
     public string? ParentPermitId { get; set; }
+    public string? Claims { get; set; } // "xyz,abc"
     public string? Tags { get; set; } // "xyz,abc"
     public string? Icon { get; set; }
     public string? Img { get; set; }
