@@ -20,6 +20,7 @@ public class Permission : BaseEntity
     public int Priority { get; set; } = 0; // higher number means higher priority
     public string Version { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
+    public string Details { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
     public string? ParentPermitId { get; set; }
     public string? Tags { get; set; } // "xyz,abc"
@@ -61,6 +62,7 @@ public class FeaturePermission : Permission
 
 public class PaidFeaturePermission : FeaturePermission
 {
+    public string FeaturePermitId { get; set; } = string.Empty;
     public string MerchantId { get; set; } = string.Empty; // API Key
     public string PaymentId { get; set; } = string.Empty;
     public string TransactionId { get; set; } = string.Empty;
@@ -70,6 +72,8 @@ public class PaidFeaturePermission : FeaturePermission
 
     public string? OrderId { get; set; }
     public string? InvoiceId { get; set; }
+    public string? EnrollId { get; set; }
+    public string? MembershipId { get; set; }
     public string? SubscriptionId { get; set; }
 
     public DateTime ActivatedAt { get; set; }
@@ -332,4 +336,5 @@ public class AdminPermission : ConsumerPermission
 public class ClientPermission : ConsumerPermission
 {
     public required ReferenceMap Client { get; set; }
+    public SecretKey? ClientSecret { get; set; }
 }

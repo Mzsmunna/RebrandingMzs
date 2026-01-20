@@ -106,26 +106,26 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             if (entity.Created is null)
             {
                 entity.Created = new BaseEvent { 
-                    Res = typeof(T).Name, 
-                    Ref = operation.Id, 
-                    Type = EventType.Create.ToString(),
+                    Topic = typeof(T).Name,
+                    RefId = operation.Id, 
+                    Type = EventType.Create,
                     Id = ObjectId.GenerateNewId().ToString(),
-                    At = DateTime.UtcNow // DateTime.Now
+                    TriggeredAt = DateTime.UtcNow // DateTime.Now
                 };
             }
             
             if (entity.Modified is null)
             {
                 entity.Modified = new BaseEvent{ 
-                    Res = typeof(T).Name, 
-                    Ref = operation.Id, 
-                    Type = EventType.Update.ToString(),
+                    Topic = typeof(T).Name, 
+                    RefId = operation.Id, 
+                    Type = EventType.Update,
                     Id = ObjectId.GenerateNewId().ToString(),
-                    At = DateTime.UtcNow // DateTime.Now
+                    TriggeredAt = DateTime.UtcNow // DateTime.Now
                 };
                 entity.Modified.Id = ObjectId.GenerateNewId().ToString();
             }
-            entity.Modified.At = DateTime.UtcNow; // DateTime.Now
+            entity.Modified.TriggeredAt = DateTime.UtcNow; // DateTime.Now
 
             if (string.IsNullOrEmpty(entity.Id))
             {
@@ -157,9 +157,9 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                 {
                     entity.Id = ObjectId.GenerateNewId().ToString();
                     if (entity.Created != null)
-                        entity.Created.At = DateTime.UtcNow; // DateTime.Now
+                        entity.Created.TriggeredAt = DateTime.UtcNow; // DateTime.Now
                     if (entity.Modified != null)
-                        entity.Modified.At = DateTime.UtcNow; // DateTime.Now                  
+                        entity.Modified.TriggeredAt = DateTime.UtcNow; // DateTime.Now                  
                     dataModels.Add(new InsertOneModel<T>(entity));
                 }
                 else
@@ -168,7 +168,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                         { "_id" , ObjectId.Parse(entity.Id) }
                     };
                     if (entity.Modified != null)
-                        entity.Modified.At = DateTime.UtcNow; // DateTime.Now
+                        entity.Modified.TriggeredAt = DateTime.UtcNow; // DateTime.Now
                     // use ReplaceOneModel with property IsUpsert set to true to upsert whole documents
                     dataModels.Add(new ReplaceOneModel<T>(query, entity) { IsUpsert = true });
                 }

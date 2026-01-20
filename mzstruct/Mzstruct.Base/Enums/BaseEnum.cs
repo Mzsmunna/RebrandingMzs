@@ -196,6 +196,7 @@ namespace Mzstruct.Base.Enums
     {
         Any,
         Env,
+        Event,
         Class,
         Record,
         Struct,

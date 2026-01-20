@@ -30,7 +30,7 @@ namespace Mzstruct.Base.Models
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string? Qrc { get; set; } // QR Code
-        public string? Img { get; set; }
+        public string? Url { get; set; }
         public int? No { get; set; }
     }
 
@@ -38,15 +38,17 @@ namespace Mzstruct.Base.Models
     {
         public string Role { get; set; } = string.Empty; // string or FieldMap or null
         public string Group { get; set; } = string.Empty; // string or FieldMap or null
-        public string? Tags { get; set; } = string.Empty; // "xyz,abc"
-        public string? Identifiers { get; set; } // type / resource / json -> ex: "{ role: 'Captain, Batsman', suffix: 'Mzs' }"
+        public string? Tag { get; set; } = string.Empty; // "xyz,abc"
+        public string? Identifier { get; set; } // type / resource / json -> ex: "{ role: 'Captain, Batsman', suffix: 'Mzs' }"
         public string? Email { get; set; }
         public string? Phone { get; set; }
+        public string? Img { get; set; }
+        public string? Cvr { get; set; }
     }
 
     public class EventMap : ReferenceMap
     {
-        public DateTime At { get; set; }
+        public DateTime TriggeredAt { get; set; }
         public string Type { get; set; } = string.Empty; // invite, request, accept, reject, remove, block, unblock, promote, demote, etc.
         public string? Details { get; set; }
         public string? Context { get; set; } // json encoded | base64 format for additional information
