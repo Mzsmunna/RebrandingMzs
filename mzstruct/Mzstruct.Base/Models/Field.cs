@@ -45,17 +45,19 @@ namespace Mzstruct.Base.Models
         public string? Context { get; set; } // json encoded | base64 format for additional information
     }
 
-    public class ConditionMap : KeyMap
+    public class ConditionMap : Field
     {
-        public string PropType { get; set; } = string.Empty; // string, number, boolean, date, time, datetime, etc.
+        public string FieldType { get; set; } = string.Empty; // string, number, boolean, date, time, datetime, etc.
         public int Priority { get; set; } = 0;
-        public string? Checks { get; set; } // any, this, jwt, session, cookie, localStorage, queryParams, requestBody, db, collection or table name, etc.
-        public string? Regex { get; set; }
-        public LogicalOperator? LogicalOperator { get; set; } // and, or, not, xor, nand, nor, xnor, ===, ==, !=, >, <, >=, <=, gt, lt, gte, lte, ne, eq, con, in, ext, sw, ew, isn, isnn, etc.
         public bool IsAnd { get; set; }
         public bool IsCaseSensitive { get; set; }
         public bool IsNullable { get; set; }
         public bool IsActive { get; set; }
+        public LogicalOperator? LogicalOperator { get; set; } // and, or, not, xor, nand, nor, xnor, ===, ==, !=, >, <, >=, <=, gt, lt, gte, lte, ne, eq, con, in, ext, sw, ew, isn, isnn, etc.
+        public string? Permit { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
+        public string? Restrict { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
+        public string? Checks { get; set; } // any, this, jwt, session, cookie, localStorage, queryParams, requestBody, db, collection or table name, etc.
+        public string? Regex { get; set; }
         public string? RestrictionId { get; set; }
         public string? Versions { get; set; }
         public DateTime? ExpiredAt { get; set; }

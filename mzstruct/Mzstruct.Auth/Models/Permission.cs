@@ -21,6 +21,7 @@ public class Permission : BaseEntity
     public string Version { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
+    public string? ParentPermitId { get; set; }
     public string? PlatformId { get; set; }
     public string? AppId { get; set; }
     public string? AppSecret { get; set; }
@@ -39,12 +40,25 @@ public class Permission : BaseEntity
 
 public class FeaturePermission : Permission
 {
+    public List<string>? ResourcePermitIds { get; set; }
     public List<ResourcePermission>? ResourcePermits { get; set; }
+
+    public List<string>? ApiPermitIds { get; set; }
     public List<APIPermission>? ApiPermits { get; set; }
+
+    public List<string>? ControllerPermitIds { get; set; }
     public List<ApiControllerPermission>? ControllerPermits { get; set; }
+
+    public List<string>? EndPointPermitIds { get; set; }
     public List<Permission>? EndPointPermits { get; set; }
+
+    public List<string>? ModulePermitIds { get; set; }
     public List<ModulePermission>? ModulePermits { get; set; }
+
+    public List<string>? PagePermitIds { get; set; }
     public List<PagePermission>? PagePermits { get; set; }
+
+    public List<string>? ComponentPermitIds { get; set; }
     public List<ComponentPermission>? ComponentPermits { get; set; }
 }
 
@@ -66,6 +80,8 @@ public class ResourcePermission : Permission
         Type = PermissionType.Resource;
     }
     public required string Resources { get; set; } // collection or table names! | "xyz,abc"
+    
+    public List<string>? FieldPermitIds { get; set; }
     public List<FieldPermission>? FieldPermits { get; set; }
 }
 
@@ -75,8 +91,8 @@ public class FieldPermission : Permission
     {
         Type = PermissionType.Field;
     }
-    public required string Resources { get; set; } // collection or table names! | "xyz,abc"
-    public required string Properties { get; set; } // collection or table or form field names!
+    public required string Resource { get; set; } // collection or table names! | "xyz,abc"
+    public required string Property { get; set; } // collection field or table column or form field names!
 }
 
 public class ScopePermission : Permission
@@ -84,8 +100,10 @@ public class ScopePermission : Permission
     public required string ResourceId { get; set; } = string.Empty;
     public required string ResourceType { get; set; } = string.Empty; // channel | chatroom | group | gang | page | shop | team | etc.
     public required ReferenceMap Creater { get; set; }
-    public List<ScopeRolePermission>? RolePermits { get; set; }
     public ReferenceMap? Owner { get; set; }
+
+    public List<string>? RolePermitIds { get; set; }
+    public List<ScopeRolePermission>? RolePermits { get; set; }
 }
 
 public class ContentPermission : Permission
@@ -111,15 +129,24 @@ public class ContentPermission : Permission
 public class PlatformPermission : Permission
 {
     // App permissions
+    public List<string>? AppPermitIds { get; set; }
     public List<APPPermission>? AppPermits { get; set; }
 }
 
 public class APPPermission : Permission
 { 
-    public string? PlatformPermitId { get; set; }   
+    public string? PlatformPermitId { get; set; }
+
+    public List<string>? ResourcePermitIds { get; set; }
     public List<ResourcePermission>? ResourcePermits { get; set; }
+
+    public List<string>? ApiPermitIds { get; set; }
     public List<APIPermission>? ApiPermits { get; set; }
+
+    public List<string>? UIPermitIds { get; set; }
     public List<UIPermission>? UIPermits { get; set; } // Micro Frontend
+
+    public List<string>? ModulePermitIds { get; set; }
     public List<ModulePermission>? ModulePermits { get; set; }
 }
 
@@ -127,8 +154,12 @@ public class APIPermission : Permission
 {
     public string? PlatformPermitId { get; set; }
     public string? AppPermitId { get; set; }
+
     public List<string>? Controllers { get; set; }
     public List<string>? EndPoints { get; set; }
+
+    public List<string>? EndPointPermitIds { get; set; }
+    public List<string>? ControllerPermitIds { get; set; }
     public List<ApiControllerPermission>? ControllerPermits { get; set; }
 }
 
@@ -137,7 +168,9 @@ public class ApiControllerPermission : Permission
     public string? PlatformPermitId { get; set; }
     public string? AppPermitId { get; set; }
     public string? ApiPermitId { get; set; }
+
     public List<string>? EndPoints { get; set; }
+    public List<string>? EndPointPermitIds { get; set; }
     public List<Permission>? EndPointPermits { get; set; }
 }
 
@@ -150,21 +183,38 @@ public abstract class ViewPermission : Permission
     public string? HtmlIds { get; set; } // selectors " #id1, #id2"
     public string? HtmlClasses { get; set; } // selectors ".class1, .class2"
     public string? HtmlTags { get; set; } // selectors "div, span, p, a, img, button, input, form, table, tr, td, ul, li, etc."
+
     public List<string>? Apis { get; set; }
+    public List<string>? Controllers { get; set; }
+    public List<string>? EndPoints { get; set; }
     public List<string>? Modules { get; set; }
+    public List<string>? Pages { get; set; }
     public List<string>? Components { get; set; }
     public List<string>? Sections { get; set; }
     public List<string>? Tabs { get; set; }
+    
+    // API permissions
+    public List<string>? ApiPermitIds { get; set; }
+    public List<APIPermission>? ApiPermits { get; set; }
+
+    public List<string>? ControllerPermitIds { get; set; }
+    public List<ApiControllerPermission>? ControllerPermits { get; set; }
+
+    public List<string>? EndPointPermitIds { get; set; }
+    public List<Permission>? EndPointPermits { get; set; }
 }
 
 public class UIPermission : ViewPermission
 {
+    public List<string>? ModulePermitIds { get; set; }
     public List<ModulePermission>? ModulePermits { get; set; }
 }
 
 public class ModulePermission : ViewPermission
 {
     public string? UIPermitId { get; set; }
+
+    public List<string>? PagePermitIds { get; set; }
     public List<PagePermission>? PagePermits { get; set; }
 }
 
@@ -172,6 +222,8 @@ public class PagePermission : ViewPermission
 {
     public string? UIPermitId { get; set; }
     public string? ModulePermitId { get; set; }
+
+    public List<string>? ComponentPermitIds { get; set; }
     public List<ComponentPermission>? ComponentPermits { get; set; }
 }
 
@@ -180,9 +232,18 @@ public class ComponentPermission : ViewPermission
     public string? UIPermitId { get; set; }
     public string? ModulePermitId { get; set; }
     public string? PagePermitId { get; set; }
-    // API permissions
-    public List<APIPermission>? ApiPermits { get; set; }
+
+    public List<string>? SectionPermitIds { get; set; }
+    public List<SectionPermission>? SectionPermits { get; set; }
 }
+
+public class SectionPermission : ViewPermission 
+{
+    public List<string>? TabPermitIds { get; set; }
+    public List<Permission>? TabPermits { get; set; }
+}
+
+//public class TabPermission : ViewPermission { }
 
 public class AppRolePermission : FeaturePermission
 {
