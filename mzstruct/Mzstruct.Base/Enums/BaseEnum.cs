@@ -184,6 +184,36 @@ namespace Mzstruct.Base.Enums
         Field
     }
 
+    public enum ResourceType 
+    {
+        DB,
+        Blob,
+        Cache,
+        Queue,
+        Cloud,
+        Collection,
+        Table,
+        Document,
+        File,
+        PDF,
+        Image,
+        Video,
+        Audio,
+        Text,
+        HTML,
+        XML,
+        Json,
+        DOC,
+        XLS,
+        PPT,
+        CSV,
+        Bson,
+        Binary,
+        Base64,
+        Url,
+        Path,
+    }
+
     public enum ViolationType 
     {
         Spam, 
@@ -337,6 +367,7 @@ namespace Mzstruct.Base.Enums
         Table,
         Document,
         File,
+        PDF,
         Image,
         Video,
         Audio,
