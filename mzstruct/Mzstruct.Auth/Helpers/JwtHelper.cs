@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
-using Mzstruct.Auth.Models;
 using Mzstruct.Auth.Models.Configs;
-using Mzstruct.Base.Consts;
+using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
@@ -52,6 +48,7 @@ namespace Mzstruct.Auth.Helpers
             if (options is null) options = new();
             var refreshToken = new RefreshToken
             {
+                JtiId = Guid.NewGuid().ToString(),
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 ExpiresAt = BaseHelper.ToDateTime(options.RefreshTokenExpiryValue, options.RefreshTokenExpiryUnit), //DateTime.UtcNow.AddDays(7),
                 CreatedAt = DateTime.UtcNow

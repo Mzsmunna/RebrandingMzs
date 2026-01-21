@@ -47,12 +47,23 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappers
                 });
             }
 
+            if (!BsonClassMap.IsClassMapRegistered(typeof(RefreshToken)))
+            {
+                BsonClassMap.RegisterClassMap<RefreshToken>(map =>
+                {
+                    map.AutoMap();
+                    map.SetIgnoreExtraElements(true);
+                    //map.UnmapMember(x => x.RefreshToken);
+                });
+            }
+
             if (!BsonClassMap.IsClassMapRegistered(typeof(Identity)))
             {
                 BsonClassMap.RegisterClassMap<Identity>(map =>
                 {
                     map.AutoMap();
                     map.SetIgnoreExtraElements(true);
+                    map.UnmapMember(x => x.RefToken);
                     map.UnmapMember(x => x.PasswordHash);
                     map.UnmapMember(x => x.PasswordSalt);
                     map.UnmapMember(x => x.TokenCreated);

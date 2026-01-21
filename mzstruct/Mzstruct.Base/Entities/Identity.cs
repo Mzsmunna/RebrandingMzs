@@ -13,7 +13,7 @@ namespace Mzstruct.Base.Entities
         public required string Password { get; set; }
         public bool IsActive { get; set; } = true;
         public List<string>? Roles { get; set; }
-        
+        public RefreshToken? RefToken { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
 
         //[BsonIgnore]

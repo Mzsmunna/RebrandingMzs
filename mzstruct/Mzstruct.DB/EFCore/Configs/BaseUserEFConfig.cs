@@ -52,6 +52,7 @@ namespace Mzstruct.DB.EFCore.Configs
             builder.Ignore(u => u.PasswordSalt);
             builder.Ignore(u => u.TokenCreated);
             builder.Ignore(u => u.TokenExpires);
+            builder.Ignore(u => u.RefToken);
             //builder.Ignore(u => u.Created);
             //builder.Ignore(u => u.Modified);
 

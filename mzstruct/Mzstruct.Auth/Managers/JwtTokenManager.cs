@@ -87,18 +87,42 @@ namespace Mzstruct.Auth.Managers
 
             if (httpContextAccessor.HttpContext is not null)
                 httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
-            
             if (user != null)
             {
+                user.RefToken = newRefreshToken;
                 user.RefreshToken = newRefreshToken.Token;
                 user.TokenCreated = newRefreshToken.CreatedAt;
                 user.TokenExpires = newRefreshToken.ExpiresAt;
             }
-
+            
             return newRefreshToken;
         }
 
         public bool ValidateToken(string? token = "")
+        {
+            try
+            {
+                //var principal = handler.ValidateToken(token, parameters, out var validatedToken);
+                var (principal, validatedToken) = GetPrincipalFromToken(token);
+                
+                if (validatedToken is not JwtSecurityToken jwtToken ||
+                    !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase)) //StringComparison.InvariantCultureIgnoreCase
+                {
+                    return false;
+                }
+
+                if (principal is null || jwtToken is null)
+                    return false;
+
+                return jwtToken.ValidTo <= DateTime.UtcNow;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public (ClaimsPrincipal?, SecurityToken?) GetPrincipalFromToken(string? token = "")
         {
             if (string.IsNullOrEmpty(token) && httpContextAccessor.HttpContext is not null)
                 token = httpContextAccessor.HttpContext.Request.Headers.Authorization
@@ -121,21 +145,15 @@ namespace Mzstruct.Auth.Managers
             var parameters = _baseParams.Clone();
             parameters.ValidateLifetime = false; // allow expired
             var handler = new JwtSecurityTokenHandler();
+
             try
             {
                 var principal = handler.ValidateToken(token, parameters, out var validatedToken);
-                if (validatedToken is not JwtSecurityToken jwtToken ||
-                    !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase))
-                {
-                    return false;
-                }
-                if (principal is null || jwtToken is null)
-                    return false;
-                return jwtToken.ValidTo <= DateTime.UtcNow;
+                return (principal, validatedToken);
             }
             catch
             {
-                return false;
+                return (null, null);
             }
         }
 

@@ -55,6 +55,13 @@ namespace Mzstruct.Base.Helpers
             return value;
         }
 
+        public static DateTime ToDateTime(long unixTimeStamp, DateTimeKind kind = DateTimeKind.Utc)
+        {
+            var dateTimeVal = new DateTime(1970, 1, 1, 0, 0, 0, 0, kind);
+            dateTimeVal = dateTimeVal.AddSeconds(unixTimeStamp);
+            return dateTimeVal;
+        }
+
         public static TimeSpan ToTimeSpan(int value, TimeUnit unit)
         => unit switch
         {
