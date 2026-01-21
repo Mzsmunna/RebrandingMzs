@@ -53,7 +53,7 @@ namespace Tasker.Application.Features.Issues
                 if (user != null)
                 {
                     issue.Created.Name = user.FirstName + " " + user.LastName;
-                    issue.Created.Image = user.Img;
+                    issue.Created.Img= user.Img;
                 }
             }
 

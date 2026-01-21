@@ -128,7 +128,7 @@ public class PaidFeaturePermission : FeaturePermission
     public string ReferenceNo { get; set; } = string.Empty; // Retrieval Reference Number (RRN)
 }
 
-public class ScopePermission : Permission
+public class GroupPermission : Permission
 {
     public required string ResourceId { get; set; } = string.Empty;
     public required string ResourceType { get; set; } = string.Empty; // channel | chatroom | group | gang | page | shop | team | etc.
@@ -136,7 +136,15 @@ public class ScopePermission : Permission
     public ReferenceMap? Owner { get; set; }
 
     public List<string>? RolePermitIds { get; set; }
-    public List<ScopedRolePermission>? RolePermits { get; set; }
+    public List<GroupRolePermission>? RolePermits { get; set; }
+}
+
+public class GroupRolePermission : RolePermission
+{
+    public required string GroupId { get; set; }
+    public string? ParentGroupId { get; set; }
+    public string? GroupPermitId { get; set; }
+    public string? ParentGroupPermitId { get; set; }
 }
 
 public class ContentPermission : Permission
@@ -301,14 +309,6 @@ public class SectionPermission : ViewPermission
     public string? ComponentPermitId { get; set; }
 }
 
-//public class TabPermission : ViewPermission { }
-
-public class ScopedRolePermission : RolePermission
-{
-    public required string GroupId { get; set; }
-    public string? ScopePermitId { get; set; }
-}
-
 public abstract class ConsumerPermission : FeaturePermission //Permission
 {
     //public bool IsExtended { get; set; } // prioritize top level Permissions rather than the nested ones
@@ -324,8 +324,8 @@ public abstract class ConsumerPermission : FeaturePermission //Permission
     public List<string>? PaidFeaturePermitIds { get; set; }
     public List<PaidFeaturePermission>? PaidFeaturePermits { get; set; }
 
-    public List<string>? ScopedRolePermitIds { get; set; }
-    public List<ScopedRolePermission>? ScopedRolePermits { get; set; }
+    public List<string>? GroupRolePermitIds { get; set; }
+    public List<GroupRolePermission>? GroupRolePermits { get; set; }
 
     public List<string>? ContentPermitIds { get; set; }
     public List<ContentPermission>? ContentPermits { get; set; }
