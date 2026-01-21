@@ -44,6 +44,11 @@ public class ResourcePermission : Permission
     public List<Permission>? FieldPermits { get; set; }
 }
 
+public class RolePermission : FeaturePermission 
+{
+    public string Roles { get; set; } = string.Empty; // "User, Admin, Agent, Manager, etc"
+}
+
 public class FeaturePermission : Permission
 {
     // Platform Permissions
@@ -107,13 +112,13 @@ public class FeaturePermission : Permission
     public DateTime DeactivateAt { get; set; }
 }
 
-public class RolePermission : FeaturePermission 
-{
-    public string Roles { get; set; } = string.Empty; // "User, Admin, Agent, Manager, etc"
-}
-
 public class PaidFeaturePermission : FeaturePermission
 {
+    //public PaymentMethod PaymentMethod { get; set; }
+    public required PurchaseType  PurchaseType  { get; set; }
+    public required string PurchaseResource { get; set; }
+    public required string PurchaseId { get; set; } // SubscriptionId | MembershipId | OrderId | InvoiceId | EnrollId | TicketId | DonationId | TipId | GiftId
+
     public string FeaturePermitId { get; set; } = string.Empty;
     public string MerchantId { get; set; } = string.Empty; // API Key
     public string PaymentId { get; set; } = string.Empty;
@@ -121,12 +126,6 @@ public class PaidFeaturePermission : FeaturePermission
     public string TransactionStatus { get; set; } = string.Empty;
     public string ApprovalCode { get; set; } = string.Empty;
     public string ReferenceNo { get; set; } = string.Empty; // Retrieval Reference Number (RRN)
-
-    public string? OrderId { get; set; }
-    public string? InvoiceId { get; set; }
-    public string? EnrollId { get; set; }
-    public string? MembershipId { get; set; }
-    public string? SubscriptionId { get; set; }
 }
 
 public class ScopePermission : Permission
