@@ -10,6 +10,7 @@ using Mzstruct.Common.Features.Auth;
 using Mzstruct.Common.Mappings;
 using Mzstruct.Common.Validators;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Mzstruct.Common.Auth
 {
@@ -94,13 +95,18 @@ namespace Mzstruct.Common.Auth
             return token;
         }
 
-        public async Task<Result<string>> RefreshToken(string userId, string refreshToken)
+        public async Task<Result<string>> RefreshToken(string userId, string token, string refreshToken)
         {
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(refreshToken))
+            if (string.IsNullOrEmpty(userId) 
+                || string.IsNullOrEmpty(token)
+                || string.IsNullOrEmpty(refreshToken))
             {
                 logger.LogWarning("RefreshToken: Bad Request");
                 return ClientError.BadRequest;
             }
+
+            if (jwtTokenManager.ValidateToken())
+                return Error.Bad("Token.Refresh.Invalid", "Token is still valid."); //BadRequest("Token is still valid.");
 
             var signInUser = await userRepository.GetById(userId);           
             if (signInUser is null)
@@ -111,8 +117,8 @@ namespace Mzstruct.Common.Auth
             else if (signInUser.TokenExpires < DateTime.UtcNow)
                 return Error.Unauthorized("Token.Refresh.Expired", "Token expired."); //Unauthorized("Token expired.");
 
-            string token = jwtTokenManager.CreateNewToken(signInUser);
-            return token;
+            string jwt = jwtTokenManager.CreateNewToken(signInUser);
+            return jwt;
         }
     }
 }

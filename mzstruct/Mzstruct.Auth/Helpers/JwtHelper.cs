@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using Mzstruct.Auth.Models;
 using Mzstruct.Auth.Models.Configs;
+using Mzstruct.Base.Consts;
 using Mzstruct.Base.Helpers;
 using System;
 using System.Collections.Generic;
@@ -44,14 +48,30 @@ namespace Mzstruct.Auth.Helpers
             return token;
         }
 
+        public static SymmetricSecurityKey GetSymmetricSecurityKey(JwtTokenOptions options, IConfiguration config)
+        {
+            //var config = AppConst.GetConfig();
+            string secret = options.SecretKey ??
+                            config.GetValue<string>(options.SecretConfigKey ?? "JWTAuthSecretKey")
+                            ?? throw new Exception("JWT secret key not provided.");
+            return GetSymmetricSecurityKey(secret);
+        }
+
+        public static SymmetricSecurityKey GetSymmetricSecurityKey(string secret)
+        {
+            if (string.IsNullOrEmpty(secret)) throw new Exception("JWT secret key not provided.");
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+            return signingKey;
+        }
+
         public static RefreshToken GenerateRefreshToken(JwtTokenOptions? options = null)
         {
             if (options is null) options = new();
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = BaseHelper.ToDateTime(options.RefreshTokenExpiryValue, options.RefreshTokenExpiryUnit), //DateTime.UtcNow.AddDays(7),
-                Created = DateTime.UtcNow
+                ExpiresAt = BaseHelper.ToDateTime(options.RefreshTokenExpiryValue, options.RefreshTokenExpiryUnit), //DateTime.UtcNow.AddDays(7),
+                CreatedAt = DateTime.UtcNow
             };
             return refreshToken;
         }
@@ -62,6 +82,36 @@ namespace Mzstruct.Auth.Helpers
             if (securityToken is null) return "";
             var claim = securityToken.Claims.FirstOrDefault(claim => claim.Type == key);
             return (claim != null) ? claim.Value : "";
+        }
+
+        public static TokenValidationParameters GetTokenValidationParameters(SymmetricSecurityKey signingKey, JWTAuth? config)
+        {
+            return new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.Zero, //TimeSpan.FromSeconds(30)
+                    IssuerSigningKey = signingKey,
+                    ValidIssuer = config?.Issuer,
+                    ValidAudience = config?.Audience,
+                };
+        }
+
+        public static JwtBearerEvents GetJwtBearerEvents(string requestQuery = "access_token", string segment = "/jwtevents")
+        {
+            return new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query[requestQuery];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) 
+                        && (path.StartsWithSegments(segment))) context.Token = accessToken;
+                        return Task.CompletedTask;
+                    }
+                };
         }
     }
 }

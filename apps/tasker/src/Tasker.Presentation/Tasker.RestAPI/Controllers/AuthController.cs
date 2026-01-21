@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Mzstruct.Common.Extensions;
 using Mzstruct.Common.Features.Auth;
 using Tasker.Application.Contracts.ICommands;
-using Tasker.Application.Features.Auth;
 
 namespace Tasker.RestAPI.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthController(IAuthCommand authCommand) : ControllerBase
@@ -38,8 +39,11 @@ namespace Tasker.RestAPI.Controllers
         [ActionName("RefreshToken")]
         public async Task<IActionResult> RefreshToken(string userId)
         {
+            var token = Request.Headers.Authorization
+                .FirstOrDefault()?
+                .Replace("Bearer ", "") ?? "";
             var refreshToken = Request.Cookies["refreshToken"] ?? "";
-            var result = await authCommand.RefreshToken(userId, refreshToken);
+            var result = await authCommand.RefreshToken(userId, token, refreshToken);
             return result.ToActionResult(this);
         }
     }

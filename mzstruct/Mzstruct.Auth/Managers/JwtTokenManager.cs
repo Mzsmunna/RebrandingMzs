@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.Auth.Helpers;
-using Mzstruct.Auth.Models;
 using Mzstruct.Auth.Models.Configs;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
@@ -45,12 +44,13 @@ namespace Mzstruct.Auth.Managers
         }
 
         public string CreateToken(Identity? user = null, List<Claim>? additionalClaims = null)
-        {
-            var secret = !string.IsNullOrEmpty(options.Value.SecretKey) ? options.Value.SecretKey : config.GetValue<string>(options.Value.SecretConfigKey);
-            var tokenExpiredOn = BaseHelper.ToDateTime(options.Value.TokenExpiryValue, options.Value.TokenExpiryUnit); //DateTime.UtcNow.AddMinutes(15);
-            SymmetricSecurityKey? key = null;
+        {     
+            var tokenExpiredOn = BaseHelper.ToDateTime(options.Value.TokenExpiryValue, options.Value.TokenExpiryUnit); //DateTime.UtcNow.AddMinutes(15);          
             List<Claim> claims = new List<Claim>();
-            
+            var key = JwtHelper.GetSymmetricSecurityKey(options.Value, config);
+            if (key is null) 
+                throw new Exception("JWT secret key not provided.");
+
             if (user != null) 
             {
                 List<Claim> userClaims = new List<Claim>
@@ -67,10 +67,7 @@ namespace Mzstruct.Auth.Managers
             if (additionalClaims is not null && additionalClaims.Any())
                 claims.AddRange(additionalClaims);
             claims.Add(new Claim(ClaimTypes.Expiration, tokenExpiredOn.ToString()));
-            if (!string.IsNullOrEmpty(secret))
-                key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
-            else
-                throw new Exception("JWT secret key not provided.");
+            
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                 claims: claims,
@@ -86,7 +83,7 @@ namespace Mzstruct.Auth.Managers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Expires = newRefreshToken.Expires
+                Expires = newRefreshToken.ExpiresAt
             };
 
             if (httpContextAccessor.HttpContext is not null)
@@ -95,8 +92,49 @@ namespace Mzstruct.Auth.Managers
             if (user != null)
             {
                 user.RefreshToken = newRefreshToken.Token;
-                user.TokenCreated = newRefreshToken.Created;
-                user.TokenExpires = newRefreshToken.Expires;
+                user.TokenCreated = newRefreshToken.CreatedAt;
+                user.TokenExpires = newRefreshToken.ExpiresAt;
+            }
+        }
+
+        public bool ValidateToken(string? token = "")
+        {
+            if (string.IsNullOrEmpty(token) && httpContextAccessor.HttpContext is not null)
+                token = httpContextAccessor.HttpContext.Request.Headers.Authorization
+                .FirstOrDefault()?
+                .Replace("Bearer ", "") ?? "";
+
+            var key = JwtHelper.GetSymmetricSecurityKey(options.Value, config);
+            var _baseParams = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = key,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidIssuer = options.Value.jwtAuthConfig?.Issuer ?? "",
+                ValidAudience = options.Value.jwtAuthConfig?.Audience ?? "",
+                // IMPORTANT: we’ll override ValidateLifetime per call
+                ClockSkew = TimeSpan.Zero
+            };
+
+            var parameters = _baseParams.Clone();
+            parameters.ValidateLifetime = false; // allow expired
+            var handler = new JwtSecurityTokenHandler();
+            try
+            {
+                var principal = handler.ValidateToken(token, parameters, out var validatedToken);
+                if (validatedToken is not JwtSecurityToken jwtToken ||
+                    !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+                if (principal is null || jwtToken is null)
+                    return false;
+                return jwtToken.ValidTo <= DateTime.UtcNow;
+            }
+            catch
+            {
+                return false;
             }
         }
 

@@ -30,9 +30,9 @@ namespace Tasker.Application.Features.Auth
             return await authCommand.SignInWithGoogle(credential);
         }
 
-        public async Task<Result<string>> RefreshToken(string userId, string refreshToken)
+        public async Task<Result<string>> RefreshToken(string userId, string token, string refreshToken)
         {
-            return await authCommand.RefreshToken(userId, refreshToken);
+            return await authCommand.RefreshToken(userId, token, refreshToken);
         }
     }
 }

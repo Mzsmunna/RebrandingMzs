@@ -7,7 +7,9 @@ namespace Mzstruct.Auth.Models
     public class RefreshToken
     {
         public required string Token { get; set; }
-        public required DateTime Created { get; set; } = DateTime.UtcNow;
-        public required DateTime Expires { get; set; }
+        public required DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public required DateTime ExpiresAt { get; set; }
+        public DateTime? RevokedAt { get; set; }
+        public bool IsRevoked => RevokedAt != null; //&& DateTime.UtcNow >= ExpiresAt;
     }
 }

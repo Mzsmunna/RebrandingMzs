@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Mzstruct.Auth.Contracts.IHandlers;
 using Mzstruct.Auth.Contracts.IManagers;
+using Mzstruct.Auth.Helpers;
 using Mzstruct.Auth.Interceptors;
 using Mzstruct.Auth.Managers;
 using Mzstruct.Auth.Models.Configs;
@@ -71,37 +72,11 @@ namespace Mzstruct.Common.Dependencies
                 o.RefreshTokenExpiryUnit = opts.RefreshTokenExpiryUnit;
             });
 
-            string secret = opts.SecretKey ??
-                            config.GetValue<string>(opts.SecretConfigKey ?? "JWTAuthSecretKey")
-                            ?? throw new Exception("JWT secret key not provided.");
-
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
-
+            var signingKey = JwtHelper.GetSymmetricSecurityKey(opts, config);
             var validationParams =
                 opts.CustomTokenValidationParameters ??
-                new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ClockSkew = TimeSpan.Zero, //TimeSpan.FromSeconds(30)
-                    IssuerSigningKey = signingKey,
-                    ValidIssuer = opts.jwtAuthConfig?.Issuer,
-                    ValidAudience = opts.jwtAuthConfig?.Audience,
-                };
-
-            var jwtEvent = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        var accessToken = context.Request.Query["access_token"];
-                        var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken) 
-                        && (path.StartsWithSegments("/jwtevents"))) context.Token = accessToken;
-                        return Task.CompletedTask;
-                    }
-                };
+                JwtHelper.GetTokenValidationParameters(signingKey, opts.jwtAuthConfig);
+            var jwtEvent = JwtHelper.GetJwtBearerEvents();
 
             services
                 //.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
