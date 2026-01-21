@@ -12,8 +12,8 @@ namespace Mzstruct.Auth.Contracts.IManagers
 {
     public interface IJwtTokenManager
     {
-        public RefreshToken GenerateRefreshToken();
-        public void SetRefreshToken(RefreshToken newRefreshToken, Identity user);
+        public void SetRefreshToken(Identity? user);
+        public string CreateNewToken(Identity? user = null, List<Claim>? additionalClaims = null);
         public string CreateIdentityToken<TIdentity>(TIdentity user, IList<string> roles, List<Claim>? additionalClaims = null) where TIdentity : IdentityUser;
         public string CreateToken(Identity? user = null, List<Claim>? additionalClaims = null);
         public string GetValueFromToken(string token, string key);

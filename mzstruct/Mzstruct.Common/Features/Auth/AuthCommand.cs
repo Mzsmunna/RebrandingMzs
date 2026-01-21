@@ -66,10 +66,7 @@ namespace Mzstruct.Common.Auth
             if (!jwtTokenManager.VerifyPasswordHash(signInUser.Password, signInUser.PasswordHash, signInUser.PasswordSalt))
                 return Error.Validation("SignIn.Credential.Wrong", "Wrong credential.");
             
-            string token = jwtTokenManager.CreateToken(signInUser);
-            var refreshToken = jwtTokenManager.GenerateRefreshToken();
-            jwtTokenManager.SetRefreshToken(refreshToken, signInUser);
-            
+            string token = jwtTokenManager.CreateNewToken(signInUser);
             return token;
         }
 
@@ -93,9 +90,7 @@ namespace Mzstruct.Common.Auth
             if (!jwtTokenManager.VerifyPasswordHash(signInUser.Password, signInUser.PasswordHash, signInUser.PasswordSalt))
                 return Error.Validation("SignIn.Google.Error", "Wrong credential."); //StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
 
-            string token = jwtTokenManager.CreateToken(signInUser);
-            var refreshToken = jwtTokenManager.GenerateRefreshToken();
-            jwtTokenManager.SetRefreshToken(refreshToken, signInUser);
+            string token = jwtTokenManager.CreateNewToken(signInUser);
             return token;
         }
 
@@ -116,9 +111,7 @@ namespace Mzstruct.Common.Auth
             else if (signInUser.TokenExpires < DateTime.UtcNow)
                 return Error.Unauthorized("Token.Refresh.Expired", "Token expired."); //Unauthorized("Token expired.");
 
-            string token = jwtTokenManager.CreateToken(signInUser);
-            var newRefreshToken = jwtTokenManager.GenerateRefreshToken();
-            jwtTokenManager.SetRefreshToken(newRefreshToken, signInUser);
+            string token = jwtTokenManager.CreateNewToken(signInUser);
             return token;
         }
     }

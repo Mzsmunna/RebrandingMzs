@@ -22,18 +22,11 @@ namespace Mzstruct.Auth.Managers
         //private readonly JwtTokenOptions _options = options.Value;
         //private readonly IConfiguration _config = config;
 
-        public void SetRefreshToken(RefreshToken newRefreshToken, Identity user)
+        public string CreateNewToken(Identity? user = null, List<Claim>? additionalClaims = null)
         {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = newRefreshToken.Expires
-            };
-            if (httpContextAccessor.HttpContext is not null)
-                httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
-            user.RefreshToken = newRefreshToken.Token;
-            user.TokenCreated = newRefreshToken.Created;
-            user.TokenExpires = newRefreshToken.Expires;
+            string jwt = CreateToken(user, additionalClaims);
+            SetRefreshToken(user);
+            return jwt;
         }
 
         public string CreateIdentityToken<TIdentity>(TIdentity user, IList<string> roles, List<Claim>? additionalClaims = null) where TIdentity : IdentityUser
@@ -87,7 +80,26 @@ namespace Mzstruct.Auth.Managers
             return jwt;
         }
 
-        public RefreshToken GenerateRefreshToken() => JwtHelper.GenerateRefreshToken(options.Value);
+        public void SetRefreshToken(Identity? user)
+        {
+            var newRefreshToken = JwtHelper.GenerateRefreshToken(options.Value);
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = newRefreshToken.Expires
+            };
+
+            if (httpContextAccessor.HttpContext is not null)
+                httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+
+            if (user != null)
+            {
+                user.RefreshToken = newRefreshToken.Token;
+                user.TokenCreated = newRefreshToken.Created;
+                user.TokenExpires = newRefreshToken.Expires;
+            }
+        }
+
         public string GetValueFromToken(string token, string key) => JwtHelper.GetValueFromToken(token, key);
         public string CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt) => PasswordHelper.HashWithHMACSHA512(password, out passwordHash, out passwordSalt);
         public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt) => PasswordHelper.VerifyWithHMACSHA512(password, passwordHash, passwordSalt);
