@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.Auth.Helpers;
+using Mzstruct.Auth.Models;
 using Mzstruct.Auth.Models.Configs;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
@@ -21,9 +22,22 @@ namespace Mzstruct.Auth.Managers
         //private readonly JwtTokenOptions _options = options.Value;
         //private readonly IConfiguration _config = config;
 
-        public string CreateNewToken(Identity? user = null, List<Claim>? additionalClaims = null)
+        public string CreateNewToken(Identity? user = null, List<Claim>? claims = null)
         {
-            string jwt = CreateToken(user, additionalClaims);
+            claims = JwtHelper.GetClaims(claims);
+            if (user != null)
+            {
+                List<Claim> userClaims = new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Surname, user.Name),
+                    new Claim(ClaimTypes.Email, user.Email.ToLower()),
+                    new Claim(ClaimTypes.Role, user.Role.ToLower()),
+                };
+                claims.AddRange(userClaims);
+            }
+            string jwt = CreateToken(claims);
             SetRefreshToken(user);
             return jwt;
         }
@@ -40,44 +54,29 @@ namespace Mzstruct.Auth.Managers
             };
             foreach (var role in roles)
                 claims.Add(new Claim(ClaimTypes.Role, role));
-            return CreateToken(null, claims);
+            SetRefreshToken();
+            return CreateToken(claims);
         }
 
-        public string CreateToken(Identity? user = null, List<Claim>? additionalClaims = null)
-        {     
-            var tokenExpiredOn = BaseHelper.ToDateTime(options.Value.TokenExpiryValue, options.Value.TokenExpiryUnit); //DateTime.UtcNow.AddMinutes(15);          
-            List<Claim> claims = new List<Claim>();
-            var key = JwtHelper.GetSymmetricSecurityKey(options.Value, config);
-            if (key is null) 
-                throw new Exception("JWT secret key not provided.");
-
-            if (user != null) 
+        public string CreateToken(List<Claim>? claims = null)
+        {
+            var tokenExpiringAt = BaseHelper.ToDateTime(options.Value.TokenExpiryValue, options.Value.TokenExpiryUnit);
+            if (claims is null) claims = JwtHelper.GetClaims(claims);
+            if (!claims.Any(c => c.Type == ClaimTypes.Expiration))
             {
-                List<Claim> userClaims = new List<Claim>
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Surname, user.Name),
-                    new Claim(ClaimTypes.Email, user.Email.ToLower()),
-                    new Claim(ClaimTypes.Role, user.Role.ToLower()),
-                };
-                claims.AddRange(userClaims);
-            }
-            
-            if (additionalClaims is not null && additionalClaims.Any())
-                claims.AddRange(additionalClaims);
-            claims.Add(new Claim(ClaimTypes.Expiration, tokenExpiredOn.ToString()));
-            
+                claims.Add(new Claim(ClaimTypes.Expiration, tokenExpiringAt.ToString() ?? DateTime.UtcNow.AddMinutes(15).ToString()));
+            }  
+            var key = JwtHelper.GetSymmetricSecurityKey(options.Value, config);         
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: tokenExpiredOn,
+                expires: tokenExpiringAt,
                 signingCredentials: creds);
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
 
-        public void SetRefreshToken(Identity? user)
+        public RefreshToken SetRefreshToken(Identity? user = null)
         {
             var newRefreshToken = JwtHelper.GenerateRefreshToken(options.Value);
             var cookieOptions = new CookieOptions
@@ -88,13 +87,15 @@ namespace Mzstruct.Auth.Managers
 
             if (httpContextAccessor.HttpContext is not null)
                 httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
-
+            
             if (user != null)
             {
                 user.RefreshToken = newRefreshToken.Token;
                 user.TokenCreated = newRefreshToken.CreatedAt;
                 user.TokenExpires = newRefreshToken.ExpiresAt;
             }
+
+            return newRefreshToken;
         }
 
         public bool ValidateToken(string? token = "")

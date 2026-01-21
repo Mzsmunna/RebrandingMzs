@@ -15,8 +15,8 @@ namespace Mzstruct.Auth.Contracts.IManagers
         
         public string CreateNewToken(Identity? user = null, List<Claim>? additionalClaims = null);
         public string CreateIdentityToken<TIdentity>(TIdentity user, IList<string> roles, List<Claim>? additionalClaims = null) where TIdentity : IdentityUser;
-        public string CreateToken(Identity? user = null, List<Claim>? additionalClaims = null);
-        public void SetRefreshToken(Identity? user);
+        public string CreateToken(List<Claim>? additionalClaims = null);
+        public RefreshToken SetRefreshToken(Identity? user = null);
         public bool ValidateToken(string? token = "");
         public string GetValueFromToken(string token, string key);
         public string CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);

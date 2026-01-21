@@ -27,7 +27,6 @@ namespace Mzstruct.Auth.Helpers
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
             var claims = new List<Claim>();
-
             if (payload != null)
             {
                 foreach (PropertyInfo claimInfo in payload.GetType().GetProperties())
@@ -48,22 +47,6 @@ namespace Mzstruct.Auth.Helpers
             return token;
         }
 
-        public static SymmetricSecurityKey GetSymmetricSecurityKey(JwtTokenOptions options, IConfiguration config)
-        {
-            //var config = AppConst.GetConfig();
-            string secret = options.SecretKey ??
-                            config.GetValue<string>(options.SecretConfigKey ?? "JWTAuthSecretKey")
-                            ?? throw new Exception("JWT secret key not provided.");
-            return GetSymmetricSecurityKey(secret);
-        }
-
-        public static SymmetricSecurityKey GetSymmetricSecurityKey(string secret)
-        {
-            if (string.IsNullOrEmpty(secret)) throw new Exception("JWT secret key not provided.");
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
-            return signingKey;
-        }
-
         public static RefreshToken GenerateRefreshToken(JwtTokenOptions? options = null)
         {
             if (options is null) options = new();
@@ -82,6 +65,38 @@ namespace Mzstruct.Auth.Helpers
             if (securityToken is null) return "";
             var claim = securityToken.Claims.FirstOrDefault(claim => claim.Type == key);
             return (claim != null) ? claim.Value : "";
+        }
+
+        public static SymmetricSecurityKey GetSymmetricSecurityKey(JwtTokenOptions options, IConfiguration config)
+        {
+            //var config = AppConst.GetConfig();
+            string secret = options.SecretKey ??
+                            config.GetValue<string>(options.SecretConfigKey ?? "JWTAuthSecretKey")
+                            ?? throw new Exception("JWT secret key not provided.");
+            return GetSymmetricSecurityKey(secret);
+        }
+
+        public static SymmetricSecurityKey GetSymmetricSecurityKey(string secret)
+        {
+            if (string.IsNullOrEmpty(secret)) throw new Exception("JWT secret key not provided.");
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+            return signingKey;
+        }
+
+        public static List<Claim> GetClaims(List<Claim>? additionalClaims = null)
+        {
+            var jti = Guid.NewGuid().ToString();
+            List<Claim> claims = new List<Claim>();            
+            if (additionalClaims != null && additionalClaims.Any())
+            {
+                if (!claims.Any(c => c.Type == JwtRegisteredClaimNames.Jti))
+                {
+                    claims.Add(new Claim(JwtRegisteredClaimNames.Jti, jti));
+                }
+                claims.AddRange(additionalClaims);
+            }
+            else claims.Add(new Claim(JwtRegisteredClaimNames.Jti, jti));        
+            return claims;
         }
 
         public static TokenValidationParameters GetTokenValidationParameters(SymmetricSecurityKey signingKey, JWTAuth? config)
