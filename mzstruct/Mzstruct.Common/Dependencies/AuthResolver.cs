@@ -33,6 +33,19 @@ namespace Mzstruct.Common.Dependencies
             return services;
         }
 
+        public static IServiceCollection AddCookieAuth(this IServiceCollection services, string? cookieName = "")
+        {
+            if (string.IsNullOrEmpty(cookieName)) cookieName = "AppCookieAuth";
+            services.AddAuthentication(cookieName)
+                .AddCookie(cookieName, options =>
+                {
+                    options.Cookie.Name = cookieName;
+                    options.LoginPath = "/Account/Login";
+                    options.AccessDeniedPath = "/Account/AccessDenied";
+                });
+            return services;
+        }
+
         public static IServiceCollection AddJwtAuth(this IServiceCollection services,
             IConfiguration config,
             Action<JwtTokenOptions>? options = null)

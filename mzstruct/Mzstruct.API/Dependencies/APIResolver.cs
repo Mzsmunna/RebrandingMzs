@@ -14,6 +14,7 @@ namespace Mzstruct.API.Dependencies
         public static IServiceCollection AddRestApi(this IServiceCollection services)
         {
             services.AddCors();
+            services.AddHttpClient();
             services.AddHttpContextAccessor();
 
             // services.AddControllers();
