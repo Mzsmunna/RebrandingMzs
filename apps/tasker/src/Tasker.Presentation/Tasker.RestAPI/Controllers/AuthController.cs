@@ -37,12 +37,13 @@ namespace Tasker.RestAPI.Controllers
             return result.ToActionResult(this);
         }
 
-        [HttpPost]
+        [HttpGet]
         [ActionName("LoginWithGitHub")]
         public async Task<IActionResult> LoginWithGitHub()
         {
             var props = new AuthenticationProperties
             {
+                //RedirectUri = "http://localhost:4200/auth/RequestGitHubSignIn"
                 RedirectUri = "/api/auth/RequestGitHubSignIn"
             };
             return Challenge(props, "GitHub");

@@ -128,6 +128,9 @@ namespace Mzstruct.Common.Dependencies
 
                 authBuilder.AddGitHub(options =>
                 {
+                    // 👇 MUST match GitHub OAuth app callback URL (path only)
+                    // GitHub: https://localhost:7016/api/auth/RequestGitHubSignIn
+                    options.CallbackPath = gitHubAuth.CallbackPath;
                     options.ClientId = gitHubAuth.ClientId;
                     options.ClientSecret = gitHubAuth.ClientSecret;
                     options.Scope.Add("user:email"); //In OAuth 2.0, a scope defines what permissions your app is asking for.
