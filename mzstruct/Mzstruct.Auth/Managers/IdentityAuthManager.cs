@@ -23,7 +23,6 @@ namespace Mzstruct.Auth.Managers
             var claimType = "Permission";
             List<string> accessLevels = ["Read", "Update", "Delete"];
 
-            //var userRoles = await userManager.GetRolesAsync(user);
             var existingRole = await roleManager.FindByNameAsync(defaultRole);
             if (existingRole is null)
             {
@@ -58,7 +57,7 @@ namespace Mzstruct.Auth.Managers
             var check = await signInManager.CheckPasswordSignInAsync(user, req.Password, lockoutOnFailure: true);
             if (!check.Succeeded) return "Invalid credentials";
           
-            var roles = await userManager.GetRolesAsync(user);
+            var userRoles = await userManager.GetRolesAsync(user);
 
             //var claimType = "Permission";
             //var parmissions = await (from role in appDBContext.Roles
@@ -67,7 +66,7 @@ namespace Mzstruct.Auth.Managers
             //                          select claim.ClaimValue).Distinct().ToListAsync();
             //var permissionClaims = parmissions.Select(p => new Claim(claimType, p)).ToList();
 
-            var token = jwtTokenManager.CreateIdentityToken(user, roles); //, permissionClaims
+            var token = jwtTokenManager.CreateIdentityToken(user, userRoles); //, permissionClaims
             return token;
         }
     }
