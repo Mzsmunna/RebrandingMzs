@@ -43,15 +43,14 @@ namespace Tasker.RestAPI.Controllers
         {
             var props = new AuthenticationProperties
             {
-                //RedirectUri = "http://localhost:4200/auth/RequestGitHubSignIn"
-                RedirectUri = "/api/auth/RequestGitHubSignIn"
+                RedirectUri = "/api/auth/ConfirmGitHubSignIn"
             };
             return Challenge(props, "GitHub");
         }
 
         [HttpGet]
-        [ActionName("RequestGitHubSignIn")]
-        public async Task<IActionResult> GitHubCallback()
+        [ActionName("ConfirmGitHubSignIn")] // Callback
+        public async Task<IActionResult> ConfirmGitHubSignIn()
         {
             var authenticateResult =
                 await HttpContext.AuthenticateAsync("GitHub");
@@ -60,7 +59,6 @@ namespace Tasker.RestAPI.Controllers
                 return Unauthorized();
 
             var claims = authenticateResult.Principal!.Claims;
-
             var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var githubId = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;

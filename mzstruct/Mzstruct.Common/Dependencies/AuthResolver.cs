@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,9 @@ using Mzstruct.Common.Helpers;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.EFCore.Entities;
 using Mzstruct.DB.EFCore.Helpers;
+using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace Mzstruct.Common.Dependencies
 {
@@ -126,20 +129,44 @@ namespace Mzstruct.Common.Dependencies
                 if (gitHubAuth is null)
                     throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
 
-                authBuilder.AddGitHub(options =>
-                {
-                    // 👇 MUST match GitHub OAuth app callback URL (path only)
-                    // GitHub: https://localhost:7016/api/auth/RequestGitHubSignIn
-                    options.CallbackPath = gitHubAuth.CallbackPath;
-                    options.ClientId = gitHubAuth.ClientId;
-                    options.ClientSecret = gitHubAuth.ClientSecret;
-                    options.Scope.Add("user:email"); //In OAuth 2.0, a scope defines what permissions your app is asking for.
-                    options.Events.OnCreatingTicket = async context =>
+                authBuilder
+                    .AddCookie(gitHubAuth.Schema) // 1) Add Temporary cookie just for external login handshake
+                    .AddGitHub(options =>
                     {
-                        // You can access GitHub user info here
-                        var accessToken = context.AccessToken;
-                    };
-                });
+                        options.SignInScheme = gitHubAuth.Schema; // 👈 2) external cookie only, not your main auth
+
+                        // 👇 3) MUST match GitHub OAuth app callback URL (path only)
+                        // GitHub: https://localhost:7016/api/auth/RequestGitHubSignIn
+                        options.CallbackPath = gitHubAuth.CallbackPath;
+                        options.ClientId = gitHubAuth.ClientId;
+                        options.ClientSecret = gitHubAuth.ClientSecret;
+
+                        //In OAuth 2.0, a scope defines what permissions your app is asking for.
+                        options.Scope.Add("read:user");
+                        options.Scope.Add("user:email");
+
+                        //options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                        //options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                        //options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+
+                        options.Events.OnCreatingTicket = async context =>
+                        {
+                            // You can access GitHub user info here
+                            var accessToken = context.AccessToken;
+
+                            // If needed, explicitly fetch user JSON:
+                            var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
+                            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", context.AccessToken);
+
+                            var response = await context.Backchannel.SendAsync(request);
+                            response.EnsureSuccessStatusCode();
+
+                            var json = await response.Content.ReadAsStringAsync();
+                            using var doc = JsonDocument.Parse(json);
+                            context.RunClaimActions(doc.RootElement);
+                        };
+                    });
             }
              
             services.AddScoped<IJwtTokenManager, JwtTokenManager>();
