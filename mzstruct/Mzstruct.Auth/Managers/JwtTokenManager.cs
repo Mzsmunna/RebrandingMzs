@@ -69,6 +69,8 @@ namespace Mzstruct.Auth.Managers
             var key = JwtHelper.GetSymmetricSecurityKey(options.Value, config);         
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
+                issuer: options.Value.jwtAuthConfig?.Issuer,
+                audience: options.Value.jwtAuthConfig?.Audience, // ✅ must match config
                 claims: claims,
                 expires: tokenExpiringAt,
                 signingCredentials: creds);

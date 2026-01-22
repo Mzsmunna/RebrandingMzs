@@ -4,6 +4,7 @@ using System.Net;
  
 namespace Tasker.RestAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     //[ValidateNever]

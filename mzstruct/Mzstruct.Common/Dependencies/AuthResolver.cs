@@ -88,6 +88,10 @@ namespace Mzstruct.Common.Dependencies
             if (opts.SignInOptions is null)
                 opts.SignInOptions = config.GetSection(nameof(SignInWith)).Get<SignInWith>();
 
+            var signingKey = JwtHelper.GetSymmetricSecurityKey(opts, config);
+            if (opts.TokenParameters is null)
+                opts.TokenParameters = JwtHelper.GetTokenValidationParameters(signingKey, opts.jwtAuthConfig);
+
             // Register options into DI
             services.Configure<JwtTokenOptions>(o =>
             {
@@ -99,12 +103,12 @@ namespace Mzstruct.Common.Dependencies
 
                 o.RefreshTokenExpiryValue = opts.RefreshTokenExpiryValue;
                 o.RefreshTokenExpiryUnit = opts.RefreshTokenExpiryUnit;
+
+                o.jwtAuthConfig = opts.jwtAuthConfig;
+                o.TokenParameters = opts.TokenParameters;
+                o.SignInOptions = opts.SignInOptions;
             });
 
-            var signingKey = JwtHelper.GetSymmetricSecurityKey(opts, config);
-            var validationParams =
-                opts.TokenParameters ??
-                JwtHelper.GetTokenValidationParameters(signingKey, opts.jwtAuthConfig);
             var jwtEvent = JwtHelper.GetJwtBearerEvents();
             var authBuilder = services
                 //.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -117,12 +121,12 @@ namespace Mzstruct.Common.Dependencies
                 .AddJwtBearer(options =>
                 {
                     options.SaveToken = true;
-                    options.TokenValidationParameters = validationParams;
+                    options.TokenValidationParameters = opts.TokenParameters;
                     options.Events = jwtEvent;
                 });
             if (opts.SignInOptions is null) return services;
 
-            // SignIn With: GitHub, Google, Facebook, etc.
+            // 👇 SignIn With: GitHub, Google, Facebook, etc.
             if (opts.SignInOptions.GitHub)
             {
                 var gitHubAuth = config.GetSection(nameof(GitHubAuth)).Get<GitHubAuth>();              
