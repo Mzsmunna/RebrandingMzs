@@ -6,6 +6,7 @@ namespace Mzstruct.Auth.Models.Configs
 {
     public class SignInWith
     {
+        public string Schema { get; set; } = "External";
         public bool GitHub { get; set; } = false;
         public bool LinkedIn { get; set; } = false;
         public bool Microsoft { get; set; } = false;

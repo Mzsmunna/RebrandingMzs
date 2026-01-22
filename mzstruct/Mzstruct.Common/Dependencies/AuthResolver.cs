@@ -43,12 +43,13 @@ namespace Mzstruct.Common.Dependencies
 
             if (gitHubAuth is null)
                 throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
-
-            services.AddAuthentication(gitHubAuth.Schema)
-                .AddCookie(gitHubAuth.Schema)
+            var signInOptions = config.GetSection(nameof(SignInWith)).Get<SignInWith>();
+            if (signInOptions is null) return services;
+            services.AddAuthentication(signInOptions.Schema)
+                .AddCookie(signInOptions.Schema)
                 .AddOAuth("github", oa =>
                 {
-                    oa.SignInScheme = gitHubAuth.Schema;
+                    oa.SignInScheme = signInOptions.Schema;
                     // create an app on github & find ClientId & ClientSecret in https://github.com/settings/applications/appid
                     oa.ClientId = gitHubAuth.ClientId;
                     oa.ClientSecret = gitHubAuth.ClientSecret;
@@ -124,20 +125,20 @@ namespace Mzstruct.Common.Dependencies
             // SignIn With: GitHub, Google, Facebook, etc.
             if (opts.SignInOptions.GitHub)
             {
-                var gitHubAuth = config.GetSection(nameof(GitHubAuth)).Get<GitHubAuth>();
-                
+                var gitHubAuth = config.GetSection(nameof(GitHubAuth)).Get<GitHubAuth>();              
                 if (gitHubAuth is null)
                     throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
 
                 authBuilder
-                    .AddCookie(gitHubAuth.Schema) // 1) Add Temporary cookie just for external login handshake
+                    .AddCookie(opts.SignInOptions.Schema) // 1) Add Temporary cookie just for external login handshake
                     .AddGitHub(options =>
                     {
-                        options.SignInScheme = gitHubAuth.Schema; // 👈 2) external cookie only, not your main auth
+                        options.SignInScheme = opts.SignInOptions.Schema; // 👈 2) external cookie only, not your main auth
 
-                        // 👇 3) MUST match GitHub OAuth app callback URL (path only)
-                        // GitHub: https://localhost:7016/api/auth/RequestGitHubSignIn
-                        options.CallbackPath = gitHubAuth.CallbackPath;
+                        // 👇 3) MUST match GitHub OAuth app callback URL (path only)                      
+                        options.CallbackPath = gitHubAuth.CallbackPath; // GitHub: https://localhost:7016/api/auth/RequestGitHubSignIn
+
+                        // create an app on github & find ClientId & ClientSecret in https://github.com/settings/applications/appid
                         options.ClientId = gitHubAuth.ClientId;
                         options.ClientSecret = gitHubAuth.ClientSecret;
 
@@ -154,7 +155,7 @@ namespace Mzstruct.Common.Dependencies
                             // You can access GitHub user info here
                             var accessToken = context.AccessToken;
 
-                            // If needed, explicitly fetch user JSON:
+                            // 👇 If needed, explicitly fetch user JSON:
 
                             //var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
                             //request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
