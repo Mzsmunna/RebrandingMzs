@@ -49,7 +49,8 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            await TaskerEFCoreHelper.SeedData<TaskerEFContext>(app.Services);
+            await TaskerEFCoreHelper.SeedUsers<TaskerEFContext>(app.Services);
+            await TaskerEFCoreHelper.SeedUserRoles<TaskerEFContext>(app.Services);
             app.MapOpenApi();
             app.MapScalarApiReference();
             app.UseSwaggerUI(options =>

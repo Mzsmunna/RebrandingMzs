@@ -23,6 +23,7 @@ namespace Mzstruct.Auth.Managers
             var claimType = "Permission";
             List<string> accessLevels = ["Read", "Update", "Delete"];
 
+            //var userRoles = await userManager.GetRolesAsync(user);
             var existingRole = await roleManager.FindByNameAsync(defaultRole);
             if (existingRole is null)
             {

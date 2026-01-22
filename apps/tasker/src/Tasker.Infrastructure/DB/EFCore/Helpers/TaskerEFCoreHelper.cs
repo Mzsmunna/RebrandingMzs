@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Mzstruct.Base.Consts;
 using Mzstruct.Base.Enums;
 using Mzstruct.DB.EFCore.Context;
 using System;
@@ -13,7 +15,7 @@ namespace Tasker.Infrastructure.DB.EFCore.Helpers
 {
     public static class TaskerEFCoreHelper
     {
-        public static async Task SeedData<TContext>(IServiceProvider services) where TContext : DbContext
+        public static async Task SeedUsers<TContext>(IServiceProvider services) where TContext : DbContext
         {
             await using(var serviceScope = services.CreateAsyncScope())
             //await using (var dbContext = serviceScope.ServiceProvider.GetRequiredService<TaskerEFContext>())
@@ -44,6 +46,26 @@ namespace Tasker.Infrastructure.DB.EFCore.Helpers
                     dbContext.SaveChanges();
                 }
                 //await dbContext.Database.EnsureCreatedAsync();
+            }
+        }
+
+        public static async Task SeedUserRoles<TContext>(IServiceProvider services) where TContext : DbContext
+        {
+            await using(var serviceScope = services.CreateAsyncScope())
+            //await using (var dbContext = serviceScope.ServiceProvider.GetRequiredService<TaskerEFContext>())
+            using (var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>())
+            {
+                if (!await roleManager.RoleExistsAsync(AppRole.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(AppRole.Admin));
+
+                if (!await roleManager.RoleExistsAsync(AppRole.Publisher))
+                    await roleManager.CreateAsync(new IdentityRole(AppRole.Publisher));
+
+                if (!await roleManager.RoleExistsAsync(AppRole.Author))
+                    await roleManager.CreateAsync(new IdentityRole(AppRole.Author));
+
+                if (!await roleManager.RoleExistsAsync(AppRole.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(AppRole.Admin));
             }
         }
     }

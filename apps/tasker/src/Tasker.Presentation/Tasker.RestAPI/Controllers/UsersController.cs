@@ -14,6 +14,7 @@ using Tasker.Application.Features.Users;
 
 namespace Tasker.RestAPI.Controllers
 {
+    //[Authorize(Roles = AppRole.User)]
     [ApiController]
     //[ApiVersion("1", Deprecated = true)]
     //[ApiVersion("2")]
