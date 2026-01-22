@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Servers;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
 using Mzstruct.Base.Models;
@@ -17,7 +18,8 @@ namespace Mzstruct.DB.Providers.MongoDB.Helpers
             filter &= Builders<T>.Filter.Eq(x => x.IsDeleted, false);
 
             if (!string.IsNullOrEmpty(id) && id.ToLower() != "undefined")
-                filter = filter & Builders<T>.Filter.Eq("Id", id);
+                //filter = filter & Builders<T>.Filter.Eq("Id", id);
+                filter = Builders<T>.Filter.Eq("_id", ObjectId.Parse(id));
 
             if (searchQueries != null && searchQueries.Count > 0)
             {
