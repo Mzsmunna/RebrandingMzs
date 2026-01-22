@@ -155,16 +155,17 @@ namespace Mzstruct.Common.Dependencies
                             var accessToken = context.AccessToken;
 
                             // If needed, explicitly fetch user JSON:
-                            var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
-                            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", context.AccessToken);
 
-                            var response = await context.Backchannel.SendAsync(request);
-                            response.EnsureSuccessStatusCode();
+                            //var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
+                            //request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                            //request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", context.AccessToken);
 
-                            var json = await response.Content.ReadAsStringAsync();
-                            using var doc = JsonDocument.Parse(json);
-                            context.RunClaimActions(doc.RootElement);
+                            //var response = await context.Backchannel.SendAsync(request);
+                            //response.EnsureSuccessStatusCode();
+
+                            //var json = await response.Content.ReadAsStringAsync();
+                            //using var doc = JsonDocument.Parse(json);
+                            //context.RunClaimActions(doc.RootElement);
                         };
                     });
             }
