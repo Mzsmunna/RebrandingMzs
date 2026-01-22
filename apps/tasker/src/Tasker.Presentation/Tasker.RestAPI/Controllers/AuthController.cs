@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mzstruct.Common.Extensions;
 using Mzstruct.Common.Features.Auth;
+using System.Security.Claims;
 using Tasker.Application.Contracts.ICommands;
 
 namespace Tasker.RestAPI.Controllers
@@ -33,6 +35,44 @@ namespace Tasker.RestAPI.Controllers
         {
             var result = await authCommand.SignInWithGoogle(credential);
             return result.ToActionResult(this);
+        }
+
+        [HttpPost]
+        [ActionName("LoginWithGitHub")]
+        public async Task<IActionResult> LoginWithGitHub()
+        {
+            var props = new AuthenticationProperties
+            {
+                RedirectUri = "/api/auth/RequestGitHubSignIn"
+            };
+            return Challenge(props, "GitHub");
+        }
+
+        [HttpGet]
+        [ActionName("RequestGitHubSignIn")]
+        public async Task<IActionResult> GitHubCallback()
+        {
+            var authenticateResult =
+                await HttpContext.AuthenticateAsync("GitHub");
+
+            if (!authenticateResult.Succeeded)
+                return Unauthorized();
+
+            var claims = authenticateResult.Principal!.Claims;
+
+            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var githubId = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            // 🔐 Create / find user in DB
+            //var user = await FindOrCreateUser(githubId, email, name);
+
+            var jwt = string.Empty;
+            // 🔑 Issue JWT
+            //var jwt = GenerateJwt(user);
+
+            // redirect back to Angular
+            return Redirect($"http://localhost:4200/auth/callback?token={jwt}");
         }
 
         [HttpPost]

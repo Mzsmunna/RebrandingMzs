@@ -34,6 +34,29 @@ namespace Mzstruct.Common.Dependencies
             return services;
         }
 
+        public static IServiceCollection AddMvcGitHubSignIn(this IServiceCollection services, IConfiguration config)
+        {
+            var gitHubAuth = config.GetSection(nameof(GitHubAuth)).Get<GitHubAuth>();
+
+            if (gitHubAuth is null)
+                throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
+
+            services.AddAuthentication(gitHubAuth.Schema)
+                .AddCookie(gitHubAuth.Schema)
+                .AddOAuth("github", oa =>
+                {
+                    oa.SignInScheme = gitHubAuth.Schema;
+                    // create an app on github & find ClientId & ClientSecret in https://github.com/settings/applications/appid
+                    oa.ClientId = gitHubAuth.ClientId;
+                    oa.ClientSecret = gitHubAuth.ClientSecret;
+                    oa.CallbackPath = gitHubAuth.CallbackPath;
+                    oa.AuthorizationEndpoint = gitHubAuth.AuthorizationEndpoint;
+                    oa.TokenEndpoint = gitHubAuth.TokenEndpoint;
+                    oa.UserInformationEndpoint = gitHubAuth.UserInformationEndpoint;
+                });
+            return services;
+        }
+
         public static IServiceCollection AddCookieAuth(this IServiceCollection services, string? cookieName = "")
         {
             if (string.IsNullOrEmpty(cookieName)) cookieName = "AppCookieAuth";
@@ -58,6 +81,8 @@ namespace Mzstruct.Common.Dependencies
             if (opts.jwtAuthConfig != null && 
                 string.IsNullOrEmpty(opts.SecretKey))
                 opts.SecretKey = opts.jwtAuthConfig.SecretKey;
+            if (opts.SignInOptions is null)
+                opts.SignInOptions = config.GetSection(nameof(SignInWith)).Get<SignInWith>();
 
             // Register options into DI
             services.Configure<JwtTokenOptions>(o =>
@@ -74,11 +99,10 @@ namespace Mzstruct.Common.Dependencies
 
             var signingKey = JwtHelper.GetSymmetricSecurityKey(opts, config);
             var validationParams =
-                opts.CustomTokenValidationParameters ??
+                opts.TokenParameters ??
                 JwtHelper.GetTokenValidationParameters(signingKey, opts.jwtAuthConfig);
             var jwtEvent = JwtHelper.GetJwtBearerEvents();
-
-            services
+            var authBuilder = services
                 //.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddAuthentication(options =>
                 {
@@ -92,6 +116,29 @@ namespace Mzstruct.Common.Dependencies
                     options.TokenValidationParameters = validationParams;
                     options.Events = jwtEvent;
                 });
+            if (opts.SignInOptions is null) return services;
+
+            // SignIn With: GitHub, Google, Facebook, etc.
+            if (opts.SignInOptions.GitHub)
+            {
+                var gitHubAuth = config.GetSection(nameof(GitHubAuth)).Get<GitHubAuth>();
+                
+                if (gitHubAuth is null)
+                    throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
+
+                authBuilder.AddGitHub(options =>
+                {
+                    options.ClientId = gitHubAuth.ClientId;
+                    options.ClientSecret = gitHubAuth.ClientSecret;
+                    options.Scope.Add("user:email"); //In OAuth 2.0, a scope defines what permissions your app is asking for.
+                    options.Events.OnCreatingTicket = async context =>
+                    {
+                        // You can access GitHub user info here
+                        var accessToken = context.AccessToken;
+                    };
+                });
+            }
+             
             services.AddScoped<IJwtTokenManager, JwtTokenManager>();
             return services;
         }

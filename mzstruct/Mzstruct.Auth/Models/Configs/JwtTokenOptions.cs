@@ -18,6 +18,8 @@ namespace Mzstruct.Auth.Models.Configs
         public TimeUnit RefreshTokenExpiryUnit { get; set; } = TimeUnit.Days;
 
         public JWTAuth? jwtAuthConfig { get; set; }
-        public TokenValidationParameters? CustomTokenValidationParameters { get; set; }
+        public TokenValidationParameters? TokenParameters { get; set; }
+
+        public SignInWith? SignInOptions { get; set; }
     }
 }

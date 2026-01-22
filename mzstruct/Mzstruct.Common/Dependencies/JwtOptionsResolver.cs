@@ -37,7 +37,13 @@ namespace Mzstruct.Common.Dependencies
 
         public static JwtTokenOptions WithValidation(this JwtTokenOptions opts, TokenValidationParameters parameters)
         {
-            opts.CustomTokenValidationParameters = parameters;
+            opts.TokenParameters = parameters;
+            return opts;
+        }
+
+        public static JwtTokenOptions WithSignIn(this JwtTokenOptions opts, SignInWith SignInOptions)
+        {
+            opts.SignInOptions = SignInOptions;
             return opts;
         }
     }
