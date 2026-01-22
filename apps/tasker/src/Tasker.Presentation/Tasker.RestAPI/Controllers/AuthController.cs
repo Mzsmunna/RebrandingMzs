@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mzstruct.Common.Extensions;
 using Mzstruct.Common.Features.Auth;
-using System.Security.Claims;
 using Tasker.Application.Contracts.ICommands;
 
 namespace Tasker.RestAPI.Controllers
@@ -52,26 +51,10 @@ namespace Tasker.RestAPI.Controllers
         [ActionName("ConfirmGitHubSignIn")] // Callback
         public async Task<IActionResult> ConfirmGitHubSignIn()
         {
-            var authenticateResult =
-                await HttpContext.AuthenticateAsync("GitHub");
-
-            if (!authenticateResult.Succeeded)
-                return Unauthorized();
-
-            var claims = authenticateResult.Principal!.Claims;
-            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-            var githubId = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            // 🔐 Create / find user in DB
-            //var user = await FindOrCreateUser(githubId, email, name);
-
-            var jwt = string.Empty;
-            // 🔑 Issue JWT
-            //var jwt = GenerateJwt(user);
-
-            // redirect back to Angular
-            return Redirect($"http://localhost:4200/auth/callback?token={jwt}");
+            var result = await authCommand.SignInWithGitHub();
+            //if (string.IsNullOrEmpty(result.Data)) return Unauthorized();
+            //return result.ToActionResult(this);
+            return Redirect($"http://localhost:4200/auth/login?token={result.Data}");
         }
 
         [HttpPost]

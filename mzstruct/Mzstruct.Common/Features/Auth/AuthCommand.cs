@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Mzstruct.Auth.Contracts.IManagers;
-using Mzstruct.Auth.Helpers;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Errors;
@@ -13,10 +13,12 @@ using Mzstruct.Common.Mappings;
 using Mzstruct.Common.Validators;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Mzstruct.Common.Auth
 {
-    internal class AuthCommand(ILogger<AuthCommand> logger,
+    internal class AuthCommand(ILogger<AuthCommand> logger, 
+        IHttpContextAccessor httpContextAccessor,
         //IValidator<SignUpDto> signUpValidator,
         IBaseUserRepository userRepository,
         IJwtTokenManager jwtTokenManager,
@@ -79,21 +81,55 @@ namespace Mzstruct.Common.Auth
             var payload = await googleAuthManager.ValidateToken(credential);
             if (payload is null)
             {
-                logger.LogWarning("SignInWithGoogle: Bad Request");
+                logger.LogWarning("SignIn.Google: Bad Request");
+                return ClientError.BadRequest;
+            }
+            return await SignInWith(payload.Email, "Google");
+        }
+
+        public async Task<Result<string>> SignInWithGitHub()
+        {
+            if (httpContextAccessor.HttpContext is null)
+            {   logger.LogWarning("SignIn.GitHub: Bad Request");
                 return ClientError.BadRequest;
             }
 
-            var signInUser = await userRepository.LoginUser(payload.Email);
+            var authenticateResult =
+                await httpContextAccessor.HttpContext.AuthenticateAsync("GitHub");
+
+            if (!authenticateResult.Succeeded) return "";
+            var claims = authenticateResult.Principal!.Claims;
+            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var githubId = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            if (string.IsNullOrEmpty(email)) return "";
+
+            // 🔐 Create / find user in DB
+            //var user;
+
+            // 🔑 Issue JWT
+            //var jwt;
+
+            return await SignInWith(email, "GitHub");
+        }
+
+        public async Task<Result<string>> SignInWith(string email, string option = "Mail")
+        {
+            var signInUser = await userRepository.LoginUser(email);
             if (signInUser is null)
-                return Error.NotFound("SignIn.Google.NotLinkned", "User doesn't exist."); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
+                return Error.NotFound($"SignIn.{option}.NotLinkned", "User doesn't exist."); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
 
             var passHashWithSalt = jwtTokenManager.CreatePasswordHash(signInUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
             //signInUser.Password = passHashWithSalt;
             signInUser.PasswordHash = passwordHash;
             signInUser.PasswordSalt = passwordSalt;
             if (!jwtTokenManager.VerifyPasswordHash(signInUser.Password, passwordHash, passwordSalt))
-                return Error.Validation("SignIn.Google.Error", "Wrong credential."); //StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
-
+                return Error.Validation($"SignIn.{option}.Error", "Wrong credential."); //StatusCode(StatusCodes.Status403Forbidden, "Wrong credential.");
+            if (string.IsNullOrEmpty(signInUser.Name) && 
+                !string.IsNullOrEmpty(signInUser.FirstName))
+                signInUser.Name = string.IsNullOrEmpty(signInUser.LastName)
+                ? signInUser.FirstName
+                : $"{signInUser.FirstName} {signInUser.LastName}";
             string token = jwtTokenManager.CreateNewToken(signInUser);
             return token;
         }

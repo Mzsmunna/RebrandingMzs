@@ -31,7 +31,7 @@ namespace Mzstruct.Auth.Managers
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Surname, user.Name),
+                    new Claim(ClaimTypes.Surname, user.Name ?? ""),
                     new Claim(ClaimTypes.Email, user.Email.ToLower()),
                     new Claim(ClaimTypes.Role, user.Role.ToLower()),
                 };
