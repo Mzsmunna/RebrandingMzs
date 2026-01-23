@@ -8,8 +8,9 @@ namespace Mzstruct.Auth.Models.Configs
 {
     public sealed class JwtTokenOptions
     {
-        public string? SecretKey { get; set; }
+        public string SecretKey { get; set; } = string.Empty;
         public string SecretConfigKey { get; set; } = "JWTAuth.SecretKey";
+        public string ExternalSchema { get; set; } = "External";
 
         public int TokenExpiryValue { get; set; } = 60;
         public TimeUnit TokenExpiryUnit { get; set; } = TimeUnit.Minutes;
@@ -20,6 +21,6 @@ namespace Mzstruct.Auth.Models.Configs
         public JWTAuth? jwtAuthConfig { get; set; }
         public TokenValidationParameters? TokenParameters { get; set; }
 
-        public SignInWith? SignInOptions { get; set; }
+        public bool EnableOAuth { get; set; } = true;
     }
 }

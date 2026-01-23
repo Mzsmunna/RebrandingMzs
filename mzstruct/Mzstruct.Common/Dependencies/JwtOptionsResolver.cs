@@ -40,11 +40,5 @@ namespace Mzstruct.Common.Dependencies
             opts.TokenParameters = parameters;
             return opts;
         }
-
-        public static JwtTokenOptions WithSignIn(this JwtTokenOptions opts, SignInWith SignInOptions)
-        {
-            opts.SignInOptions = SignInOptions;
-            return opts;
-        }
     }
 }

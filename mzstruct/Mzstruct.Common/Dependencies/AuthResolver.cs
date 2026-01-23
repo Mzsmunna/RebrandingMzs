@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Mzstruct.Auth.Contracts.IHandlers;
 using Mzstruct.Auth.Contracts.IManagers;
@@ -39,17 +40,17 @@ namespace Mzstruct.Common.Dependencies
 
         public static IServiceCollection AddMvcGitHubSignIn(this IServiceCollection services, IConfiguration config)
         {
-            var gitHubAuth = config.GetSection(nameof(GitHubAuth)).Get<GitHubAuth>();
-
-            if (gitHubAuth is null)
-                throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
-            var signInOptions = config.GetSection(nameof(SignInWith)).Get<SignInWith>();
-            if (signInOptions is null) return services;
-            services.AddAuthentication(signInOptions.Schema)
-                .AddCookie(signInOptions.Schema)
+            var gitHubAuth = config.GetSection("OAuthSignIn:GitHubAuth").Get<GitHubAuth>();
+            //if (gitHubAuth is null)
+            //    throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
+            if (gitHubAuth is null || !gitHubAuth.IsEnabled) return services;
+            if (string.IsNullOrEmpty(gitHubAuth.Schema))
+                    gitHubAuth.Schema = "External";
+            services.AddAuthentication(gitHubAuth.Schema)
+                .AddCookie(gitHubAuth.Schema)
                 .AddOAuth("github", oa =>
                 {
-                    oa.SignInScheme = signInOptions.Schema;
+                    oa.SignInScheme = gitHubAuth.Schema;
                     // create an app on github & find ClientId & ClientSecret in https://github.com/settings/applications/appid
                     oa.ClientId = gitHubAuth.ClientId;
                     oa.ClientSecret = gitHubAuth.ClientSecret;
@@ -78,35 +79,36 @@ namespace Mzstruct.Common.Dependencies
             IConfiguration config,
             Action<JwtTokenOptions>? options = null)
         {
-            var opts = new JwtTokenOptions();
-            options?.Invoke(opts);
-            if (opts.jwtAuthConfig is null)
-                opts.jwtAuthConfig = config.GetSection(nameof(JWTAuth)).Get<JWTAuth>();
-            if (opts.jwtAuthConfig != null && 
-                string.IsNullOrEmpty(opts.SecretKey))
-                opts.SecretKey = opts.jwtAuthConfig.SecretKey;
-            if (opts.SignInOptions is null)
-                opts.SignInOptions = config.GetSection(nameof(SignInWith)).Get<SignInWith>();
-
-            var signingKey = JwtHelper.GetSymmetricSecurityKey(opts, config);
-            if (opts.TokenParameters is null)
-                opts.TokenParameters = JwtHelper.GetTokenValidationParameters(signingKey, opts.jwtAuthConfig);
+            var jwtOptions = new JwtTokenOptions();
+            options?.Invoke(jwtOptions);
+            if (jwtOptions.jwtAuthConfig is null)
+                jwtOptions.jwtAuthConfig = config.GetSection(nameof(JWTAuth)).Get<JWTAuth>();
+            if (jwtOptions.jwtAuthConfig != null && 
+                !string.IsNullOrEmpty(jwtOptions.jwtAuthConfig.SecretKey) &&
+                string.IsNullOrEmpty(jwtOptions.SecretKey))
+                jwtOptions.SecretKey = jwtOptions.jwtAuthConfig.SecretKey;
+            if (string.IsNullOrEmpty(jwtOptions.ExternalSchema))
+                    jwtOptions.ExternalSchema = "External";
+            var signingKey = JwtHelper.GetSymmetricSecurityKey(jwtOptions, config);
+            if (jwtOptions.TokenParameters is null)
+                jwtOptions.TokenParameters = JwtHelper.GetTokenValidationParameters(signingKey, jwtOptions.jwtAuthConfig);
 
             // Register options into DI
-            services.Configure<JwtTokenOptions>(o =>
+            services.Configure<JwtTokenOptions>(cfg =>
             {
-                o.SecretConfigKey = opts.SecretConfigKey;
-                o.SecretKey = opts.SecretKey;
+                //cfg = jwtOptions;
+                cfg.SecretConfigKey = jwtOptions.SecretConfigKey;
+                cfg.SecretKey = jwtOptions.SecretKey;
 
-                o.TokenExpiryValue = opts.TokenExpiryValue;
-                o.TokenExpiryUnit = opts.TokenExpiryUnit;
+                cfg.TokenExpiryValue = jwtOptions.TokenExpiryValue;
+                cfg.TokenExpiryUnit = jwtOptions.TokenExpiryUnit;
 
-                o.RefreshTokenExpiryValue = opts.RefreshTokenExpiryValue;
-                o.RefreshTokenExpiryUnit = opts.RefreshTokenExpiryUnit;
+                cfg.RefreshTokenExpiryValue = jwtOptions.RefreshTokenExpiryValue;
+                cfg.RefreshTokenExpiryUnit = jwtOptions.RefreshTokenExpiryUnit;
 
-                o.jwtAuthConfig = opts.jwtAuthConfig;
-                o.TokenParameters = opts.TokenParameters;
-                o.SignInOptions = opts.SignInOptions;
+                cfg.jwtAuthConfig = jwtOptions.jwtAuthConfig;
+                cfg.TokenParameters = jwtOptions.TokenParameters;
+                //cfg.SignInOptions = jwtOptions.SignInOptions;
             });
 
             var jwtEvent = JwtHelper.GetJwtBearerEvents();
@@ -121,23 +123,25 @@ namespace Mzstruct.Common.Dependencies
                 .AddJwtBearer(options =>
                 {
                     options.SaveToken = true;
-                    options.TokenValidationParameters = opts.TokenParameters;
+                    options.TokenValidationParameters = jwtOptions.TokenParameters;
                     options.Events = jwtEvent;
                 });
-            if (opts.SignInOptions is null) return services;
+            services.AddScoped<IJwtTokenManager, JwtTokenManager>();
+            if (jwtOptions.EnableOAuth is false) return services;
 
-            // 👇 SignIn With: GitHub, Google, Facebook, etc.
-            if (opts.SignInOptions.GitHub)
+            // 👇 SignIn With: GitHub
+            var gitHubAuth = config.GetSection("OAuthSignIn:GitHubAuth").Get<GitHubAuth>();
+            //if (gitHubAuth is null)
+            //        throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
+            if (gitHubAuth != null && gitHubAuth.IsEnabled)
             {
-                var gitHubAuth = config.GetSection(nameof(GitHubAuth)).Get<GitHubAuth>();              
-                if (gitHubAuth is null)
-                    throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
-
+                if (string.IsNullOrEmpty(gitHubAuth.Schema))
+                    gitHubAuth.Schema = jwtOptions.ExternalSchema;
                 authBuilder
-                    .AddCookie(opts.SignInOptions.Schema) // 1) Add Temporary cookie just for external login handshake
+                    .AddCookie(gitHubAuth.Schema) // 1) Add Temporary cookie just for external login handshake
                     .AddGitHub(options =>
                     {
-                        options.SignInScheme = opts.SignInOptions.Schema; // 👈 2) external cookie only, not your main auth
+                        options.SignInScheme = gitHubAuth.Schema; // 👈 2) external cookie only, not your main auth
 
                         // 👇 3) MUST match GitHub OAuth app callback URL (path only)                      
                         options.CallbackPath = gitHubAuth.CallbackPath; // GitHub: https://localhost:7016/api/auth/RequestGitHubSignIn
@@ -174,8 +178,36 @@ namespace Mzstruct.Common.Dependencies
                         };
                     });
             }
-             
-            services.AddScoped<IJwtTokenManager, JwtTokenManager>();
+
+            // 👇 SignIn With: Facebook
+            var fbAuth = config.GetSection("OAuthSignIn:FacebookAuth").Get<FacebookAuth>();
+            //if (fbAuth is null)
+            //    throw new ArgumentNullException(nameof(FacebookAuth), "Facebook configuration section is missing.");
+            if (fbAuth != null && fbAuth.IsEnabled)
+            {
+                if (string.IsNullOrEmpty(fbAuth.Schema))
+                    fbAuth.Schema = jwtOptions.ExternalSchema;
+                authBuilder
+                    .AddFacebook("Facebook", options =>
+                    {
+                        options.AppId = fbAuth.ClientId;
+                        options.AppSecret = fbAuth.ClientSecret;
+
+                        // Where Facebook redirects back (must match in FB Console)
+                        options.CallbackPath = fbAuth.CallbackPath;
+                        options.SignInScheme = fbAuth.Schema; // 👈 2) external cookie only, not your main auth
+
+                        // what we want from Facebook
+                        options.SaveTokens = true;
+                        options.Scope.Add("email");
+
+                        // default fields: id,name
+                        options.Fields.Add("email");
+                        options.Fields.Add("first_name");
+                        options.Fields.Add("last_name");
+                    });
+            }
+            
             return services;
         }
 

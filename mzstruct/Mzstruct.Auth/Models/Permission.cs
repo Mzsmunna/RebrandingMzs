@@ -13,6 +13,8 @@ public class Permission : BaseEntity
     public required PermissionType Type { get; set; }
     public required PrivacyType Privacy { get; set; }
     public required string Resource { get; set; } // collection or table names! | "xyz,abc"
+    public required string Field { get; set; } // colum or prop names! | "xyz,abc"
+    public string Scope { get; set; } = string.Empty; // most likely Resource / Feature Scope | "xyz,abc"
     public required string Permit { get; set; } // AccessType: * | "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public string Restrict { get; set; } = string.Empty; // AccessType: * | "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public string Code { get; set; } = string.Empty;
@@ -24,6 +26,7 @@ public class Permission : BaseEntity
     public string Name { get; set; } = string.Empty;
     public string Detail { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
+    public string? CallBackUrl { get; set; } = string.Empty; // webhook url
     public string? RedirectUrl { get; set; } = string.Empty;
     public string? ParentPermitId { get; set; }
     public string? Origin { get; set; } // "xyz,abc"
@@ -42,7 +45,6 @@ public class Permission : BaseEntity
 public class ResourcePermission : Permission
 {
     // Collection Field / Table Column Permissions
-    public List<string>? Fields { get; set; }
     public List<string>? FieldPermitIds { get; set; }
     public List<Permission>? FieldPermits { get; set; }
 }
