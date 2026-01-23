@@ -29,20 +29,42 @@ namespace Tasker.RestAPI.Controllers
         }
 
         [HttpPost]
-        [ActionName("LoginWithGoogle")]
-        public async Task<IActionResult> LoginWithGoogle([FromBody] string credential)
+        [ActionName("SignInWithGoogle")]
+        public async Task<IActionResult> SignInWithGoogle([FromBody] string credential)
         {
             var result = await authCommand.SignInWithGoogle(credential);
             return result.ToActionResult(this);
         }
 
         [HttpGet]
-        [ActionName("LoginWithGitHub")]
-        public async Task<IActionResult> LoginWithGitHub()
+        [ActionName("ChallengeGoogleSignIn")]
+        public async Task<IActionResult> ChallengeGoogleSignIn()
+        {
+            var redirectUrl = Url.Action(nameof(ConfirmGoogleSignIn), "Auth")!;
+            var props = new AuthenticationProperties
+            {
+                RedirectUri = redirectUrl // OAuth.CallbackPath != RedirectUri
+            };
+            // Tell ASP.NET Core to start Google OAuth flow
+            return Challenge(props, "Google");
+        }
+
+        [HttpGet]
+        [ActionName("ConfirmGoogleSignIn")] // Callback
+        public async Task<IActionResult> ConfirmGoogleSignIn()
+        {
+            var result = await authCommand.SignInWithGoogle();
+            //return result.ToActionResult(this);
+            return Redirect($"http://localhost:4200/auth/login?token={result.Data}");
+        }
+
+        [HttpGet]
+        [ActionName("ChallengeGitHubSignIn")]
+        public async Task<IActionResult> ChallengeGitHubSignIn()
         {
             var props = new AuthenticationProperties
             {
-                RedirectUri = "/api/auth/ConfirmGitHubSignIn"
+                RedirectUri = "/api/auth/ConfirmGitHubSignIn" // OAuth.CallbackPath != RedirectUri
             };
             return Challenge(props, "GitHub");
         }

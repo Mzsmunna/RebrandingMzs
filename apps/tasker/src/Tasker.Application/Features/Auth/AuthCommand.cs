@@ -28,6 +28,11 @@ namespace Tasker.Application.Features.Auth
             return await authCommand.SignInWithGoogle(credential);
         }
 
+        public async Task<Result<string>> SignInWithGoogle()
+        {
+            return await authCommand.SignInWithGoogle();
+        }
+
         public async Task<Result<string>> SignInWithGitHub()
         {
             return await authCommand.SignInWithGitHub();

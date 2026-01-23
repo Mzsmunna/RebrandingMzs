@@ -9,6 +9,7 @@ namespace Tasker.Application.Contracts.ICommands
         Task<Result<UserModel?>> SignUp(SignUpDto user);
         Task<Result<string>> SignIn(SignInDto user);
         Task<Result<string>> SignInWithGoogle(string credential);
+        Task<Result<string>> SignInWithGoogle();
         Task<Result<string>> SignInWithGitHub();
         Task<Result<string>> SignInWith(string email, string option);
         Task<Result<string>> RefreshToken(string userId, string token, string refreshToken);
