@@ -49,13 +49,10 @@ public class ResourcePermission : Permission
     public List<Permission>? FieldPermits { get; set; }
 }
 
-public class RolePermission : FeaturePermission 
-{
-    public string Roles { get; set; } = string.Empty; // "User, Admin, Agent, Manager, etc"
-}
-
 public class FeaturePermission : Permission
 {
+    public string Roles { get; set; } = string.Empty; // "User, Admin, Agent, Manager, etc"
+
     // Platform Permissions
     public List<string>? PlatformIds { get; set; }
     public List<string>? PlatformPermitIds { get; set; }
@@ -140,26 +137,26 @@ public class GroupPermission : Permission
     public required ReferenceMap Creater { get; set; }
     public ReferenceMap? Owner { get; set; }
 
-    public List<string>? RolePermitIds { get; set; }
-    public List<GroupRolePermission>? RolePermits { get; set; }
+    public List<string>? GroupFeaturePermitIds { get; set; }
+    public List<GroupFeaturePermission>? GroupFeaturePermits { get; set; }
 }
 
-public class GroupRolePermission : RolePermission
+public class GroupFeaturePermission : FeaturePermission
 {
-    public required string GroupId { get; set; }
-    public string? ParentGroupId { get; set; }
-    public string? GroupPermitId { get; set; }
-    public string? ParentGroupPermitId { get; set; }
+    public required string ResourceId { get; set; }
+    public string? ResourcePermitId { get; set; }
+    public string? ParentResourceId { get; set; }
+    public string? ParentResourcePermitId { get; set; }
 }
 
 public class ContentPermission : Permission
 {
     public required string ContentId { get; set; } = string.Empty;
     public required string ContentType { get; set; } = string.Empty; // post, blog, thread, comment, document -> word | excel | pdf | text | slide, file -> image, video, audio, etc.
-    public string? ParentContentId { get; set; }
-    public string? ParentContentType { get; set; } // post, blog, thread, comment, document -> word | excel | pdf | text | slide, file -> image, video, audio, etc.
     public string? ResourceId { get; set; }
     public string? ResourceType { get; set; } // user | profile | channel | chatroom | group | gang | page | shop | team | etc.
+    public string? ParentContentId { get; set; }
+    public string? ParentContentType { get; set; } // post, blog, thread, comment, document -> word | excel | pdf | text | slide, file -> image, video, audio, etc.
     public bool CanDownload { get; set; } = false; // file download
     public bool CanShare { get; set; } = false; // content share
     public bool CanComment { get; set; } = false; // content comment
@@ -317,20 +314,16 @@ public class SectionPermission : ViewPermission
 public abstract class ConsumerPermission : FeaturePermission //Permission
 {
     //public bool IsExtended { get; set; } // prioritize top level Permissions rather than the nested ones
-
-    // Role Permissions
-    public List<string>? RolePermitIds { get; set; }
-    public List<RolePermission>? RolePermits { get; set; }
     
-    // Feature Permissions
+    // Role | Feature Permissions
     public List<string>? FeaturePermitIds { get; set; }
     public List<FeaturePermission>? FeaturePermits { get; set; }
 
     public List<string>? PaidFeaturePermitIds { get; set; }
     public List<PaidFeaturePermission>? PaidFeaturePermits { get; set; }
 
-    public List<string>? GroupRolePermitIds { get; set; }
-    public List<GroupRolePermission>? GroupRolePermits { get; set; }
+    public List<string>? GroupFeaturePermitIds { get; set; }
+    public List<GroupFeaturePermission>? GroupFeaturePermits { get; set; }
 
     public List<string>? ContentPermitIds { get; set; }
     public List<ContentPermission>? ContentPermits { get; set; }

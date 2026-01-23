@@ -12,9 +12,9 @@ namespace Mzstruct.Auth.Models.Configs
         public string ClientSecret { get; set; } = string.Empty;
         public string CallbackPath { get; set; } = string.Empty;
         public string RedirectPath { get; set; } = string.Empty;
-        public string AuthorizationEndpoint { get; set; } = string.Empty;
+        public string AuthZEndpoint { get; set; } = string.Empty;
         public string TokenEndpoint { get; set; } = string.Empty;
-        public string UserInformationEndpoint { get; set; } = string.Empty;
+        public string UserInfoEndpoint { get; set; } = string.Empty;
         public string Scope { get; set; } = string.Empty;
         public string Fields { get; set; } = string.Empty;
     }

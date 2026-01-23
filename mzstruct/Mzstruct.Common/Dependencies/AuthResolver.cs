@@ -26,7 +26,11 @@ namespace Mzstruct.Common.Dependencies
 {
     public static class AuthResolver
     {
-        public static IServiceCollection AddIdentityAuth<TContext, TIdentity>(this IServiceCollection services, IConfiguration config, DBType db = DBType.SqlServer, ServiceLifetime lifeTime = ServiceLifetime.Scoped, bool includeJWT = false,
+        public static IServiceCollection AddIdentityAuth<TContext, TIdentity>(this IServiceCollection services, 
+            IConfiguration config, 
+            DBType db = DBType.SqlServer, 
+            ServiceLifetime lifeTime = ServiceLifetime.Scoped, 
+            bool includeJWT = false,
             Action<JwtTokenOptions>? jwtOptions = null) where TIdentity : UserIdentity where TContext : IdentityDBContext<TContext, TIdentity>
         {
             return AuthCommonHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime, includeJWT, jwtOptions);
@@ -55,9 +59,9 @@ namespace Mzstruct.Common.Dependencies
                     oa.ClientId = gitHubAuth.ClientId;
                     oa.ClientSecret = gitHubAuth.ClientSecret;
                     oa.CallbackPath = gitHubAuth.CallbackPath;
-                    oa.AuthorizationEndpoint = gitHubAuth.AuthorizationEndpoint;
+                    oa.AuthorizationEndpoint = gitHubAuth.AuthZEndpoint;
                     oa.TokenEndpoint = gitHubAuth.TokenEndpoint;
-                    oa.UserInformationEndpoint = gitHubAuth.UserInformationEndpoint;
+                    oa.UserInformationEndpoint = gitHubAuth.UserInfoEndpoint;
                 });
             return services;
         }
@@ -130,11 +134,13 @@ namespace Mzstruct.Common.Dependencies
             if (jwtOptions.EnableOAuth is false) return services;
 
             // 👇 SignIn With: GitHub
-            var gitHubAuth = config.GetSection("OAuthSignIn:GitHubAuth").Get<GitHubAuth>();
-            //if (gitHubAuth is null)
-            //        throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
+            var gitHubAuth = config.GetSection("OAuthSignIn:GitHubAuth").Get<GitHubAuth>();       
             if (gitHubAuth != null && gitHubAuth.IsEnabled)
             {
+                if (string.IsNullOrEmpty(gitHubAuth.ClientId) ||
+                    string.IsNullOrEmpty(gitHubAuth.ClientSecret) ||
+                    string.IsNullOrEmpty(gitHubAuth.CallbackPath))
+                    throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is incomplete.");
                 if (string.IsNullOrEmpty(gitHubAuth.Schema))
                     gitHubAuth.Schema = jwtOptions.ExternalSchema;
                 authBuilder
@@ -154,9 +160,9 @@ namespace Mzstruct.Common.Dependencies
                         options.Scope.Add("read:user");
                         options.Scope.Add("user:email");
 
-                        //options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-                        //options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
-                        //options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                        options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                        options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                        options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
 
                         options.Events.OnCreatingTicket = async context =>
                         {
@@ -181,10 +187,12 @@ namespace Mzstruct.Common.Dependencies
 
             // 👇 SignIn With: Facebook
             var fbAuth = config.GetSection("OAuthSignIn:FacebookAuth").Get<FacebookAuth>();
-            //if (fbAuth is null)
-            //    throw new ArgumentNullException(nameof(FacebookAuth), "Facebook configuration section is missing.");
             if (fbAuth != null && fbAuth.IsEnabled)
             {
+                if (string.IsNullOrEmpty(fbAuth.ClientId) ||
+                    string.IsNullOrEmpty(fbAuth.ClientSecret) ||
+                    string.IsNullOrEmpty(fbAuth.CallbackPath))
+                    throw new ArgumentNullException(nameof(FacebookAuth), "Facebook configuration section is incomplete.");
                 if (string.IsNullOrEmpty(fbAuth.Schema))
                     fbAuth.Schema = jwtOptions.ExternalSchema;
                 authBuilder
@@ -205,6 +213,33 @@ namespace Mzstruct.Common.Dependencies
                         options.Fields.Add("email");
                         options.Fields.Add("first_name");
                         options.Fields.Add("last_name");
+                    });
+            }
+
+            // 👇 SignIn With: Google
+            var googleAuth = config.GetSection("OAuthSignIn:GoogleAuth").Get<GoogleAuth>();           
+            if (googleAuth != null && googleAuth.IsEnabled)
+            {
+                if (string.IsNullOrEmpty(googleAuth.ClientId) ||
+                    string.IsNullOrEmpty(googleAuth.ClientSecret) ||
+                    string.IsNullOrEmpty(googleAuth.CallbackPath))
+                    throw new ArgumentNullException(nameof(GoogleAuth), "Google configuration section is incomplete.");
+                if (string.IsNullOrEmpty(googleAuth.Schema))
+                    googleAuth.Schema = jwtOptions.ExternalSchema;
+                authBuilder
+                    .AddGoogle("Google", options =>
+                    {
+                        options.ClientId = googleAuth.ClientId;
+                        options.ClientSecret = googleAuth.ClientSecret;
+                        options.CallbackPath = googleAuth.CallbackPath;
+
+                        options.SignInScheme = googleAuth.Schema;   // <- use the external cookie
+                        options.SaveTokens = true;           // optional, but handy
+
+                        // Map extra claims if you want
+                        options.ClaimActions.MapJsonKey(ClaimTypes.GivenName, "given_name");
+                        options.ClaimActions.MapJsonKey(ClaimTypes.Surname, "family_name");
+                        options.ClaimActions.MapJsonKey("picture", "picture");
                     });
             }
             
