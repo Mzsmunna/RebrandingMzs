@@ -1,11 +1,8 @@
-using Azure.Identity;
-using Microsoft.EntityFrameworkCore;
 using Mzstruct.API.Dependencies;
 using Mzstruct.Base.Enums;
 using Mzstruct.Common.Dependencies;
 using Scalar.AspNetCore;
 using Tasker.Application;
-using Tasker.Application.Features.Users;
 using Tasker.Infrastructure;
 using Tasker.Infrastructure.DB.EFCore.Context;
 using Tasker.Infrastructure.DB.EFCore.Helpers;
@@ -18,7 +15,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
- 
+        
         // Add services to the container.
         IConfiguration _config = builder.Configuration;
         builder.Services
