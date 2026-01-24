@@ -36,12 +36,6 @@ namespace Mzstruct.Common.Dependencies
             return AuthCommonHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime, includeJWT, jwtOptions);
         }
 
-        public static IServiceCollection AddGoogleSignIn(this IServiceCollection services)
-        {
-            services.AddScoped<IGoogleAuthManager, GoogleAuthManager>();
-            return services;
-        }
-
         public static IServiceCollection AddMvcGitHubSignIn(this IServiceCollection services, IConfiguration config)
         {
             var gitHubAuth = config.GetSection("OAuthSignIn:GitHubAuth").Get<GitHubAuth>();
@@ -220,6 +214,7 @@ namespace Mzstruct.Common.Dependencies
             var googleAuth = config.GetSection("OAuthSignIn:GoogleAuth").Get<GoogleAuth>();           
             if (googleAuth != null && googleAuth.IsEnabled)
             {
+                services.AddScoped<IGoogleAuthManager, GoogleAuthManager>();
                 if (string.IsNullOrEmpty(googleAuth.ClientId) ||
                     string.IsNullOrEmpty(googleAuth.ClientSecret) ||
                     string.IsNullOrEmpty(googleAuth.CallbackPath))

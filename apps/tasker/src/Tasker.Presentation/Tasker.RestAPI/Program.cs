@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Mzstruct.API.Dependencies;
 using Mzstruct.Base.Enums;
@@ -20,8 +21,8 @@ public class Program
  
         // Add services to the container.
         IConfiguration _config = builder.Configuration;
-
         builder.Services
+            //.AddAzureKV(builder.Configuration)
             .AddTaskerInfrastructure(_config)
             .AddTaskerFeatures(_config);
         //builder.Services.AddDefaultApiVersioning();
@@ -33,8 +34,7 @@ public class Program
                     //.WithSecretKey("JWTAuthSecretKey")
                     .WithTokenExpiry(30, TimeUnit.Minutes)
                     .WithRefreshTokenExpiry(7, TimeUnit.Days);
-            })
-            .AddGoogleSignIn();
+            });
 
         builder.Host.UseDefaultServiceProvider(Options => 
         {
