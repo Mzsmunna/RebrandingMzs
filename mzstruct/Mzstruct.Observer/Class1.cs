@@ -1,4 +1,4 @@
-﻿namespace Mzstruct.Logging
+﻿namespace Mzstruct.Observer
 {
     public class Class1
     {
