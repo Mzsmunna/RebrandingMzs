@@ -49,5 +49,6 @@
     <PackageVersion Include="Scalar.AspNetCore" Version="2.11.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.0.1" />
     <PackageVersion Include="System.Runtime.Caching" Version="10.0.1" />
+    <PackageVersion Include="Twilio" Version="7.14.2" />
   </ItemGroup>
 </Project>

@@ -15,7 +15,6 @@
     <Project Path="mzstruct/Mzstruct.AI.ML/Mzstruct.AI.ML.csproj" Id="c1127ce4-de74-4ee6-8735-837cbc048642" />
     <Project Path="mzstruct/Mzstruct.AI.NN/Mzstruct.AI.NN.csproj" Id="a9d2b1c5-0473-4674-930b-52dbdea731f4" />
     <Project Path="mzstruct/Mzstruct.AI/Mzstruct.AI.csproj" Id="c1a41dae-dde0-4447-928c-2b4d08f3b33e" />
-    <Project Path="mzstruct/Mzstruct.Alert/Mzstruct.Alert.csproj" Id="9413ed82-a0b4-49b6-a2bb-2f587c19799b" />
     <Project Path="mzstruct/Mzstruct.API/Mzstruct.API.csproj" Id="f969145e-286e-42a4-a9b3-11c76442fc6c" />
     <Project Path="mzstruct/Mzstruct.Auth/Mzstruct.Auth.csproj" Id="81a525dc-2d28-4530-a144-8fda5ce78f87" />
     <Project Path="mzstruct/Mzstruct.Base/Mzstruct.Base.csproj" Id="2a920207-3a03-4076-8271-6c20dfd82751" />
@@ -27,6 +26,7 @@
     <Project Path="mzstruct/Mzstruct.DB/Mzstruct.DB.csproj" Id="cb40ed1b-32dc-4db9-9a80-daa3e8e62d46" />
     <Project Path="mzstruct/Mzstruct.Distributed/Mzstruct.Distributed.csproj" Id="7f474c42-7bc7-481d-9c6e-957e6a073386" />
     <Project Path="mzstruct/Mzstruct.File/Mzstruct.File.csproj" Id="b00e8706-ac02-42d7-8b23-c6b19e5f6f6d" />
+    <Project Path="mzstruct/Mzstruct.Notify/Mzstruct.Notify.csproj" Id="b618876a-270c-447d-9fee-d897248f4f7c" />
     <Project Path="mzstruct/Mzstruct.Observer/Mzstruct.Observer.csproj" Id="f446a573-5eee-44fc-83ba-b5db20cbf6f3" />
     <Project Path="mzstruct/Mzstruct.Payment/Mzstruct.Payment.csproj" Id="9f66bb07-21e4-4c1e-a314-ebfcf8e1db77" />
     <Project Path="mzstruct/Mzstruct.SDK/Mzstruct.SDK.csproj" Id="1778677f-0369-4aa6-8e64-57d1fce3b6d5" />
