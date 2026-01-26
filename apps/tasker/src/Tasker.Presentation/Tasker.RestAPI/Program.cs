@@ -77,6 +77,8 @@ public class Program
 
         app.UseAuthorization();
 
+        //app.UseOutputCache();
+
         app.MapControllers();
 
         app.Run();

@@ -4,6 +4,7 @@
     <Folder Include="Hybrid\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OutputCaching.StackExchangeRedis" />
     <PackageReference Include="System.Runtime.Caching" />
   </ItemGroup>
   <ItemGroup>

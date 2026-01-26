@@ -31,6 +31,20 @@ namespace Mzstruct.Base.Enums
         Redis,
     }
 
+    public enum CacheType
+    {
+        InMemory,
+        CacheAside,
+        CacheThrough,
+        Distributed,
+        Redis,
+        Valkey,
+        KeyDB,
+        Dragonfly,
+        Memcached,
+        Hazelcast,
+    }
+
     public enum CasingType
     {
         ToLowerCase,
