@@ -1,7 +1,7 @@
 ﻿using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
-using Mzstruct.Common.Extensions;
-using Mzstruct.Common.Mappings;
+using Mzstruct.Base.Extensions;
+using Mzstruct.Base.Mappings;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IRepos;

@@ -2,12 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement;
-using Mzstruct.Base.Consts;
-using Mzstruct.Base.Entities;
-using Mzstruct.Base.Errors;
-using Mzstruct.Base.Models;
-using Mzstruct.Common.Extensions;
-using Tasker.Application.Consts;
+using Mzstruct.Base.Extensions;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IQueries;
 using Tasker.Application.Features.Users;

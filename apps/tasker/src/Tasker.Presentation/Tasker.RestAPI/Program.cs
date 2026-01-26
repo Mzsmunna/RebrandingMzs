@@ -1,6 +1,6 @@
 using Mzstruct.API.Dependencies;
+using Mzstruct.Auth.Dependencies;
 using Mzstruct.Base.Enums;
-using Mzstruct.Common.Dependencies;
 using Scalar.AspNetCore;
 using Tasker.Application;
 using Tasker.Infrastructure;

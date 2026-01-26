@@ -6,4 +6,7 @@
   <ItemGroup>
     <PackageReference Include="System.Runtime.Caching" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mzstruct.Base\Mzstruct.Base.csproj" />
+  </ItemGroup>
 </Project>

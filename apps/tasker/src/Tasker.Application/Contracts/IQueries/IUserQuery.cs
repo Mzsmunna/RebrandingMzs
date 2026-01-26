@@ -2,5 +2,5 @@
 
 namespace Tasker.Application.Contracts.IQueries
 {
-    public interface IUserQuery : CommonQueries.IUserQuery { }
+    public interface IUserQuery : CommonQueries.IUserQueryService { }
 }

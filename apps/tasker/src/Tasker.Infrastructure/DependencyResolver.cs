@@ -3,10 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Tasker.Application.Enums;
 using Tasker.Application.Contracts.IRepos;
 using Tasker.Infrastructure.DB.MongoDB.Repos;
-using Mzstruct.Common.Dependencies;
 using Tasker.Infrastructure.DB.MongoDB.Mappings;
 using Tasker.Infrastructure.DB.EFCore.Context;
-using Tasker.Application.Features.Users;
+using Mzstruct.DB.Dependencies;
 
 namespace Tasker.Infrastructure
 {

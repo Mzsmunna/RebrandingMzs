@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mzstruct.Common.Extensions;
+using Mzstruct.Base.Extensions;
 using Tasker.Application.Features.Issues;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IQueries;

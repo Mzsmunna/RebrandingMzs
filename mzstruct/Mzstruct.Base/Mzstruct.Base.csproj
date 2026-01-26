@@ -2,10 +2,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Needed for IResult / Results / HttpContext, etc. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +23,7 @@
     <Folder Include="Contracts\IJobs\" />
     <Folder Include="Contracts\IMemories\" />
     <Folder Include="Events\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>

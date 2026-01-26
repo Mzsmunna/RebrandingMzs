@@ -1,11 +1,11 @@
 ﻿using Mzstruct.Base.Dtos;
-using CommonCommands = Mzstruct.Common.Contracts.ICommands;
+using Mzstruct.Base.Extensions;
 using Tasker.Application.Contracts.ICommands;
-using Mzstruct.Common.Extensions;
+using Mzstruct.Common.Contracts.ICommands;
 
 namespace Tasker.Application.Features.Users
 {
-    internal class UserCommand(CommonCommands.IUserCommand userCommand) : IUserCommand
+    internal class UserCommand(IUserCommandService userCommand) : IUserCommand
     {
         public async Task<Result<UserModel?>> CreateUser(UserModel user)
         {

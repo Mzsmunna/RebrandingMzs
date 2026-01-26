@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Common.Validators
+namespace Mzstruct.Common.Exceptions
 {
-    internal static class CommonValidator
+    internal class CommonExceptionsHandler
     {
-
     }
 }

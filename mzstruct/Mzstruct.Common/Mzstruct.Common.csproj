@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Contracts\IRepos\" />
+    <Folder Include="Contracts\IServices\" />
   </ItemGroup>
 
 </Project>

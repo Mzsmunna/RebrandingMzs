@@ -6,7 +6,7 @@ using Tasker.Application.Contracts.IQueries;
 namespace Tasker.Application.Features.Users
 {
     internal class UserQuery(//ILogger<UserQuery> logger,
-        CommonQueries.IUserQuery userQuery) : IUserQuery
+        CommonQueries.IUserQueryService userQuery) : IUserQuery
     {
         public async Task<Result<List<BaseUser>>> GetAllUsers(string sortField, string sortDirection)
         {

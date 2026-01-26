@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mzstruct.Common.Extensions;
-using Mzstruct.Common.Features.Auth;
+using Mzstruct.Auth.Models.Dtos;
+using Mzstruct.Base.Extensions;
 using Tasker.Application.Contracts.ICommands;
 
 namespace Tasker.RestAPI.Controllers
