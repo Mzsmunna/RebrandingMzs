@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Twilio" />
+    <PackageReference Include="Twilio.AspNet.Core" />
   </ItemGroup>
 
   <ItemGroup>

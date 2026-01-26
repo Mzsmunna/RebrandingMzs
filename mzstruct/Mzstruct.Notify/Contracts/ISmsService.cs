@@ -6,6 +6,7 @@ namespace Mzstruct.Notify.Contracts
 {
     public interface ISmsService
     {
-        Task<string> SendSMS(string from, string to, string content);
+        Task<string> Send(string from, string to, string content);
+        Task<string> Receive(string from, string to, string content); // most likely webhook
     }
 }

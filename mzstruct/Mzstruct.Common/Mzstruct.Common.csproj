@@ -6,6 +6,7 @@
     <ProjectReference Include="..\Mzstruct.Cache\Mzstruct.Cache.csproj" />
     <ProjectReference Include="..\Mzstruct.Cloud\Mzstruct.Cloud.csproj" />
     <ProjectReference Include="..\Mzstruct.DB\Mzstruct.DB.csproj" />
+    <ProjectReference Include="..\Mzstruct.Notify\Mzstruct.Notify.csproj" />
     <ProjectReference Include="..\Mzstruct.Observer\Mzstruct.Observer.csproj" />
   </ItemGroup>
 
