@@ -81,13 +81,13 @@ namespace Tasker.RestAPI.Controllers
 
         [HttpPost]
         [ActionName("RefreshToken")]
-        public async Task<IActionResult> RefreshToken(string userId)
+        public async Task<IActionResult> RefreshToken()
         {
             var token = Request.Headers.Authorization
                 .FirstOrDefault()?
                 .Replace("Bearer ", "") ?? "";
             var refreshToken = Request.Cookies["refreshToken"] ?? "";
-            var result = await authCommand.RefreshToken(userId, token, refreshToken);
+            var result = await authCommand.RefreshToken(token, refreshToken);
             return result.ToActionResult(this);
         }
     }

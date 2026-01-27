@@ -9,6 +9,7 @@ using Mzstruct.Auth.Models;
 using Mzstruct.Auth.Models.Configs;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -86,7 +87,6 @@ namespace Mzstruct.Auth.Managers
                 HttpOnly = true,
                 Expires = newRefreshToken.ExpiresAt
             };
-
             if (httpContextAccessor.HttpContext is not null)
                 httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
             if (user != null)
@@ -95,8 +95,7 @@ namespace Mzstruct.Auth.Managers
                 user.RefreshToken = newRefreshToken.Token;
                 user.TokenCreated = newRefreshToken.CreatedAt;
                 user.TokenExpires = newRefreshToken.ExpiresAt;
-            }
-            
+            }         
             return newRefreshToken;
         }
 
@@ -126,11 +125,7 @@ namespace Mzstruct.Auth.Managers
 
         public (ClaimsPrincipal?, SecurityToken?) GetPrincipalFromToken(string? token = "")
         {
-            if (string.IsNullOrEmpty(token) && httpContextAccessor.HttpContext is not null)
-                token = httpContextAccessor.HttpContext.Request.Headers.Authorization
-                .FirstOrDefault()?
-                .Replace("Bearer ", "") ?? "";
-
+            if (string.IsNullOrEmpty(token)) token = GetHeaderToken();
             var key = JwtHelper.GetSymmetricSecurityKey(options.Value, config);
             var _baseParams = new TokenValidationParameters
             {
@@ -159,6 +154,22 @@ namespace Mzstruct.Auth.Managers
             }
         }
 
+        public string GetHeaderToken()
+        {
+            var token = string.Empty;
+            if (httpContextAccessor.HttpContext is not null)
+                token = httpContextAccessor.HttpContext.Request.Headers.Authorization
+                .FirstOrDefault()?
+                .Replace("Bearer ", "") ?? "";
+            return token;
+        }
+        public string GetHeaderRefreshToken()
+        {
+            var refreshToken = string.Empty;
+            if (httpContextAccessor.HttpContext is not null)
+                refreshToken = httpContextAccessor.HttpContext.Request.Cookies["refreshToken"] ?? "";
+            return refreshToken;
+        }
         public string GetValueFromToken(string token, string key) => JwtHelper.GetValueFromToken(token, key);
         public string CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt) => PasswordHelper.HashWithHMACSHA512(password, out passwordHash, out passwordSalt);
         public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt) => PasswordHelper.VerifyWithHMACSHA512(password, passwordHash, passwordSalt);

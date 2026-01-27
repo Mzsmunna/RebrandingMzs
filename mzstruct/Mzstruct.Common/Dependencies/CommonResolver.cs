@@ -25,7 +25,6 @@ namespace Mzstruct.Common.Dependencies
 
         private static IServiceCollection AddAppCommands(IServiceCollection services)
         {
-            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserCommandService, UserCommandService>();
             return services;
         }

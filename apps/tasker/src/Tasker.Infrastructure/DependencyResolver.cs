@@ -6,6 +6,8 @@ using Tasker.Infrastructure.DB.MongoDB.Repos;
 using Tasker.Infrastructure.DB.MongoDB.Mappings;
 using Tasker.Infrastructure.DB.EFCore.Context;
 using Mzstruct.DB.Dependencies;
+using Mzstruct.Base.Entities;
+using Mzstruct.Auth.Dependencies;
 
 namespace Tasker.Infrastructure
 {
@@ -22,6 +24,7 @@ namespace Tasker.Infrastructure
         private static IServiceCollection AddTaskerDB(this IServiceCollection services, IConfiguration config)
         {
             services.AddMongoDB(config);
+            services.AddMongoDBAuth<BaseUser>(config);
             services.AddAppDBContext<TaskerEFContext>(config);
             //services.AddIdentityDBContext<TaskerIdentityContext, TaskerUser>(config);
             return services;

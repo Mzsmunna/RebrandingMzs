@@ -11,10 +11,10 @@ namespace Tasker.Application.Features.Auth
         //,IEFCoreBaseRepo<User> userSqlRepo
         ) : IAuthCommand
     {
-        public async Task<Result<UserModel?>> SignUp(SignUpDto signUpDto)
+        public async Task<Result<string>> SignUp(SignUpDto signUpDto)
         {
-            var result = await authService.SignUp(signUpDto);
-            return result.To(user => user as UserModel);
+            return await authService.SignUp(signUpDto);
+            //return result.To(user => user as UserModel);
         }
 
         public async Task<Result<string>> SignIn(SignInDto signInDto)
@@ -43,9 +43,9 @@ namespace Tasker.Application.Features.Auth
             return await authService.SignInWith(email, option);
         }
 
-        public async Task<Result<string>> RefreshToken(string userId, string token, string refreshToken)
+        public async Task<Result<string>> RefreshToken(string token, string refreshToken)
         {
-            return await authService.RefreshToken(userId, token, refreshToken);
+            return await authService.RefreshToken(token, refreshToken);
         }
     }
 }

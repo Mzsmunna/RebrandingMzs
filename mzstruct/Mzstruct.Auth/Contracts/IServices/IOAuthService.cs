@@ -7,8 +7,10 @@ using System.Text;
 
 namespace Mzstruct.Auth.Contracts.IServices
 {
-    public interface IAuthService : IBasicAuthService, IOAuthService
+    public interface IOAuthService
     {
-
+        Task<Result<string>> SignInWithGoogle(string credential);
+        Task<Result<string>> SignInWithGoogle();
+        Task<Result<string>> SignInWithGitHub();
     }
 }

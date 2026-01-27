@@ -4,13 +4,13 @@ using Mzstruct.Base.Entities;
 namespace Mzstruct.DB.Providers.MongoDB.Contracts.IRepos
 {
     //[EnforceResult]
-    public interface IBaseUserRepository : IMongoDBRepo<BaseUser>
+    public interface IBaseUserRepository<TUser> : IMongoDBRepo<TUser> where TUser : BaseUser 
     {
-        Task<BaseUser?> LoginUser(string email, string password);
-        Task<BaseUser?> LoginUser(string email);
-        Task<BaseUser?> RegisterUser(BaseUser user);
-        Task<Result<List<BaseUser>>> GetUsers(string clientId, string adminId);
+        Task<TUser?> LoginUser(string email, string password);
+        Task<TUser?> LoginUser(string email);
+        Task<TUser?> RegisterUser(TUser user);
+        Task<Result<List<TUser>>> GetUsers(string clientId, string adminId);
         Task<Result<List<dynamic>>> GetAllUserToAssign();
-        Task<Result<BaseUser?>> UpdateUser(BaseUser User);
+        Task<Result<TUser?>> UpdateUser(TUser User);
     }
 }

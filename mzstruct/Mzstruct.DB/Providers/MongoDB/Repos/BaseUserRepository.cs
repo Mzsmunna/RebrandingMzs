@@ -11,55 +11,55 @@ using Mzstruct.DB.Providers.MongoDB.Mappers;
 
 namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
-    public class BaseUserRepository: MongoDBRepo<BaseUser>, IBaseUserRepository
+    public class BaseUserRepository<TUser>: MongoDBRepo<TUser>, IBaseUserRepository<TUser> where TUser : BaseUser 
     {
         //private readonly IMongoCollection<User> _collection;
         
         public BaseUserRepository(IMongoDBContext dbContext, BaseUserEntityMap entityConfig) : 
             base(dbContext, entityConfig) { }
 
-        public override FilterDefinition<BaseUser> BuildFilter(string? id, List<SearchField>? searchQueries = null)
+        public override FilterDefinition<TUser> BuildFilter(string? id, List<SearchField>? searchQueries = null)
         {
             //var filter = Builders<T>.Filter.Empty;
-            var filter = GenericFilter<BaseUser>.BuildDynamicFilter(id, searchQueries);
+            var filter = GenericFilter<TUser>.BuildDynamicFilter(id, searchQueries);
             return filter;
         }
 
-        public async Task<BaseUser?> LoginUser(string email, string password)
+        public async Task<TUser?> LoginUser(string email, string password)
         {
-            var filter = Builders<BaseUser>.Filter.Empty;
-            filter &= Builders<BaseUser>.Filter.Eq(x => x.IsActive, true);
+            var filter = Builders<TUser>.Filter.Empty;
+            filter &= Builders<TUser>.Filter.Eq(x => x.IsActive, true);
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
-                filter &= Builders<BaseUser>.Filter.Eq(x => x.Email, email.ToLower());
-                filter &= Builders<BaseUser>.Filter.Eq(x => x.Password, password);
+                filter &= Builders<TUser>.Filter.Eq(x => x.Email, email.ToLower());
+                filter &= Builders<TUser>.Filter.Eq(x => x.Password, password);
                 var user = await _collection.Find(filter).FirstOrDefaultAsync();
                 return user;
             }
             return null;
         }
 
-        public async Task<BaseUser?> LoginUser(string email)
+        public async Task<TUser?> LoginUser(string email)
         {
-            var filter = Builders<BaseUser>.Filter.Empty;
-            filter &= Builders<BaseUser>.Filter.Eq(x => x.IsActive, true);
+            var filter = Builders<TUser>.Filter.Empty;
+            filter &= Builders<TUser>.Filter.Eq(x => x.IsActive, true);
             if (!string.IsNullOrEmpty(email))
             {
-                filter &= Builders<BaseUser>.Filter.Eq(x => x.Email, email.ToLower());
+                filter &= Builders<TUser>.Filter.Eq(x => x.Email, email.ToLower());
                 var user =  await _collection.Find(filter).FirstOrDefaultAsync();
                 return user;
             }
             return null;
         }
 
-        public async Task<BaseUser?> RegisterUser(BaseUser user)
+        public async Task<TUser?> RegisterUser(TUser user)
         {
-            var filter = Builders<BaseUser>.Filter.Empty;
+            var filter = Builders<TUser>.Filter.Empty;
             //filter &= Builders<User>.Filter.Eq(x => x.IsActive, true);
             if (user is null) return user;
             if (!string.IsNullOrEmpty(user.Email))
             {
-                filter &= Builders<BaseUser>.Filter.Eq(x => x.Email, user.Email.ToLower());
+                filter &= Builders<TUser>.Filter.Eq(x => x.Email, user.Email.ToLower());
                 var existingUser = await _collection.Find(filter).FirstOrDefaultAsync();
                 if (existingUser != null)
                 {
@@ -71,13 +71,13 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             return null;
         }
 
-        public async Task<Result<List<BaseUser>>> GetUsers(string clientId, string adminId)
+        public async Task<Result<List<TUser>>> GetUsers(string clientId, string adminId)
         {
-            var filter = Builders<BaseUser>.Filter.Empty;
+            var filter = Builders<TUser>.Filter.Empty;
             if (!string.IsNullOrEmpty(clientId))
-                filter &= Builders<BaseUser>.Filter.Eq("ClientId", ObjectId.Parse(clientId));
+                filter &= Builders<TUser>.Filter.Eq("ClientId", ObjectId.Parse(clientId));
             if (!string.IsNullOrEmpty(adminId))
-                filter &= Builders<BaseUser>.Filter.Eq("AdminUserId", ObjectId.Parse(adminId));
+                filter &= Builders<TUser>.Filter.Eq("AdminUserId", ObjectId.Parse(adminId));
             return await _collection.Find(filter).ToListAsync();
         }
 
@@ -100,7 +100,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             return results.Cast<dynamic>().ToList();
         }
 
-        public override async Task<BaseUser?> Save(BaseUser user)
+        public override async Task<TUser?> Save(TUser user)
         {
             if (user == null) return user;
             user.Gender = user.Gender?.ToLower() ?? "";
@@ -110,11 +110,11 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             return result;
         }
 
-        public async Task<Result<BaseUser?>> UpdateUser(BaseUser User)
+        public async Task<Result<TUser?>> UpdateUser(TUser User)
         {
             ObjectId _id = ObjectId.Parse(User.Id);
-            var filter = Builders<BaseUser>.Filter.Eq("Id", _id);
-            var update = Builders<BaseUser>.Update
+            var filter = Builders<TUser>.Filter.Eq("Id", _id);
+            var update = Builders<TUser>.Update
                 //.Set(x => x.ClientId, User.ClientId)
                 //.Set(x => x.AdminUserId, User.AdminUserId)
                 .Set(x => x.IsActive, User.IsActive)

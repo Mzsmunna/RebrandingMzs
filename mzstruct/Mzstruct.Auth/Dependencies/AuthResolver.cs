@@ -5,11 +5,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Mzstruct.Auth.Contracts.IHandlers;
 using Mzstruct.Auth.Contracts.IManagers;
+using Mzstruct.Auth.Contracts.IServices;
 using Mzstruct.Auth.Helpers;
 using Mzstruct.Auth.Interceptors;
 using Mzstruct.Auth.Managers;
 using Mzstruct.Auth.Models.Configs;
 using Mzstruct.Auth.Policies;
+using Mzstruct.Auth.Services;
+using Mzstruct.Base.Entities;
 using Mzstruct.Base.Enums;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.EFCore.Entities;
@@ -37,6 +40,13 @@ namespace Mzstruct.Auth.Dependencies
         {
             //return EFCoreHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime);
             return AuthHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime, includeJWT, jwtOptions);
+        }
+
+        public static IServiceCollection AddMongoDBAuth<TIdentity>(this IServiceCollection services, IConfiguration config) where TIdentity : BaseUser
+        {
+            services.AddScoped<IBasicAuthService, MongoAuthService<TIdentity>>();
+            services.AddScoped<IAuthService, AuthService>();
+            return services;
         }
 
         public static IServiceCollection AddMvcGitHubSignIn(this IServiceCollection services, IConfiguration config)

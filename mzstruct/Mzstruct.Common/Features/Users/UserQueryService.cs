@@ -9,7 +9,7 @@ using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 namespace Mzstruct.Common.Features.Users
 {
     internal class UserQueryService(//ILogger<UserQuery> logger,
-        IBaseUserRepository userRepository) : IUserQueryService
+        IBaseUserRepository<BaseUser> userRepository) : IUserQueryService
     {
         public async Task<Result<List<BaseUser>>> GetAllUsers(string sortField, string sortDirection)
         {

@@ -1,4 +1,5 @@
 ﻿using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Entities;
 using Mzstruct.Base.Errors;
 using Mzstruct.Base.Extensions;
 using Mzstruct.Base.Mappings;
@@ -10,7 +11,7 @@ using Tasker.Application.Validators;
 namespace Tasker.Application.Features.Issues
 {
     internal class IssueCommand(IIssueRepository issueRepository,
-        IBaseUserRepository userRepository) : IIssueCommand
+        IBaseUserRepository<BaseUser> userRepository) : IIssueCommand
     {
         public async Task<Result<Issue>> CreateIssue(IssueModel issue)
         {

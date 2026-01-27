@@ -5,7 +5,7 @@ using Mzstruct.DB.Providers.MongoDB.Models;
 
 namespace Mzstruct.DB.Providers.MongoDB.Contracts.IRepos
 {
-    public interface IMongoDBRepo <T> where T : BaseEntity //class
+    public interface IMongoDBRepo<T> where T : BaseEntity //class
     {
         FilterDefinition<T> BuildFilter(string? id, List<SearchField>? searchQueries = null);
         Task<T?> Get(MongoDBParam query);

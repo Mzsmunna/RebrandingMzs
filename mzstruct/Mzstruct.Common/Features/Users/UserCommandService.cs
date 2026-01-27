@@ -12,7 +12,7 @@ namespace Mzstruct.Common.Features.Users
 {
     internal class UserCommandService(//ILogger<UserQuery> logger,
         //IHttpContextAccessor httpContextAccessor,
-        IBaseUserRepository userRepository) : IUserCommandService
+        IBaseUserRepository<BaseUser> userRepository) : IUserCommandService
     {
         public async Task<Result<BaseUserModel?>> CreateUser(BaseUserModel user)
         {
