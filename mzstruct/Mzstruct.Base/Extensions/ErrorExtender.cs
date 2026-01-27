@@ -31,14 +31,15 @@ namespace Mzstruct.Base.Extensions
         public static IResult ToProblemDetails(this Error error)
         {
             return Results.Problem(
-                type: error.Url,
+                type: error.Code,
                 title: error.Title,
-                detail: error.Message,
+                detail: error.Details,
                 statusCode: error?.StatusCore ?? StatusCodes.Status500InternalServerError,
-                extensions: new Dictionary<string, object?>
-                {
-                    { "errors", error }
-                }
+                extensions: error?.Messages as IDictionary<string, object?>
+                //extensions: new Dictionary<string, object?>
+                //{
+                //    { "errors", error }
+                //}
             );
         }
 
@@ -54,14 +55,9 @@ namespace Mzstruct.Base.Extensions
             return controller.Problem(
                 type: error.Code, //.Type.ToString(),
                 title: error.Title ?? "Something went wrong!!",
-                detail: error.Message,
+                detail: error.Details,
                 statusCode: error?.StatusCore ?? StatusCodes.Status500InternalServerError,
-                extensions: new Dictionary<string, object?>
-                {
-                    //{ "requestId", httpContext.TraceIdentifier },
-                    //{ "traceId", activity?.Id }
-                    { "errors", error }
-                }
+                extensions: error?.Messages as IDictionary<string, object?>
             );
         }
 
