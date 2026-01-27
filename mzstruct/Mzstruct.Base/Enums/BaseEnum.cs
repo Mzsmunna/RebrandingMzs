@@ -89,7 +89,7 @@ namespace Mzstruct.Base.Enums
         Conflict,
         Validation,
         RateLimit,
-        Server,
+        Server, // unnexpcted | unhandled server error
         Network
     }
 
