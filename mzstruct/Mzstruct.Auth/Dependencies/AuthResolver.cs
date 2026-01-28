@@ -42,9 +42,10 @@ namespace Mzstruct.Auth.Dependencies
             return AuthHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime, includeJWT, jwtOptions);
         }
 
-        public static IServiceCollection AddMongoDBAuth<TIdentity>(this IServiceCollection services, IConfiguration config) where TIdentity : BaseUser
+        public static IServiceCollection AddAppAuth<TIdentity>(this IServiceCollection services, IConfiguration config) where TIdentity : BaseUser
         {
-            services.AddScoped<IBasicAuthService, MongoAuthService<TIdentity>>();
+            services.AddScoped<IBasicAuthService, BasicAuthService<TIdentity>>();
+            services.AddScoped<IOAuthService, OAuthService>();
             services.AddScoped<IAuthService, AuthService>();
             return services;
         }

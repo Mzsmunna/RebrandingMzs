@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Enums;
+using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.EFCore.Helpers;
 using Mzstruct.DB.Providers.MongoDB.Configs;
@@ -28,17 +29,22 @@ namespace Mzstruct.DB.Dependencies
             services.Configure<MongoDBConfig>(config.GetSection(nameof(MongoDBConfig)));
             services.AddTransient<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
             services.AddTransient<IMongoDBContext, MongoDBContext>();
-            AddMongoRepositories(services);
+            AddCoreMongoEntities(services);
+            AddCoreMongoRepos(services);
             return services;
         }
 
-        private static IServiceCollection AddMongoRepositories(IServiceCollection services)
+        private static IServiceCollection AddCoreMongoEntities(IServiceCollection services)
         {
-            // entities
             services.AddScoped<BaseUserEntityMap>();
-            // repos
+            return services;
+        }
+
+        private static IServiceCollection AddCoreMongoRepos(IServiceCollection services)
+        {
             services.AddScoped(typeof(IMongoDBRepo<>), typeof(MongoDBRepo<>));
             services.AddScoped(typeof(IBaseUserRepository<>), typeof(BaseUserRepository<>));
+            services.AddScoped(typeof(IAuthUserRepo<>), typeof(BaseUserRepository<>));
             return services;
         }
 

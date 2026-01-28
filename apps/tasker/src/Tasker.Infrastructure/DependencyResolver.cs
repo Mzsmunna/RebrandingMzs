@@ -18,13 +18,13 @@ namespace Tasker.Infrastructure
             AddTaskerDB(services, config);
             AddTaskerMongoEntities(services);
             AddTaskerRepositories(services);
+            services.AddAppAuth<BaseUser>(config);
             return services;
         }
 
         private static IServiceCollection AddTaskerDB(this IServiceCollection services, IConfiguration config)
         {
             services.AddMongoDB(config);
-            services.AddMongoDBAuth<BaseUser>(config);
             services.AddAppDBContext<TaskerEFContext>(config);
             //services.AddIdentityDBContext<TaskerIdentityContext, TaskerUser>(config);
             return services;

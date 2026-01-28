@@ -8,6 +8,7 @@ using Mzstruct.Base.Entities;
 using Mzstruct.Base.Errors;
 using Mzstruct.Base.Extensions;
 using Mzstruct.Base.Mappings;
+using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ using System.Text;
 
 namespace Mzstruct.Auth.Services
 {
-    public class MongoAuthService<TEntity>(ILogger<MongoAuthService<TEntity>> logger, 
+    public class BasicAuthService<TEntity>(ILogger<BasicAuthService<TEntity>> logger, 
         //IValidator<SignUpDto> signUpValidator,
-        IBaseUserRepository<TEntity> userRepository,
+        IAuthUserRepo<TEntity> userRepository, //IBaseUserRepository<TEntity> userRepository,
         IJwtTokenManager jwtTokenManager) : IBasicAuthService where TEntity : BaseUser
     {
         public async Task<Result<string>> SignUp(SignUpDto signUpDto)

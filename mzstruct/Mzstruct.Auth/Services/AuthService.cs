@@ -14,64 +14,17 @@ using System.Text;
 
 namespace Mzstruct.Auth.Services
 {
-    public class AuthService(ILogger<AuthService> logger, 
-        IHttpContextAccessor httpContextAccessor,
-        //IValidator<SignUpDto> signUpValidator,
+    public class AuthService(
         IBasicAuthService basicAuthService,
-        IGoogleAuthManager googleAuthManager) : IAuthService
+        IOAuthService oAuthService) : IAuthService
     {
         public async Task<Result<string>> SignUp(SignUpDto signUpDto) => await basicAuthService.SignUp(signUpDto);
         public async Task<Result<string>> SignIn(SignInDto signInDto) => await basicAuthService.SignIn(signInDto);
         public async Task<Result<string>> SignInWith(string email, string option = "Mail") => await basicAuthService.SignInWith(email, option);
         public async Task<Result<bool>> SignOut(string token = "") => await basicAuthService.SignOut(token);
         public async Task<Result<string>> RefreshToken(string token = "", string refreshToken = "") => await basicAuthService.RefreshToken(token, refreshToken);
-        public async Task<Result<string>> SignInWithGoogle(string credential)
-        {
-            if (string.IsNullOrEmpty(credential))
-                return await SignInWithGoogle();
-            var payload = await googleAuthManager.ValidateToken(credential);
-            if (payload is null)
-            {
-                logger.LogWarning("SignIn.Google: Bad Request");
-                return ClientError.BadRequest;
-            }
-            return await SignInWith(payload.Email, "Google");
-        }
-
-        public async Task<Result<string>> SignInWithGoogle()
-        {
-            // Read the external identity from the "External" cookie
-            if (httpContextAccessor.HttpContext is null)
-            {
-                logger.LogWarning("SignIn.Google: Bad Request");
-                return ClientError.BadRequest;
-            }
-            var authResult = await httpContextAccessor.HttpContext.AuthenticateAsync("External");
-            var user = await googleAuthManager.ValidateClaim(authResult);
-            if (user is null)
-                return Error.Bad("SignIn.Google.BadRequest", "Google did not provide user info");
-            if (string.IsNullOrEmpty(user.Email)) return "";
-            // Cleanup the external cookie
-            await httpContextAccessor.HttpContext.SignOutAsync("External");
-            return await SignInWith(user.Email, "Google");
-        }
-
-        public async Task<Result<string>> SignInWithGitHub()
-        {
-            if (httpContextAccessor.HttpContext is null)
-            {   logger.LogWarning("SignIn.GitHub: Bad Request");
-                return ClientError.BadRequest;
-            }
-            var authResult = await httpContextAccessor.HttpContext.AuthenticateAsync("External");
-            if (!authResult.Succeeded) return "";
-            var claims = authResult.Principal!.Claims;
-            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-            var githubId = claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-            if (string.IsNullOrEmpty(email)) return "";
-            // Cleanup the external cookie
-            await httpContextAccessor.HttpContext.SignOutAsync("External");
-            return await SignInWith(email, "GitHub"); // 🔐 Create / find user in DB + 🔑 Issue JWT
-        }
+        public async Task<Result<string>> SignInWithGoogle(string credential) => await oAuthService.SignInWithGoogle(credential);
+        public async Task<Result<string>> SignInWithGoogle() => await oAuthService.SignInWithGoogle();
+        public async Task<Result<string>> SignInWithGitHub() => await oAuthService.SignInWithGitHub();
     }
 }

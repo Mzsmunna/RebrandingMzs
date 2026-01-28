@@ -4,6 +4,7 @@ using MongoDB.Driver.Linq;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
+using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
@@ -11,7 +12,9 @@ using Mzstruct.DB.Providers.MongoDB.Mappers;
 
 namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
-    public class BaseUserRepository<TUser>: MongoDBRepo<TUser>, IBaseUserRepository<TUser> where TUser : BaseUser 
+    public class BaseUserRepository<TUser>: MongoDBRepo<TUser>, 
+        IBaseUserRepository<TUser>, 
+        IAuthUserRepo<TUser> where TUser : BaseUser
     {
         //private readonly IMongoCollection<User> _collection;
         
