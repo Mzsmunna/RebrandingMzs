@@ -171,6 +171,13 @@ namespace Mzstruct.Base.Helpers
             return stringToclean.Trim();
         }
 
+        // Very basic HTML stripper, you can replace with a more robust one
+        public static string StripHtml(string html)
+        {
+            if (string.IsNullOrEmpty(html)) return string.Empty;
+            return Regex.Replace(html, "<.*?>", string.Empty);
+        }
+
         public static DateTime? GetDateFromString(string date, bool isTwoDigitYear = false, string currentDateFormat = "")
         {
             if (!string.IsNullOrEmpty(date))

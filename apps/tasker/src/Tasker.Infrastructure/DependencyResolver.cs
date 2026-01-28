@@ -8,6 +8,7 @@ using Tasker.Infrastructure.DB.EFCore.Context;
 using Mzstruct.DB.Dependencies;
 using Mzstruct.Base.Entities;
 using Mzstruct.Auth.Dependencies;
+using Tasker.Application.Features.Users;
 
 namespace Tasker.Infrastructure
 {

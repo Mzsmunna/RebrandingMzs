@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" />
+    <PackageReference Include="MimeKit" />
     <PackageReference Include="Twilio" />
     <PackageReference Include="Twilio.AspNet.Core" />
   </ItemGroup>

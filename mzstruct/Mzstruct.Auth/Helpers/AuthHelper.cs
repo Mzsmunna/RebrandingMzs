@@ -23,6 +23,13 @@ namespace Mzstruct.Auth.Helpers
                     //.AddIdentityCore<TIdentity>()
                     .AddIdentityCore<TIdentity>(options =>
                     {
+                        //options.SignIn.RequireConfirmedAccount = false;
+                        //options.SignIn.RequireConfirmedEmail = false;
+
+                        //options.Lockout.AllowedForNewUsers = true;
+                        //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                        //options.Lockout.MaxFailedAccessAttempts = 5;
+
                         options.Password.RequiredLength = 6;
                         options.Password.RequireNonAlphanumeric = false;
                         options.User.RequireUniqueEmail = true;
