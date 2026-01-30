@@ -19,7 +19,6 @@
     <Folder Include="Contracts\IMappers\" />
     <Folder Include="Contracts\IRepos\" />
     <Folder Include="Contracts\IServices\" />
-    <Folder Include="Contracts\IEvents\" />
     <Folder Include="Contracts\IJobs\" />
     <Folder Include="Contracts\IMemories\" />
     <Folder Include="Events\" />

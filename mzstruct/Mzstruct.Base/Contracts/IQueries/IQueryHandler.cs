@@ -5,8 +5,5 @@ using System.Text;
 
 namespace Tasker.Application.Contracts.IQueries
 {
-    public interface IQueryHandler<TQuery, TResult>
-    {
-        Task<Result<TResult>> Execute(TQuery query);
-    }
+    
 }
