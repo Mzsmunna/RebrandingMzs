@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using Mzstruct.Auth.Models.Dtos;
+using Mzstruct.Auth.Features.Commands;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Extensions;
 using Mzstruct.Base.Helpers;
@@ -13,7 +13,7 @@ namespace Mzstruct.Auth.Validators
 {
     internal class AuthValidator
     {
-        public static async Task<ValidationResult> ValidateSignUp(SignUpDto dto)
+        public static async Task<ValidationResult> ValidateSignUp(SignUpCommand dto)
         {
             return await dto.FluentInlineValidate(v =>
             {
@@ -42,7 +42,7 @@ namespace Mzstruct.Auth.Validators
             });
         }
 
-        public static async Task<ValidationResult> ValidateSignIn(SignInDto dto)
+        public static async Task<ValidationResult> ValidateSignIn(SignInCommand dto)
         {
             return await dto.FluentInlineValidate(v =>
             {

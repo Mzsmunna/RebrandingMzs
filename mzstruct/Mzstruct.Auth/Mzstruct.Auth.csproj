@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\" />
+    <Folder Include="Dtos\" />
+    <Folder Include="Features\Queries\" />
+    <Folder Include="Queries\" />
   </ItemGroup>
 
 </Project>

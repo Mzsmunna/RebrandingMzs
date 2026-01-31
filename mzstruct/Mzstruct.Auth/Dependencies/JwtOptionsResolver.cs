@@ -1,5 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using Mzstruct.Auth.Models.Configs;
+using Mzstruct.Auth.Configs;
 using Mzstruct.Base.Enums;
 using System;
 using System.Collections.Generic;

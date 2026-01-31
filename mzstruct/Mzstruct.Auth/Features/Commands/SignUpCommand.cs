@@ -1,5 +1,4 @@
 ﻿using Mzstruct.Auth.Contracts.IServices;
-using Mzstruct.Auth.Models.Dtos;
 using Mzstruct.Base.Contracts.ICommands;
 using Mzstruct.Base.Dtos;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Mzstruct.Common.Features.Auth
+namespace Mzstruct.Auth.Features.Commands
 {
     public record SignUpCommand(
         [Required] string Name,
@@ -33,27 +32,8 @@ namespace Mzstruct.Common.Features.Auth
         IAuthService authService)
         : ICommandHandler<SignUpCommand, Result<string>>
     {
-        public async Task<Result<string>> HandleAsync(SignUpCommand command, CancellationToken token = default)
-        {
-            var payload = new SignUpDto
-            (
-                command.Name,
-                command.FirstName,
-                command.LastName,
-                command.Gender,
-                command.DOB,
-                command.Username,
-                command.Email,
-                command.Password,
-                command.ConfirmPassword,
-                command.Phone,
-                command.Address,
-                command.Department,
-                command.Designation,
-                command.Position,
-                command.Img
-            );
-            return await authService.SignUp(payload);
-        }
+        public async Task<Result<string>> 
+            HandleAsync(SignUpCommand command, CancellationToken token = default) 
+            => await authService.SignUp(command);
     }
 }

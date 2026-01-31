@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.Auth.Contracts.IServices;
-using Mzstruct.Auth.Models.Dtos;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Errors;
 using System;

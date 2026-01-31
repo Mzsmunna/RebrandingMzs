@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using Mzstruct.Auth.Contracts.IServices;
-using Mzstruct.Auth.Models.Dtos;
+﻿using Mzstruct.Auth.Contracts.IServices;
+using Mzstruct.Auth.Services;
 using Mzstruct.Base.Contracts.ICommands;
 using Mzstruct.Base.Dtos;
 using System;
@@ -8,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Mzstruct.Common.Features.Auth
+namespace Mzstruct.Auth.Features.Commands
 {
     public record SignInCommand (
         string Username,
@@ -21,15 +20,8 @@ namespace Mzstruct.Common.Features.Auth
         IAuthService authService)
         : ICommandHandler<SignInCommand, Result<string>>
     {
-        public async Task<Result<string>> HandleAsync(SignInCommand command, CancellationToken token = default)
-        {
-            var payload = new SignInDto
-            (
-                command.Username,
-                command.Email,
-                command.Password
-            );
-            return await authService.SignIn(payload);
-        }
+        public async Task<Result<string>> 
+            HandleAsync(SignInCommand command, CancellationToken token = default)
+            => await authService.SignIn(command);
     }
 }

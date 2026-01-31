@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Auth.Models.Configs
+namespace Mzstruct.Auth.Configs
 {
     public sealed class JwtTokenOptions
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mzstruct.Auth.Models.Dtos;
+using Mzstruct.Auth.Features.Commands;
 using Mzstruct.Base.Extensions;
 using Tasker.Application.Contracts.ICommands;
 
@@ -14,17 +14,17 @@ namespace Tasker.RestAPI.Controllers
     {
         [HttpPost]
         [ActionName("Register")]
-        public async Task<IActionResult> Register(SignUpDto dto)
+        public async Task<IActionResult> Register(SignUpCommand payload)
         {
-            var result = await authCommand.SignUp(dto);
+            var result = await authCommand.SignUp(payload);
             return result.ToActionResult(this);
         }
 
         [HttpPost]
         [ActionName("Login")]
-        public async Task<IActionResult> Login(SignInDto dto)
+        public async Task<IActionResult> Login(SignInCommand payload)
         {
-            var result = await authCommand.SignIn(dto);
+            var result = await authCommand.SignIn(payload);
             return result.ToActionResult(this);
         }
 

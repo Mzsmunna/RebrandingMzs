@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Mzstruct.Auth.Configs;
 using Mzstruct.Auth.Dependencies;
-using Mzstruct.Auth.Models.Configs;
 using Mzstruct.Base.Enums;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.EFCore.Entities;

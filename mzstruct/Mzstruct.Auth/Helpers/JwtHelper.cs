@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
-using Mzstruct.Auth.Models.Configs;
+using Mzstruct.Auth.Configs;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
 using System.IdentityModel.Tokens.Jwt;

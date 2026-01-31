@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
-using Mzstruct.Auth.Models.Dtos;
+using Mzstruct.Auth.Features.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Mzstruct.Auth.Validators
 {
-    internal sealed class SignInValidator: AbstractValidator<SignInDto>
+    internal sealed class SignInValidator: AbstractValidator<SignInCommand>
     {
         public SignInValidator()
         {

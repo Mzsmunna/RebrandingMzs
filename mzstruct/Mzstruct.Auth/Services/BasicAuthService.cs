@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.Auth.Contracts.IServices;
-using Mzstruct.Auth.Models.Dtos;
+using Mzstruct.Auth.Features.Commands;
 using Mzstruct.Auth.Validators;
 using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
@@ -23,15 +23,15 @@ namespace Mzstruct.Auth.Services
         IAuthUserRepo<TEntity> userRepository, //IBaseUserRepository<TEntity> userRepository,
         IJwtTokenManager jwtTokenManager) : IBasicAuthService where TEntity : BaseUser
     {
-        public async Task<Result<string>> SignUp(SignUpDto signUpDto)
+        public async Task<Result<string>> SignUp(SignUpCommand payload)
         {
-            //var validation = signUpValidator.Validate(signUpDto);
-            var validation = await AuthValidator.ValidateSignUp(signUpDto);
+            //var validation = signUpValidator.Validate(payload);
+            var validation = await AuthValidator.ValidateSignUp(payload);
             if (validation.IsValid is false)
                 return Error.Validation("AuthCommand.SignUp.InvalidInput",
                     "SignUp form is invalid", validation.ToErrorDictionary());
             
-            var user = signUpDto.ToEntity<TEntity, SignUpDto>();
+            var user = payload.ToEntity<TEntity, SignUpCommand>();
             if (user is null)
             {
                 logger.LogWarning("SignUp: Bad Request");
@@ -45,24 +45,24 @@ namespace Mzstruct.Auth.Services
             return registered.Id;
         }
 
-        public async Task<Result<string>> SignIn(SignInDto signInDto)
+        public async Task<Result<string>> SignIn(SignInCommand payload)
         {
-            if (signInDto is null)
+            if (payload is null)
             {
                 logger.LogWarning("SignIn: Bad Request");
                 return ClientError.BadRequest;
             }
 
-            var validation = await AuthValidator.ValidateSignIn(signInDto);
+            var validation = await AuthValidator.ValidateSignIn(payload);
             if (validation.IsValid is false)
                 return Error.Validation("AuthCommand.SignIn.InvalidForm",
                     "SignIn form is invalid", validation.ToErrorDictionary());
             
-            var signInUser = await userRepository.LoginUser(signInDto.Email, signInDto.Password);
+            var signInUser = await userRepository.LoginUser(payload.Email, payload.Password);
             if (signInUser is null)
                 return Error.NotFound("SignIn.Credential.NotFound", "User credential didn't match"); //StatusCode(StatusCodes.Status204NoContent, "User doesn't exist.");
             
-            var passHashWithSalt = jwtTokenManager.CreatePasswordHash(signInDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            var passHashWithSalt = jwtTokenManager.CreatePasswordHash(payload.Password, out byte[] passwordHash, out byte[] passwordSalt);
             //signInUser.Password = passHashWithSalt;
             signInUser.PasswordHash = passwordHash;
             signInUser.PasswordSalt = passwordSalt;
