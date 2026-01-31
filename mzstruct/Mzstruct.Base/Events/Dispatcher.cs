@@ -15,7 +15,7 @@ namespace Mzstruct.Base.Events
             var handlerType  = typeof(ICommandHandler<,>).MakeGenericType(command.GetType(), typeof(TResult));
             var handler = provider.GetRequiredService(handlerType);
             var method = handlerType.GetMethod("HandleAsync");
-            if (method is null) throw new InvalidOperationException("Handler does not contain a HandleAsync method.");
+            if (method is null) throw new InvalidOperationException("Command Handler does not contain a HandleAsync method.");
             var task = (Task<TResult>) method.Invoke(handler, new object[] { command, cancellationToken })!;
             return await task;
         }
@@ -25,7 +25,7 @@ namespace Mzstruct.Base.Events
             var handlerType  = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
             var handler = provider.GetRequiredService(handlerType);
             var method = handlerType.GetMethod("HandleAsync");
-            if (method is null) throw new InvalidOperationException("Handler does not contain a HandleAsync method.");
+            if (method is null) throw new InvalidOperationException("Query Handler does not contain a HandleAsync method.");
             var task = (Task<TResult>) method.Invoke(handler, new object[] { query, cancellationToken })!;
             return await task;
         }
