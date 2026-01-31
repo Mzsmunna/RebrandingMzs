@@ -21,7 +21,6 @@
     <Folder Include="Contracts\IServices\" />
     <Folder Include="Contracts\IJobs\" />
     <Folder Include="Contracts\IMemories\" />
-    <Folder Include="Events\" />
     <Folder Include="Validators\" />
   </ItemGroup>
 

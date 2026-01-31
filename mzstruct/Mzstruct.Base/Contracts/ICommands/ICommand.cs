@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Mzstruct.Base.Contracts.ICommands
 {
-    public interface ICommand<out TResponse> where TResponse : class
+    public interface ICommand<out TResponse>
     {
     }
 
-    public interface ICommandHandler<in TCommand, TResult> where TCommand : ICommand<TResult> where TResult : class
+    public interface ICommandHandler<in TCommand, TResult> where TCommand : notnull, ICommand<TResult>
     {
         Task<TResult> HandleAsync(TCommand command, CancellationToken token = default);
     }
