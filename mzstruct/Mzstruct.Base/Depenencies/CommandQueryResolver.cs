@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Mzstruct.Base.Contracts.ICommands;
+using Mzstruct.Base.Contracts.IEvents;
 using Mzstruct.Base.Contracts.IQueries;
+using Mzstruct.Base.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,6 +27,7 @@ namespace Mzstruct.Base.Depenencies
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
             );
+            services.AddScoped<IDispatcher, Dispatcher>();
             return services;
         }
     }
