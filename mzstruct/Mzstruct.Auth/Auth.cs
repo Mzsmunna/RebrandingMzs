@@ -1,6 +1,6 @@
 ﻿namespace Mzstruct.Auth
 {
-    public class Class1
+    public class Auth
     {
 
     }

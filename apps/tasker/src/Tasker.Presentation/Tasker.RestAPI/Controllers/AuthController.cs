@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mzstruct.Auth.Features.Commands;
+using Mzstruct.Base.Contracts.IEvents;
 using Mzstruct.Base.Extensions;
 using Tasker.Application.Contracts.ICommands;
 
@@ -10,7 +11,7 @@ namespace Tasker.RestAPI.Controllers
     [AllowAnonymous]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AuthController(IAuthCommand authCommand) : ControllerBase
+    public class AuthController(IAuthCommand authCommand, IDispatcher dispatcher) : ControllerBase
     {
         [HttpPost]
         [ActionName("Register")]
@@ -24,7 +25,7 @@ namespace Tasker.RestAPI.Controllers
         [ActionName("Login")]
         public async Task<IActionResult> Login(SignInCommand payload)
         {
-            var result = await authCommand.SignIn(payload);
+            var result = await dispatcher.CommandAsync(payload); //await authCommand.SignIn(payload);
             return result.ToActionResult(this);
         }
 

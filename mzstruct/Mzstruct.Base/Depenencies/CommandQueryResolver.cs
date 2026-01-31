@@ -11,7 +11,7 @@ namespace Mzstruct.Base.Depenencies
 {
     public static class CommandQueryResolver
     {
-        public static IServiceCollection AddCommandQueryHandlers<TClass>(this IServiceCollection services) where TClass : class, new()
+        public static IServiceCollection AddCommandQueryHandlers<TClass>(this IServiceCollection services) where TClass : class
         {
             services.Scan(scan => scan
                 //.FromAssemblies(AppDomain.CurrentDomain.GetAssemblies())

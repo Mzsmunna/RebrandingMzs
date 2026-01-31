@@ -12,6 +12,7 @@ using Mzstruct.Auth.Interceptors;
 using Mzstruct.Auth.Managers;
 using Mzstruct.Auth.Policies;
 using Mzstruct.Auth.Services;
+using Mzstruct.Base.Depenencies;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Enums;
 using Mzstruct.DB.EFCore.Context;
@@ -47,6 +48,7 @@ namespace Mzstruct.Auth.Dependencies
             services.AddScoped<IBasicAuthService, BasicAuthService<TIdentity>>();
             services.AddScoped<IOAuthService, OAuthService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddCommandQueryHandlers<Auth>();
             return services;
         }
 
