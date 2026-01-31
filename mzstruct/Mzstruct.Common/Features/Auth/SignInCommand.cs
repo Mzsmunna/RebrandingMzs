@@ -23,13 +23,13 @@ namespace Mzstruct.Common.Features.Auth
     {
         public async Task<Result<string>> HandleAsync(SignInCommand command, CancellationToken token = default)
         {
-            var dto = new SignInDto
+            var payload = new SignInDto
             (
                 command.Username,
                 command.Email,
                 command.Password
             );
-            return await authService.SignIn(dto);
+            return await authService.SignIn(payload);
         }
     }
 }
