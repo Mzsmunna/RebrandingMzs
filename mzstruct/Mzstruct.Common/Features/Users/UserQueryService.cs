@@ -1,8 +1,8 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Entities;
-using Mzstruct.Base.Errors;
+﻿using Mzstruct.Base.Entities;
 using Mzstruct.Base.Helpers;
 using Mzstruct.Base.Models;
+using Mzstruct.Base.Patterns.Errors;
+using Mzstruct.Base.Patterns.Result;
 using Mzstruct.Common.Contracts.IQueries;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 

@@ -1,9 +1,8 @@
-﻿using Mzstruct.Base.Contracts.IQueries;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Contracts.ICommands
+namespace Mzstruct.Base.Patterns.CQRS
 {
     public interface ICommand<out TResponse>
     {

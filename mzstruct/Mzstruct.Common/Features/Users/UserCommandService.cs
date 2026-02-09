@@ -1,9 +1,9 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Entities;
-using Mzstruct.Base.Errors;
+﻿using Mzstruct.Base.Entities;
 using Mzstruct.Base.Extensions;
 using Mzstruct.Base.Mappings;
 using Mzstruct.Base.Models;
+using Mzstruct.Base.Patterns.Errors;
+using Mzstruct.Base.Patterns.Result;
 using Mzstruct.Common.Contracts.ICommands;
 using Mzstruct.Common.Validators;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;

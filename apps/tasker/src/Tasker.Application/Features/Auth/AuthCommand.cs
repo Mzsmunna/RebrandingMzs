@@ -1,7 +1,7 @@
 ﻿using Mzstruct.Auth.Contracts.IServices;
 using Mzstruct.Auth.Features.Commands;
-using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Extensions;
+using Mzstruct.Base.Patterns.Result;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Features.Users;
 
@@ -11,16 +11,16 @@ namespace Tasker.Application.Features.Auth
         //,IEFCoreBaseRepo<User> userSqlRepo
         ) : IAuthCommand
     {
-        public async Task<Result<string>> SignUp(SignUpCommand payload)
+        public async Task<Result<string>> SignUp(SignUpCommand request)
         {
-            return await authService.SignUp(payload);
+            return await authService.SignUp(request);
             //return result.To(user => user as UserModel);
         }
 
-        public async Task<Result<string>> SignIn(SignInCommand payload)
+        public async Task<Result<string>> SignIn(SignInCommand request)
         {
             //var allUsers = await userSqlRepo.GetAllAsync();
-            return await authService.SignIn(payload);
+            return await authService.SignIn(request);
         }
 
         public async Task<Result<string>> SignInWithGoogle(string credential)

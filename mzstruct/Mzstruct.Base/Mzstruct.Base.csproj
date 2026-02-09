@@ -13,15 +13,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Contracts\ICommands\" />
     <Folder Include="Contracts\IConfigs\" />
     <Folder Include="Contracts\IContexts\" />
+    <Folder Include="Contracts\IEvents\" />
     <Folder Include="Contracts\IFactories\" />
     <Folder Include="Contracts\IManagers\" />
     <Folder Include="Contracts\IMappers\" />
+    <Folder Include="Contracts\IQueries\" />
     <Folder Include="Contracts\IRepos\" />
     <Folder Include="Contracts\IServices\" />
     <Folder Include="Contracts\IJobs\" />
     <Folder Include="Contracts\IMemories\" />
+    <Folder Include="Events\" />
     <Folder Include="Validators\" />
   </ItemGroup>
 

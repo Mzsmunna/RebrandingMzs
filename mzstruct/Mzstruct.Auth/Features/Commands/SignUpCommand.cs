@@ -1,6 +1,6 @@
 ﻿using Mzstruct.Auth.Contracts.IServices;
-using Mzstruct.Base.Contracts.ICommands;
-using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Patterns.CQRS;
+using Mzstruct.Base.Patterns.Result;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

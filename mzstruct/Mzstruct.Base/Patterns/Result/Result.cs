@@ -1,9 +1,9 @@
-﻿using Mzstruct.Base.Errors;
+﻿using Mzstruct.Base.Patterns.Errors;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Dtos
+namespace Mzstruct.Base.Patterns.Result
 {
     public class Result<TValue>
     {

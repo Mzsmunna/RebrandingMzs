@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using Mzstruct.Base.Dtos;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
+using Mzstruct.Base.Patterns.Result;
 using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;

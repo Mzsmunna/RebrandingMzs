@@ -1,5 +1,5 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Models;
+﻿using Mzstruct.Base.Models;
+using Mzstruct.Base.Patterns.Result;
 using System;
 using System.Collections.Generic;
 using System.Text;

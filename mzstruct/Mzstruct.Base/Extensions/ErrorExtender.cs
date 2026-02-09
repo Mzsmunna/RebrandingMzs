@@ -1,8 +1,8 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Errors;
+using Mzstruct.Base.Patterns.Errors;
+using Mzstruct.Base.Patterns.Result;
 using System;
 using System.Collections.Generic;
 using System.Text;

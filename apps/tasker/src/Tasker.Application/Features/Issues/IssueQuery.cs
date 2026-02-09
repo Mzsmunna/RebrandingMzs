@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Errors;
 using Mzstruct.Base.Helpers;
 using Mzstruct.Base.Models;
 using System;
@@ -9,6 +7,8 @@ using System.Text;
 using Tasker.Application.Features.Users;
 using Tasker.Application.Contracts.IQueries;
 using Tasker.Application.Contracts.IRepos;
+using Mzstruct.Base.Patterns.Result;
+using Mzstruct.Base.Patterns.Errors;
 
 namespace Tasker.Application.Features.Issues
 {

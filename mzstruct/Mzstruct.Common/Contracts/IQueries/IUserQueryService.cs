@@ -1,5 +1,5 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Entities;
+﻿using Mzstruct.Base.Entities;
+using Mzstruct.Base.Patterns.Result;
 
 namespace Mzstruct.Common.Contracts.IQueries
 {

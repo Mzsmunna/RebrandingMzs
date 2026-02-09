@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Mzstruct.Auth.Contracts.IManagers;
-using Mzstruct.Base.Errors;
 using Mzstruct.Base.Models;
 using System;
 using System.Collections.Generic;

@@ -1,15 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Mzstruct.Base.Contracts.ICommands;
-using Mzstruct.Base.Contracts.IEvents;
-using Mzstruct.Base.Contracts.IQueries;
-using Mzstruct.Base.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Depenencies
+namespace Mzstruct.Base.Patterns.CQRS
 {
-    public static class CommandQueryResolver
+    public static class RequestResolver
     {
         public static IServiceCollection AddCommandQueryHandlers<TClass>(this IServiceCollection services) where TClass : class
         {
@@ -27,7 +23,7 @@ namespace Mzstruct.Base.Depenencies
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
             );
-            services.AddScoped<IDispatcher, Dispatcher>();
+            services.AddScoped<IRequestSender, RequestSender>();
             return services;
         }
     }

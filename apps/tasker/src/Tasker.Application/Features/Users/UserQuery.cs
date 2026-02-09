@@ -1,7 +1,7 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Entities;
+﻿using Mzstruct.Base.Entities;
 using CommonQueries = Mzstruct.Common.Contracts.IQueries;
 using Tasker.Application.Contracts.IQueries;
+using Mzstruct.Base.Patterns.Result;
 
 namespace Tasker.Application.Features.Users
 {

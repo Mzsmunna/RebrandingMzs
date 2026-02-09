@@ -1,4 +1,4 @@
-﻿using Mzstruct.Base.Dtos;
+﻿using Mzstruct.Base.Patterns.Result;
 using Tasker.Application.Features.Users;
 
 namespace Tasker.Application.Contracts.ICommands

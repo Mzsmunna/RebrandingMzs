@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Contracts.IQueries
+namespace Mzstruct.Base.Patterns.CQRS
 {
     public interface IQuery<out TResponse>
     {

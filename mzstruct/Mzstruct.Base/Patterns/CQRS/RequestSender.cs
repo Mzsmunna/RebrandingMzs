@@ -1,14 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Mzstruct.Base.Contracts.ICommands;
-using Mzstruct.Base.Contracts.IEvents;
-using Mzstruct.Base.Contracts.IQueries;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Events
+namespace Mzstruct.Base.Patterns.CQRS
 {
-    public class Dispatcher(IServiceProvider provider) : IDispatcher
+    public class RequestSender(IServiceProvider provider) : IRequestSender
     {
         public async Task<TResult> CommandAsync<TResult>(ICommand<TResult> command, CancellationToken cancellationToken = default)
         {

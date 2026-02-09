@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mzstruct.Base.Extensions;
 using Tasker.Application.Features.Issues;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IQueries;
+using Mzstruct.Base.Patterns.Result;
 
 namespace Tasker.RestAPI.Controllers
 {

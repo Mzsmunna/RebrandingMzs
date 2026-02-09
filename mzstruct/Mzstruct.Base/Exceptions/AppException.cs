@@ -1,4 +1,4 @@
-﻿using Mzstruct.Base.Errors;
+﻿using Mzstruct.Base.Patterns.Errors;
 using System;
 using System.Collections.Generic;
 using System.Text;

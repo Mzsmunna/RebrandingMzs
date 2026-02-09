@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Errors;
+using Mzstruct.Base.Extensions;
+using Mzstruct.Base.Patterns.Errors;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Extensions
+namespace Mzstruct.Base.Patterns.Result
 {
     public static class ResultExtender
     {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement;
-using Mzstruct.Base.Extensions;
+using Mzstruct.Base.Patterns.Result;
 using Tasker.Application.Contracts.ICommands;
 using Tasker.Application.Contracts.IQueries;
 using Tasker.Application.Features.Users;

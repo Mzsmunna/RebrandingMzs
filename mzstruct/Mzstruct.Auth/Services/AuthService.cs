@@ -1,6 +1,6 @@
 ﻿using Mzstruct.Auth.Contracts.IServices;
 using Mzstruct.Auth.Features.Commands;
-using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Patterns.Result;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,8 +13,8 @@ namespace Mzstruct.Auth.Services
         IBasicAuthService basicAuthService,
         IOAuthService oAuthService) : IAuthService
     {
-        public async Task<Result<string>> SignUp(SignUpCommand payload) => await basicAuthService.SignUp(payload);
-        public async Task<Result<string>> SignIn(SignInCommand payload) => await basicAuthService.SignIn(payload);
+        public async Task<Result<string>> SignUp(SignUpCommand request) => await basicAuthService.SignUp(request);
+        public async Task<Result<string>> SignIn(SignInCommand request) => await basicAuthService.SignIn(request);
         public async Task<Result<string>> SignInWith(string email, string option = "Mail") => await basicAuthService.SignInWith(email, option);
         public async Task<Result<bool>> SignOut(string token = "") => await basicAuthService.SignOut(token);
         public async Task<Result<string>> RefreshToken(string token = "", string refreshToken = "") => await basicAuthService.RefreshToken(token, refreshToken);

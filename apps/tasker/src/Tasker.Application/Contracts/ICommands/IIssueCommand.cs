@@ -1,6 +1,5 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Errors;
-using Mzstruct.Base.Models;
+﻿using Mzstruct.Base.Models;
+using Mzstruct.Base.Patterns.Result;
 using Mzstruct.Common.Mappings;
 using System;
 using System.Collections.Generic;

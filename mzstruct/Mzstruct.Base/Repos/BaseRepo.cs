@@ -1,10 +1,10 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Enums;
+﻿using Mzstruct.Base.Enums;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Mzstruct.Base.Patterns.Result;
 
 namespace Mzstruct.Base.Repos
 {

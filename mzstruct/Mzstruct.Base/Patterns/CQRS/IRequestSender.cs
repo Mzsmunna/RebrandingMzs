@@ -1,13 +1,10 @@
-﻿
-using Mzstruct.Base.Contracts.ICommands;
-using Mzstruct.Base.Contracts.IQueries;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Contracts.IEvents
+namespace Mzstruct.Base.Patterns.CQRS
 {
-    public interface IDispatcher
+    public interface IRequestSender
     {
         Task<TResult> QueryAsync<TResult>(IQuery<TResult> query, CancellationToken cancellationToken = default);
         Task<TResult> CommandAsync<TResult>(ICommand<TResult> command, CancellationToken cancellationToken = default);

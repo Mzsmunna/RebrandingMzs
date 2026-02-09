@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mzstruct.Base.Errors
+namespace Mzstruct.Base.Patterns.Errors
 {
     public static class AppError
     {
