@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Enums;
@@ -14,6 +15,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
     public class MongoDBRepo<T> : IMongoDBRepo<T> where T : BaseEntity //class
     {
+        protected readonly IMongoDBContext _dBContext;
         protected readonly IMongoCollection<T> _collection;
 
         public MongoDBRepo(IMongoDBContext dBContext, IMongoEntityMap entityMap)
@@ -21,6 +23,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             string collectionName = entityMap.RegisterEntity();
             if (string.IsNullOrEmpty(collectionName))
                 throw new Exception("Collection Name Should Not be Null");
+            _dBContext = dBContext;
             _collection = dBContext.MapCollectionEntity<T>(collectionName);
         }
 
