@@ -35,10 +35,10 @@ namespace Tasker.Infrastructure
         {
             //services.AddScoped<AppUserEntityMap>();
             //services.AddScoped<IssueEntityConfig>();
-            services.AddScoped<IssueEntityMap>(sp =>
-            {
-                return new IssueEntityMap(TaskerEntities.Issue.ToString());
-            });
+            //services.AddScoped<IssueEntityMap>(sp =>
+            //{
+            //    return new IssueEntityMap(TaskerEntities.Issue.ToString());
+            //});
             return services;
         }
 

@@ -18,10 +18,13 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
         protected readonly IMongoDBContext dBContext;
         protected readonly IMongoCollection<T> collection;
 
-        public MongoDBRepo(IMongoDBContext dBContext, IMongoEntityMap entityMap)
+        public MongoDBRepo(IMongoDBContext dBContext, IMongoEntityMap dBEntities)
         {
             this.dBContext = dBContext;
-            string collectionName = entityMap.Register();
+            Type type = typeof(T);
+            var collectionName = type.Name;
+            var entityMap = dBEntities.GetEntityMap(type);
+            if (entityMap != null) collectionName = entityMap.Register();
             collection = dBContext.MapEntity<T>(collectionName);
         }
 

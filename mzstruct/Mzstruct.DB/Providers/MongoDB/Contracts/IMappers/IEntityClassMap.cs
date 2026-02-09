@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Mzstruct.DB.Providers.MongoDB.Contracts.IMappers
 {
-    public interface IMongoEntityMap
+    public interface IEntityClassMap
     {
-        IEntityClassMap? GetEntityMap(Type type);
+        string Register();
     }
 }

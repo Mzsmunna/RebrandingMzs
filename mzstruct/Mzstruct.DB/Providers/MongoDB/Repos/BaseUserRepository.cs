@@ -6,9 +6,9 @@ using Mzstruct.Base.Models;
 using Mzstruct.Base.Patterns.Result;
 using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
-using Mzstruct.DB.Providers.MongoDB.Mappers;
 
 namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
@@ -18,8 +18,8 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
     {
         //private readonly IMongoCollection<User> _collection;
         
-        public BaseUserRepository(IMongoDBContext dbContext, BaseUserEntityMap entityConfig) : 
-            base(dbContext, entityConfig) { }
+        public BaseUserRepository(IMongoDBContext dbContext, IMongoEntityMap dbEntities) : 
+            base(dbContext, dbEntities) { }
 
         public override FilterDefinition<TUser> BuildFilter(string? id, List<SearchField>? searchQueries = null)
         {

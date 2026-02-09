@@ -3,7 +3,7 @@ using Mzstruct.Base.Entities;
 
 namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
-    public class BaseUserEntityMap : MongoEntityMap<BaseUser>
+    public class BaseUserEntityMap : EntityClassMap<BaseUser>
     {
         public BaseUserEntityMap(string? collectionName = "User") : base(collectionName) { }
 

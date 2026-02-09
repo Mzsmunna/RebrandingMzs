@@ -1,48 +1,36 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
+﻿using Microsoft.AspNetCore.Identity.Data;
 using Mzstruct.Base.Entities;
-using Mzstruct.Base.Mappings;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Configuration.Provider;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+//using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
-    public abstract class MongoEntityMap<T> : IMongoEntityMap where T : BaseEntity
+    public class MongoEntityMap : IMongoEntityMap
     {
-        protected readonly string _collectionName = typeof(T).Name;
+        private ImmutableDictionary<Type, IEntityClassMap> _entityMaps { get; set; }
 
-        public MongoEntityMap(string? collectionName = "")
+        public MongoEntityMap()
         {
-            _collectionName = collectionName ?? typeof(T).Name;
+            BsonEntityMap.RegisterCoreEntities();
+            _entityMaps = new Dictionary<Type, IEntityClassMap>
+            {
+                { typeof(BaseUser), new BaseUserEntityMap() },
+
+            }.ToImmutableDictionary();
         }
 
-        public virtual string Register()
+        public IEntityClassMap? GetEntityMap(Type type)
         {
-            if (!BsonClassMap.IsClassMapRegistered(typeof(BaseEntity)))
-            {
-                BsonClassMap.RegisterClassMap<BaseEntity>(map =>
-                {
-                    map.AutoMap();
-                    map.SetIgnoreExtraElements(true);
-                    map.MapProperty(x => x.Id).SetElementName("_id");
-                    map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
-                });
-            }
-
-            if (!BsonClassMap.IsClassMapRegistered(typeof(T)))
-            {
-                BsonClassMap.RegisterClassMap<T>(map =>
-                {
-                    map.AutoMap();
-                    map.SetIgnoreExtraElements(true);
-                    //map.MapProperty(x => x.Id).SetElementName("_id");
-                    //map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
-                    //map.GetMemberMap(x => x.LastName).SetSerializer(new StringEncrypter());
-                });
-            }
-
-            BsonEntityMap.RegisterCoreEntities();
-            return _collectionName;
+            if (_entityMaps.ContainsKey(type))
+                return _entityMaps[type];
+            return null;
         }
     }
 }

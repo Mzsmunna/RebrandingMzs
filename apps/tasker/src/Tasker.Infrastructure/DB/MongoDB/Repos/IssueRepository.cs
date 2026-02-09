@@ -1,18 +1,20 @@
-﻿using Mzstruct.Base.Dtos;
-using Mzstruct.Base.Entities;
-using Mzstruct.Base.Models;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using Mzstruct.Base.Dtos;
+using Mzstruct.Base.Entities;
+using Mzstruct.Base.Models;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
+using Mzstruct.DB.Providers.MongoDB.Helpers;
+using Mzstruct.DB.Providers.MongoDB.Mappers;
+using Mzstruct.DB.Providers.MongoDB.Repos;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tasker.Application.Features.Issues;
-using Mzstruct.DB.Providers.MongoDB.Helpers;
 using Tasker.Application.Contracts.IRepos;
+using Tasker.Application.Features.Issues;
 using Tasker.Infrastructure.DB.MongoDB.Mappings;
-using Mzstruct.DB.Providers.MongoDB.Repos;
-using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Repos
 {
@@ -20,7 +22,8 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
     {
         //private readonly IMongoCollection<Issue> _collection;
         
-        public IssueRepository(IMongoDBContext context, IssueEntityMap entityConfig) : base(context, entityConfig) { }
+        public IssueRepository(IMongoDBContext dbContext, IMongoEntityMap dbEntities) : 
+            base(dbContext, dbEntities) { }
 
         //private FilterDefinition<Issue> BuildFilter(string? _id, List<SearchField>? searchQueries = null)
         //{

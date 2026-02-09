@@ -11,7 +11,7 @@ using Tasker.Application.Features.Issues;
 
 namespace Tasker.Infrastructure.DB.MongoDB.Mappings
 {
-    public class IssueEntityMap : MongoEntityMap<Issue> //, IMongoEntityConfig
+    public class IssueEntityMap : EntityClassMap<Issue> //, IMongoEntityConfig
     {
         public IssueEntityMap(string? collectionName = "") : base(collectionName) { }
 

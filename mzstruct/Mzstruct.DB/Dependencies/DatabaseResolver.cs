@@ -10,6 +10,7 @@ using Mzstruct.DB.EFCore.Helpers;
 using Mzstruct.DB.Providers.MongoDB.Configs;
 using Mzstruct.DB.Providers.MongoDB.Context;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Mappers;
 using Mzstruct.DB.Providers.MongoDB.Repos;
@@ -29,19 +30,13 @@ namespace Mzstruct.DB.Dependencies
             services.Configure<MongoDBConfig>(config.GetSection(nameof(MongoDBConfig)));
             services.AddTransient<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
             services.AddTransient<IMongoDBContext, MongoDBContext>();
-            AddCoreMongoEntities(services);
             AddCoreMongoRepos(services);
-            return services;
-        }
-
-        private static IServiceCollection AddCoreMongoEntities(IServiceCollection services)
-        {
-            services.AddScoped<BaseUserEntityMap>();
             return services;
         }
 
         private static IServiceCollection AddCoreMongoRepos(IServiceCollection services)
         {
+            services.AddScoped<IMongoEntityMap, MongoEntityMap>();
             services.AddScoped(typeof(IMongoDBRepo<>), typeof(MongoDBRepo<>));
             services.AddScoped(typeof(IBaseUserRepository<>), typeof(BaseUserRepository<>));
             services.AddScoped(typeof(IAuthUserRepo<>), typeof(BaseUserRepository<>));
