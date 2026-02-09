@@ -20,10 +20,8 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
         public MongoDBRepo(IMongoDBContext dBContext, IMongoEntityMap entityMap)
         {
-            string collectionName = entityMap.RegisterEntity();
-            if (string.IsNullOrEmpty(collectionName))
-                throw new Exception("Collection Name Should Not be Null");
             this.dBContext = dBContext;
+            string collectionName = entityMap.Register();
             collection = dBContext.MapEntity<T>(collectionName);
         }
 

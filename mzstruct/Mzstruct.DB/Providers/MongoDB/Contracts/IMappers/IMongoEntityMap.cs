@@ -6,6 +6,6 @@ namespace Mzstruct.DB.Providers.MongoDB.Contracts.IMappers
 {
     public interface IMongoEntityMap
     {
-        string RegisterEntity();
+        string Register();
     }
 }

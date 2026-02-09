@@ -8,7 +8,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappers
     {
         public BaseUserEntityMap(string? collectionName = "User") : base(collectionName) { }
 
-        public override string RegisterEntity()
+        public override string Register()
         {
             if (!BsonClassMap.IsClassMapRegistered(typeof(BaseUser)))
             {

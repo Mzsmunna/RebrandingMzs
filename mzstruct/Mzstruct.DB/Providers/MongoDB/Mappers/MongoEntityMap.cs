@@ -13,7 +13,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappers
             _collectionName = collectionName ?? typeof(T).Name;
         }
 
-        public virtual string RegisterEntity()
+        public virtual string Register()
         {
             if (!BsonClassMap.IsClassMapRegistered(typeof(T)))
             {

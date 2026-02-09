@@ -15,7 +15,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Mappings
     {
         public IssueEntityMap(string? collectionName = "") : base(collectionName) { }
 
-        public override string RegisterEntity()
+        public override string Register()
         {
             if (!BsonClassMap.IsClassMapRegistered(typeof(Issue)))
             {
