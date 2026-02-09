@@ -32,7 +32,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
         public async Task<List<dynamic>> GetIssueStatByUserId(string userId)
         {
             //var filter = Builders<User>.Filter.Empty;
-            var results = await _collection.AsQueryable()
+            var results = await collection.AsQueryable()
                             //.OrderByDescending(e => e.Email)
                             .Where(x => !string.IsNullOrEmpty(x.UserId) && x.UserId.Equals(userId))
                             .GroupBy(x => x.Status)
@@ -51,7 +51,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
         {
             var filter = Builders<Issue>.Filter.Empty;
             var sort = SortingDefinition.TableSortingFilter<Issue>();
-            var result = _collection.Find(filter).Sort(sort).ToList();
+            var result = collection.Find(filter).Sort(sort).ToList();
             return result ?? [];
         }
 
@@ -59,7 +59,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
         {
             var filter = Builders<Issue>.Filter.Empty;
             var sort = SortingDefinition.TableSortingFilter<Issue>();
-            var result = _collection.Find(filter).Sort(sort).ToList();
+            var result = collection.Find(filter).Sort(sort).ToList();
             return result ?? [];
         }
 
@@ -70,7 +70,7 @@ namespace Tasker.Infrastructure.DB.MongoDB.Repos
             {
                 title = title.ToLower();
                 filter = filter & Builders<Issue>.Filter.Regex("Title", new BsonRegularExpression("/^" + title.Replace("+", @"\+") + "$/i"));
-                return _collection.Find(filter).FirstOrDefault();
+                return collection.Find(filter).FirstOrDefault();
             }
             return null;
         }

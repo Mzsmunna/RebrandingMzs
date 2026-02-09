@@ -20,12 +20,11 @@ namespace Mzstruct.DB.Providers.MongoDB.Context
             }
         }
 
-        public IMongoCollection<TEntity> MapCollectionEntity<TEntity>(string collectionName) where TEntity : class
+        public IMongoCollection<TEntity> MapEntity<TEntity>(string collectionName) where TEntity : class
         {
-            if (!string.IsNullOrEmpty(collectionName))
-                return _database.GetCollection<TEntity>(collectionName);
-
-            return _database.GetCollection<TEntity>(typeof(TEntity).Name);
+            if (string.IsNullOrEmpty(collectionName)) 
+                collectionName = typeof(TEntity).Name;
+            return _database.GetCollection<TEntity>(collectionName);
         }
     }
 }

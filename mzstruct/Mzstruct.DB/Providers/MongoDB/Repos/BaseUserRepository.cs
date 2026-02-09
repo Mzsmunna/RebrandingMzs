@@ -36,7 +36,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             {
                 filter &= Builders<TUser>.Filter.Eq(x => x.Email, email.ToLower());
                 filter &= Builders<TUser>.Filter.Eq(x => x.Password, password);
-                var user = await _collection.Find(filter).FirstOrDefaultAsync();
+                var user = await collection.Find(filter).FirstOrDefaultAsync();
                 return user;
             }
             return null;
@@ -49,7 +49,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             if (!string.IsNullOrEmpty(email))
             {
                 filter &= Builders<TUser>.Filter.Eq(x => x.Email, email.ToLower());
-                var user =  await _collection.Find(filter).FirstOrDefaultAsync();
+                var user =  await collection.Find(filter).FirstOrDefaultAsync();
                 return user;
             }
             return null;
@@ -63,7 +63,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             if (!string.IsNullOrEmpty(user.Email))
             {
                 filter &= Builders<TUser>.Filter.Eq(x => x.Email, user.Email.ToLower());
-                var existingUser = await _collection.Find(filter).FirstOrDefaultAsync();
+                var existingUser = await collection.Find(filter).FirstOrDefaultAsync();
                 if (existingUser != null)
                 {
                     existingUser.Password = "?";
@@ -81,13 +81,13 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                 filter &= Builders<TUser>.Filter.Eq("ClientId", ObjectId.Parse(clientId));
             if (!string.IsNullOrEmpty(adminId))
                 filter &= Builders<TUser>.Filter.Eq("AdminUserId", ObjectId.Parse(adminId));
-            return await _collection.Find(filter).ToListAsync();
+            return await collection.Find(filter).ToListAsync();
         }
 
         public async Task<Result<List<dynamic>>> GetAllUserToAssign()
         {
             //var filter = Builders<User>.Filter.Empty;
-            var results = await _collection.AsQueryable()
+            var results = await collection.AsQueryable()
                             //.OrderByDescending(e => e.Email)
                             .Where(x => !string.IsNullOrEmpty(x.Email))
                             .GroupBy(e => e.Email)
@@ -123,7 +123,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                 .Set(x => x.IsActive, User.IsActive)
                 //.Set(x => x.Guides, User.Guides)
                 .Set("ModifiedOn", DateTime.Now);
-            var result = await _collection.UpdateOneAsync(filter, update);
+            var result = await collection.UpdateOneAsync(filter, update);
             return User;
         }
     }

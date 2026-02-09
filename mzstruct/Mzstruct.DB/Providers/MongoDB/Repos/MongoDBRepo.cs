@@ -15,16 +15,16 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
     public class MongoDBRepo<T> : IMongoDBRepo<T> where T : BaseEntity //class
     {
-        protected readonly IMongoDBContext _dBContext;
-        protected readonly IMongoCollection<T> _collection;
+        protected readonly IMongoDBContext dBContext;
+        protected readonly IMongoCollection<T> collection;
 
         public MongoDBRepo(IMongoDBContext dBContext, IMongoEntityMap entityMap)
         {
             string collectionName = entityMap.RegisterEntity();
             if (string.IsNullOrEmpty(collectionName))
                 throw new Exception("Collection Name Should Not be Null");
-            _dBContext = dBContext;
-            _collection = dBContext.MapCollectionEntity<T>(collectionName);
+            this.dBContext = dBContext;
+            collection = dBContext.MapEntity<T>(collectionName);
         }
 
         public virtual FilterDefinition<T> BuildFilter(string? id, List<SearchField>? searchQueries = null)
@@ -36,20 +36,20 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
         public virtual async Task<T?> Get(MongoDBParam query)
         {
-            var result = await _collection.Find(query.Parameters).FirstOrDefaultAsync();
+            var result = await collection.Find(query.Parameters).FirstOrDefaultAsync();
             return result == null ? null : result as T;
         }
 
         public virtual async Task<T?> GetById(string id)
         {
             var filter = BuildFilter(id);
-            return await _collection.Find(filter).FirstOrDefaultAsync().ConfigureAwait(false);
+            return await collection.Find(filter).FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
         public virtual async Task<List<T>> GetByFieldValue(string fieldName, string fieldValue)
         {
             var filter = Builders<T>.Filter.Eq(fieldName, fieldValue);
-            var result = await _collection.Find(filter).ToListAsync().ConfigureAwait(false);
+            var result = await collection.Find(filter).ToListAsync().ConfigureAwait(false);
             return result ?? [];
         }
 
@@ -57,40 +57,40 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
         {
             var filter = Builders<T>.Filter.Empty;
             var sort = SortingDefinition.TableSortingFilter<T>(sortField, sortDirection); //Builders<T>.Sort.Ascending("Title");
-            return await _collection.Find(filter).Sort(sort).ToListAsync();
+            return await collection.Find(filter).Sort(sort).ToListAsync();
         }
 
         public virtual async Task<List<T>> GetAll(MongoDBParam query)
         {
-            var results = await _collection.Find(query.Parameters).ToListAsync();
+            var results = await collection.Find(query.Parameters).ToListAsync();
             return results ?? [];
         }
 
         public virtual async Task<List<T>> GetAll(int currentPage, int pageSize, string sortField, string sortDirection, List<SearchField>? searchQueries = null)
         {
             var filter = BuildFilter(null, searchQueries);
-            var result = await _collection.Find(filter).Skip(currentPage * pageSize).Limit(pageSize).ToListAsync().ConfigureAwait(false);
+            var result = await collection.Find(filter).Skip(currentPage * pageSize).Limit(pageSize).ToListAsync().ConfigureAwait(false);
             return result ?? [];
         }
 
         public virtual async Task<T?> SortAndGet(MongoDBParam query, string sortingFieldName)
         {
             var sort = Builders<T>.Sort.Descending(sortingFieldName);
-            var result = await _collection.Find(query.Parameters).Sort(sort).FirstOrDefaultAsync();
+            var result = await collection.Find(query.Parameters).Sort(sort).FirstOrDefaultAsync();
             return result == null ? null : result;
         }
 
         public virtual async Task<long> GetTotalCount()
         {
             var filter = BuildFilter(null);
-            var count = await _collection.Find(filter).CountDocumentsAsync();
+            var count = await collection.Find(filter).CountDocumentsAsync();
             return count;
         }
 
         public virtual async Task<long> GetCount(List<SearchField>? searchQueries = null)
         {
             var filter = BuildFilter(null, searchQueries);
-            var count = await _collection.Find(filter).CountDocumentsAsync().ConfigureAwait(false);
+            var count = await collection.Find(filter).CountDocumentsAsync().ConfigureAwait(false);
             return count;
         }
 
@@ -133,7 +133,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             if (string.IsNullOrEmpty(entity.Id))
             {
                 entity.Id = operation.Id; //ObjectId.GenerateNewId().ToString();
-                await _collection.InsertOneAsync(entity).ConfigureAwait(false);
+                await collection.InsertOneAsync(entity).ConfigureAwait(false);
                 operation.Id = entity.Id;
                 operation.IsCompleted = true;
                 return entity;
@@ -142,7 +142,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                 var query = new BsonDocument {
                     { "_id" , ObjectId.Parse(entity.Id) }
                 };
-                result = await _collection.ReplaceOneAsync(query, entity).ConfigureAwait(false);
+                result = await collection.ReplaceOneAsync(query, entity).ConfigureAwait(false);
                 operation.Id = entity.Id;
                 operation.IsCompleted = result.IsAcknowledged;
                 return entity;
@@ -177,7 +177,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                 }
             }
 
-            var result = await _collection.BulkWriteAsync(dataModels);
+            var result = await collection.BulkWriteAsync(dataModels);
             return result.InsertedCount;
         }
 
@@ -209,7 +209,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                 return updatedEntity ?? null;
             }
             
-            var result = await _collection.DeleteOneAsync(query).ConfigureAwait(false);
+            var result = await collection.DeleteOneAsync(query).ConfigureAwait(false);
             if (result != null && result.DeletedCount > 0)
                 return entity;
             else return null;
@@ -228,7 +228,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
         public async Task<bool> DeleteManyAsync(string id, bool isSoftDelete = true)
         {
             var filter = BuildFilter(id);
-            DeleteResult result = await _collection.DeleteManyAsync(filter);
+            DeleteResult result = await collection.DeleteManyAsync(filter);
             return true;
         }
     }
