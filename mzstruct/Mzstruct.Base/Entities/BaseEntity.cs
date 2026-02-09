@@ -1,4 +1,7 @@
-﻿using Mzstruct.Base.Models;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using Mzstruct.Base.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,5 +25,21 @@ namespace Mzstruct.Base.Entities
         public string? DeletedBy { get; set; }
         public BaseEvent? Created { get; set; } // = new BaseEvent();
         public BaseEvent? Modified { get; set; }
+
+        public virtual string MapMongoEntity()
+        {
+            const string collectionName = "";
+            if (!BsonClassMap.IsClassMapRegistered(typeof(BaseEntity)))
+            {
+                BsonClassMap.RegisterClassMap<BaseEntity>(map =>
+                {
+                    map.AutoMap();
+                    map.SetIgnoreExtraElements(true);
+                    map.MapProperty(x => x.Id).SetElementName("_id");
+                    map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
+                });
+            }
+            return collectionName;
+        }
     }
 }
