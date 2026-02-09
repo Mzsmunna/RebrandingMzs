@@ -87,6 +87,7 @@ namespace Mzstruct.Base.Enums
         NotFound,
         Missing,
         Conflict,
+        Overflow,
         Validation,
         RateLimit,
         Server, // unnexpcted | unhandled server error

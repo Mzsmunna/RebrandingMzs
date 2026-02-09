@@ -31,11 +31,11 @@ namespace Mzstruct.Base.Extensions
         public static IResult ToProblemDetails(this Error error)
         {
             return Results.Problem(
-                type: error.Code,
+                type: error.Type.ToString(),
                 title: error.Title,
-                detail: error.Details,
-                statusCode: error?.StatusCore ?? StatusCodes.Status500InternalServerError,
-                extensions: error?.Messages as IDictionary<string, object?>
+                detail: error.Message,
+                statusCode: error?.StatusCode ?? StatusCodes.Status500InternalServerError,
+                extensions: error?.Details as IDictionary<string, object?>
                 //extensions: new Dictionary<string, object?>
                 //{
                 //    { "errors", error }
@@ -53,11 +53,11 @@ namespace Mzstruct.Base.Extensions
         public static ObjectResult ToProblem(this Error error, ControllerBase controller)
         {
             return controller.Problem(
-                type: error.Code, //.Type.ToString(),
+                type: error.Type.ToString(),
                 title: error.Title ?? "Something went wrong!!",
-                detail: error.Details,
-                statusCode: error?.StatusCore ?? StatusCodes.Status500InternalServerError,
-                extensions: error?.Messages as IDictionary<string, object?>
+                detail: error.Message,
+                statusCode: error?.StatusCode ?? StatusCodes.Status500InternalServerError,
+                extensions: error?.Details as IDictionary<string, object?>
             );
         }
 
