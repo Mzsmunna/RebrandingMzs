@@ -27,7 +27,6 @@ namespace Tasker.Infrastructure.DB.MongoDB.Mappings
                     map.UnmapMember(x => x.User);
                 });
             }
-
             return _collectionName;
         }
     }

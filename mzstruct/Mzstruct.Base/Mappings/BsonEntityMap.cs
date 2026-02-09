@@ -1,32 +1,16 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
+﻿using MongoDB.Bson.Serialization;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Mzstruct.DB.Providers.MongoDB.Mappers
+namespace Mzstruct.Base.Mappings
 {
-    public abstract class BsonEntityMap
+    public static class BsonEntityMap
     {
-        public BsonEntityMap()
+        public static void RegisterCoreEntities()
         {
-            if (!BsonClassMap.IsClassMapRegistered(typeof(BaseEntity)))
-            {
-                BsonClassMap.RegisterClassMap<BaseEntity>(map =>
-                {
-                    map.AutoMap();
-                    map.SetIgnoreExtraElements(true);
-                    map.MapProperty(x => x.Id).SetElementName("_id");
-                    map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
-
-                    //map.MapProperty(x => x.CreatedBy).SetElementName("CreatedBy");
-                    //map.GetMemberMap(x => x.CreatedBy).SetSerializer(new StringSerializer(BsonType.ObjectId));
-
-                    //map.MapProperty(x => x.ModifiedBy).SetElementName("ModifiedBy");
-                    //map.GetMemberMap(x => x.ModifiedBy).SetSerializer(new StringSerializer(BsonType.ObjectId));
-                });
-            }
-
             if (!BsonClassMap.IsClassMapRegistered(typeof(BaseActivity)))
             {
                 BsonClassMap.RegisterClassMap<BaseActivity>(map =>

@@ -1,24 +1,21 @@
 ﻿using MongoDB.Bson.Serialization;
 using Mzstruct.Base.Entities;
-using Mzstruct.DB.Providers.MongoDB.Helpers;
 
 namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
-    public class BaseUserEntityMap : MongoEntityMap<BaseUser> //, IMongoEntityConfig
+    public class BaseUserEntityMap : MongoEntityMap<BaseUser>
     {
         public BaseUserEntityMap(string? collectionName = "User") : base(collectionName) { }
 
         public override string Register()
         {
+            base.Register();
             if (!BsonClassMap.IsClassMapRegistered(typeof(BaseUser)))
             {
                 BsonClassMap.RegisterClassMap<BaseUser>(map =>
                 {
                     map.AutoMap();
                     map.SetIgnoreExtraElements(true);
-                    
-                    //map.MapProperty(x => x.Id).SetElementName("_id");
-                    //map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
 
                     //map.MapProperty(x => x.CreatedBy).SetElementName("CreatedBy");
                     //map.GetMemberMap(x => x.CreatedBy).SetSerializer(new StringSerializer(BsonType.ObjectId));

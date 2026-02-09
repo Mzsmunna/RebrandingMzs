@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using Mzstruct.Base.Mappings;
 using Mzstruct.Base.Models;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,10 @@ namespace Mzstruct.Base.Entities
         public BaseEvent? Created { get; set; } // = new BaseEvent();
         public BaseEvent? Modified { get; set; }
 
-        public virtual string MapMongoEntity()
+        public virtual string RegisterEntityMap()
         {
             const string collectionName = "";
+
             if (!BsonClassMap.IsClassMapRegistered(typeof(BaseEntity)))
             {
                 BsonClassMap.RegisterClassMap<BaseEntity>(map =>
@@ -37,8 +39,18 @@ namespace Mzstruct.Base.Entities
                     map.SetIgnoreExtraElements(true);
                     map.MapProperty(x => x.Id).SetElementName("_id");
                     map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
+
+                    //map.MapProperty(x => x.CreatedBy).SetElementName("CreatedBy");
+                    //map.GetMemberMap(x => x.CreatedBy).SetSerializer(new StringSerializer(BsonType.ObjectId));
+
+                    //map.MapProperty(x => x.ModifiedBy).SetElementName("ModifiedBy");
+                    //map.GetMemberMap(x => x.ModifiedBy).SetSerializer(new StringSerializer(BsonType.ObjectId));
+
+                    //map.GetMemberMap(x => x.LastName).SetSerializer(new StringEncrypter());
                 });
             }
+
+            BsonEntityMap.RegisterCoreEntities();
             return collectionName;
         }
     }
