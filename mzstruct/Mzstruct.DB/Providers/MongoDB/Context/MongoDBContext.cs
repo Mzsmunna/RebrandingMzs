@@ -1,9 +1,10 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
+using Mzstruct.DB.Providers.MongoDB.Configs;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Mzstruct.DB.Providers.MongoDB.Configs;
-using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 
 namespace Mzstruct.DB.Providers.MongoDB.Context
 {
@@ -22,8 +23,21 @@ namespace Mzstruct.DB.Providers.MongoDB.Context
 
         public IMongoCollection<TEntity> MapEntity<TEntity>(string collectionName) where TEntity : class
         {
-            if (string.IsNullOrEmpty(collectionName)) 
+            if (string.IsNullOrEmpty(collectionName))
                 collectionName = typeof(TEntity).Name;
+
+            if (!BsonClassMap.IsClassMapRegistered(typeof(TEntity)))
+            {
+                BsonClassMap.RegisterClassMap<TEntity>(map =>
+                {
+                    map.AutoMap();
+                    map.SetIgnoreExtraElements(true);
+                    //map.MapProperty(x => x.Id).SetElementName("_id");
+                    //map.GetMemberMap(x => x.Id).SetSerializer(new StringSerializer(BsonType.ObjectId));
+                    //map.GetMemberMap(x => x.LastName).SetSerializer(new StringEncrypter());
+                });
+            }
+
             return _database.GetCollection<TEntity>(collectionName);
         }
     }
