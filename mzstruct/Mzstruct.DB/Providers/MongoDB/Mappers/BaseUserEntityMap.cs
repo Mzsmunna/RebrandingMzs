@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization;
 using Mzstruct.Base.Entities;
+using Mzstruct.DB.Providers.MongoDB.Helpers;
 
 namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
@@ -24,6 +25,8 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappers
 
                     //map.MapProperty(x => x.ModifiedBy).SetElementName("ModifiedBy");
                     //map.GetMemberMap(x => x.ModifiedBy).SetSerializer(new StringSerializer(BsonType.ObjectId));
+
+                    //map.GetMemberMap(x => x.LastName).SetSerializer(new StringEncrypter());
                 });
             }
 
