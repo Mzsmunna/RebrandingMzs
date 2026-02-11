@@ -23,7 +23,7 @@ public class Program
             .AddTaskerInfrastructure(_config)
             .AddTaskerFeatures(_config);
         //builder.Services.AddDefaultApiVersioning();
-        builder.Services.AddRestApi();
+        builder.Services.AddRestApi(_config);
         builder.Services
             .AddJwtAuth(_config, options =>
             {

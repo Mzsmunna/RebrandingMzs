@@ -1,5 +1,9 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Newtonsoft.Json;
@@ -7,12 +11,13 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.RateLimiting;
 
 namespace Mzstruct.API.Dependencies
 {
     public static class APIResolver
     {
-        public static IServiceCollection AddRestApi(this IServiceCollection services)
+        public static IServiceCollection AddRestApi(this IServiceCollection services, IConfiguration config)
         {
             services.AddCors();
             services.AddHttpClient();
@@ -74,6 +79,50 @@ namespace Mzstruct.API.Dependencies
                 options.SubstituteApiVersionInUrl = true;
             });
             services.AddFeatureManagement();
+            return services;
+        }
+
+        public static IServiceCollection AddApiRateLimiter(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddRateLimiter(options =>
+            {
+                options.AddFixedWindowLimiter("fixed", limiterOptions =>
+                {
+                    limiterOptions.PermitLimit = 100;
+                    limiterOptions.Window = TimeSpan.FromMinutes(1);
+                    limiterOptions.QueueLimit = 0;
+                    limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                });
+
+                options.AddTokenBucketLimiter("token", limiterOptions =>
+                {
+                    limiterOptions.TokenLimit = 50;
+                    limiterOptions.TokensPerPeriod = 25;
+                    limiterOptions.ReplenishmentPeriod = TimeSpan.FromSeconds(30);
+                    limiterOptions.AutoReplenishment = true;
+                    limiterOptions.QueueLimit = 0;
+                });
+
+                options.AddPolicy("ip-policy", httpContext =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 60,
+                            Window = TimeSpan.FromMinutes(1)
+                        })
+                );
+
+                options.AddSlidingWindowLimiter("sliding", o =>
+                {
+                    o.PermitLimit = 100;
+                    o.Window = TimeSpan.FromMinutes(1);
+                    o.SegmentsPerWindow = 4;
+                    o.QueueLimit = 0;
+                });
+
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+            });
             return services;
         }
     }

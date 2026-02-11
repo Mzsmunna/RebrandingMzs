@@ -9,7 +9,7 @@ namespace Mzstruct.Base.Depenencies
 {
     public static class ExceptionResolver
     {
-        public static IServiceCollection AddExceptionResolver(this IServiceCollection services)
+        public static IServiceCollection AddGlobalExceptionResolver(this IServiceCollection services)
         {
             services.AddProblemDetails(config =>
             {

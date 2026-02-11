@@ -19,7 +19,7 @@ namespace Mzstruct.Common.Dependencies
             AddAppQueries(services);
             AddAppServices(services);
             services.AddValidationResolver();
-            services.AddExceptionResolver();
+            services.AddGlobalExceptionResolver();
             return services;
         }
 
