@@ -18,7 +18,6 @@ public class Permission : BaseEntity
     public required string Permit { get; set; } // AccessType: * | "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public string Restrict { get; set; } = string.Empty; // AccessType: * | "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc.
     public string Code { get; set; } = string.Empty;
-    public bool IsActive { get; set; } = false;
     //public bool AllowListedOnly { get; set; } = false; // sub or child permission will inherit parent permission if missing
     //public bool CanUpload { get; set; } = false; // file | doc upload
     public int Priority { get; set; } = 0; // higher number means higher priority

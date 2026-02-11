@@ -15,11 +15,8 @@ public class Restriction : BaseEntity
     public PrivacyType Privacy { get; set; }
     public string Restrict { get; set; } = string.Empty; // AccessType: "crueds" | "crud" | "cr" | "r" | "u" | "e" | "d" | "s" | etc. => c = create, r = read, u = update, e = edit, d = delete, s = search
     public string Reason { get; set; } = string.Empty;
-    public bool IsActive { get; set; }
     public Violation? Violation { get; set; }
-    public DateTime? ActivatedAt { get; set; }
     public DateTime? DisabledAt { get; set; }
-    public DateTime? DeactivatedAt { get; set; }
     public DateTime? RestrictedAt { get; set; }
 }
 
