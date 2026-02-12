@@ -48,13 +48,11 @@ namespace Mzstruct.Auth.Dependencies
 
         public static IServiceCollection AddAuth<TIdentity>(this IServiceCollection services, IConfiguration config) where TIdentity : BaseUser
         {
-            services.AddScoped(typeof(IBaseUserRepository<>), typeof(BaseUserRepository<>));
-            services.AddScoped(typeof(IAuthUserRepo<>), typeof(BaseUserRepository<>));
-
             //services.AddScoped(typeof(IBasicAuthService<>), typeof(BasicAuthService<>));
             //services.AddScoped(typeof(IOAuthService<>), typeof(OAuthService<>));
             //services.AddScoped(typeof(IAuthService<>), typeof(AuthService<>));
 
+            services.AddScoped(typeof(IAuthUserRepo<>), typeof(BaseUserRepository<>));
             services.AddScoped<IBasicAuthService, BasicAuthService<TIdentity>>();
             services.AddScoped<IOAuthService, OAuthService<TIdentity>>();
             services.AddScoped<IAuthService, AuthService>();
