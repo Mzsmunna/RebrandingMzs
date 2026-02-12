@@ -24,19 +24,19 @@ namespace Mzstruct.DB.Dependencies
 {
     public static class DatabaseResolver
     {
-        public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddMongoDB<TEnityMaps>(this IServiceCollection services, IConfiguration config) where TEnityMaps : MongoEntityMap
         {
             //var readConn = config.GetSection("Database:Mongo:ReadConn").Get<ReadConn>();
             services.Configure<MongoDBConfig>(config.GetSection(nameof(MongoDBConfig)));
             services.AddTransient<MongoDBConfig>(sp => sp.GetRequiredService<IOptions<MongoDBConfig>>().Value);
             services.AddTransient<IMongoDBContext, MongoDBContext>();
-            AddCoreMongoRepos(services);
+            AddCoreMongoRepos<TEnityMaps>(services);
             return services;
         }
 
-        private static IServiceCollection AddCoreMongoRepos(IServiceCollection services)
+        private static IServiceCollection AddCoreMongoRepos<TEnityMaps>(IServiceCollection services) where TEnityMaps : MongoEntityMap
         {
-            services.AddScoped<IMongoEntityMap, MongoEntityMap>();
+            services.AddScoped<IMongoEntityMap, TEnityMaps>();
             services.AddScoped(typeof(IMongoDBRepo<>), typeof(MongoDBRepo<>));
             services.AddScoped(typeof(IBaseUserRepository<>), typeof(BaseUserRepository<>));
             return services;

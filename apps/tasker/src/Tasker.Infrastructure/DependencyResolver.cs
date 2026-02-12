@@ -1,14 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Tasker.Application.Enums;
-using Tasker.Application.Contracts.IRepos;
-using Tasker.Infrastructure.DB.MongoDB.Repos;
-using Tasker.Infrastructure.DB.MongoDB.Mappings;
-using Tasker.Infrastructure.DB.EFCore.Context;
-using Mzstruct.DB.Dependencies;
-using Mzstruct.Base.Entities;
 using Mzstruct.Auth.Dependencies;
+using Mzstruct.Base.Entities;
+using Mzstruct.DB.Dependencies;
+using Mzstruct.DB.Providers.MongoDB.Mappers;
+using Tasker.Application.Contracts.IRepos;
+using Tasker.Application.Enums;
 using Tasker.Application.Features.Users;
+using Tasker.Infrastructure.DB.EFCore.Context;
+using Tasker.Infrastructure.DB.MongoDB.Mappings;
+using Tasker.Infrastructure.DB.MongoDB.Repos;
 
 namespace Tasker.Infrastructure
 {
@@ -25,7 +26,7 @@ namespace Tasker.Infrastructure
 
         private static IServiceCollection AddTaskerDB(this IServiceCollection services, IConfiguration config)
         {
-            services.AddMongoDB(config);
+            services.AddMongoDB<MongoEntityMap>(config);
             services.AddAppDBContext<TaskerEFContext>(config);
             //services.AddIdentityDBContext<TaskerIdentityContext, TaskerUser>(config);
             return services;

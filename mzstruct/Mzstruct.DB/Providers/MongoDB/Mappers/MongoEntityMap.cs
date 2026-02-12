@@ -14,7 +14,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappers
 {
     public class MongoEntityMap : IMongoEntityMap
     {
-        private ImmutableDictionary<Type, IEntityClassMap> _entityMaps { get; set; }
+        protected ImmutableDictionary<Type, IEntityClassMap> _entityMaps { get; set; }
 
         public MongoEntityMap()
         {
