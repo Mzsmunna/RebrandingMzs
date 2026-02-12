@@ -91,10 +91,11 @@ namespace Mzstruct.Auth.Managers
                 httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
             if (user != null)
             {
-                user.RefToken = newRefreshToken;
-                user.RefreshToken = newRefreshToken.Token;
-                user.TokenCreated = newRefreshToken.CreatedAt;
-                user.TokenExpires = newRefreshToken.ExpiresAt;
+                newRefreshToken.UserId = user.Id;
+                user.RefreshJWT = newRefreshToken;
+                user.RefreshJWT.Token = newRefreshToken.Token;
+                user.RefreshJWT.CreatedAt = newRefreshToken.CreatedAt;
+                user.RefreshJWT.ExpiresAt = newRefreshToken.ExpiresAt;
             }         
             return newRefreshToken;
         }
@@ -172,6 +173,6 @@ namespace Mzstruct.Auth.Managers
         }
         public string GetValueFromToken(string token, string key) => JwtHelper.GetValueFromToken(token, key);
         public string CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt) => PasswordHelper.HashWithHMACSHA512(password, out passwordHash, out passwordSalt);
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt) => PasswordHelper.VerifyWithHMACSHA512(password, passwordHash, passwordSalt);
+        public bool VerifyPasswordHash(string password, string hashedPassword, out byte[] passwordHash, out byte[] passwordSalt) => PasswordHelper.VerifyWithHMACSHA512(password, hashedPassword, out passwordHash, out passwordSalt);
     }
 }

@@ -39,12 +39,15 @@ namespace Mzstruct.Base.Helpers
             return $"{Convert.ToHexString(hash)}-{Convert. ToHexString(salt)}";
         }
 
-        public static bool VerifyWithHMACSHA512(string password, byte[] passwordHash, byte[] passwordSalt)
+        public static bool VerifyWithHMACSHA512(string password, string hashedPassword, out byte[] hash, out byte[] salt)
         {
-            using (var hmac = new HMACSHA512(passwordSalt))
+            string[] parts = hashedPassword.Split('-');
+            hash = Convert.FromHexString(parts[0]);
+            salt = Convert.FromHexString(parts[1]);
+            using (var hmac = new HMACSHA512(salt))
             {
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
+                return computedHash.SequenceEqual(hash);
             }
         }
     }

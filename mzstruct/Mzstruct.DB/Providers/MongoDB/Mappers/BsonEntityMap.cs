@@ -66,11 +66,7 @@ namespace Mzstruct.DB.Providers.MongoDB.Mappers
                 {
                     map.AutoMap();
                     map.SetIgnoreExtraElements(true);
-                    map.UnmapMember(x => x.RefToken);
-                    map.UnmapMember(x => x.PasswordHash);
-                    map.UnmapMember(x => x.PasswordSalt);
-                    map.UnmapMember(x => x.TokenCreated);
-                    map.UnmapMember(x => x.TokenExpires);
+                    //map.UnmapMember(x => x.RefToken);
                 });
             }
 

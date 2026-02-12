@@ -1,4 +1,5 @@
 ﻿using Mzstruct.Base.Entities;
+using Mzstruct.Base.Models;
 
 namespace Mzstruct.Base.Entities
 {
@@ -15,5 +16,24 @@ namespace Mzstruct.Base.Entities
         public string? Designation { get; set; }
         public string? Position { get; set; }
         public string? Img { get; set; }
+        public string? Covr { get; set; }
+
+        // Navigation properties
+        public UserDetails? UserDetails { get; set; }
+    }
+
+    public class UserDetails //: BaseEntity
+    {
+        //public required string UserId { get; set; }
+
+        public string? Languages { get; set; } // "abc, xyz"
+        public List<Field>? linkedEmails { get; set; }
+        public List<Field>? linkedPhones { get; set; }
+        public List<Field>? linkedAccounts { get; set; }
+        public List<LinkedProfile>? linkedProfiles { get; set; }
+        public List<Field>? linkedAddresses { get; set; }
+
+        // Navigation properties
+        //public BaseUser? User { get; set; }
     }
 }

@@ -24,18 +24,19 @@ namespace Mzstruct.DB.EFCore.Configs
             builder.Property(x => x.Role).IsRequired();
             builder.Property(x => x.Password).IsRequired();
 
-            var comparer = EFCoreHelper.VirtualListCompare<string>();
-            builder.Property(x => x.Roles)
-            .HasConversion(
-                v => v == null ? null : string.Join(",", v),
-                v => string.IsNullOrWhiteSpace(v)
-                    ? new List<string>()
-                    : v.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                        .ToList()
-            )
-            .Metadata.SetValueComparer(comparer);
+            //var comparer = EFCoreHelper.VirtualListCompare<string>();
+            //builder.Property(x => x.Roles)
+            //.HasConversion(
+            //    v => v == null ? null : string.Join(",", v),
+            //    v => string.IsNullOrWhiteSpace(v)
+            //        ? new List<string>()
+            //        : v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+            //            .ToList()
+            //)
+            //.Metadata.SetValueComparer(comparer);
 
-            builder.Property(x => x.RefreshToken).HasColumnType("text");
+            //builder.Property(x => x.RefreshToken).HasColumnType("text");
+            
             builder.Property(e => e.CreatedAt)
                 .HasConversion(
                     v => v.ToUniversalTime(),
@@ -44,15 +45,17 @@ namespace Mzstruct.DB.EFCore.Configs
                 .HasConversion(
                     v => v.HasValue ? v.Value.ToUniversalTime() : v,
                     v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
+            
             //builder.Property(x => x.Img).HasColumnType("text");
             //builder.Property(x => x.Name).HasColumnType("varchar(50)").IsRequired();
             //builder.Property(u => u.Email).HasColumnName(nameof(BaseUser.Email));
             //builder.Property(u => u.Password).HasColumnName(nameof(BaseUser.Password));
-            builder.Ignore(u => u.PasswordHash);
-            builder.Ignore(u => u.PasswordSalt);
-            builder.Ignore(u => u.TokenCreated);
-            builder.Ignore(u => u.TokenExpires);
-            builder.Ignore(u => u.RefToken);
+            
+            //builder.Ignore(u => u.PasswordHash);
+            //builder.Ignore(u => u.PasswordSalt);
+            builder.Ignore(u => u.UserDetails);
+            builder.Ignore(u => u.RefreshJWT);
+            
             //builder.Ignore(u => u.Created);
             //builder.Ignore(u => u.Modified);
 

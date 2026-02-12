@@ -23,6 +23,6 @@ namespace Mzstruct.Auth.Contracts.IManagers
         public string GetHeaderRefreshToken();
         public string GetValueFromToken(string token, string key);
         public string CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
+        public bool VerifyPasswordHash(string password, string hashedPassword, out byte[] passwordHash, out byte[] passwordSalt);
     }
 }

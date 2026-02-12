@@ -48,6 +48,7 @@ namespace Mzstruct.Auth.Helpers
             if (options is null) options = new();
             var refreshToken = new RefreshToken
             {
+                UserId = string.Empty, // Set this when creating the token for a specific user
                 JtiId = Guid.NewGuid().ToString(),
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 ExpiresAt = BaseHelper.ToDateTime(options.RefreshTokenExpiryValue, options.RefreshTokenExpiryUnit), //DateTime.UtcNow.AddDays(7),
