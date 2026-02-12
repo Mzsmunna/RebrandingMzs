@@ -9,6 +9,8 @@ using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
+using static System.Net.WebRequestMethods;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mzstruct.DB.Providers.MongoDB.Repos
 {
@@ -28,13 +30,20 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             return filter;
         }
 
-        public async Task<TUser?> LoginUser(string email, string password)
+        public async Task<TUser?> LoginUser(string identity, string password) // identity -> username or email or phone
         {
             var filter = Builders<TUser>.Filter.Empty;
             filter &= Builders<TUser>.Filter.Eq(x => x.IsActive, true);
-            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+
+            if (!string.IsNullOrEmpty(identity) && !string.IsNullOrEmpty(password))
             {
-                filter &= Builders<TUser>.Filter.Eq(x => x.Email, email.ToLower());
+                identity = identity.ToLower();
+                //filter &= Builders<TUser>.Filter.Eq(x => x.Email, identity);
+                filter &= Builders<TUser>.Filter.Or(
+                    Builders<TUser>.Filter.Eq(x => x.Username, identity),
+                    Builders<TUser>.Filter.Eq(x => x.Email, identity),
+                    Builders<TUser>.Filter.Eq(x => x.Phone, identity)
+                );
                 filter &= Builders<TUser>.Filter.Eq(x => x.Password, password);
                 var user = await collection.Find(filter).FirstOrDefaultAsync();
                 return user;
@@ -42,13 +51,19 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             return null;
         }
 
-        public async Task<TUser?> LoginUser(string email)
+        public async Task<TUser?> LoginUser(string identity) // identity -> username or email or phone
         {
             var filter = Builders<TUser>.Filter.Empty;
             filter &= Builders<TUser>.Filter.Eq(x => x.IsActive, true);
-            if (!string.IsNullOrEmpty(email))
+            if (!string.IsNullOrEmpty(identity))
             {
-                filter &= Builders<TUser>.Filter.Eq(x => x.Email, email.ToLower());
+                identity = identity.ToLower();
+                //filter &= Builders<TUser>.Filter.Eq(x => x.Email, identity);
+                filter &= Builders<TUser>.Filter.Or(
+                    Builders<TUser>.Filter.Eq(x => x.Username, identity),
+                    Builders<TUser>.Filter.Eq(x => x.Email, identity),
+                    Builders<TUser>.Filter.Eq(x => x.Phone, identity)
+                );
                 var user =  await collection.Find(filter).FirstOrDefaultAsync();
                 return user;
             }
@@ -57,21 +72,59 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
 
         public async Task<TUser?> RegisterUser(TUser user)
         {
-            var filter = Builders<TUser>.Filter.Empty;
-            //filter &= Builders<User>.Filter.Eq(x => x.IsActive, true);
             if (user is null) return user;
+            
+            if (string.IsNullOrEmpty(user.Username)) user.Username = user.Email.ToLower();
+            user.Username = user.Username.ToLower();
+            user.Email = user.Email.ToLower();
+            user.Role = user.Role.ToLower();
+            user.Phone = user.Phone?.ToLower() ?? "";
+            user.IsActive = true;
+            user.IsDeleted = false;
+
+            var filter = Builders<TUser>.Filter.Empty;
+
+            if (!string.IsNullOrEmpty(user.Username))
+            {
+                filter = filter | Builders<TUser>.Filter.Eq(x => x.Username, user.Username);
+            }
+
             if (!string.IsNullOrEmpty(user.Email))
             {
-                filter &= Builders<TUser>.Filter.Eq(x => x.Email, user.Email.ToLower());
-                var existingUser = await collection.Find(filter).FirstOrDefaultAsync();
-                if (existingUser != null)
-                {
-                    existingUser.Password = "?";
-                    return null; //return Error.Conflict("User.Exists", "This email already exists.");
-                }
-                return await Save(user);
+                //filter &= Builders<TUser>.Filter.Eq(x => x.Email, user.Email.ToLower());
+                filter = filter | Builders<TUser>.Filter.Eq(x => x.Email, user.Email);
             }
-            return null;
+
+            if (!string.IsNullOrEmpty(user.Phone))
+            {
+                filter = filter | Builders<TUser>.Filter.Eq(x => x.Phone, user.Phone);
+            }
+
+            //filter &= Builders<User>.Filter.Eq(x => x.IsActive, true);
+
+            //var f = Builders<TUser>.Filter;
+
+            //var orFilters = new List<FilterDefinition<TUser>>
+            //{
+            //    f.Eq(x => x.Username, user.Username.ToLower()),
+            //    f.Eq(x => x.Email, user.Email.ToLower())
+            //};
+
+            //// Add phone only if it has value
+            //if (!string.IsNullOrWhiteSpace(user.Phone))
+            //{
+            //    orFilters.Add(f.Eq(x => x.Phone, user.Phone));
+            //}
+
+            //filter &= f.Or(orFilters);
+
+            var existingUser = await collection.Find(filter).FirstOrDefaultAsync();
+            if (existingUser != null)
+            {
+                //existingUser.Password = "?";
+                return null; //return Error.Conflict("User.Exists", "This email already exists.");
+            }
+            return await Save(user);
         }
 
         public async Task<Result<List<TUser>>> GetUsers(string clientId, string adminId)
