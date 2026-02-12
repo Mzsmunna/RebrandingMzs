@@ -18,10 +18,10 @@ using System.Text;
 
 namespace Mzstruct.Auth.Services
 {
-    public class BasicAuthService<TEntity>(ILogger<BasicAuthService<TEntity>> logger, 
+    public class BasicAuthService<TIdentity>(ILogger<BasicAuthService<TIdentity>> logger, 
         //IValidator<SignUpDto> signUpValidator,
-        IAuthUserRepo<TEntity> userRepository, //IBaseUserRepository<TEntity> userRepository,
-        IJwtTokenManager jwtTokenManager) : IBasicAuthService where TEntity : BaseUser
+        IAuthUserRepo<TIdentity> userRepository, //IBaseUserRepository<TIdentity> userRepository,
+        IJwtTokenManager jwtTokenManager) : IBasicAuthService where TIdentity : BaseUser
     {
         public async Task<Result<string>> SignUp(SignUpCommand request)
         {
@@ -31,7 +31,7 @@ namespace Mzstruct.Auth.Services
                 return Error.Validation("AuthCommand.SignUp.InvalidInput",
                     "SignUp form is invalid", validation.ToErrorDictionary());
             
-            var user = request.ToEntity<TEntity, SignUpCommand>();
+            var user = request.ToEntity<TIdentity, SignUpCommand>();
             if (user is null)
             {
                 logger.LogWarning("SignUp: Bad Request");

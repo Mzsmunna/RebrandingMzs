@@ -1,5 +1,6 @@
 ﻿using Mzstruct.Auth.Contracts.IServices;
 using Mzstruct.Auth.Features.Commands;
+using Mzstruct.Base.Entities;
 using Mzstruct.Base.Patterns.Result;
 using System;
 using System.Collections.Generic;

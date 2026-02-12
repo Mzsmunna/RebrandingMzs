@@ -15,8 +15,11 @@ using Mzstruct.Auth.Services;
 using Mzstruct.Base.Entities;
 using Mzstruct.Base.Enums;
 using Mzstruct.Base.Patterns.CQRS;
+using Mzstruct.DB.Contracts.IRepos;
 using Mzstruct.DB.EFCore.Context;
 using Mzstruct.DB.EFCore.Entities;
+using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
+using Mzstruct.DB.Providers.MongoDB.Repos;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -43,10 +46,17 @@ namespace Mzstruct.Auth.Dependencies
             return AuthHelper.AddIdentityDBContext<TContext, TIdentity>(services, config, db, lifeTime, includeJWT, jwtOptions);
         }
 
-        public static IServiceCollection AddAppAuth<TIdentity>(this IServiceCollection services, IConfiguration config) where TIdentity : BaseUser
+        public static IServiceCollection AddAuth<TIdentity>(this IServiceCollection services, IConfiguration config) where TIdentity : BaseUser
         {
+            services.AddScoped(typeof(IBaseUserRepository<>), typeof(BaseUserRepository<>));
+            services.AddScoped(typeof(IAuthUserRepo<>), typeof(BaseUserRepository<>));
+
+            //services.AddScoped(typeof(IBasicAuthService<>), typeof(BasicAuthService<>));
+            //services.AddScoped(typeof(IOAuthService<>), typeof(OAuthService<>));
+            //services.AddScoped(typeof(IAuthService<>), typeof(AuthService<>));
+
             services.AddScoped<IBasicAuthService, BasicAuthService<TIdentity>>();
-            services.AddScoped<IOAuthService, OAuthService>();
+            services.AddScoped<IOAuthService, OAuthService<TIdentity>>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddCommandQueryHandlers<Auth>();
             return services;

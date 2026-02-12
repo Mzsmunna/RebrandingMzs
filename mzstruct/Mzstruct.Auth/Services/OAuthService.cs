@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Mzstruct.Auth.Contracts.IManagers;
 using Mzstruct.Auth.Contracts.IServices;
+using Mzstruct.Base.Entities;
 using Mzstruct.Base.Patterns.Errors;
 using Mzstruct.Base.Patterns.Result;
 using System;
@@ -13,10 +14,10 @@ using System.Text;
 
 namespace Mzstruct.Auth.Services
 {
-    public class OAuthService(ILogger<OAuthService> logger, 
+    public class OAuthService<TIdentity>(ILogger<OAuthService<TIdentity>> logger, 
         IHttpContextAccessor httpContextAccessor,
         IBasicAuthService basicAuthService,
-        IGoogleAuthManager googleAuthManager) : IOAuthService
+        IGoogleAuthManager googleAuthManager) : IOAuthService where TIdentity : BaseUser
     {
         public async Task<Result<string>> SignInWithGoogle(string credential)
         {

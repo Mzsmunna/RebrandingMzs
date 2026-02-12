@@ -33,7 +33,6 @@ public class UserPermission : BaseEntity
     public List<AppPermission> AppPermissions { get; set; } = [];
     public List<ApiPermission> ApiPermissions { get; set; } = [];
     public DateTime? ExpiredOn { get; set; }
-    public bool IsActive { get; set; }
 }
 
 public class AppPermission

@@ -1,4 +1,5 @@
-﻿using Mzstruct.Base.Models;
+﻿using Mzstruct.Base.Entities;
+using Mzstruct.Base.Models;
 using Mzstruct.Base.Patterns.Result;
 using System;
 using System.Collections.Generic;

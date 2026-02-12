@@ -19,7 +19,7 @@ namespace Tasker.Infrastructure
             AddTaskerDB(services, config);
             AddTaskerMongoEntities(services);
             AddTaskerRepositories(services);
-            services.AddAppAuth<BaseUser>(config);
+            services.AddAuth<BaseUser>(config);
             return services;
         }
 

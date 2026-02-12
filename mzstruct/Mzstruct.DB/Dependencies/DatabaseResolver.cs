@@ -38,8 +38,8 @@ namespace Mzstruct.DB.Dependencies
         {
             services.AddScoped<IMongoEntityMap, MongoEntityMap>();
             services.AddScoped(typeof(IMongoDBRepo<>), typeof(MongoDBRepo<>));
-            services.AddScoped(typeof(IBaseUserRepository<>), typeof(BaseUserRepository<>));
-            services.AddScoped(typeof(IAuthUserRepo<>), typeof(BaseUserRepository<>));
+            //services.AddScoped(typeof(IBaseUserRepository<>), typeof(BaseUserRepository<>));
+            //services.AddScoped(typeof(IAuthUserRepo<>), typeof(BaseUserRepository<>));
             return services;
         }
 
