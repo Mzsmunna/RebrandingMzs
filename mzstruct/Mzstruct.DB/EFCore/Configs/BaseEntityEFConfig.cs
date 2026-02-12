@@ -25,8 +25,8 @@ namespace Mzstruct.DB.EFCore.Configs
             //builder.Property(x => x.Id).ValueGeneratedOnAdd().UseIdentityColumn();
             //builder.HasQueryFilter(e => !e.IsDeleted);
             builder.HasQueryFilter("SoftDeleteFilter", e => !e.IsDeleted);
-            builder.Ignore(u => u.Created);
-            builder.Ignore(u => u.Modified);
+            //builder.Ignore(u => u.Created);
+            //builder.Ignore(u => u.Modified);
             //builder.Navigation(f => f.prop).AutoInclude();
             //builder.Property(x => x.Status).HasConversion<string>(); // Enum to string conversion
         }

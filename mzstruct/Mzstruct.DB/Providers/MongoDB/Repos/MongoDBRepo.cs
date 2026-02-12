@@ -98,8 +98,40 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
         public async Task<T?> SaveAsync(T entity)
         {
             if (entity == null) return entity;
+
+            if (entity.IsDeleted && !entity.DeletedAt.HasValue)
+            {
+                entity.DeletedAt = DateTime.UtcNow;
+            }
+
+            if (!entity.IsActive && !entity.DeactivatedAt.HasValue)
+            {
+                entity.DeactivatedAt = DateTime.UtcNow;
+            }
+
+            if (entity.IsActive &&
+                entity.DeactivatedAt.HasValue && 
+                entity.ActivatedAt.HasValue)
+            {
+                if ( entity.DeactivatedAt.Value >= entity.ActivatedAt.Value)
+                {
+                    entity.ActivatedAt = DateTime.UtcNow;
+                }
+                entity.DeactivatedAt = null;
+            }
+
             if (string.IsNullOrEmpty(entity.Id) || entity.Id.IsGuid())
+            {
                 entity.Id = string.Empty;
+                entity.CreatedAt = DateTime.UtcNow; // DateTime.Now
+                entity.IsDeleted = false;
+                entity.IsActive = true;
+                entity.ActivatedAt = DateTime.UtcNow;
+            }
+            else
+            {
+                entity.ModifiedAt = DateTime.UtcNow;
+            }
 
             ReplaceOneResult? result = null;
             var operation  = new MongoOperation() { 
@@ -107,29 +139,29 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                 IsCompleted = false 
             };
 
-            if (entity.Created is null)
-            {
-                entity.Created = new BaseEvent { 
-                    Topic = typeof(T).Name,
-                    RefId = operation.Id, 
-                    Type = EventType.Create,
-                    Id = ObjectId.GenerateNewId().ToString(),
-                    At = DateTime.UtcNow // DateTime.Now
-                };
-            }
+            //if (entity.Created is null)
+            //{
+            //    entity.Created = new BaseEvent { 
+            //        Topic = typeof(T).Name,
+            //        RefId = operation.Id, 
+            //        Type = EventType.Create,
+            //        Id = ObjectId.GenerateNewId().ToString(),
+            //        At = DateTime.UtcNow // DateTime.Now
+            //    };
+            //}
             
-            if (entity.Modified is null)
-            {
-                entity.Modified = new BaseEvent{ 
-                    Topic = typeof(T).Name, 
-                    RefId = operation.Id, 
-                    Type = EventType.Update,
-                    Id = ObjectId.GenerateNewId().ToString(),
-                    At = DateTime.UtcNow // DateTime.Now
-                };
-                entity.Modified.Id = ObjectId.GenerateNewId().ToString();
-            }
-            entity.Modified.At = DateTime.UtcNow; // DateTime.Now
+            //if (entity.Modified is null)
+            //{
+            //    entity.Modified = new BaseEvent{ 
+            //        Topic = typeof(T).Name, 
+            //        RefId = operation.Id, 
+            //        Type = EventType.Update,
+            //        Id = ObjectId.GenerateNewId().ToString(),
+            //        At = DateTime.UtcNow // DateTime.Now
+            //    };
+            //    entity.Modified.Id = ObjectId.GenerateNewId().ToString();
+            //}
+            //entity.Modified.At = DateTime.UtcNow; // DateTime.Now
 
             if (string.IsNullOrEmpty(entity.Id))
             {
@@ -157,13 +189,39 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             foreach(var entity in entities)
             {
                 if (entity == null) continue;
+
+                if (entity.IsDeleted && !entity.DeletedAt.HasValue)
+                {
+                    entity.DeletedAt = DateTime.UtcNow;
+                }
+
+                if (!entity.IsActive && !entity.DeactivatedAt.HasValue)
+                {
+                    entity.DeactivatedAt = DateTime.UtcNow;
+                }
+
+                if (entity.IsActive &&
+                    entity.DeactivatedAt.HasValue && 
+                    entity.ActivatedAt.HasValue)
+                {
+                    if ( entity.DeactivatedAt.Value >= entity.ActivatedAt.Value)
+                    {
+                        entity.ActivatedAt = DateTime.UtcNow;
+                    }
+                    entity.DeactivatedAt = null;
+                }
+
                 if (string.IsNullOrEmpty(entity.Id) || entity.Id.IsGuid())
                 {
                     entity.Id = ObjectId.GenerateNewId().ToString();
-                    if (entity.Created != null)
-                        entity.Created.At = DateTime.UtcNow; // DateTime.Now
-                    if (entity.Modified != null)
-                        entity.Modified.At = DateTime.UtcNow; // DateTime.Now                  
+                    entity.CreatedAt = DateTime.UtcNow; // DateTime.Now
+                    entity.IsDeleted = false;
+                    entity.IsActive = true;
+                    entity.ActivatedAt = DateTime.UtcNow;
+                    //if (entity.Created != null)
+                    //    entity.Created.At = DateTime.UtcNow; // DateTime.Now
+                    //if (entity.Modified != null)
+                    //    entity.Modified.At = DateTime.UtcNow; // DateTime.Now                  
                     dataModels.Add(new InsertOneModel<T>(entity));
                 }
                 else
@@ -171,8 +229,9 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
                     BsonDocument query = new BsonDocument {
                         { "_id" , ObjectId.Parse(entity.Id) }
                     };
-                    if (entity.Modified != null)
-                        entity.Modified.At = DateTime.UtcNow; // DateTime.Now
+                    //if (entity.Modified != null)
+                    //    entity.Modified.At = DateTime.UtcNow; // DateTime.Now
+                    entity.ModifiedAt = DateTime.UtcNow;
                     // use ReplaceOneModel with property IsUpsert set to true to upsert whole documents
                     dataModels.Add(new ReplaceOneModel<T>(query, entity) { IsUpsert = true });
                 }
@@ -206,6 +265,8 @@ namespace Mzstruct.DB.Providers.MongoDB.Repos
             if (isSoftDelete)
             {
                 entity.IsDeleted = true;
+                entity.DeletedAt = DateTime.UtcNow;
+                entity.ModifiedAt = DateTime.UtcNow;
                 var updatedEntity = await SaveAsync(entity);
                 return updatedEntity ?? null;
             }

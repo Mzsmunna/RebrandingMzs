@@ -48,13 +48,13 @@ namespace Tasker.Application.Features.Issues
                 }
             }
 
-            if (issue.Created is not null && !string.IsNullOrEmpty(issue.Created.By))
+            if (!string.IsNullOrEmpty(issue.CreatedBy))
             {
-                var user = await userRepository.GetById(issue.Created.By);
+                var user = await userRepository.GetById(issue.CreatedBy);
                 if (user != null)
                 {
-                    issue.Created.Name = user.FirstName + " " + user.LastName;
-                    issue.Created.Img= user.Img;
+                    issue.AssignerName = user.FirstName + " " + user.LastName;
+                    issue.AssignerImg= user.Img ?? "";
                 }
             }
 

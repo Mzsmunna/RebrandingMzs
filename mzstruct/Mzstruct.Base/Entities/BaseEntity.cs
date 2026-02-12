@@ -21,7 +21,7 @@ namespace Mzstruct.Base.Entities
         public string? DeactivatedBy { get; set; }
         public DateTime? DeletedAt { get; set; }
         public string? DeletedBy { get; set; }
-        public BaseEvent? Created { get; set; } // = new BaseEvent();
-        public BaseEvent? Modified { get; set; }
+        //public BaseEvent? Created { get; set; } // = new BaseEvent();
+        //public BaseEvent? Modified { get; set; }
     }
 }
