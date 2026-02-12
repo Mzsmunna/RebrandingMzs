@@ -45,7 +45,7 @@ namespace Tasker.Infrastructure
 
         private static IServiceCollection AddTaskerRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IIssueRepository, IssueRepository>();   
+            services.AddScoped<IIssueRepository, IssueRepository>();
             return services;
         }
     }

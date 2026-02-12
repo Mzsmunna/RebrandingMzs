@@ -60,30 +60,6 @@ namespace Mzstruct.Auth.Dependencies
             return services;
         }
 
-        public static IServiceCollection AddMvcGitHubSignIn(this IServiceCollection services, IConfiguration config)
-        {
-            var gitHubAuth = config.GetSection("OAuthSignIn:GitHubAuth").Get<GitHubAuth>();
-            //if (gitHubAuth is null)
-            //    throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
-            if (gitHubAuth is null || !gitHubAuth.IsEnabled) return services;
-            if (string.IsNullOrEmpty(gitHubAuth.Schema))
-                    gitHubAuth.Schema = "External";
-            services.AddAuthentication(gitHubAuth.Schema)
-                .AddCookie(gitHubAuth.Schema)
-                .AddOAuth("github", oa =>
-                {
-                    oa.SignInScheme = gitHubAuth.Schema;
-                    // create an app on github & find ClientId & ClientSecret in https://github.com/settings/applications/appid
-                    oa.ClientId = gitHubAuth.ClientId;
-                    oa.ClientSecret = gitHubAuth.ClientSecret;
-                    oa.CallbackPath = gitHubAuth.CallbackPath;
-                    oa.AuthorizationEndpoint = gitHubAuth.AuthZEndpoint;
-                    oa.TokenEndpoint = gitHubAuth.TokenEndpoint;
-                    oa.UserInformationEndpoint = gitHubAuth.UserInfoEndpoint;
-                });
-            return services;
-        }
-
         public static IServiceCollection AddCookieAuth(this IServiceCollection services, string? cookieName = "")
         {
             if (string.IsNullOrEmpty(cookieName)) cookieName = "AppCookieAuth";
@@ -105,10 +81,17 @@ namespace Mzstruct.Auth.Dependencies
             options?.Invoke(jwtOptions);
             if (jwtOptions.jwtAuthConfig is null)
                 jwtOptions.jwtAuthConfig = config.GetSection(nameof(JWTAuth)).Get<JWTAuth>();
-            if (jwtOptions.jwtAuthConfig != null && 
-                !string.IsNullOrEmpty(jwtOptions.jwtAuthConfig.SecretKey) &&
-                string.IsNullOrEmpty(jwtOptions.SecretKey))
-                jwtOptions.SecretKey = jwtOptions.jwtAuthConfig.SecretKey;
+
+            if (jwtOptions.jwtAuthConfig != null)
+            {
+                if (!string.IsNullOrEmpty(jwtOptions.jwtAuthConfig.SecretKey))
+                    jwtOptions.SecretKey = jwtOptions.jwtAuthConfig.SecretKey;
+                if (jwtOptions.jwtAuthConfig.TokenExpiry.HasValue)
+                    jwtOptions.TokenExpiryValue = jwtOptions.jwtAuthConfig.TokenExpiry.Value;
+                if (jwtOptions.jwtAuthConfig.RefreshTokenExpiry.HasValue)
+                    jwtOptions.RefreshTokenExpiryValue = jwtOptions.jwtAuthConfig.RefreshTokenExpiry.Value;
+            }
+
             if (string.IsNullOrEmpty(jwtOptions.ExternalSchema))
                     jwtOptions.ExternalSchema = "External";
             var signingKey = JwtHelper.GetSymmetricSecurityKey(jwtOptions, config);
@@ -262,6 +245,31 @@ namespace Mzstruct.Auth.Dependencies
                     });
             }
             
+            return services;
+        }
+
+        // old approach
+        public static IServiceCollection AddMvcGitHubSignIn(this IServiceCollection services, IConfiguration config)
+        {
+            var gitHubAuth = config.GetSection("OAuthSignIn:GitHubAuth").Get<GitHubAuth>();
+            //if (gitHubAuth is null)
+            //    throw new ArgumentNullException(nameof(GitHubAuth), "GitHubAuth configuration section is missing.");
+            if (gitHubAuth is null || !gitHubAuth.IsEnabled) return services;
+            if (string.IsNullOrEmpty(gitHubAuth.Schema))
+                    gitHubAuth.Schema = "External";
+            services.AddAuthentication(gitHubAuth.Schema)
+                .AddCookie(gitHubAuth.Schema)
+                .AddOAuth("github", oa =>
+                {
+                    oa.SignInScheme = gitHubAuth.Schema;
+                    // create an app on github & find ClientId & ClientSecret in https://github.com/settings/applications/appid
+                    oa.ClientId = gitHubAuth.ClientId;
+                    oa.ClientSecret = gitHubAuth.ClientSecret;
+                    oa.CallbackPath = gitHubAuth.CallbackPath;
+                    oa.AuthorizationEndpoint = gitHubAuth.AuthZEndpoint;
+                    oa.TokenEndpoint = gitHubAuth.TokenEndpoint;
+                    oa.UserInformationEndpoint = gitHubAuth.UserInfoEndpoint;
+                });
             return services;
         }
 

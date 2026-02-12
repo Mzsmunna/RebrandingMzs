@@ -12,10 +12,10 @@ namespace Mzstruct.Auth.Configs
         public string SecretConfigKey { get; set; } = "JWTAuth.SecretKey";
         public string ExternalSchema { get; set; } = "External";
 
-        public int TokenExpiryValue { get; set; } = 60;
+        public int TokenExpiryValue { get; set; } = 15;
         public TimeUnit TokenExpiryUnit { get; set; } = TimeUnit.Minutes;
 
-        public int RefreshTokenExpiryValue { get; set; } = 7;
+        public int RefreshTokenExpiryValue { get; set; } = 90;
         public TimeUnit RefreshTokenExpiryUnit { get; set; } = TimeUnit.Days;
 
         public JWTAuth? jwtAuthConfig { get; set; }
