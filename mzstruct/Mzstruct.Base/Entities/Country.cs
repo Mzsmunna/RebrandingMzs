@@ -13,5 +13,8 @@ namespace Mzstruct.Base.Entities
         public string Code { get; set; } = string.Empty;
         public string DialCode { get; set; } = string.Empty;
         public string Currency { get; set; } = string.Empty;
+
+        // Navigation properties
+        //public ICollection<Location> Locations { get; set; } = [];
     }
 }

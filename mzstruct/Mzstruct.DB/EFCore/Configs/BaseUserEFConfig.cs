@@ -53,7 +53,10 @@ namespace Mzstruct.DB.EFCore.Configs
             
             //builder.Ignore(u => u.PasswordHash);
             //builder.Ignore(u => u.PasswordSalt);
-            builder.Ignore(u => u.UserDetails);
+
+            builder.Ignore(u => u.Details);
+            builder.Ignore(u => u.Location);
+            builder.Ignore(u => u.Settings);
             builder.Ignore(u => u.RefreshJWT);
             
             //builder.Ignore(u => u.Created);

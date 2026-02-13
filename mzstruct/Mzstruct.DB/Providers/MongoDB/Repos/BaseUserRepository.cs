@@ -9,8 +9,6 @@ using Mzstruct.DB.Providers.MongoDB.Contracts.IContexts;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IMappers;
 using Mzstruct.DB.Providers.MongoDB.Contracts.IRepos;
 using Mzstruct.DB.Providers.MongoDB.Helpers;
-using static System.Net.WebRequestMethods;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mzstruct.DB.Providers.MongoDB.Repos
 {

@@ -29,9 +29,10 @@ namespace Mzstruct.Base.Models
     {
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
+        public string? Img { get; set; }
+        public int? No { get; set; }
         public string? Qrc { get; set; } // QR Code
         public string? Url { get; set; }
-        public int? No { get; set; }
     }
 
     public class IdentityMap : ReferenceMap

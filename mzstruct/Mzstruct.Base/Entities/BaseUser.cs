@@ -19,7 +19,10 @@ namespace Mzstruct.Base.Entities
         public string? Covr { get; set; }
 
         // Navigation properties
-        public UserDetails? UserDetails { get; set; }
+        public UserDetails? Details { get; set; }
+        public Location? Location { get; set; }
+        public UserSettings? Settings { get; set; }
+        //public UserPermission? Permissions { get; set; }
     }
 
     public class UserDetails //: BaseEntity
@@ -27,11 +30,43 @@ namespace Mzstruct.Base.Entities
         //public required string UserId { get; set; }
 
         public string? Languages { get; set; } // "abc, xyz"
-        public List<Field>? linkedEmails { get; set; }
-        public List<Field>? linkedPhones { get; set; }
-        public List<Field>? linkedAccounts { get; set; }
-        public List<LinkedProfile>? linkedProfiles { get; set; }
-        public List<Field>? linkedAddresses { get; set; }
+        public List<Field>? Emails { get; set; }
+        public List<Field>? Phones { get; set; }
+        public List<Field>? Accounts { get; set; }
+        public List<LinkedProfile>? Profiles { get; set; }
+        public List<Field>? Addresses { get; set; } // "home:abc, work:xyz"
+
+        // Navigation properties
+        //public BaseUser? User { get; set; }
+    }
+
+    public class UserSettings //: BaseEntity
+    {
+        //public required string UserId { get; set; }
+
+        //public bool IsOnline { get; set; } = false;
+        public DateTime? OnlineAt { get; set; }
+
+        //public bool IsLive { get; set; } = false;
+        public DateTime? LiveAt { get; set; }
+
+        //public bool IsVerified { get; set; } = false;
+        public DateTime? VerifiedAt { get; set; }
+
+        //public bool IsLocked { get; set; } = false;
+        public DateTime? LockedAt { get; set; }
+
+        //public bool IsBanned { get; set; } = false;
+        public DateTime? BannedAt { get; set; }
+
+        //public bool IsSuspended { get; set; } = false;
+        public DateTime? SuspendedAt { get; set; }
+
+        //public bool IsRestricted { get; set; } = false;
+        public DateTime? RestrictedAt { get; set; }
+
+        //public bool IsTfaEnabled { get; set; } = false;
+        public DateTime? TfaEnabledAt { get; set; }
 
         // Navigation properties
         //public BaseUser? User { get; set; }
