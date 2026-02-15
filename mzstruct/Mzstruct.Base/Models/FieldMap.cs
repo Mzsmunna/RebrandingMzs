@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Mzstruct.Base.Models
 {
-    public class Field
+    public class FieldMap
     {
         public required string Name { get; set; }        
         public string Value { get; set; } = string.Empty;
     }
 
-    public class KeyMap : Field
+    public class KeyMap : FieldMap
     {
         public required string Key { get; set; }
         public string Label { get; set; } = string.Empty;
@@ -55,7 +55,7 @@ namespace Mzstruct.Base.Models
         public string? Context { get; set; } // json encoded | base64 format for additional information
     }
 
-    public class ConditionMap : Field
+    public class ConditionMap : FieldMap
     {
         public required string FieldType { get; set; } = string.Empty; // string, number, boolean, date, time, datetime, etc.
         public required string Checks { get; set; } // ContextType: any, this, jwt, session, cookie, localStorage, queryParams, requestBody, db, collection or table name, etc.

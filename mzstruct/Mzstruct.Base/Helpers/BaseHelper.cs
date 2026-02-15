@@ -331,7 +331,7 @@ namespace Mzstruct.Base.Helpers
             return TimeZoneInfo.ConvertTimeFromUtc(timeUtc, easternZone);
         }
 
-        public static string GetPropertyValueByKey(List<Field> properties, string key)
+        public static string GetPropertyValueByKey(List<FieldMap> properties, string key)
         {
             foreach (var item in properties)
             {
@@ -428,7 +428,7 @@ namespace Mzstruct.Base.Helpers
             }
         }
 
-        public static string GetPropertiesValue(List<Field> fields, string key)
+        public static string GetPropertiesValue(List<FieldMap> fields, string key)
         {
             foreach (var field in fields)
             {

@@ -30,11 +30,11 @@ namespace Mzstruct.Base.Entities
         //public required string UserId { get; set; }
 
         public string? Languages { get; set; } // "abc, xyz"
-        public List<Field>? Emails { get; set; }
-        public List<Field>? Phones { get; set; }
-        public List<Field>? Accounts { get; set; }
+        public List<FieldMap>? Emails { get; set; }
+        public List<FieldMap>? Phones { get; set; }
+        public List<FieldMap>? Accounts { get; set; }
         public List<LinkedProfile>? Profiles { get; set; }
-        public List<Field>? Addresses { get; set; } // "home:abc, work:xyz"
+        public List<FieldMap>? Addresses { get; set; } // "home:abc, work:xyz"
 
         // Navigation properties
         //public BaseUser? User { get; set; }

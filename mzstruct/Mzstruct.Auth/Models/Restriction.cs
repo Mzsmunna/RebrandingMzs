@@ -8,7 +8,7 @@ public class Restriction : BaseEntity
 {
     public required ReferenceMap Restricted { get; set; }
     public required ReferenceMap Restrictor { get; set; }
-    public Field? Resouce { get; set; } // collection | table name -> pageid, groupid, channelid, chatroomid, etc.
+    public FieldMap? Resouce { get; set; } // collection | table name -> pageid, groupid, channelid, chatroomid, etc.
     public string Url { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public PermissionType Type { get; set; } // system, platform, app, user, module, api, page, resource, content, etc.

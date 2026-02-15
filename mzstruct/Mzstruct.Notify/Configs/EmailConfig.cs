@@ -26,6 +26,6 @@ namespace Mzstruct.Notify.Configs
         public int Port { get; set; }
         public bool EnableSSL { get; set; } = false;
         public bool EnableTLS { get; set; } = true;
-        public List<Field>? Options { get; set; } = [];
+        public List<FieldMap>? Options { get; set; } = [];
     }
 }
