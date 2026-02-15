@@ -27,7 +27,7 @@ namespace Mzstruct.Base.Models
 
     public class ReferenceMap
     {
-        public string Id { get; set; } = string.Empty;
+        public required string Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Img { get; set; }
         public int? No { get; set; }
