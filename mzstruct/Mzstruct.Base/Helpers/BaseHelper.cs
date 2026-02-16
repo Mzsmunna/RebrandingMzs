@@ -335,7 +335,7 @@ namespace Mzstruct.Base.Helpers
         {
             foreach (var item in properties)
             {
-                if (item.Name == key)
+                if (item.Key == key)
                 {
                     return item.Value ?? "";
                 }
@@ -432,7 +432,7 @@ namespace Mzstruct.Base.Helpers
         {
             foreach (var field in fields)
             {
-                if (key == field.Name)
+                if (key == field.Key)
                     return field.Value ?? "";
             }
             return "";

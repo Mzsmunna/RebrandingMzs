@@ -1,4 +1,5 @@
 ﻿using Mzstruct.Base.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,13 +8,12 @@ namespace Mzstruct.Base.Models
 {
     public class FieldMap
     {
-        public required string Name { get; set; }        
+        public required string Key { get; set; }
         public string Value { get; set; } = string.Empty;
     }
 
-    public class KeyMap : FieldMap
+    public class LabelMap : FieldMap
     {
-        public required string Key { get; set; }
         public string Label { get; set; } = string.Empty;
         public string? Img { get; set; }
         public string? Icon { get; set; }
@@ -23,6 +23,12 @@ namespace Mzstruct.Base.Models
     {
         public required int Index { get; set; }
         public bool Constant { get; set; } = false;
+    }
+
+    public class ZoneFieldMap : FieldMap
+    {
+        public required int ZoneIndex { get; set; }
+        public required int CircleIndex { get; set; }
     }
 
     public class SecretKey
