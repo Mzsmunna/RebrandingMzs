@@ -25,26 +25,40 @@ namespace Mzstruct.Base.Models
         public string? Tenant { get; set; }
     }
 
-    public class ReferenceMap
+    public class IdMap
     {
-        public required string Id { get; set; }
+        public required string Id { get; set; }        
         public string Name { get; set; } = string.Empty;
         public string? Img { get; set; }
-        public int? No { get; set; }
+    }
+
+    public class ReferenceMap : IdMap
+    {
+        public required int No { get; set; }
+        public string Url { get; set; } = string.Empty;
         public string? Qrc { get; set; } // QR Code
-        public string? Url { get; set; }
     }
 
     public class IdentityMap : ReferenceMap
     {
-        public string Role { get; set; } = string.Empty; // string or FieldMap or null
-        public string Group { get; set; } = string.Empty; // string or FieldMap or null
-        public string? Tag { get; set; } = string.Empty; // "xyz,abc"
-        public string? Identifier { get; set; } // type / resource / json -> ex: "{ role: 'Captain, Batsman', suffix: 'Mzs' }"
+        public required string Roles { get; set; } // string or FieldMap or null
+        public string? Groups { get; set; } // string or FieldMap or null
+        public string? Tags { get; set; } // "xyz,abc"
+        public string? Identifiers { get; set; } // type / resource / json -> ex: "{ role: 'Captain, Batsman', suffix: 'Mzs' }"
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public string? Img { get; set; }
-        public string? Cvr { get; set; }
+        public string? Covr { get; set; }
+    }
+
+    public class InfoMap : IdentityMap
+    {
+        public required string Environments { get; set; }
+        public required string Resources { get; set; }
+        public string? CDN { get; set; } // string or FieldMap or null
+        public string? Suffix { get; set; }
+        public string? Icon { get; set; }
+        public string? Comment { get; set; }
+        public string? Meta { get; set; }
     }
 
     public class EventMap : ReferenceMap
