@@ -15,7 +15,14 @@ namespace Mzstruct.Base.Models
     {
         public required string Key { get; set; }
         public string Label { get; set; } = string.Empty;
-        public string Icon { get; set; } = string.Empty;
+        public string? Img { get; set; }
+        public string? Icon { get; set; }
+    }
+
+    public class IndexFieldMap : FieldMap
+    {
+        public required int Index { get; set; }
+        public bool Constant { get; set; } = false;
     }
 
     public class SecretKey
