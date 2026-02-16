@@ -14,7 +14,7 @@ namespace Mzstruct.Base.Models
 
     public class LabelMap : FieldMap
     {
-        public string Label { get; set; } = string.Empty;
+        public required string Label { get; set; } = string.Empty;
         public string? Img { get; set; }
         public string? Icon { get; set; }
     }
