@@ -24,13 +24,11 @@ namespace Mzstruct.Base.Models
         public required string Value { get; set; }
     }
 
-    public class ZoneIndexMap : IndexMap
-    {
-        // Index => stroke index: attempted or intended area
-        // Value => stroke type: selected or intended stroke type
-        public required int Zone { get; set; } // zone index: where ball actually went
-        public required int Circle { get; set; } // circle index: how far ball actually went (0 - inner circle, 1 - outer circle, 2 - boundary line, 3 - over boundary, 4 - 90m+, 5 - 100m+)
-    }
+    //public class IndexFieldMap : FieldMap
+    //{
+    //    public required int Index { get; set; }
+    //    public bool Constant { get; set; } = false;
+    //}
 
     public class LabelMap : FieldMap
     {
@@ -38,18 +36,6 @@ namespace Mzstruct.Base.Models
         public string? Img { get; set; }
         public string? Icon { get; set; }
     }
-
-    //public class IndexFieldMap : FieldMap
-    //{
-    //    public required int Index { get; set; }
-    //    public bool Constant { get; set; } = false;
-    //}
-
-    //public class ZoneFieldMap : FieldMap
-    //{
-    //    public required int ZoneIndex { get; set; }
-    //    public required int CircleIndex { get; set; }
-    //}
 
     public class SecretKey
     {
