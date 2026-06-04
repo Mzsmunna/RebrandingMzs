@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
+// npm install -g @modelcontextprotocol/inspector
+// npx @modelcontextprotocol/inspector dotnet run --project mzstruct/Mzstruct.MCP
 namespace Mzstruct.MCP.Tools
 {
     [McpServerToolType]
