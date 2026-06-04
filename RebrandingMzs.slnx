@@ -26,6 +26,7 @@
     <Project Path="mzstruct/Mzstruct.DB/Mzstruct.DB.csproj" Id="cb40ed1b-32dc-4db9-9a80-daa3e8e62d46" />
     <Project Path="mzstruct/Mzstruct.Distributed/Mzstruct.Distributed.csproj" Id="7f474c42-7bc7-481d-9c6e-957e6a073386" />
     <Project Path="mzstruct/Mzstruct.File/Mzstruct.File.csproj" Id="b00e8706-ac02-42d7-8b23-c6b19e5f6f6d" />
+    <Project Path="mzstruct/Mzstruct.MCP/Mzstruct.MCP.csproj" Id="efff7120-e8f0-46e0-ba00-6cd29a445ff7" />
     <Project Path="mzstruct/Mzstruct.Notify/Mzstruct.Notify.csproj" Id="b618876a-270c-447d-9fee-d897248f4f7c" />
     <Project Path="mzstruct/Mzstruct.Observer/Mzstruct.Observer.csproj" Id="f446a573-5eee-44fc-83ba-b5db20cbf6f3" />
     <Project Path="mzstruct/Mzstruct.Payment/Mzstruct.Payment.csproj" Id="9f66bb07-21e4-4c1e-a314-ebfcf8e1db77" />
